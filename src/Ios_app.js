@@ -7,21 +7,34 @@ import {
     Lightbox,
     Stack
 }from 'react-native-router-flux'
-
+import Orientation from 'react-native-orientation'
 
 //导航相关页面
-import Home from './components/Home'
+import Recommend from './components/Recommend'
+import Community from './components/Community'
+import Help from './components/Help'
+import Message from './components/Message'
+import User from './components/User'
 
 
 
 //通用
-import tabIcon from './utils/TabIcon'
+import TabIcon from './utils/TabIcon'
+import LeftButton from './utils/LeftButton'
+import RightButton from './utils/RightButton'
+import NavBar from './utils/NavBar'
 
 
 
 export default class Ios_app extends Component{
     constructor(props){
         super(props)
+    }
+
+
+    componentDidMount() {
+        Orientation.lockToPortrait()
+
     }
 
     render(){
@@ -38,7 +51,7 @@ export default class Ios_app extends Component{
                                 //是否打开下部导航栏
                                    tabs={true}
                                 //是否显示标签栏文字
-                                   showLabel={false}
+                                   showLabel={true}
                                 //下部导航栏样式
                                    tabBarStyle={styles.tabBarStyle}
                                 //选项卡栏选择项目样式
@@ -46,8 +59,9 @@ export default class Ios_app extends Component{
                             >
 
                                 <Scene key='recommendBlock'
+                                       title='推荐'
                                        initial={true}
-                                       icon={tabIcon}
+                                       icon={TabIcon}
                                        online='ios-home'
                                        outline='ios-home'
                                        size={30}
@@ -55,13 +69,17 @@ export default class Ios_app extends Component{
                                     <Scene key="home"
                                            initial={true}
                                            hideNavBar={false}
-                                           component={Home}
+                                           navBar={NavBar}
+                                           component={Recommend}
+                                           LeftButton={LeftButton}
+                                           RightButton={RightButton}
                                     />
 
                                 </Scene>
                                 <Scene key='communityBlock'
                                        initial={true}
-                                       icon={tabIcon}
+                                       title='社区'
+                                       icon={TabIcon}
                                        online='ios-people'
                                        outline='ios-people'
                                        size={30}
@@ -69,12 +87,16 @@ export default class Ios_app extends Component{
                                     <Scene key="community"
                                            initial={true}
                                            hideNavBar={false}
-                                           component={Home}
+                                           component={Community}
+                                           navBar={NavBar}
+                                           LeftButton={LeftButton}
+                                           RightButton={RightButton}
                                     />
                                 </Scene>
                                 <Scene key='helpBlock'
                                        initial={true}
-                                       icon={tabIcon}
+                                       title='ban'
+                                       icon={TabIcon}
                                        online='ios-create'
                                        outline='ios-create'
                                        size={30}
@@ -82,12 +104,16 @@ export default class Ios_app extends Component{
                                     <Scene key="help"
                                            initial={true}
                                            hideNavBar={false}
-                                           component={Home}
+                                           component={Help}
+                                           navBar={NavBar}
+                                           LeftButton={LeftButton}
+                                           RightButton={RightButton}
                                     />
                                 </Scene>
                                 <Scene key='messageBlock'
                                        initial={true}
-                                       icon={tabIcon}
+                                       title='消息'
+                                       icon={TabIcon}
                                        online='ios-chatboxes'
                                        outline='ios-chatboxes'
                                        size={30}
@@ -95,20 +121,24 @@ export default class Ios_app extends Component{
                                     <Scene key="message"
                                            initial={true}
                                            hideNavBar={false}
-                                           component={Home}
+                                           component={Message}
+                                           navBar={NavBar}
                                     />
                                 </Scene>
                                 <Scene key='userBlock'
                                        initial={true}
-                                       icon={tabIcon}
+                                       title='个人'
+                                       icon={TabIcon}
                                        online='ios-person'
                                        outline='ios-person'
                                        size={30}
                                 >
                                     <Scene key="user"
                                            initial={true}
+                                           title='个人'
                                            hideNavBar={false}
-                                           component={Home}
+                                           component={User}
+                                           navBar={NavBar}
                                     />
                                 </Scene>
 
