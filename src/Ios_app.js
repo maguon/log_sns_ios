@@ -15,7 +15,9 @@ import Community from './components/Community'
 import Help from './components/Help'
 import Message from './components/Message'
 import User from './components/User'
-
+import Focus from './components/Focus'
+import Hot from './components/Hot'
+import Near from './components/Near'
 
 
 //通用
@@ -73,11 +75,21 @@ export default class Ios_app extends Component{
                                            component={Recommend}
                                            LeftButton={LeftButton}
                                            RightButton={RightButton}
-                                    />
-
+                                               />
+                                    {/*<Scene key="focus"*/}
+                                           {/*hideNavBar={false}*/}
+                                           {/*hideTabBar={true}*/}
+                                           {/*component={Focus}/>*/}
+                                    {/*<Scene key="hot"*/}
+                                           {/*hideNavBar={false}*/}
+                                           {/*hideTabBar={true}*/}
+                                           {/*component={Hot}/>*/}
+                                    {/*<Scene key="near"*/}
+                                           {/*hideNavBar={false}*/}
+                                           {/*hideTabBar={true}*/}
+                                           {/*component={Near}/>*/}
                                 </Scene>
                                 <Scene key='communityBlock'
-                                       initial={true}
                                        title='社区'
                                        icon={TabIcon}
                                        online='ios-people'
@@ -94,7 +106,6 @@ export default class Ios_app extends Component{
                                     />
                                 </Scene>
                                 <Scene key='helpBlock'
-                                       initial={true}
                                        title='ban'
                                        icon={TabIcon}
                                        online='ios-create'
@@ -110,8 +121,10 @@ export default class Ios_app extends Component{
                                            RightButton={RightButton}
                                     />
                                 </Scene>
+
+
+
                                 <Scene key='messageBlock'
-                                       initial={true}
                                        title='消息'
                                        icon={TabIcon}
                                        online='ios-chatboxes'
@@ -126,7 +139,6 @@ export default class Ios_app extends Component{
                                     />
                                 </Scene>
                                 <Scene key='userBlock'
-                                       initial={true}
                                        title='个人'
                                        icon={TabIcon}
                                        online='ios-person'

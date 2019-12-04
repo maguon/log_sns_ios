@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, StatusBar, StyleSheet, Dimensions, Platform,PixelRatio} from 'react-native'
-import { Header, Title, Tab,Tabs,Right, Left, Body } from 'native-base'
+import {Header, Title, Tab, Tabs, Right, Left, Body, Container} from 'native-base'
 import globalStyles from './GlobalStyles'
 
 export let screenW = Dimensions.get('window').width;
@@ -52,32 +52,8 @@ const NavBar = props => {
                 {LeftButton && <Left style={{ flex: 1 }}>
                     <LeftButton parent={parent} />
                 </Left>}
-                {title!="推荐" && <Body style={styles.body}>
+                {title && <Body style={styles.body}>
                 <Title style={[globalStyles.xlText, { color: '#fff'}]}>{title}</Title>
-                </Body>}
-                {title=="推荐" && <Body style={styles.tabBody}>
-                <Tabs style={{marginTop:-4, width:initWidth*0.55}}
-                    tabBarUnderlineStyle={{backgroundColor: 'white'}}>
-                    <Tab
-                        tabStyle={{backgroundColor: '#1598cc'}}
-                        activeTabStyle={{backgroundColor: '#1598cc'}}
-                        activeTextStyle={{fontSize: 18,color: '#fff' }}
-                        textStyle={{fontSize: 18, color: '#fff' }}
-                        heading="热门"></Tab>
-                    <Tab
-                        tabStyle={{backgroundColor: '#1598cc'}}
-                        activeTabStyle={{backgroundColor: '#1598cc'}}
-                        activeTextStyle={{ fontSize: 18,color: '#fff' }}
-                        textStyle={{fontSize: 18, color: '#fff' }}
-                        heading="关注"></Tab>
-                    <Tab
-                        tabStyle={{backgroundColor: '#1598cc'}}
-                        activeTabStyle={{backgroundColor: '#1598cc'}}
-                        activeTextStyle={{ fontSize: 18,color: '#fff' }}
-                        textStyle={{ fontSize: 18,color: '#fff' }}
-                        heading="附近"></Tab>
-
-                </Tabs>
                 </Body>}
 
                 {RightButton && <Right style={{ flex:1}}>
@@ -110,9 +86,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 4,
     },
-    tabBody:{
-        flex: 4,
-    },
+
 })
 
 export default NavBar

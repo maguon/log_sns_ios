@@ -49,7 +49,7 @@ const globalStyles = StyleSheet.create({
         color: 'red'
     },
     separator:{
-        height:20
+        height:15
     },
 
 })
