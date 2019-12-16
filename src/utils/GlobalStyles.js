@@ -13,6 +13,10 @@ const globalStyles = StyleSheet.create({
     styleBackgroundColor: {
         backgroundColor: '#1598cc'
     },
+    lightText:{
+        fontSize: 12,
+        color: '#b7b8b9'
+    },
     textColor:{
         color: '#838485'
     },
@@ -32,8 +36,20 @@ const globalStyles = StyleSheet.create({
         fontSize: 16,
         color: '#414445'
     },
+    fourText:{
+        fontSize: 14,
+        color: '#414445'
+    },
     xlText:{
         fontSize: 18,
+        color: '#414445'
+    },
+    xxlText:{
+        fontSize: 20,
+        color: '#414445'
+    },
+    xxxlText:{
+        fontSize: 24,
         color: '#414445'
     },
     formIcon:{
