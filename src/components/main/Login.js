@@ -1,39 +1,27 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {View, Text, StyleSheet, Dimensions} from 'react-native'
-import {InputItem, Button} from '@ant-design/react-native';
-import globalStyles from '../../../../../utils/GlobalStyles'
+import {InputItem, Button,Provider} from '@ant-design/react-native';
+import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import * as actionType from '../../actionType/index'
+import * as action from '../../action/index'
 
 
 const {width, height} = Dimensions.get('window')
-export default class Login extends Component {
+ class Login extends Component {
     constructor() {
         super()
         this.state = {
-            account: "",
-            password: "",
-            name: 'eye-slash',
-            type: 'password',
+            hidden:false,
         }
     }
 
-//自定义的方法，大家请使用属性来定义
-    toLogin =() => {
-        let account = this.state.account
-        let password = this.state.password
-
-        if (account == "abc" && password == "123") {
-            alert('密码输入正确')
-            this.props.navigation.navigate('Home')
-        } else {
-            alert('您输入的账号或密码有误，请重新输入')
-        }
-    };
-
 
     render() {
+        const {setUser,setPassWord,toLogin} =this.props
         return (
-
+            <Provider>
             <View style={styles.container}>
                 <Text style={[globalStyles.xxxlText, styles.title]}>欢迎登录司机部落</Text>
                 <View style={styles.lineTopBottom}>
@@ -42,46 +30,25 @@ export default class Login extends Component {
                             clear
                             type='number'
                             style={styles.textInput}
-                            value={this.state.account}
-                            onChange={value => {
-                                this.setState({
-                                    account: value,
-                                });
-                            }}
+                            onChange={setUser}
                             placeholder="输入注册手机号"
                         />
                     </View>
                     <View style={styles.input}>
                         <InputItem
                             clear
-                            extra={<FontAwesome name={this.state.name} size={20} onPress={() => {
-                                if (this.state.name == 'eye-slash') {
-                                    this.setState({
-                                        name: 'eye',
-                                        type: 'text'
-                                    })
-                                } else {
-                                    this.setState({
-                                        name: 'eye-slash',
-                                        type: 'password'
-                                    })
-                                }
-
+                            extra={<FontAwesome name={this.state.hidden ? "eye" : "eye-slash"} size={20} onPress={() => {
+                                this.setState({hidden: !this.state.hidden})
                             }}/>}
                             style={styles.textInput}
-                            type={this.state.type}
-                            value={this.state.password}
-                            onChange={value => {
-                                this.setState({
-                                    password: value,
-                                });
-                            }}
+                            type={this.state.hidden ? "text" : "password"}
+                            onChange={setPassWord}
                             placeholder="输入密码"
                         />
 
                     </View>
                 </View>
-                <Button type="primary" style={styles.button} onPress={this.toLogin}>登录</Button>
+                <Button type="primary" style={styles.button} onPress={toLogin}>登录</Button>
 
                 <View style={styles.footer}>
                     <Text style={globalStyles.fourText} onPress={()=> this.props.navigation.navigate('Registered')}>注册</Text>
@@ -89,10 +56,31 @@ export default class Login extends Component {
                 </View>
 
             </View>
+            </Provider>
         )
     }
 }
 
+const mapStateToProps=(state)=>{
+    return{
+        loginReducer:state.LoginReducer
+    }
+}
+
+const mapDispatchProps=(dispatch,props)=>({
+    toLogin:()=>{
+        dispatch(action.LoginAction.toLogin(props))
+    },
+    setUser:(value)=>{
+        dispatch(actionType.LoginActionType.setUser(value))
+    },
+    setPassWord:(value)=>{
+        dispatch(actionType.LoginActionType.passWord(value))
+    }
+
+})
+
+export default connect(mapStateToProps,mapDispatchProps)(Login)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
