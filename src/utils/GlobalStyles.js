@@ -13,6 +13,9 @@ const globalStyles = StyleSheet.create({
     styleBackgroundColor: {
         backgroundColor: '#1598cc'
     },
+    containerBackgroundColor:{
+        backgroundColor: '#f0f0f0',
+    },
     lightText:{
         fontSize: 12,
         color: '#b7b8b9'

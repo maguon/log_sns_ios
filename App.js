@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Provider} from 'react-redux'
 import {createStore,applyMiddleware,compose } from 'redux'//必须用到的 redux
 import ReduxThunk from 'redux-thunk'//支持异步的能力
-import reducers from './src/reducers'
+import reducers from './src/reducer/index'
 import AppNavigator from './src/AppNavigator'
 
 

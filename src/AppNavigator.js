@@ -1,5 +1,4 @@
-import Orientation from 'react-native-orientation'
-import {View, Text, Button} from 'react-native'
+// import Orientation from 'react-native-orientation'
 import React from 'react'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs'
@@ -7,23 +6,42 @@ import {createStackNavigator} from 'react-navigation-stack'
 import Icon from 'react-native-vector-icons/Ionicons'
 import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator'
 
-//views
-import Login from './pages/components/views/loginPage/login/Login'
-import Registered from './pages/components/views/loginPage/registered/Registered'
-import ForgotPassWord from './pages/components/views/loginPage/forgotPassWord/ForgotPassWord'
-import Home from './pages/components/views/home/Home'
-import Community from './pages/components/views/community/Community'
-import MessageList from './pages/components/views/message/messageList/MessageList'
-import Settings from './pages/components/views/person/settings/Settings'
-import FollowList from './pages/components/views/person/followList/FollowList'
-import PersonCenter from './pages/components/views/person/personCenter/PersonCenter'
+//login
+import Login from './components/main/Login'
+import Registered from './components/main/Registered'
+import ForgotPassWord from './components/main/ForgotPassWord'
+//home
+import Home from './components/main/Home'
+import Camera from './components/main/Camera'
+//社区
+import Community from './components/main/Community'
+//消息
+import Message from './components/main/Message'
+import FollowMe from './components/main/FollowMe'
+import EvaluationMe from './components/main/EvaluationMe'
+import PraiseMe from './components/main/PraiseMe'
+import Contact from './components/main/Contact'
+import VoteRemind from './components/main/VoteRemind'
+import SystemMsg from './components/main/SystemMsg'
+
+//个人
+import PersonCenter from './components/main/PersonCenter'
+import Article from './components/main/Article'
+import Follow from './components/main/Follow'
+import Fans from './components/main/Fans'
+import Collection from './components/main/Collection'
+import Evaluation from './components/main/Evaluation'
+import Vote from './components/main/Vote'
+import LocationCollection from './components/main/LocationCollection'
+import Settings from './components/main/Settings'
+
 
 
 //modules
-import NavBar from './pages/components/modules/NavBar'
-import LeftButton from './pages/components/modules/LeftButton'
-import RightButton from './pages/components/modules/RightButton'
-import Title from './pages/components/modules/Title'
+import NavBar from './components/modules/NavBar'
+import LeftButton from './components/modules/LeftButton'
+import LoginLeftButton from './components/modules/LoginLeftButton'
+import Title from './components/modules/Title'
 
 
 //登录页面
@@ -38,14 +56,14 @@ const LoginPage = createStackNavigator({
             screen: Registered,
             navigationOptions: ({navigation}) => ({
                 title: '注册',
-                headerLeft: <LeftButton navigation={navigation}/>
+                headerLeft: <LoginLeftButton navigation={navigation}/>
             })
         },
         ForgotPassWord: {
             screen: ForgotPassWord,
             navigationOptions: ({navigation}) => ({
                 title: '忘记密码',
-                headerLeft: <LeftButton navigation={navigation}/>
+                headerLeft: <LoginLeftButton navigation={navigation}/>
 
             })
         },
@@ -67,69 +85,43 @@ const home = createStackNavigator({
     Home: {
         screen: Home,
         navigationOptions: ({navigation}) => ({
+            headerStyle: {backgroundColor:'#1598cc'},
             headerTitle: <Title navigation={navigation}></Title>
         })
     },
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerStyle: {backgroundColor:'#1598cc'}
-
-    }),
 })
-
-
-//注册
+//社区
 const community = createStackNavigator({
     Community: {
         screen: Community,
         navigationOptions: ({navigation}) => ({
             headerTitle: <Title navigation={navigation}></Title>,
+            headerStyle: {backgroundColor:'#1598cc'}
         })
     }
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerStyle: {backgroundColor:'#1598cc'}
-
-    }),
 })
-
-
 //消息
 const messageList = createStackNavigator({
     MessageList: {
-        screen: MessageList,
+        screen: Message,
         navigationOptions: ({navigation}) => ({
             headerTitle: '消息',
+            headerTitleStyle:{color: '#fff'},
+            headerStyle: {backgroundColor:'#1598cc'}
         })
     }
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerTitleStyle:{color: '#fff'},
-        headerStyle: {backgroundColor:'#1598cc'}
-
-    }),
 })
-
-
-
 //个人
 const personCenter = createStackNavigator({
     PersonCenter: {
         screen: PersonCenter,
         navigationOptions: ({navigation}) => ({
             headerTitle: '个人',
+            headerTitleStyle:{color: '#fff'},
+            headerStyle: {backgroundColor:'#1598cc', }
         })
     }
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerTitleStyle:{color: '#fff'},
-        headerStyle: {backgroundColor:'#1598cc', }
-
-    }),
-
 })
-
-
 
 
 
@@ -139,30 +131,37 @@ const personCenter = createStackNavigator({
 const TabBar = createBottomTabNavigator({
     home: {
         screen: home,
-        navigationOptions: {
+        navigationOptions:({navigation}) => ({
             title: '推荐',
-        }
+            headerTitle: <Title navigation={navigation}></Title>
+        })
     },
     community: {
         screen: community,
-        navigationOptions: {
-            title: '社区'
-        }
+        navigationOptions:({navigation}) => ({
+            title: '社区',
+            headerTitle: <Title navigation={navigation}></Title>,
+        })
     },
     messageList: {
         screen:messageList,
         navigationOptions: {
-            title: '消息'
+            title: '消息',
+            headerTitle: '消息',
+            headerTitleStyle:{color: '#fff'},
         }
     },
     personCenter: {
         screen: personCenter,
         navigationOptions: {
-            title: '个人'
+            title: '个人',
+            headerTitle: '个人',
+            headerTitleStyle:{color: '#fff'},
         }
     },
 },{
     defaultNavigationOptions: ({ navigation }) => ({
+        headerStyle: {backgroundColor:'#1598cc'},
         tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
             let iconName;
@@ -188,6 +187,135 @@ const TabBar = createBottomTabNavigator({
 
 
 
+//页面screen
+const Main = createStackNavigator({
+    TabBar: {
+        screen: TabBar,
+        navigationOptions:{
+            header:null
+        }
+    },
+    Camera: {
+        screen: Camera,
+        navigationOptions: ({navigation}) => ({
+            header: null,
+            tabBarVisible:false
+        })
+    },
+    //消息
+    FollowMe: {
+        screen: FollowMe,
+        navigationOptions: ({navigation}) => ({
+            title: '关注我',
+            tabBarVisible:false
+        })
+    },
+    EvaluationMe: {
+        screen: EvaluationMe,
+        navigationOptions: ({navigation}) => ({
+            title: '评论我',
+            tabBarVisible:false
+        })
+    },
+    PraiseMe: {
+        screen: PraiseMe,
+        navigationOptions: ({navigation}) => ({
+            title: '赞我',
+            tabBarVisible:false
+        })
+    },
+    Contact: {
+        screen: Contact,
+        navigationOptions: ({navigation}) => ({
+            title: '申请联系方式',
+            tabBarVisible:false
+        })
+    },
+    VoteRemind: {
+        screen: VoteRemind,
+        navigationOptions: ({navigation}) => ({
+            title: '投票提醒',
+            tabBarVisible:false
+        })
+    },
+    SystemMsg: {
+        screen: SystemMsg,
+        navigationOptions: ({navigation}) => ({
+            title: '系统消息',
+            tabBarVisible:false
+        })
+    },
+
+
+
+    //个人
+    Article: {
+        screen: Article,
+        navigationOptions: ({navigation}) => ({
+            title: '我的文章',
+            tabBarVisible:false
+        })
+    },
+    Follow: {
+        screen: Follow,
+        navigationOptions: ({navigation}) => ({
+            title: '我的关注',
+            tabBarVisible:false
+        })
+    },
+    Fans: {
+        screen: Fans,
+        navigationOptions: ({navigation}) => ({
+            title: '我的粉丝',
+            tabBarVisible:false
+        })
+    },
+    Collection: {
+        screen: Collection,
+        navigationOptions: ({navigation}) => ({
+            title: '我的收藏',
+            tabBarVisible:false
+        })
+    },
+    Evaluation: {
+        screen: Evaluation,
+        navigationOptions: ({navigation}) => ({
+            title: '我的评论',
+            tabBarVisible:false
+        })
+    },
+    Vote: {
+        screen: Vote,
+        navigationOptions: ({navigation}) => ({
+            title: '我参与的投票',
+            tabBarVisible:false
+        })
+    },
+    LocationCollection: {
+        screen: LocationCollection,
+        navigationOptions: ({navigation}) => ({
+            title: '我收藏的位置',
+            tabBarVisible:false
+        })
+    },
+    Settings: {
+        screen: Settings,
+        navigationOptions: ({navigation}) => ({
+            title: '设置',
+            tabBarVisible:false
+        })
+    },
+
+},{
+    defaultNavigationOptions: ({ navigation }) => ({
+        headerTitleStyle:{color:'#fff'},
+        headerStyle: {backgroundColor:'#1598cc'},
+        headerLeft: <LeftButton navigation={navigation}/>
+    }),
+})
+
+
+
 
 
 
@@ -195,8 +323,8 @@ const AppNavigator = createSwitchNavigator({
     // LoginPage:{
     //     screen:LoginPage
     // },
-    TabBar: {
-        screen: TabBar
+    Main: {
+        screen: Main
     }
 
 })
