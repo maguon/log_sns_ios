@@ -1,12 +1,30 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {View, Text, StyleSheet} from 'react-native'
 
-const SystemMsg = props => {
-    return (
-        <View>
-            <Text>SystemMsg</Text>
-        </View>
-    )
+
+class SystemMsg extends Component {
+    constructor(props) {
+        super(props)
+
+    }
+    render() {
+        const {} = this.props
+        return (
+            <View>
+                <Text>SystemMsg</Text>
+            </View>
+        )
+    }
 }
 
-export default SystemMsg
+const mapStateToProps = (state) => {
+    return {}
+}
+
+const mapDispatchProps = (dispatch, props) => ({})
+
+export default connect(mapStateToProps, mapDispatchProps)(SystemMsg)
+
+const styles = StyleSheet.create({})
+

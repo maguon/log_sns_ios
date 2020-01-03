@@ -5,7 +5,7 @@ import {
 
 const globalStyles = StyleSheet.create({
     container: {
-        backgroundColor: '#f2f5f7'
+        backgroundColor: '#fafafa'
     },
     styleColor: {
         color: '#1598cc'

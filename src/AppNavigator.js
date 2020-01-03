@@ -34,11 +34,16 @@ import Evaluation from './components/main/Evaluation'
 import Vote from './components/main/Vote'
 import LocationCollection from './components/main/LocationCollection'
 import Settings from './components/main/Settings'
-
+import ChangePassWord from './components/main/ChangePassWord'
+import ChangePhone from './components/main/ChangePhone'
+import PrivacySetting from './components/main/PrivacySetting'
+import NoticeSetting from './components/main/NoticeSetting'
+import AboutUs from './components/main/AboutUs'
+import ClearCache from './components/main/ClearCache'
+import UserData from './components/main/UserData'
 
 
 //modules
-import NavBar from './components/modules/NavBar'
 import LeftButton from './components/modules/LeftButton'
 import LoginLeftButton from './components/modules/LoginLeftButton'
 import Title from './components/modules/Title'
@@ -73,11 +78,6 @@ const LoginPage = createStackNavigator({
             screenInterpolator: StackViewStyleInterpolator.forHorizontal
         })
     })
-
-
-
-
-
 
 
 //推荐
@@ -126,21 +126,18 @@ const personCenter = createStackNavigator({
 
 
 
-
 //导航页面
 const TabBar = createBottomTabNavigator({
     home: {
         screen: home,
         navigationOptions:({navigation}) => ({
             title: '推荐',
-            headerTitle: <Title navigation={navigation}></Title>
         })
     },
     community: {
         screen: community,
         navigationOptions:({navigation}) => ({
             title: '社区',
-            headerTitle: <Title navigation={navigation}></Title>,
         })
     },
     messageList: {
@@ -305,6 +302,55 @@ const Main = createStackNavigator({
             tabBarVisible:false
         })
     },
+    ChangePassWord: {
+        screen: ChangePassWord,
+        navigationOptions: ({navigation}) => ({
+            title: '修改密码',
+            tabBarVisible:false
+        })
+    },
+    ChangePhone: {
+        screen: ChangePhone,
+        navigationOptions: ({navigation}) => ({
+            title: '换绑手机',
+            tabBarVisible:false
+        })
+    },
+    PrivacySetting: {
+        screen: PrivacySetting,
+        navigationOptions: ({navigation}) => ({
+            title: '隐私设置',
+            tabBarVisible:false
+        })
+    },
+    NoticeSetting: {
+        screen: NoticeSetting,
+        navigationOptions: ({navigation}) => ({
+            title: '通知设置',
+            tabBarVisible:false
+        })
+    },
+    AboutUs: {
+        screen: AboutUs,
+        navigationOptions: ({navigation}) => ({
+            title: '关于我们',
+            tabBarVisible:false
+        })
+    },
+    ClearCache: {
+        screen: ClearCache,
+        navigationOptions: ({navigation}) => ({
+            title: '清理缓存',
+            tabBarVisible:false
+        })
+    },
+    UserData: {
+        screen: UserData,
+        navigationOptions: ({navigation}) => ({
+            title: '个人资料',
+            tabBarVisible:false
+        })
+    },
 
 },{
     defaultNavigationOptions: ({ navigation }) => ({
@@ -319,10 +365,13 @@ const Main = createStackNavigator({
 
 
 
+
+
+//入口
 const AppNavigator = createSwitchNavigator({
-    // LoginPage:{
-    //     screen:LoginPage
-    // },
+    LoginPage:{
+        screen:LoginPage
+    },
     Main: {
         screen: Main
     }

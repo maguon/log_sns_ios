@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {View, Text, StyleSheet} from 'react-native'
 
 
-class Contact extends Component {
+class AboutUs extends Component {
     constructor(props) {
         super(props)
 
@@ -12,7 +12,7 @@ class Contact extends Component {
         const {} = this.props
         return (
             <View>
-                <Text>Contact</Text>
+                <Text>AboutUs</Text>
             </View>
         )
     }
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({})
+export default connect(mapStateToProps, mapDispatchProps)(AboutUs)
 
-export default connect(mapStateToProps, mapDispatchProps)(Contact)
 
 const styles = StyleSheet.create({})

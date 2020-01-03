@@ -33,7 +33,7 @@ class ForgotPassWord extends React.Component {
             } else if(account.length!=11){
                 Toast.info( "手机号不足11位，请重新输入")
             }else {
-                // this.props.getCode();
+                this.props.forgotGetCode();
                 const timer = setInterval(() => {
                     const leftTime = this.state.timerCount - 1
                     if (leftTime < 0) {
@@ -72,11 +72,11 @@ class ForgotPassWord extends React.Component {
                                 container: styles.container
                             }}
                             onChange={setAccount}
-                            placeholder="请输入手机号"></InputItem>
+                            placeholder="请输入手机号" />
                         <InputItem
                             clear
                             onChange={setCode}
-                            placeholder="请输入验证码"></InputItem>
+                            placeholder="请输入验证码" />
                         <InputItem
                             clear
                             placeholder="请输入密码"
@@ -86,7 +86,7 @@ class ForgotPassWord extends React.Component {
                                                 }}/>}
                             type={this.state.hidden ? "text" : "password"}
                             onChange={setPassword}
-                        ></InputItem>
+                        />
                         <InputItem
                             clear
                             placeholder="请输入确认密码"
@@ -97,7 +97,7 @@ class ForgotPassWord extends React.Component {
                             />}
                             onChange={setPass_word}
                             type={this.state.hiddenA ? "text" : "password"}
-                        ></InputItem>
+                        />
                     </List>
                     <WhiteSpace size='xl'/>
                     <WingBlank size='lg'>
@@ -123,9 +123,9 @@ const mapDispatchProps = (dispatch, props) => ({
     register: () => {
         dispatch(action.RegisterAction.register(props))
     },
-    // getCode: () => {
-    //     dispatch(action.RegisterAction.getCode(props))
-    // },
+    forgotGetCode: () => {
+        dispatch(action.RegisterAction.forgotGetCode(props))
+    },
     setAccount: (value) => {
         dispatch(actionType.RegisterActionType.setAccount(value))
     },

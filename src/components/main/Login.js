@@ -10,8 +10,8 @@ import * as action from '../../action/index'
 
 const {width, height} = Dimensions.get('window')
  class Login extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             hidden:false,
         }
@@ -81,6 +81,9 @@ const mapDispatchProps=(dispatch,props)=>({
 })
 
 export default connect(mapStateToProps,mapDispatchProps)(Login)
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

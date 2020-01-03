@@ -28,7 +28,6 @@ class Registered extends Component {
     }
 
 
-
     render() {
         const {registerReducer:{account},register, setAccount,setCode,setPassword, setPass_word} = this.props;
         //时间倒计时
@@ -122,6 +121,38 @@ class Registered extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        registerReducer: state.RegisterReducer,
+
+    }
+
+}
+
+const mapDispatchProps = (dispatch, props) => ({
+    register: () => {
+        dispatch(action.RegisterAction.register(props))
+    },
+    getCode: () => {
+        dispatch(action.RegisterAction.getCode(props))
+    },
+    setAccount: (value) => {
+        dispatch(actionType.RegisterActionType.setAccount(value))
+    },
+    setCode: (value) => {
+        dispatch(actionType.RegisterActionType.setCode(value))
+    },
+    setPassword: (value) => {
+        dispatch(actionType.RegisterActionType.setPassword(value))
+    },
+    setPass_word: (value) => {
+        dispatch(actionType.RegisterActionType.setPass_word(value))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(Registered)
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -163,34 +194,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-const mapStateToProps = (state) => {
-    return {
-        registerReducer: state.RegisterReducer,
-
-    }
-
-}
-
-const mapDispatchProps = (dispatch, props) => ({
-    register: () => {
-        dispatch(action.RegisterAction.register(props))
-    },
-    getCode: () => {
-        dispatch(action.RegisterAction.getCode(props))
-    },
-    setAccount: (value) => {
-        dispatch(actionType.RegisterActionType.setAccount(value))
-    },
-    setCode: (value) => {
-        dispatch(actionType.RegisterActionType.setCode(value))
-    },
-    setPassword: (value) => {
-        dispatch(actionType.RegisterActionType.setPassword(value))
-    },
-    setPass_word: (value) => {
-        dispatch(actionType.RegisterActionType.setPass_word(value))
-    }
-})
-
-export default connect(mapStateToProps, mapDispatchProps)(Registered)

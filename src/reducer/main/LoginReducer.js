@@ -3,7 +3,9 @@ import * as actionType from "../../actionType";
 
 const initialState={
     user:'',
-    password:''
+    password:'',
+    userId:'',
+    userLogin:[],
 }
 
 export default handleActions({
@@ -17,6 +19,18 @@ export default handleActions({
         return {
             ...state,
             password: action.payload
+        }
+    },
+    [actionType.LoginActionType.setUserId]: (state, action) => {
+        return {
+            ...state,
+            userId: action.payload.userId
+        }
+    },
+    [actionType.LoginActionType.setUserLogin]: (state, action) => {
+        return {
+            ...state,
+            userLogin: action.payload
         }
     },
 

@@ -34,7 +34,7 @@ class Title extends React.Component {
                     })
                 }
             >
-                <AntDesign name='plus' size={25} style={{color: '#fff'}}/>
+                <AntDesign name='plus' size={30} style={{color: '#fff'}}/>
             </Popover>
         )
     }
@@ -48,28 +48,29 @@ class Title extends React.Component {
             </Item>
         ))
        overlay = overlay.concat([
+
             <Item key="0" value="发布文章">
                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Icon name='rename-box' size={20}></Icon>
-                    <Text style={{marginLeft:5}}>发布文章</Text>
+                    <Icon name='rename-box' size={20} style={{color:"#838485"}}></Icon>
+                    <Text style={{marginLeft:5,color:"#838485"}}>发布文章</Text>
                 </View>
             </Item>,
             <Item key="1" value="发布求助">
                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Icon name='help' size={20}></Icon>
-                    <Text style={{marginLeft:5}}>发布求助</Text>
+                    <Icon name='help' size={20} style={{color:"#838485"}}></Icon>
+                    <Text style={{marginLeft:5,color:"#838485"}}>发布求助</Text>
                 </View>
             </Item>,
             <Item key="2" value="扫一扫">
                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Icon name='qrcode-scan' size={20}></Icon>
-                    <Text style={{marginLeft:5}}>扫一扫</Text>
+                    <Icon name='qrcode-scan' size={20} style={{color:"#838485"}}></Icon>
+                    <Text style={{marginLeft:5,color:"#838485"}}>扫一扫</Text>
                 </View>
             </Item>,
            <Item key="3" value="收藏定位">
                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                    <Icon name='map-marker' size={20}></Icon>
-                    <Text style={{marginLeft:5}}>收藏定位</Text>
+                    <Icon name='map-marker' size={20} style={{color:"#838485"}}></Icon>
+                    <Text style={{marginLeft:5,color:"#838485"}}>收藏定位</Text>
                 </View>
             </Item>
 

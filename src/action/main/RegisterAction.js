@@ -2,7 +2,6 @@ import {apiHost} from '../../config/HostConfig';
 import HttpRequest from '../../utils/HttpRequest';
 import {Alert} from 'react-native'
 import {Toast} from "@ant-design/react-native";
-import * as actionType from "../../actionType/index";
 
 export const register = (props) => async (dispatch, getState) => {
     try {
@@ -28,9 +27,11 @@ export const register = (props) => async (dispatch, getState) => {
             } else if (password != pass_word) {
                 Toast.info("两次密码输入不一致")
             } else if (props.navigation.state.routeName == "Registered") {
+                //注册
                 let params = {
                     phone: account,
                     password: password,
+                    captcha:code,
                     type: 0,
                 }
                 let res = await HttpRequest.post(apiHost + `/user`, params);
@@ -40,14 +41,27 @@ export const register = (props) => async (dispatch, getState) => {
                     })
                 } else {
                     Toast.loading('Loading...', 0.5, () => {
-                        Alert.alert("", "验证码错误", [{text: "确定"}])
+                        Alert.alert("", res.msg, [{text: "确定"}])
                     })
                 }
 
             } else {
-                Toast.loading('Loading...', 0.5, () => {
-                    Alert.alert("", "修改成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
-                })
+                //忘记密码
+                let params = {
+                    code: code,
+                    newPassword: password,
+                }
+                let res = await HttpRequest.put(apiHost + `/phone/${account}/password`, params);
+
+                if(res.success) {
+                    Toast.loading('Loading...', 0.5, () => {
+                        Alert.alert("", "修改成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
+                    })
+                }else {
+                    Toast.loading('Loading...', 0.5, () => {
+                        Alert.alert("", res.msg, [{text: "确定"}])
+                    })
+                }
             }
         }
 
@@ -55,6 +69,7 @@ export const register = (props) => async (dispatch, getState) => {
 
     }
 };
+//注册获得验证码
 export const getCode = (props) => async (dispatch, getState) => {
     try {
 
@@ -67,6 +82,22 @@ export const getCode = (props) => async (dispatch, getState) => {
                     Alert.alert("", `${res.msg},返回登录`, [{text: "确定",onPress: () => props.navigation.goBack()}])
                 })
             }
+    } catch (err) {
+
+    }
+};
+//忘记密码获得验证码
+export const forgotGetCode = (props) => async (dispatch, getState) => {
+    try {
+        const {RegisterReducer: {account}} = getState()
+        let res = await HttpRequest.post(apiHost + `/phone/${account}/passwordSms`);
+        if (res.success) {
+            console.log('success')
+        }else {
+            Toast.loading('Loading...', 0.5, () => {
+                Alert.alert("", `${res.msg},返回登录`, [{text: "确定",onPress: () => props.navigation.goBack()}])
+            })
+        }
     } catch (err) {
 
     }

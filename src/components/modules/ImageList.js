@@ -1,35 +1,34 @@
 import React from 'react';
 import {FlatList, ScrollView, TouchableOpacity, Text, View, StyleSheet, Image, Dimensions} from 'react-native';
-import {Card, WhiteSpace, WingBlank, Button} from '@ant-design/react-native';
+import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import httpRequest from '../../utils/HttpRequest'
 import globalStyles from '../../utils/GlobalStyles'
 
-const {width, height} = Dimensions.get('window')
-const cellWH = (width - 2 * 20 - 15) / 3.3;
+const {width} = Dimensions.get('window');
+let cellWH = (width - 2 * 20 - 15) / 3.3;
+let numColumns=3;
 const title = '文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容'
 export default class ImageList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [],
-            focus:false
+            focus: false
         }
     }
 
 
     componentDidMount() {
-        this.fetchData();
+        this.fetchData()
     }
 
     renderItem({item, index}) {
-
         return (
             <TouchableOpacity activeOpacity={0.5}>
                 <View style={styles.item}>
-                    <Image source={{uri: item.image}} style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
-                    {/*{console.log(item.image)}*/}
-                    {/*<Text style={{marginTop: 5, textAlign: 'center'}} numberOfLines={1}>{item.title}</Text>*/}
+                    <Image source={{uri: item.image}}
+                           style={{width:cellWH, height: cellWH, borderRadius: 5}}/>
                 </View>
             </TouchableOpacity>
         )
@@ -43,10 +42,20 @@ export default class ImageList extends React.Component {
         }, (error) => {
 
         })
+
     }
 
     render() {
         console.log("this.state.data", this.state.data)
+        // this.state.data.length=15
+        if (this.state.data.length < 2) {
+            cellWH=(width - 2 * 20 - 15) / 1.1
+        } else if (this.state.data.length < 5) {
+            cellWH=(width - 2 * 20 - 15) / 2.1
+            numColumns=2
+        } else if (this.state.data.length >=5){
+            cellWH=(width - 2 * 20 - 15) / 3.3
+        }
         return (
             <ScrollView>
                 <View style={{paddingTop: 30}}>
@@ -71,10 +80,11 @@ export default class ImageList extends React.Component {
                                 thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
                                 extra={
                                     <View style={{position: 'absolute', right: 0, bottom: 0}}>
-                                        <Text style={[styles.focus, {backgroundColor: this.state.focus ? "#000" : "#8a8a8a"}]}
-                                              onPress={() => {
-                                                  this.setState({focus: !this.state.focus})
-                                              }}>{this.state.focus ? "关注" : "取消关注"}</Text>
+                                        <Text
+                                            style={[styles.focus, {backgroundColor: this.state.focus ? "#000" : "#8a8a8a"}]}
+                                            onPress={() => {
+                                                this.setState({focus: !this.state.focus})
+                                            }}>{this.state.focus ? "关注" : "取消关注"}</Text>
                                     </View>
                                 }
                             />
@@ -86,7 +96,7 @@ export default class ImageList extends React.Component {
                                 <FlatList
                                     data={this.state.data}
                                     renderItem={this.renderItem}
-                                    numColumns={3}
+                                    numColumns={numColumns}
                                     keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={styles.list_container}
                                 />

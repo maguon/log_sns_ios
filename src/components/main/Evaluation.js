@@ -1,12 +1,29 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {View, Text, StyleSheet} from 'react-native'
 
-const Evaluation = props => {
-    return (
-        <View>
-            <Text>Evaluation</Text>
-        </View>
-    )
+
+class Evaluation extends Component {
+    constructor(props) {
+        super(props)
+
+    }
+    render() {
+        const {} = this.props
+        return (
+            <View>
+                <Text>Evaluation</Text>
+            </View>
+        )
+    }
 }
 
-export default Evaluation
+const mapStateToProps = (state) => {
+    return {}
+}
+
+const mapDispatchProps = (dispatch, props) => ({})
+
+export default connect(mapStateToProps, mapDispatchProps)(Evaluation)
+
+const styles = StyleSheet.create({})
