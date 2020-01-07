@@ -1,108 +1,121 @@
 import React from 'react'
 import {View, Text} from 'react-native'
+import {connect} from "react-redux"
+import {List, WhiteSpace, Switch} from "@ant-design/react-native";
 import globalStyles from "../../utils/GlobalStyles";
-import {List, WhiteSpace,Checkbox,Switch} from "@ant-design/react-native";
+import * as actionType from "../../actionType/index";
+import * as action from "../../action/index";
+
 
 const Item = List.Item
-class PrivacySetting extends React.Component{
-    constructor(props){
+
+class PrivacySetting extends React.Component {
+    constructor(props) {
         super(props)
-
-        this.state = {
-            checked: false,
-            checked1: true,
-            checked2: false,
-            checked3: true,
-            checked4: false,
-
-        }
-    }
-    onSwitchChange = value => {
-        this.setState({
-            checked: value,
-        })
-    }
-    onSwitchChange1 = value => {
-        this.setState({
-            checked1: value,
-        })
-    }
-    onSwitchChange2 = value => {
-        this.setState({
-            checked2: value,
-        })
-    }
-    onSwitchChange3 = value => {
-        this.setState({
-            checked3: value,
-        })
-    }
-    onSwitchChange4 = value => {
-        this.setState({
-            checked4: value,
-        })
     }
 
-    render(){
+    componentDidMount() {
+        this.props.getList()
+    }
+
+    render() {
+        const {privacySettingReducer: {name_display, phone_display, city_display, car_display, recommend_to_friends, message_authority}, privacySettingReducer, change} = this.props
+        console.log('privacySettingReducer', privacySettingReducer)
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
+                <List>
+                    <Item
+                        extra={<Switch
+                            style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                            color="#333333"
+                            checked={name_display == 1}
+                            onChange={(value) => {
+                                change({
+                                    ...privacySettingReducer,
+                                    name_display: value ? 1 : 0
+                                })
+                            }}
+                        />}>
+                        <Text style={globalStyles.largeText}>显示姓氏</Text></Item>
 
-                    <List >
-                        <Item
-                              extra={<Switch
-                                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
-                                  color="#333333"
-                                  checked={this.state.checked}
-                                  onChange={this.onSwitchChange}
-                              />} >
-                            <Text style={globalStyles.largeText}>显示姓氏</Text></Item>
+                    <Item
+                        extra={<Switch
+                            style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                            color="#333333"
+                            checked={phone_display == 1}
+                            onChange={(value) => change({
+                                ...privacySettingReducer,
+                                phone_display: value ? 1 : 0
+                            })}
+                        />}
 
-                        <Item
-                              extra={<Switch
-                                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
-                                  color="#333333"
-                                  checked={this.state.checked1}
-                                  onChange={this.onSwitchChange1}
-                              />}
+                    >
+                        <Text style={globalStyles.largeText}>显示电话</Text></Item>
+                    <Item
+                        extra={<Switch
+                            style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                            color="#333333"
+                            checked={city_display == 1}
+                            onChange={(value) => change({
+                                ...privacySettingReducer,
+                                city_display: value ? 1 : 0
+                            })}
+                        />}>
+                        <Text style={globalStyles.largeText}>显示城市</Text></Item>
 
-                        >
-                            <Text style={globalStyles.largeText}>显示电话</Text></Item>
-                        <Item
-                              extra={<Switch
-                                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
-                                  color="#333333"
-                                  checked={this.state.checked2}
-                                  onChange={this.onSwitchChange2}
-                              />} >
-                            <Text style={globalStyles.largeText}>显示城市</Text></Item>
+                    <Item
+                        extra={<Switch
+                            style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                            color="#333333"
+                            checked={car_display == 1}
+                            onChange={(value) => change({
+                                ...privacySettingReducer,
+                                car_display: value ? 1 : 0
+                            })}
+                        />}>
+                        <Text style={globalStyles.largeText}>显示车辆资料</Text></Item>
 
-                        <Item
-                              extra={<Switch
-                                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
-                                  color="#333333"
-                                  checked={this.state.checked3}
-                                  onChange={this.onSwitchChange3}
-                              />} >
-                            <Text style={globalStyles.largeText}>显示车辆资料</Text></Item>
+                    <WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>
+                    <Item
+                        extra={<Switch
+                            style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
+                            color="#333333"
+                            checked={recommend_to_friends == 1}
+                            onChange={(value) => change({
+                                ...privacySettingReducer,
+                                recommend_to_friends: value ? 1 : 0
+                            })}
+                        />}>
+                        <Text style={globalStyles.largeText}>允许将我推荐给好友</Text></Item>
+                    <Item arrow="horizontal"
+                          extra={
 
-                        <WhiteSpace size='md' style={globalStyles.containerBackgroundColor} />
-                        <Item
-                              extra={<Switch
-                                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
-                                  color="#333333"
-                                  checked={this.state.checked4}
-                                  onChange={this.onSwitchChange4}
-                              />} >
-                            <Text style={globalStyles.largeText}>允许将我推荐给好友</Text></Item>
-                        <Item arrow="horizontal"
-                              extra={<Text style={globalStyles.largeText}>所有人</Text>} >
-                            <Text style={globalStyles.largeText}>谁可以发消息给我</Text></Item>
-                    </List>
+                              <Text style={globalStyles.largeText}>所有人</Text>
+                          }>
+                        <Text style={globalStyles.largeText}>谁可以发消息给我</Text></Item>
+                </List>
             </View>
         )
     }
 
 }
 
-export default PrivacySetting
+const mapStateToProps = (state) => {
+    return {
+        privacySettingReducer: state.PrivacySettingReducer
+    }
+}
+
+const mapDispatchProps = (dispatch, ownProps) => ({
+    getList: () => {
+        dispatch(action.PrivacySettingAction.getList())
+    },
+    change: (value) => {
+        dispatch(action.PrivacySettingAction.change(value))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(PrivacySetting)
+
+
 

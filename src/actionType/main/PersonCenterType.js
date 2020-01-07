@@ -1,3 +1,2 @@
-import {createAction} from 'redux-actions'
 
-export const getUserInfo=createAction('getUserInfo')
+export const GET_USERINFO='get_UserInfo'

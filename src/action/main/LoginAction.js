@@ -24,8 +24,8 @@ export const toLogin = (props) => async (dispatch, getState) => {
                 token: res.result.accessToken
             }
             //更新reducer
-            dispatch({type:actionType.LoginActionType.setUserLogin,payload:{user}})
-            dispatch({type:actionType.LoginActionType.setUserId,payload:{userId:res.result.userId}})
+            dispatch({type:actionType.LoginActionType.SET_USERLOGIN,payload:{user}})
+            dispatch({type:actionType.LoginActionType.SET_USERID,payload:{userId:res.result.userId}})
             //保存本地
             localStorage.save({
                 key: localStorageKey.USER,

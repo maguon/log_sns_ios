@@ -137,16 +137,16 @@ const mapDispatchProps = (dispatch, props) => ({
         dispatch(action.RegisterAction.getCode(props))
     },
     setAccount: (value) => {
-        dispatch(actionType.RegisterActionType.setAccount(value))
+        dispatch(actionType.RegisterActionType.SET_ACCOUNT(value))
     },
     setCode: (value) => {
-        dispatch(actionType.RegisterActionType.setCode(value))
+        dispatch(actionType.RegisterActionType.SET_CODE(value))
     },
     setPassword: (value) => {
-        dispatch(actionType.RegisterActionType.setPassword(value))
+        dispatch(actionType.RegisterActionType.SET_PASSWORD(value))
     },
     setPass_word: (value) => {
-        dispatch(actionType.RegisterActionType.setPass_word(value))
+        dispatch(actionType.RegisterActionType.SET_PASSWORD_TO(value))
     }
 })
 

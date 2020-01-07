@@ -1,61 +1,23 @@
 import React from 'react'
 import {View, Text} from 'react-native'
+import {connect} from "react-redux"
 import globalStyles from "../../utils/GlobalStyles";
 import {List, WhiteSpace,Checkbox,Switch} from "@ant-design/react-native";
+import * as action from "../../action";
+
 
 const Item = List.Item
 class NoticeSetting extends React.Component{
     constructor(props){
         super(props)
+    }
 
-        this.state = {
-            checked: true,
-            checked1: true,
-            checked2: false,
-            checked3: false,
-            checked4: true,
-            checked5: false,
-            checked6: true,
-
-        }
-    }
-    onSwitchChange = value => {
-        this.setState({
-            checked: value,
-        })
-    }
-    onSwitchChange1 = value => {
-        this.setState({
-            checked1: value,
-        })
-    }
-    onSwitchChange2 = value => {
-        this.setState({
-            checked2: value,
-        })
-    }
-    onSwitchChange3 = value => {
-        this.setState({
-            checked3: value,
-        })
-    }
-    onSwitchChange4 = value => {
-        this.setState({
-            checked4: value,
-        })
-    }
-    onSwitchChange5 = value => {
-        this.setState({
-            checked5: value,
-        })
-    }
-    onSwitchChange6 = value => {
-        this.setState({
-            checked6: value,
-        })
+    componentDidMount() {
+        this.props.getNoticeList()
     }
 
     render(){
+        const {noticeSettingReducer: { info, praise, comments, beConcernedAbout, others, worksReleasedByFollowers, recommendedWorks}, noticeSettingReducer, change} = this.props
         return (
             <View style={{ flex: 1 }}>
 
@@ -64,8 +26,11 @@ class NoticeSetting extends React.Component{
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked}
-                            onChange={this.onSwitchChange}
+                            checked={info==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                info: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>消息</Text></Item>
 
@@ -73,8 +38,11 @@ class NoticeSetting extends React.Component{
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked1}
-                            onChange={this.onSwitchChange1}
+                            checked={praise==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                praise: value ? 1 : 0
+                            })}
                         />}
 
                     >
@@ -83,8 +51,11 @@ class NoticeSetting extends React.Component{
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked2}
-                            onChange={this.onSwitchChange2}
+                            checked={comments==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                comments: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>评论</Text></Item>
 
@@ -92,8 +63,11 @@ class NoticeSetting extends React.Component{
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked3}
-                            onChange={this.onSwitchChange3}
+                            checked={beConcernedAbout==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                beConcernedAbout: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>被关注</Text></Item>
 
@@ -101,24 +75,33 @@ class NoticeSetting extends React.Component{
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked4}
-                            onChange={this.onSwitchChange4}
+                            checked={others==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                others: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>@</Text></Item>
                     <Item
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked5}
-                            onChange={this.onSwitchChange5}
+                            checked={worksReleasedByFollowers==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                worksReleasedByFollowers: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>关注人发布作品</Text></Item>
                     <Item
                         extra={<Switch
                             style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6}]}}
                             color="#333333"
-                            checked={this.state.checked6}
-                            onChange={this.onSwitchChange6}
+                            checked={recommendedWorks==1}
+                            onChange={(value) => change({
+                                ...noticeSettingReducer,
+                                recommendedWorks: value ? 1 : 0
+                            })}
                         />} >
                         <Text style={globalStyles.largeText}>推荐作品</Text></Item>
 
@@ -128,6 +111,22 @@ class NoticeSetting extends React.Component{
     }
 
 }
+const mapStateToProps = (state) => {
+    return {
+        noticeSettingReducer: state.NoticeSettingReducer
+    }
+}
 
-export default NoticeSetting
+const mapDispatchProps = (dispatch, ownProps) => ({
+    getNoticeList: () => {
+        dispatch(action.NoticeSettingAction.getNoticeList())
+    },
+    change: (value) => {
+        dispatch(action.NoticeSettingAction.change(value))
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(NoticeSetting)
+
+
 

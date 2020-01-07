@@ -1,8 +1,6 @@
-import {createAction} from 'redux-actions';
-
-export const setAccount=createAction('setAccount');
-export const setPassword=createAction('setPassword');
-export const setPass_word=createAction('setPass_word');
-export const setCode=createAction('setCode');
+export const SET_ACCOUNT='set_Account'
+export const SET_PASSWORD='set_Password'
+export const SET_PASSWORD_TO='set_Password_TO'
+export const SET_CODE='set_Code'
 
 

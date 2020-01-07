@@ -12,7 +12,7 @@ export const getUserInfo = (props) => async (dispatch, getState) => {
         const res = await HttpRequest.get(url);
         console.log(res)
         if(res.success){
-            dispatch({type:actionType.PersonCenterType.getUserInfo,payload:{userInfo:res.result[0]}})
+            dispatch({type:actionType.PersonCenterType.GET_USERINFO,payload:{userInfo:res.result[0]}})
         }else {
             Alert.alert("",res.msg, [{text: "确定"}])
         }

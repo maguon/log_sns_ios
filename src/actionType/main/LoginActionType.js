@@ -1,6 +1,5 @@
-import {createAction} from 'redux-actions'
 
-export const setUser=createAction('setUser')
-export const passWord=createAction('passWord')
-export const setUserId=createAction('setUserId')
-export const setUserLogin=createAction('setUserLogin')
+export const SET_USER='set_User'
+export const PASS_WORD='pass_Word'
+export const SET_USERID='set_UserId'
+export const SET_USERLOGIN='set_UserLogin'

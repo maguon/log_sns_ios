@@ -1,5 +1,2 @@
-import {createAction} from 'redux-actions'
+export  const SET_NOTICE_INFO = 'set_Notice_Info'
 
-export const setUser=createAction('setUser')
-export const passWord=createAction('passWord')
-export const setUserLogin=createAction('setUserLogin')

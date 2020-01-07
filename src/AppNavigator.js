@@ -369,9 +369,9 @@ const Main = createStackNavigator({
 
 //入口
 const AppNavigator = createSwitchNavigator({
-    LoginPage:{
-        screen:LoginPage
-    },
+    // LoginPage:{
+    //     screen:LoginPage
+    // },
     Main: {
         screen: Main
     }
