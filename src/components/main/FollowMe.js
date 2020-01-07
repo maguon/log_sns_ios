@@ -19,7 +19,7 @@ class FollowMe extends React.Component {
     renderEmpty = () =>{
         return (
             <View style={style.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无违章扣款记录</Text>
+                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无关注</Text>
             </View>
         )
     }

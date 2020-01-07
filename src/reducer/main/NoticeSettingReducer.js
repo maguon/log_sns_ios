@@ -15,7 +15,6 @@ const initialState={
 export  default  handleActions({
     [actionType.NoticeSettingType.SET_NOTICE_INFO]: (state, action) => {
         const { payload: { noticeInfo } } = action
-        console.log(noticeInfo)
         return {
             ...noticeInfo
         }
