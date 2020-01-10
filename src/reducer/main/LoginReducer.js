@@ -4,30 +4,30 @@ import * as actionType from "../../actionType";
 const initialState={
     user:'',
     password:'',
-    userId:'5e041bd502ecfd21c8e5a239',
+    userId:'5dfacafe98cc5501fd1e80db',
     userLogin:[],
 }
 
 export default handleActions({
-    [actionType.LoginActionType.SET_USER]: (state, action) => {
+    [actionType.LoginActionType.set_User]: (state, action) => {
         return {
             ...state,
             user: action.payload
         }
     },
-    [actionType.LoginActionType.PASS_WORD]: (state, action) => {
+    [actionType.LoginActionType.pass_Word]: (state, action) => {
         return {
             ...state,
             password: action.payload
         }
     },
-    [actionType.LoginActionType.SET_USERID]: (state, action) => {
+    [actionType.LoginActionType.set_UserId]: (state, action) => {
         return {
             ...state,
             userId: action.payload.userId
         }
     },
-    [actionType.LoginActionType.SET_USERLOGIN]: (state, action) => {
+    [actionType.LoginActionType.set_UserLogin]: (state, action) => {
         return {
             ...state,
             userLogin: action.payload

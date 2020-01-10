@@ -3,17 +3,16 @@ import * as actionType from '../../actionType/index'
 
 const initialState={
     noticeId:"",
-    info: 0,
+    sysmsg: 0,
     praise: 0,
-    comments: 0,
-    beConcernedAbout: 0,
+    comment: 0,
+    attention: 0,
     others: 0,
-    worksReleasedByFollowers: 0,
-    recommendedWorks: 0,
+    followAddmsg: 0,
 }
 
 export  default  handleActions({
-    [actionType.NoticeSettingType.SET_NOTICE_INFO]: (state, action) => {
+    [actionType.NoticeSettingType.set_Notice_Info]: (state, action) => {
         const { payload: { noticeInfo } } = action
         return {
             ...noticeInfo

@@ -12,8 +12,8 @@ export const getUserData = (props) => async (dispatch, getState) => {
         const res = await HttpRequest.get(url);
         console.log(res.result[0])
         if(res.success){
-            dispatch({type:actionType.UserDataType.GET_USERDATA,payload:{userData:res.result[0]}})
-            dispatch({type:actionType.UserDataType.GET_USERDETAIL_INFO,payload:{userDetailInfo:res.result[0].user_detail_info[0]}})
+            dispatch({type:actionType.UserDataType.get_UserData,payload:{userData:res.result[0]}})
+            dispatch({type:actionType.UserDataType.get_UserDetail_Info,payload:{userDetailInfo:res.result[0].user_detail_info[0]}})
         }else {
 
         }

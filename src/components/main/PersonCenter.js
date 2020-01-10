@@ -56,13 +56,13 @@ class PersonCenter extends React.Component {
                     <List>
                         <Item arrow="horizontal"
                               onPress={() => {
-                                  navigation.navigate('Follow')
+                                  navigation.navigate('Follow',{otherParam: ''})
                               }}
                               thumb={<AntDesign name="hearto" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>我的关注</Text></Item>
                         <Item arrow="horizontal"
                               onPress={() => {
-                                  navigation.navigate('Fans')
+                                  navigation.navigate('Fans',{otherParam: ''})
                               }}
                               thumb={<AntDesign name="team" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>我的粉丝</Text></Item>

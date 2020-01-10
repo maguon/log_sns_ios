@@ -4,7 +4,6 @@ import * as RegisterAction from './main/RegisterAction'
 import * as LoginAction from './main/LoginAction'
 import * as AboutUsAction from './main/AboutUsAction'
 import * as ArticleAction from './main/ArticleAction'
-import * as ForgotAction from './main/ForgotAction'
 import * as CameraAction from './main/CameraAction'
 import * as ChangePassWordAction from './main/ChangePassWordAction'
 import * as ChangePhoneAction from './main/ChangePhoneAction'
@@ -40,7 +39,6 @@ export {
     InitAction,
     RegisterAction,
     LoginAction,
-    ForgotAction,
     AboutUsAction,
     ArticleAction,
     CameraAction,

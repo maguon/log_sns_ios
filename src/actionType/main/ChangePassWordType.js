@@ -1,5 +1,7 @@
+import {createAction} from 'redux-actions';
 
-export const GET_PHONE='get_Phone'
-export const SET_CHANGE_CODE='set_Change_Code'
-export const SET_CHANGE_PASSWORD='set_Change_Password'
-export const SET_CHANGE_NEWPASSWORD='set_Change_NewPassword'
+export const get_Phone=createAction('get_Phone')
+export const set_Change_Code=createAction('set_Change_Code')
+export const set_Change_Password=createAction('set_Change_Password')
+export const set_Change_NewPassword=createAction('set_Change_NewPassword')
+

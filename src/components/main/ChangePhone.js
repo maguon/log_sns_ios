@@ -98,10 +98,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch, props) => ({
     setNewPhone: (value) => {
-        dispatch(actionType.ChangePhoneType.SET_NEWPHONE(value))
+        dispatch(actionType.ChangePhoneType.set_NewPhone(value))
     },
     setSendCode: (value) => {
-        dispatch(actionType.ChangePhoneType.SET_SENDCODE(value))
+        dispatch(actionType.ChangePhoneType.set_SendCode(value))
     },
     getChangePassWord: () => {
         dispatch(action.ChangePassWordAction.getChangePassWord())

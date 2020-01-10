@@ -3,16 +3,16 @@ import * as actionType from '../../actionType/index'
 
 const initialState={
     PrivacyId:"",
-    name_display:0,
-    phone_display: 0,
-    city_display: 0,
-    car_display: 0,
-    recommend_to_friends: 0,
-    message_authority: 0,
+    name:0,
+    phone: 0,
+    city: 0,
+    car: 0,
+    recommendToFriends: 0,
+    msgAuthority: 0,
 }
 
 export  default  handleActions({
-    [actionType.PrivacySettingType.SET_PRIVACYINFO]: (state, action) => {
+    [actionType.PrivacySettingType.set_privacyInfo]: (state, action) => {
         const { payload: { privacyInfo } } = action
         return {
             ...privacyInfo

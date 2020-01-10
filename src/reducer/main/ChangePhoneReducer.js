@@ -8,13 +8,13 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.ChangePhoneType.SET_NEWPHONE]: (state, action) => {
+    [actionType.ChangePhoneType.set_NewPhone]: (state, action) => {
         return {
             ...state,
             newPhone: action.payload
         }
     },
-    [actionType.ChangePhoneType.SET_SENDCODE]: (state, action) => {
+    [actionType.ChangePhoneType.set_SendCode]: (state, action) => {
         return {
             ...state,
             sendCode: action.payload

@@ -7,7 +7,7 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.PersonCenterType.GET_USERINFO]: (state, action) => {
+    [actionType.PersonCenterType.get_UserInfo]: (state, action) => {
         return {
             ...state,
             userInfo: action.payload.userInfo

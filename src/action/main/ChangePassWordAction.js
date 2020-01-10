@@ -11,7 +11,7 @@ export const getChangePassWord = () => async (dispatch, getState) => {
         let url = `${apiHost}/user?userId=${userId}`;
         const res = await HttpRequest.get(url);
         if(res.success){
-            dispatch({type:actionType.ChangePassWordType.getPhone,payload:{phone:res.result[0].phone}})
+            dispatch({type:actionType.ChangePassWordType.get_Phone,payload:{phone:res.result[0].phone}})
         }
     } catch (err) {
         Toast.fail(err.message)

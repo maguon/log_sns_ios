@@ -9,13 +9,13 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.UserDataType.GET_USERDATA]: (state, action) => {
+    [actionType.UserDataType.get_UserData]: (state, action) => {
         return {
             ...state,
             userData: action.payload.userData
         }
     },
-    [actionType.UserDataType.GET_USERDETAIL_INFO]: (state, action) => {
+    [actionType.UserDataType.get_UserDetail_Info]: (state, action) => {
         return {
             ...state,
             userDetailInfo: action.payload.userDetailInfo

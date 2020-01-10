@@ -1,2 +1,4 @@
-export  const SET_USER = 'set_User'
-export  const PASS_WORD = 'pass_Word'
+import {createAction} from 'redux-actions';
+
+export const get_fansList=createAction('get_fansList')
+export const set_pageSize=createAction('set_pageSize')

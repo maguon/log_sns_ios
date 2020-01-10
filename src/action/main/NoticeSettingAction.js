@@ -7,36 +7,33 @@ import * as actionType from '../../actionType/index'
 export const getNoticeList = (props) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     try {
+        console.log(userId)
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/notificationSettings`;
-
-        const res = await HttpRequest.get(url);
+        let url = `${apiHost}/user/${userId}/notice`
+        const res = await HttpRequest.get(url)
         console.log('res',res)
+
         if(res.success){
             const values  ={
                 noticeId:res.result[0]._id,
-                info: res.result[0].info,
+                sysmsg: res.result[0].sysmsg,
                 praise: res.result[0].praise,
-                comments: res.result[0].comments,
-                beConcernedAbout: res.result[0].beConcernedAbout,
+                comment: res.result[0].comment,
+                attention: res.result[0].attention,
                 others: res.result[0].others,
-                worksReleasedByFollowers: res.result[0].worksReleasedByFollowers,
-                recommendedWorks: res.result[0].recommendedWorks
-
+                followAddmsg: res.result[0].follow_addmsg,
             }
             dispatch(setNoticeInfo(values))
         }else {
-
+            Toast.fail(res.msg)
         }
-
-
     } catch (err) {
         Toast.fail(err.message)
     }
 
 }
 export const setNoticeInfo = values => (dispatch) => {
-    dispatch({type: actionType.NoticeSettingType.SET_NOTICE_INFO, payload: {noticeInfo: values}})
+    dispatch({type: actionType.NoticeSettingType.set_Notice_Info, payload: {noticeInfo: values}})
 }
 
 
@@ -45,7 +42,7 @@ export const change = value => async (dispatch, getState) => {
     const {LoginReducer: {userId}, NoticeSettingReducer: {noticeId}} = getState()
     try {
         console.log('res',value)
-        let url = `${apiHost}/user/${userId}/notificationSettings/${noticeId}/notificationSettings`;
+        let url = `${apiHost}/user/${userId}/notice/${noticeId}/notice`;
         const res = await HttpRequest.put(url, value);
         console.log('res',res)
         if (res.success) {

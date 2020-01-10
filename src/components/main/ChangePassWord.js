@@ -108,13 +108,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch, props) => ({
     setChangeCode: (value) => {
-        dispatch(actionType.ChangePassWordType.SET_CHANGE_CODE(value))
+        dispatch(actionType.ChangePassWordType.set_Change_Code(value))
     },
     setChangePassword: (value) => {
-        dispatch(actionType.ChangePassWordType.SET_CHANGE_PASSWORD(value))
+        dispatch(actionType.ChangePassWordType.set_Change_Password(value))
     },
     setChangeNewPassword: (value) => {
-        dispatch(actionType.ChangePassWordType.SET_CHANGE_NEWPASSWORD(value))
+        dispatch(actionType.ChangePassWordType.set_Change_NewPassword(value))
     },
 
     getChangePassWord: () => {

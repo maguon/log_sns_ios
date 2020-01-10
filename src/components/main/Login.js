@@ -72,10 +72,10 @@ const mapDispatchProps=(dispatch,props)=>({
         dispatch(action.LoginAction.toLogin(props))
     },
     setUser:(value)=>{
-        dispatch(actionType.LoginActionType.SET_USER(value))
+        dispatch(actionType.LoginActionType.set_User(value))
     },
     setPassWord:(value)=>{
-        dispatch(actionType.LoginActionType.PASS_WORD(value))
+        dispatch(actionType.LoginActionType.pass_Word(value))
     }
 
 })

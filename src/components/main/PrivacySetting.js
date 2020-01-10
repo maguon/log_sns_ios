@@ -19,7 +19,7 @@ class PrivacySetting extends React.Component {
     }
 
     render() {
-        const {privacySettingReducer: {name_display, phone_display, city_display, car_display, recommend_to_friends, message_authority}, privacySettingReducer, change} = this.props
+        const {privacySettingReducer: {name, phone, city, car, recommendToFriends, msgAuthority}, privacySettingReducer, change} = this.props
         console.log('privacySettingReducer', privacySettingReducer)
         return (
             <View style={{flex: 1}}>
@@ -28,11 +28,11 @@ class PrivacySetting extends React.Component {
                         extra={<Switch
                             style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
                             color="#333333"
-                            checked={name_display == 1}
+                            checked={name == 1}
                             onChange={(value) => {
                                 change({
                                     ...privacySettingReducer,
-                                    name_display: value ? 1 : 0
+                                    name: value ? 1 : 0
                                 })
                             }}
                         />}>
@@ -42,10 +42,10 @@ class PrivacySetting extends React.Component {
                         extra={<Switch
                             style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
                             color="#333333"
-                            checked={phone_display == 1}
+                            checked={phone == 1}
                             onChange={(value) => change({
                                 ...privacySettingReducer,
-                                phone_display: value ? 1 : 0
+                                phone: value ? 1 : 0
                             })}
                         />}
 
@@ -55,10 +55,10 @@ class PrivacySetting extends React.Component {
                         extra={<Switch
                             style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
                             color="#333333"
-                            checked={city_display == 1}
+                            checked={city == 1}
                             onChange={(value) => change({
                                 ...privacySettingReducer,
-                                city_display: value ? 1 : 0
+                                city: value ? 1 : 0
                             })}
                         />}>
                         <Text style={globalStyles.largeText}>显示城市</Text></Item>
@@ -67,10 +67,10 @@ class PrivacySetting extends React.Component {
                         extra={<Switch
                             style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
                             color="#333333"
-                            checked={car_display == 1}
+                            checked={car == 1}
                             onChange={(value) => change({
                                 ...privacySettingReducer,
-                                car_display: value ? 1 : 0
+                                car: value ? 1 : 0
                             })}
                         />}>
                         <Text style={globalStyles.largeText}>显示车辆资料</Text></Item>
@@ -80,10 +80,10 @@ class PrivacySetting extends React.Component {
                         extra={<Switch
                             style={{transform: [{scaleX: 0.6}, {scaleY: 0.6}]}}
                             color="#333333"
-                            checked={recommend_to_friends == 1}
+                            checked={recommendToFriends == 1}
                             onChange={(value) => change({
                                 ...privacySettingReducer,
-                                recommend_to_friends: value ? 1 : 0
+                                recommendToFriends: value ? 1 : 0
                             })}
                         />}>
                         <Text style={globalStyles.largeText}>允许将我推荐给好友</Text></Item>

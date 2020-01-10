@@ -12,7 +12,7 @@ export const getAboutUsInfo = () => async (dispatch, getState) => {
         const res = await HttpRequest.get(url);
         console.log(res)
         if(res.success){
-            dispatch({type:actionType.AboutUsType.SET_ABOUTUS_INFO,payload:{aboutUsList:res.result[0]}})
+            dispatch({type:actionType.AboutUsType.set_AboutUs_Info,payload:{aboutUsList:res.result[0]}})
         }
     } catch (err) {
         Toast.fail(err.message)

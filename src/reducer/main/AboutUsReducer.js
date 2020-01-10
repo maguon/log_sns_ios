@@ -7,7 +7,7 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.AboutUsType.SET_ABOUTUS_INFO]: (state, action) => {
+    [actionType.AboutUsType.set_AboutUs_Info]: (state, action) => {
         const { payload: { aboutUsList } } = action
         return {
             aboutUsList:aboutUsList

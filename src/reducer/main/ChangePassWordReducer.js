@@ -10,25 +10,25 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.ChangePassWordType.GET_PHONE]: (state, action) => {
+    [actionType.ChangePassWordType.get_Phone]: (state, action) => {
         return {
             ...state,
             phone: action.payload.phone
         }
     },
-    [actionType.ChangePassWordType.SET_CHANGE_CODE]: (state, action) => {
+    [actionType.ChangePassWordType.set_Change_Code]: (state, action) => {
         return {
             ...state,
             changeCode: action.payload
         }
     },
-    [actionType.ChangePassWordType.SET_CHANGE_PASSWORD]: (state, action) => {
+    [actionType.ChangePassWordType.set_Change_Password]: (state, action) => {
         return {
             ...state,
             changePassword: action.payload
         }
     },
-    [actionType.ChangePassWordType.SET_CHANGE_NEWPASSWORD]: (state, action) => {
+    [actionType.ChangePassWordType.set_Change_NewPassword]: (state, action) => {
         return {
             ...state,
             changeNewPassword: action.payload

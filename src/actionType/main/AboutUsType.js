@@ -1,2 +1,3 @@
-export  const SET_ABOUTUS_INFO = 'set_AboutUs_Info'
+import {createAction} from 'redux-actions';
 
+export const set_AboutUs_Info=createAction('set_AboutUs_Info')

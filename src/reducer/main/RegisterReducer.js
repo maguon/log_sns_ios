@@ -10,25 +10,25 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.RegisterActionType.SET_ACCOUNT]: (state, action) => {
+    [actionType.RegisterActionType.set_Account]: (state, action) => {
         return {
             ...state,
             account: action.payload
         }
     },
-    [actionType.RegisterActionType.SET_PASSWORD]: (state, action) => {
+    [actionType.RegisterActionType.set_Password]: (state, action) => {
         return {
             ...state,
             password: action.payload
         }
     },
-    [actionType.RegisterActionType.SET_PASSWORD_TO]: (state, action) => {
+    [actionType.RegisterActionType.set_Password_TO]: (state, action) => {
         return {
             ...state,
             pass_word: action.payload
         }
     },
-    [actionType.RegisterActionType.SET_CODE]: (state, action) => {
+    [actionType.RegisterActionType.set_Code]: (state, action) => {
         return {
             ...state,
             code: action.payload

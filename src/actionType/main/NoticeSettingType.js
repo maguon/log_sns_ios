@@ -1,2 +1,3 @@
-export  const SET_NOTICE_INFO = 'set_Notice_Info'
+import {createAction} from 'redux-actions';
 
+export const set_Notice_Info=createAction('set_Notice_Info')

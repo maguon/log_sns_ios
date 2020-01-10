@@ -8,18 +8,18 @@ export const getList = (props) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/privacySettings`;
+        let url = `${apiHost}/user/${userId}/privacie`;
 
         const res = await HttpRequest.get(url);
         if(res.success){
             const values  ={
                 PrivacyId:res.result[0]._id,
-                name_display: res.result[0].name_display,
-                phone_display: res.result[0].phone_display,
-                city_display: res.result[0].city_display,
-                car_display: res.result[0].car_display,
-                recommend_to_friends: res.result[0].recommend_to_friends,
-                message_authority: res.result[0].message_authority
+                name: res.result[0].name,
+                phone: res.result[0].phone,
+                city: res.result[0].city,
+                car: res.result[0].car,
+                recommendToFriends: res.result[0].recommend_to_friends,
+                msgAuthority: res.result[0].msg_authority
             }
             dispatch(setPrivacyInfo(values))
         }else {
@@ -32,15 +32,15 @@ export const getList = (props) => async (dispatch, getState) => {
 
 }
 export const setPrivacyInfo = values => (dispatch) => {
-    dispatch({type: actionType.PrivacySettingType.SET_PRIVACYINFO, payload: {privacyInfo: values}})
+    dispatch({type: actionType.PrivacySettingType.set_privacyInfo, payload: {privacyInfo: values}})
 }
 
 
 export const change = value => async (dispatch, getState) => {
-
+console.log(value )
     const {LoginReducer: {userId}, PrivacySettingReducer: {PrivacyId}} = getState()
     try {
-        let url = `${apiHost}/user/${userId}/privacySettings/${PrivacyId}/privacySettings`;
+        let url = `${apiHost}/user/${userId}/privacie/${PrivacyId}/privacie`;
         const res = await HttpRequest.put(url, value);
         if (res.success) {
             dispatch(setPrivacyInfo(value))

@@ -41,7 +41,7 @@ import NoticeSetting from './components/main/NoticeSetting'
 import AboutUs from './components/main/AboutUs'
 import ClearCache from './components/main/ClearCache'
 import UserData from './components/main/UserData'
-
+import Space from './components/main/Space'
 
 //modules
 import LeftButton from './components/modules/LeftButton'
@@ -256,14 +256,14 @@ const Main = createStackNavigator({
     Follow: {
         screen: Follow,
         navigationOptions: ({navigation}) => ({
-            title: '我的关注',
+            title: navigation.state.params.otherParam,
             tabBarVisible:false
         })
     },
     Fans: {
         screen: Fans,
         navigationOptions: ({navigation}) => ({
-            title: '我的粉丝',
+            title: navigation.state.params.otherParam,
             tabBarVisible:false
         })
     },
@@ -348,6 +348,13 @@ const Main = createStackNavigator({
         screen: UserData,
         navigationOptions: ({navigation}) => ({
             title: '个人资料',
+            tabBarVisible:false
+        })
+    },
+    Space: {
+        screen: Space,
+        navigationOptions: ({navigation}) => ({
+            title: '',
             tabBarVisible:false
         })
     },

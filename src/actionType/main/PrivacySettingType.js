@@ -1,1 +1,4 @@
-export  const SET_PRIVACYINFO = 'set_privacyInfo'
+import {createAction} from 'redux-actions';
+
+export const set_privacyInfo=createAction('set_privacyInfo')
+
