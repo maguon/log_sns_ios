@@ -47,11 +47,18 @@ const Message = props => {
                 <List>
                     <Item arrow="horizontal"
                           onPress={() => { navigation.navigate('SystemMsg') }}
-                          thumb={<Image source={require('../../images/msg.png')} style={{ width: 25, height: 25,marginRight:10 }}/>}>
+                          thumb={ <View style={{flexDirection:"row",alignItems: "center"}}>
+                              <View style={{width:5,height:5,borderRadius:30, marginRight: 5,backgroundColor:"red"}}></View>
+                              <Image source={require('../../images/msg.png')} style={{ width: 25, height: 25,marginRight:10 }}/>
+                          </View>}>
                         <Text style={globalStyles.largeText}>系统消息</Text></Item>
                     <Item arrow="horizontal"
                           onPress={() => { navigation.navigate('SystemMsg') }}
-                          thumb={<Image source={require('../../images/comments.png')} style={{ width: 25, height: 25,marginRight:10 }}/>}>
+                          thumb={
+                              <View style={{flexDirection:"row",alignItems: "center"}}>
+                              <View style={{width:5,height:5,borderRadius:30, marginRight: 5,backgroundColor:"red"}}></View>
+                              <Image source={require('../../images/comments.png')} style={{ width: 25, height: 25,marginRight:10 }}/>
+                              </View>}>
                         <Text style={globalStyles.largeText}>系统消息</Text></Item>
                 </List>
             </ScrollView >

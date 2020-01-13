@@ -1,10 +1,10 @@
 import React from 'react'
 import {View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native'
-import {Button, Modal, InputItem, List, WhiteSpace, WingBlank,Provider} from "@ant-design/react-native";
+import {Button, Modal, InputItem, List, WhiteSpace, WingBlank,Provider} from "@ant-design/react-native"
 import {connect} from "react-redux"
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import globalStyles from "../../utils/GlobalStyles";
-import * as action from "../../action/index";
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import globalStyles from "../../utils/GlobalStyles"
+import * as action from "../../action/index"
 
 
 

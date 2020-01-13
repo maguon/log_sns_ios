@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import {connect} from "react-redux"
-import {Button, InputItem, Provider, Toast, WhiteSpace, WingBlank} from "@ant-design/react-native";
+import {Button, InputItem, Provider, Toast, WhiteSpace, WingBlank} from "@ant-design/react-native"
 import globalStyles from "../../utils/GlobalStyles"
 import * as action from "../../action/index"
 import * as actionType from '../../actionType/index'

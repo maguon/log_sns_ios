@@ -1,3 +1,4 @@
-import {createAction} from 'redux-actions';
+import {createAction} from 'redux-actions'
 
-export const set_Info=createAction('set_Info')
+export const get_Data=createAction('get_Data')
+export const update_PageSize=createAction('update_PageSize')

@@ -1,16 +1,16 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
 export const getList = (props) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/privacie`;
+        let url = `${apiHost}/user/${userId}/privacie`
 
-        const res = await HttpRequest.get(url);
+        const res = await HttpRequest.get(url)
         if(res.success){
             const values  ={
                 PrivacyId:res.result[0]._id,
@@ -40,8 +40,8 @@ export const change = value => async (dispatch, getState) => {
 console.log(value )
     const {LoginReducer: {userId}, PrivacySettingReducer: {PrivacyId}} = getState()
     try {
-        let url = `${apiHost}/user/${userId}/privacie/${PrivacyId}/privacie`;
-        const res = await HttpRequest.put(url, value);
+        let url = `${apiHost}/user/${userId}/privacie/${PrivacyId}/privacie`
+        const res = await HttpRequest.put(url, value)
         if (res.success) {
             dispatch(setPrivacyInfo(value))
         }else {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, StyleSheet, Dimensions} from 'react-native'
-import {InputItem, Button,Provider} from '@ant-design/react-native';
+import {InputItem, Button,Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as actionType from '../../actionType/index'

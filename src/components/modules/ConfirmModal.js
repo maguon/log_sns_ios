@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, View, Modal, TouchableOpacity, StyleSheet } from 'react-native'
 import { styleColor } from '../../utils/GlobalStyles'
-import { Actions } from 'react-native-router-flux'
 
 const ConfirmModal = ({ onPressOk, onPressCancel, isVisible,title }) => {
     //确定模态框

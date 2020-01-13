@@ -354,7 +354,7 @@ const Main = createStackNavigator({
     Space: {
         screen: Space,
         navigationOptions: ({navigation}) => ({
-            title: '',
+            header:null,
             tabBarVisible:false
         })
     },

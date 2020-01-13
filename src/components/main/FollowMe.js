@@ -13,7 +13,7 @@ import {
 import {connect} from "react-redux"
 import {Button, WingBlank, WhiteSpace, List, ListView, Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
-import * as action from "../../action/index";
+import * as action from "../../action/index"
 import index from "../../reducer";
 
 
@@ -35,7 +35,7 @@ class FollowMe extends React.Component {
     renderEmpty = () => {
         return (
             <View style={style.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无粉丝</Text>
+                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无消息</Text>
             </View>
         )
     }

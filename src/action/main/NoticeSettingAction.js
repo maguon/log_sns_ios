@@ -1,7 +1,7 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
 export const getNoticeList = (props) => async (dispatch, getState) => {
@@ -42,8 +42,8 @@ export const change = value => async (dispatch, getState) => {
     const {LoginReducer: {userId}, NoticeSettingReducer: {noticeId}} = getState()
     try {
         console.log('res',value)
-        let url = `${apiHost}/user/${userId}/notice/${noticeId}/notice`;
-        const res = await HttpRequest.put(url, value);
+        let url = `${apiHost}/user/${userId}/notice/${noticeId}/notice`
+        const res = await HttpRequest.put(url, value)
         console.log('res',res)
         if (res.success) {
             dispatch(setNoticeInfo(value))

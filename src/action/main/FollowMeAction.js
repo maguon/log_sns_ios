@@ -1,7 +1,7 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
 export const getFollowList = () => async (dispatch, getState) => {

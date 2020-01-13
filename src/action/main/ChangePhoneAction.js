@@ -1,7 +1,7 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
 //确认
@@ -44,8 +44,8 @@ export const onSendCode = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ChangePhoneReducer:{newPhone}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/phone/${newPhone}/resetSms`;
-        const res = await HttpRequest.post(url);
+        let url = `${apiHost}/user/${userId}/phone/${newPhone}/resetSms`
+        const res = await HttpRequest.post(url)
     } catch (err) {
         Toast.fail(err.message)
     }

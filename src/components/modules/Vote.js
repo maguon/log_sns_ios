@@ -1,6 +1,6 @@
-import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
-import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native';
+import React from 'react'
+import {ScrollView, Text, View} from 'react-native'
+import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import {View, Text} from 'react-native'
 import {connect} from "react-redux"
-import {List, WhiteSpace, Switch} from "@ant-design/react-native";
-import globalStyles from "../../utils/GlobalStyles";
+import {List, WhiteSpace, Switch} from "@ant-design/react-native"
+import globalStyles from "../../utils/GlobalStyles"
 import * as actionType from "../../actionType/index";
-import * as action from "../../action/index";
+import * as action from "../../action/index"
 
 
 const Item = List.Item

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native'
 import {connect} from "react-redux"
 import {Button, InputItem, List, Provider, WhiteSpace, WingBlank} from "@ant-design/react-native"
 import globalStyles from "../../utils/GlobalStyles"
-import * as actionType from "../../actionType";
+import * as actionType from "../../actionType"
 import * as action from "../../action"
 
 class ChangePhone extends React.Component {
@@ -15,9 +15,9 @@ class ChangePhone extends React.Component {
         }
     }
     componentDidMount() {
-        this.props.getChangePassWord();
-        this.props.setNewPhone('');
-        this.props.setSendCode('');
+        this.props.getChangePassWord()
+        this.props.setNewPhone('')
+        this.props.setSendCode('')
     }
 
     render() {

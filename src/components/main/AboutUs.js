@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, StyleSheet} from 'react-native'
-import * as action from "../../action/index";
+import * as action from "../../action/index"
 
 
 class AboutUs extends Component {

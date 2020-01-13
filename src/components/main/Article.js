@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, Text, StyleSheet, ScrollView} from 'react-native'
-import {Tabs, WhiteSpace, WingBlank} from "@ant-design/react-native";
+import {Tabs, WhiteSpace, WingBlank} from "@ant-design/react-native"
 import Video from '../modules/Video'
 import VideoList from '../modules/VideoList'
 import ImageList from '../modules/ImageList'

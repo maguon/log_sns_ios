@@ -1,4 +1,4 @@
-import {createAction} from 'redux-actions';
+import {createAction} from 'redux-actions'
 
 export const set_User=createAction('set_User')
 export const pass_Word=createAction('pass_Word')

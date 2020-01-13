@@ -1,7 +1,7 @@
 import React from 'react'
 import {View, Text, ScrollView,StyleSheet} from 'react-native'
-import globalStyles from "../../utils/GlobalStyles";
-import { List, WhiteSpace} from "@ant-design/react-native";
+import globalStyles from "../../utils/GlobalStyles"
+import { List, WhiteSpace} from "@ant-design/react-native"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 const Item = List.Item

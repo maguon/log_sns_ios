@@ -20,9 +20,9 @@ class ForgotPassWord extends React.Component {
     }
 
     componentDidMount() {
-        this.props.setAccount('');
-        this.props.setPassword('');
-        this.props.setPass_word('');
+        this.props.setAccount('')
+        this.props.setPassword('')
+        this.props.setPass_word('')
     }
 
     render() {
@@ -33,7 +33,7 @@ class ForgotPassWord extends React.Component {
             } else if(account.length!=11){
                 Toast.info( "手机号不足11位，请重新输入")
             }else {
-                this.props.forgotGetCode();
+                this.props.forgotGetCode()
                 const timer = setInterval(() => {
                     const leftTime = this.state.timerCount - 1
                     if (leftTime < 0) {
@@ -41,7 +41,7 @@ class ForgotPassWord extends React.Component {
                             timerCount: leftTime,
                             disabled: false,
                         })
-                        clearInterval(timer);
+                        clearInterval(timer)
                     } else {
                         this.setState({
                             timerCount: leftTime,

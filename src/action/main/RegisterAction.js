@@ -1,7 +1,7 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from "@ant-design/react-native";
+import {Toast} from "@ant-design/react-native"
 
 export const register = (props) => async (dispatch, getState) => {
     try {
@@ -34,7 +34,7 @@ export const register = (props) => async (dispatch, getState) => {
                     captcha:code,
                     type: 0,
                 }
-                let res = await HttpRequest.post(apiHost + `/user`, params);
+                let res = await HttpRequest.post(apiHost + `/user`, params)
                 if (res.success) {
                     Toast.loading('Loading...', 0.5, () => {
                         Alert.alert("", "注册成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
@@ -51,7 +51,7 @@ export const register = (props) => async (dispatch, getState) => {
                     code: code,
                     newPassword: password,
                 }
-                let res = await HttpRequest.put(apiHost + `/phone/${account}/password`, params);
+                let res = await HttpRequest.put(apiHost + `/phone/${account}/password`, params)
 
                 if(res.success) {
                     Toast.loading('Loading...', 0.5, () => {
@@ -74,7 +74,7 @@ export const getCode = (props) => async (dispatch, getState) => {
     try {
 
         const {RegisterReducer: {account}} = getState()
-            let res = await HttpRequest.post(apiHost + `/phone/${account}/regSms`);
+            let res = await HttpRequest.post(apiHost + `/phone/${account}/regSms`)
             if (res.success) {
              console.log('success')
             }else {
@@ -90,7 +90,7 @@ export const getCode = (props) => async (dispatch, getState) => {
 export const forgotGetCode = (props) => async (dispatch, getState) => {
     try {
         const {RegisterReducer: {account}} = getState()
-        let res = await HttpRequest.post(apiHost + `/phone/${account}/passwordSms`);
+        let res = await HttpRequest.post(apiHost + `/phone/${account}/passwordSms`)
         if (res.success) {
             console.log('success')
         }else {

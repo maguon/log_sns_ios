@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
 import {View, Text, StyleSheet, Dimensions, Alert} from 'react-native'
-import {InputItem, Button, Provider, Toast} from '@ant-design/react-native';
+import {InputItem, Button, Provider, Toast} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as action from '../../action/index'
@@ -22,9 +22,9 @@ class Registered extends Component {
     }
 
     componentDidMount() {
-        this.props.setAccount('');
-        this.props.setPassword('');
-        this.props.setPass_word('');
+        this.props.setAccount('')
+        this.props.setPassword('')
+        this.props.setPass_word('')
     }
 
 
@@ -37,7 +37,7 @@ class Registered extends Component {
             } else if(account.length!=11){
                 Toast.info( "手机号不足11位，请重新输入")
             }else {
-                this.props.getCode();
+                this.props.getCode()
                 const timer = setInterval(() => {
                     const leftTime = this.state.timerCount - 1
                     if (leftTime < 0) {
@@ -45,7 +45,7 @@ class Registered extends Component {
                             timerCount: leftTime,
                             disabled: false,
                         })
-                        clearInterval(timer);
+                        clearInterval(timer)
                     } else {
                         this.setState({
                             timerCount: leftTime,

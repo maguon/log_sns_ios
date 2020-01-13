@@ -1,15 +1,15 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
 export const getChangePassWord = () => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user?userId=${userId}`;
-        const res = await HttpRequest.get(url);
+        let url = `${apiHost}/user?userId=${userId}`
+        const res = await HttpRequest.get(url)
         if(res.success){
             dispatch({type:actionType.ChangePassWordType.get_Phone,payload:{phone:res.result[0].phone}})
         }
@@ -23,8 +23,8 @@ export const getCode = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ChangePassWordReducer:{phone}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/phone/${phone}/resetSms`;
-        const res = await HttpRequest.post(url);
+        let url = `${apiHost}/user/${userId}/phone/${phone}/resetSms`
+        const res = await HttpRequest.post(url)
     } catch (err) {
         Toast.fail(err.message)
     }

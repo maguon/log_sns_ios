@@ -13,7 +13,7 @@ import {
 import {connect} from "react-redux"
 import {Button, WingBlank, WhiteSpace, List, ListView, Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
-import * as action from "../../action/index";
+import * as action from "../../action/index"
 import index from "../../reducer";
 
 

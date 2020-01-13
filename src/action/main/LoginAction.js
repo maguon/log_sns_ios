@@ -1,7 +1,7 @@
-import {apiHost} from '../../config/HostConfig';
-import HttpRequest from '../../utils/HttpRequest';
+import {apiHost} from '../../config/HostConfig'
+import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 import localStorageKey from '../../utils/LocalStorageKey'
 import localStorage from '../../utils/LocalStorage'
@@ -11,10 +11,10 @@ export const toLogin = (props) => async (dispatch, getState) => {
     const {LoginReducer: {user, password}} = getState()
     try {
         //参数
-        const params = {userName: user, password: password};
+        const params = {userName: user, password: password}
         // 基本检索URL
         let url = `${apiHost}/userLogin`;
-        const res = await HttpRequest.post(url,params);
+        const res = await HttpRequest.post(url,params)
         if (res.success === true) {
             Toast.loading('Loading...', 0.5,()=>{props.navigation.navigate("Main")})
 
