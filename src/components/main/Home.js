@@ -1,12 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet,ScrollView} from 'react-native'
+import {View, Text, StyleSheet, ScrollView} from 'react-native'
+import {Provider} from "@ant-design/react-native"
 import Address from '../modules/Address'
 import CollectionAddress from '../modules/CollectionAddress'
-import Vote from '../modules/Vote'
+import VoteItem from '../modules/VoteItem'
 import ImageList from '../modules/ImageList'
 import Video from '../modules/Video'
+import ArticleItem from '../modules/ArticleItem'
 import * as action from "../../action"
+
 
 class Home extends Component {
     constructor(props) {
@@ -18,32 +21,35 @@ class Home extends Component {
         const {navigation: {state: {params = {index: 0}}}} = this.props
         const {index} = params
         return (
-            <View style={{flex: 1}}>
-                {index == 0 &&
-                <ScrollView>
-                    <ImageList></ImageList>
-                    <Vote></Vote>
-                    <Video></Video>
-                    <Address></Address>
-                </ScrollView>
+            <Provider>
+                <View style={{flex: 1}}>
+                    {index == 0 &&
+                    <ScrollView>
+                        <ImageList navigation={this.props.navigation}/>
+                        <VoteItem navigation={this.props.navigation}/>
+                        <Video navigation={this.props.navigation}/>
+                        <Address navigation={this.props.navigation}/>
+                    </ScrollView>
 
-                }
-                {index == 1 &&
-                <ScrollView>
-                    <Vote></Vote>
-                </ScrollView>}
-                {index == 2 &&
-                <ScrollView>
-                    <CollectionAddress></CollectionAddress>
-                </ScrollView>}
-            </View>
+                    }
+                    {index == 1 &&
+                    <ScrollView>
+                        <VoteItem navigation={this.props.navigation}/>
+                        <ArticleItem navigation={this.props.navigation}/>
+                    </ScrollView>}
+                    {index == 2 &&
+                    <ScrollView>
+                        <CollectionAddress navigation={this.props.navigation}/>
+                    </ScrollView>}
+                </View>
+            </Provider>
         )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        homeReducer:state.HomeReducer
+        homeReducer: state.HomeReducer
     }
 }
 

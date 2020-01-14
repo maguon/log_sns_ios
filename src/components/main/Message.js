@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, ScrollView, StyleSheet,Image } from 'react-native'
+import {connect} from "react-redux"
 import { Button, WingBlank, WhiteSpace, Icon, List } from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 
@@ -28,14 +29,14 @@ const Message = props => {
                         <Text style={globalStyles.largeText}>赞我</Text></Item>
                 </List>
                 <WhiteSpace size='md' style={globalStyles.containerBackgroundColor} />
-                <List>
-                    <Item arrow="horizontal"
-                          onPress={() => { navigation.navigate('Contact') }}
-                          extra={<View style={styles.extra}><Text style={styles.extraText}>4</Text></View>}
-                         thumb={<Image source={require('../../images/ipone.png')} style={{ width: 25, height: 25,marginRight:10 }}/>} >
-                        <Text style={globalStyles.largeText}>申请联系方式</Text></Item>
-                </List>
-                <WhiteSpace size='md' style={globalStyles.containerBackgroundColor} />
+                {/*<List>*/}
+                    {/*<Item arrow="horizontal"*/}
+                          {/*onPress={() => { navigation.navigate('Contact') }}*/}
+                          {/*extra={<View style={styles.extra}><Text style={styles.extraText}>4</Text></View>}*/}
+                         {/*thumb={<Image source={require('../../images/ipone.png')} style={{ width: 25, height: 25,marginRight:10 }}/>} >*/}
+                        {/*<Text style={globalStyles.largeText}>申请联系方式</Text></Item>*/}
+                {/*</List>*/}
+                {/*<WhiteSpace size='md' style={globalStyles.containerBackgroundColor} />*/}
                 <List>
                     <Item arrow="horizontal"
                           onPress={() => { navigation.navigate('VoteRemind') }}
@@ -66,6 +67,18 @@ const Message = props => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDispatchProps = (dispatch, props) => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(Message)
+
 const styles = StyleSheet.create({
     extra:{
         width:20,
@@ -81,4 +94,3 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Message

@@ -28,10 +28,22 @@ class Title extends React.Component {
                 key={key}
                 overlay={overlay}
                 placement="bottom"
-                onSelect={v =>
-                    this.setState({
-                        [`selected${key}`]: v,
-                    })
+                onSelect={v =>{
+                    if(v=="发布文章"){
+                        this.props.navigation.navigate("WriteArticle")
+                    }else if(v=="发布求助"){
+                        this.props.navigation.navigate("WriteArticle")
+                    }else if(v=="扫一扫"){
+                        this.props.navigation.navigate("Scan")
+                    }else {
+                        this.props.navigation.navigate("Location")
+                    }
+                }
+
+
+                    // this.setState({
+                    //     [`selected${key}`]: v,
+                    // })
                 }
             >
                 <AntDesign name='plus' size={30} style={{color: '#fff'}}/>

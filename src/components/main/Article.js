@@ -5,7 +5,7 @@ import Video from '../modules/Video'
 import VideoList from '../modules/VideoList'
 import ImageList from '../modules/ImageList'
 import Address from '../modules/Address'
-import Vote from '../modules/Vote'
+import VoteItem from '../modules/VoteItem'
 
 class Article extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class Article extends React.Component {
                 </ScrollView>
                 <ScrollView>
                     <View style={style.content}>
-                        <Vote>Content of Second Tab</Vote>
+                        <VoteItem>Content of Second Tab</VoteItem>
                     </View>
                 </ScrollView>
                 <ScrollView>

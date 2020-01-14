@@ -13,6 +13,12 @@ import ForgotPassWord from './components/main/ForgotPassWord'
 //home
 import Home from './components/main/Home'
 import Camera from './components/main/Camera'
+import WriteArticle from './components/main/WriteArticle'
+import Scan from './components/main/Scan'
+import Location from './components/main/Location'
+import Detail from './components/main/Detail'
+import ToVote from './components/main/ToVote'
+import Comment from './components/main/Comment'
 //社区
 import Community from './components/main/Community'
 //消息
@@ -47,6 +53,7 @@ import Space from './components/main/Space'
 import LeftButton from './components/modules/LeftButton'
 import LoginLeftButton from './components/modules/LoginLeftButton'
 import Title from './components/modules/Title'
+import EvaTitle from './components/modules/EvaTitle'
 
 
 //登录页面
@@ -199,6 +206,45 @@ const Main = createStackNavigator({
             tabBarVisible:false
         })
     },
+
+    WriteArticle: {
+    screen: WriteArticle,
+        navigationOptions: ({navigation}) => ({
+        title: '写文章',
+        tabBarVisible:false
+    })
+    },
+
+    Scan: {
+    screen: Scan,
+        navigationOptions: ({navigation}) => ({
+        title: '扫一扫',
+        tabBarVisible:false
+    })
+    },
+
+    Location: {
+    screen: Location,
+        navigationOptions: ({navigation}) => ({
+        title: '定位',
+        tabBarVisible:false
+    })
+     },
+    Detail: {
+        screen: Detail,
+        navigationOptions: ({navigation}) => ({
+            title: '内容详情',
+            tabBarVisible:false
+        })
+    },
+
+    Comment: {
+    screen: Comment,
+        navigationOptions: ({navigation}) => ({
+        title: '评论详情页',
+        tabBarVisible:false
+    })
+},
     //消息
     FollowMe: {
         screen: FollowMe,
@@ -210,8 +256,7 @@ const Main = createStackNavigator({
     EvaluationMe: {
         screen: EvaluationMe,
         navigationOptions: ({navigation}) => ({
-            title: '评论我',
-            tabBarVisible:false
+            headerTitle: <EvaTitle navigation={navigation}/>,
         })
     },
     PraiseMe: {
@@ -283,6 +328,13 @@ const Main = createStackNavigator({
     },
     Vote: {
         screen: Vote,
+        navigationOptions: ({navigation}) => ({
+            title: '投票',
+            tabBarVisible:false
+        })
+    },
+    ToVote: {
+        screen: ToVote,
         navigationOptions: ({navigation}) => ({
             title: '我参与的投票',
             tabBarVisible:false

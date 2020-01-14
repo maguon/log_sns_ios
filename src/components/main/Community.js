@@ -1,12 +1,12 @@
 import React from 'react'
 import {View, Text, StyleSheet, ScrollView} from 'react-native'
-import {Tabs} from '@ant-design/react-native'
+import {Provider, Tabs} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import Video from '../modules/Video'
 import VideoList from '../modules/VideoList'
 import ImageList from '../modules/ImageList'
 import Address from '../modules/Address'
-import Vote from '../modules/Vote'
+import VoteItem from '../modules/VoteItem'
 
 class Community extends React.Component {
     constructor(props) {
@@ -23,6 +23,7 @@ class Community extends React.Component {
 
 
         return (
+            <Provider>
             <Tabs tabs={tabs}
                   tabBarBackgroundColor='#fff'
                   tabBarActiveTextColor='#1598cc'
@@ -32,27 +33,27 @@ class Community extends React.Component {
             >
                 <ScrollView>
                     <View style={style.content}>
-                        <ImageList>Content of First Tab</ImageList>
+                        <ImageList navigation={this.props.navigation}>Content of First Tab</ImageList>
                     </View>
                 </ScrollView>
                 <ScrollView>
                     <View style={style.content}>
-                        <VideoList>Content of Second Tab</VideoList>
-                        <VideoList>Content of Second Tab</VideoList>
+                        <VideoList navigation={this.props.navigation}>Content of Second Tab</VideoList>
+                        <VideoList navigation={this.props.navigation}>Content of Second Tab</VideoList>
                     </View>
                 </ScrollView>
                 <ScrollView>
                     <View style={style.content}>
-                        <Address>Content of Third Tab</Address>
+                        <Address navigation={this.props.navigation}>Content of Third Tab</Address>
                     </View>
                 </ScrollView>
                 <ScrollView>
                     <View style={style.content}>
-                        <Vote>Content of four Tab</Vote>
+                        <VoteItem navigation={this.props.navigation}>Content of four Tab</VoteItem>
                     </View>
                 </ScrollView>
             </Tabs>
-
+            </Provider>
         )
     }
 }

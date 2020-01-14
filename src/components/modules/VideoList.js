@@ -1,6 +1,6 @@
 import React from 'react'
-import {ScrollView, ImageBackground, Text, Image, View, StyleSheet, Dimensions} from 'react-native'
-import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native'
+import {ScrollView, ImageBackground, Text, Image, View, StyleSheet, Dimensions,TouchableOpacity} from 'react-native'
+import {Card, Toast, WhiteSpace, WingBlank} from '@ant-design/react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import httpRequest from '../../utils/HttpRequest'
 import globalStyles from '../../utils/GlobalStyles'
@@ -12,7 +12,9 @@ export default class VideoList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            focus: false
+            focus: false,
+            praise:false,
+            star:false,
         }
 
     }
@@ -31,15 +33,15 @@ export default class VideoList extends React.Component {
                                   }}>{this.state.focus ? "关注" : "取消关注"}</Text>
                         </View>
                         <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} onPress={()=>{this.props.navigation.navigate('Detail')}}>
                             {title ? (title.length > 30 ? title.substr(0, 30) + "..." : title) : ""}
                             <Text style={styles.previewText}>全文</Text>
                         </Text>
                     </ImageBackground>
 
-                    <View style={{width: width, height: 60, flexDirection: 'row'}}>
-                        <View style={{width: width * 0.4, marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}>
-
+                    <View style={{width: width, height: 60, flexDirection: 'row'}} >
+                        <TouchableOpacity style={{width: width * 0.4, marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}
+                                          onPress={()=>{this.props.navigation.navigate('Space')}}>
                             <Image source={{uri: "https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"}}
                                    style={{width: 40, height: 40, borderRadius: 30}}/>
 
@@ -47,7 +49,7 @@ export default class VideoList extends React.Component {
                                 <Text style={globalStyles.largeText}>昵称昵称</Text>
                                 <Text style={[globalStyles.smallText, {marginTop: 2}]}>2019-6-25 11:30</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{
                             width: width * 0.6,
                             flexDirection: 'row',
@@ -58,9 +60,22 @@ export default class VideoList extends React.Component {
                             <Text
                                 style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                 onPress={() => {
-                                    console.log('0')
+                                    this.setState({
+                                        star: !this.state.star
+                                    })
+                                    if (this.state.star) {
+                                        Toast.success('取消收藏', 1, () => {
+                                            console.log('111')
+                                        })
+                                    } else {
+                                        Toast.success('收藏成功', 1, () => {
+                                            console.log('000')
+                                        })
+                                    }
+
                                 }}>
-                                <AntDesign name="sharealt" size={18}/>
+                                <AntDesign name={this.state.star ? "star" : "staro"} size={18}
+                                           style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
                                 <Text>1435</Text>
                             </Text>
 
@@ -68,7 +83,7 @@ export default class VideoList extends React.Component {
                             <Text
                                 style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                 onPress={() => {
-                                    console.log('0')
+                                    this.props.navigation.navigate('Comment')
                                 }}>
                                 <AntDesign name="message1" size={18}/>
                                 <Text>3425</Text>
@@ -79,9 +94,11 @@ export default class VideoList extends React.Component {
                                 alignItems: 'center',
                                 marginRight: 10
                             }]} onPress={() => {
-                                console.log('0')
+                                this.setState({
+                                    praise: !this.state.praise
+                                })
                             }}>
-                                <AntDesign name="like2" size={18}/>
+                                <AntDesign name={this.state.praise?"like1":"like2"} size={18} style={{color:this.state.praise?'#ffa600':'#838485'}}/>
                                 <Text>1250</Text>
                             </Text>
                         </View>

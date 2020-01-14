@@ -32,8 +32,12 @@ import * as UserDataType from './main/UserDataType'
 import * as VoteType from './main/VoteType'
 import * as VoteRemindType from './main/VoteRemindType'
 
-
-
+import * as WriteArticleType from './main/WriteArticleType'
+import * as ScanType from './main/ScanType'
+import * as LocationType from './main/LocationType'
+import * as DetailType from './main/DetailType'
+import * as ToVoteType from './main/ToVoteType'
+import * as CommentType from './main/CommentType'
 
 export {
     HomeActionType,
@@ -66,4 +70,10 @@ export {
     UserDataType,
     VoteType,
     VoteRemindType,
+    WriteArticleType,
+    ScanType,
+    LocationType,
+    DetailType,
+    ToVoteType,
+    CommentType,
 }

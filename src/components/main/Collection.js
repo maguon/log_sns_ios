@@ -4,7 +4,7 @@ import Video from '../modules/Video'
 import VideoList from '../modules/VideoList'
 import ImageList from '../modules/ImageList'
 import Address from '../modules/Address'
-import Vote from '../modules/Vote'
+import VoteItem from '../modules/VoteItem'
 
 class Collection extends React.Component{
     constructor(props){
@@ -18,7 +18,7 @@ class Collection extends React.Component{
                 <ImageList>Collection</ImageList>
                 <Video>Collection</Video>
                 <Address>Collection</Address>
-                <Vote>Collection</Vote>
+                <VoteItem>Collection</VoteItem>
             </ScrollView>
         )
     }

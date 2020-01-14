@@ -11,10 +11,9 @@ import {
     Alert
 } from 'react-native'
 import {connect} from "react-redux"
-import {Button, WingBlank, WhiteSpace, List, ListView, Provider} from '@ant-design/react-native'
+import {Button,Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
-import index from "../../reducer";
 
 
 const {width} = Dimensions.get('window')
@@ -28,8 +27,7 @@ class Contact extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getFansList()
-        this.props.getTitle()
+        this.props.getContactList()
     }
 
 
@@ -50,42 +48,41 @@ class Contact extends React.Component {
         )
     }
     removeFans = (param) => {
-        Alert.alert("", `确定要取消关注吗？`, [{text: "确定", onPress: () => {this.props.removeFans(param)}},{text: "取消",onPress: () => console.log('Cancel Pressed')}])
+        Alert.alert("", `确定要取消关注吗？`, [{
+            text: "确定", onPress: () => {
+                this.props.removeFans(param)
+            }
+        }, {text: "取消", onPress: () => console.log('Cancel Pressed')}])
 
     }
     fans = (param) => {
         this.props.fans(param)
     }
     renderItem = (props) => {
-        const {item,index} = props
+        const {item, index} = props
         const detailItem = item.attention_user_detail_info[0]
         const loginItem = item.attention_user_login_info[0]
         return (
             <View style={{flex: 1}}>
                 <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space")}>
-                  <View style={{width:8,height:8,borderRadius:30, marginRight: 5,backgroundColor:"red"}}></View>
+                    <View style={{width: 8, height: 8, borderRadius: 30, marginRight: 5, backgroundColor: "red"}}></View>
                     {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={{width: 50, height: 50}}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
-                    <View style={{width:width*0.4}}>
+                    <View style={{width: width * 0.4}}>
                         <Text
-                            style={globalStyles.largeText}>名字</Text>
+                            style={globalStyles.largeText}>昵称昵称</Text>
                         <Text
                             style={[globalStyles.smallText, {marginTop: 2}]}>2018-02-15 11:30</Text>
                         <Text
                             style={[globalStyles.smallText, {marginTop: 2}]}>消息内容</Text>
 
                     </View>
-
-                    {/*{item.fans_status == 1? <Text style={[style.focus, {backgroundColor: "#fff"}]}*/}
-                                                  {/*onPress={() => {this.removeFans({fansUserId: item._user_id,index:index})}}>取消关注</Text> :*/}
-                        {/*<Text style={[style.focus, {backgroundColor: "#fece09"}]}*/}
-                              {/*onPress={() => this.fans({fansUserId: item._user_id,index:index})}>关注</Text>}*/}
-
-                              <View style={{flexDirection:"row", width:width*0.3,justifyContent:"space-between"}}>
-                                  <Button size="small" style={[style.focus, {backgroundColor: "#d7d7d7"}]}> 拒绝</Button>
-                                  <Button type="primary" size="small" style={[style.focus, {backgroundColor: "#0099db"}]}> 同意</Button>
-                              </View>
+                    <View style={{flexDirection: "row", width: width * 0.3, justifyContent: "space-between"}}>
+                        <Button size="small" style={[style.focus, {backgroundColor: "#d7d7d7"}]}> 拒绝</Button>
+                        <Button type="primary" size="small"
+                                style={[style.focus, {backgroundColor: "#0099db"}]}> 同意</Button>
+                    </View>
 
                 </TouchableOpacity>
 
@@ -95,15 +92,15 @@ class Contact extends React.Component {
     };
 
     render() {
-        const {fansReducer: {fansList, isResultStatus}} = this.props
-        console.log(fansList)
+        const {contactReducer: {contactList, isResultStatus}} = this.props
+        console.log(contactList)
 
         return (
             <Provider>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     keyExtractor={(item, index) => `${index}`}
-                    data={fansList}
+                    data={contactList}
                     renderItem={this.renderItem}
                     ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
@@ -123,26 +120,15 @@ class Contact extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        fansReducer: state.FansReducer
+        contactReducer: state.ContactReducer
     }
 }
 
 const mapDispatchProps = (dispatch, ownProps) => ({
-    getTitle:()=>{
-        dispatch(action.FansAction.getTitle(ownProps))
-    },
-    getFansList: () => {
-        dispatch(action.FansAction.getFansList())
-    },
-    getFansListMore: (value) => {
-        dispatch(action.FansAction.getFansListMore(value))
-    },
-    fans: (param) => {
-        dispatch(action.FansAction.fans(param))
-    },
-    removeFans: (param) => {
-        dispatch(action.FansAction.removeFans(param))
+    getContactList: () => {
+        dispatch(action.ContactAction.getContactList())
     }
+
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Contact)

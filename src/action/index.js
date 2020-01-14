@@ -29,11 +29,12 @@ import * as UserDataAction from './main/UserDataAction'
 import * as VoteAction from './main/VoteAction'
 import * as VoteRemindAction from './main/VoteRemindAction'
 
-
-
-
-
-
+import * as WriteArticleAction from './main/WriteArticleAction'
+import * as ScanAction from './main/ScanAction'
+import * as LocationAction from './main/LocationAction'
+import * as DetailAction from './main/DetailAction'
+import * as ToVoteAction from './main/ToVoteAction'
+import * as CommentAction from './main/CommentAction'
 export {
     HomeAction,
     InitAction,
@@ -65,5 +66,11 @@ export {
     UserDataAction,
     VoteAction,
     VoteRemindAction,
+    WriteArticleAction,
+    ScanAction,
+    LocationAction,
+    DetailAction,
+    ToVoteAction,
+    CommentAction,
 
 }

@@ -31,7 +31,12 @@ import SystemMsgReducer  from './main/SystemMsgReducer'
 import UserDataReducer  from './main/UserDataReducer'
 import VoteReducer  from './main/VoteReducer'
 import VoteRemindReducer  from './main/VoteRemindReducer'
-
+import WriteArticleReducer  from './main/WriteArticleReducer'
+import ScanReducer  from './main/ScanReducer'
+import LocationReducer  from './main/LocationReducer'
+import DetailReducer  from './main/DetailReducer'
+import ToVoteReducer  from './main/ToVoteReducer'
+import CommentReducer  from './main/CommentReducer'
 
 export default combineReducers({
     formReducer,
@@ -65,4 +70,10 @@ export default combineReducers({
     UserDataReducer,
     VoteReducer,
     VoteRemindReducer,
+    WriteArticleReducer,
+    ScanReducer,
+    LocationReducer,
+    DetailReducer,
+    ToVoteReducer,
+    CommentReducer,
 })
