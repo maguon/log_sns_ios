@@ -31,7 +31,7 @@ export const register = (props) => async (dispatch, getState) => {
                 let params = {
                     phone: account,
                     password: password,
-                    captcha:code,
+                    captcha: code,
                     type: 0,
                 }
                 let res = await HttpRequest.post(apiHost + `/user`, params)
@@ -53,11 +53,11 @@ export const register = (props) => async (dispatch, getState) => {
                 }
                 let res = await HttpRequest.put(apiHost + `/phone/${account}/password`, params)
 
-                if(res.success) {
+                if (res.success) {
                     Toast.loading('Loading...', 0.5, () => {
                         Alert.alert("", "修改成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
                     })
-                }else {
+                } else {
                     Toast.loading('Loading...', 0.5, () => {
                         Alert.alert("", res.msg, [{text: "确定"}])
                     })
@@ -74,14 +74,14 @@ export const getCode = (props) => async (dispatch, getState) => {
     try {
 
         const {RegisterReducer: {account}} = getState()
-            let res = await HttpRequest.post(apiHost + `/phone/${account}/regSms`)
-            if (res.success) {
-             console.log('success')
-            }else {
-                Toast.loading('Loading...', 0.5, () => {
-                    Alert.alert("", `${res.msg},返回登录`, [{text: "确定",onPress: () => props.navigation.goBack()}])
-                })
-            }
+        let res = await HttpRequest.post(apiHost + `/phone/${account}/regSms`)
+        if (res.success) {
+            console.log('success')
+        } else {
+            Toast.loading('Loading...', 0.5, () => {
+                Alert.alert("", `${res.msg},返回登录`, [{text: "确定", onPress: () => props.navigation.goBack()}])
+            })
+        }
     } catch (err) {
 
     }
@@ -93,9 +93,9 @@ export const forgotGetCode = (props) => async (dispatch, getState) => {
         let res = await HttpRequest.post(apiHost + `/phone/${account}/passwordSms`)
         if (res.success) {
             console.log('success')
-        }else {
+        } else {
             Toast.loading('Loading...', 0.5, () => {
-                Alert.alert("", `${res.msg},返回登录`, [{text: "确定",onPress: () => props.navigation.goBack()}])
+                Alert.alert("", `${res.msg},返回登录`, [{text: "确定", onPress: () => props.navigation.goBack()}])
             })
         }
     } catch (err) {

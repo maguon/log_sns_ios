@@ -9,11 +9,13 @@ class AboutUs extends Component {
         super(props)
 
     }
+
     componentDidMount() {
         this.props.getAboutUsInfo()
     }
+
     render() {
-        const {aboutUsReducer:{aboutUsList}} = this.props
+        const {aboutUsReducer: {aboutUsList}} = this.props
         console.log(aboutUsList)
         return (
             <View>
@@ -29,7 +31,7 @@ class AboutUs extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        aboutUsReducer:state.AboutUsReducer
+        aboutUsReducer: state.AboutUsReducer
     }
 }
 

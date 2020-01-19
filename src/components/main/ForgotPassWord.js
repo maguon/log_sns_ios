@@ -27,12 +27,12 @@ class ForgotPassWord extends React.Component {
 
     render() {
         const {registerReducer: {account}, register, setAccount, setCode, setPassword, setPass_word} = this.props;
-        const onCode=()=>{
-            if(account==''){
-                Toast.info( "请您输入手机号")
-            } else if(account.length!=11){
-                Toast.info( "手机号不足11位，请重新输入")
-            }else {
+        const onCode = () => {
+            if (account == '') {
+                Toast.info("请您输入手机号")
+            } else if (account.length != 11) {
+                Toast.info("手机号不足11位，请重新输入")
+            } else {
                 this.props.forgotGetCode()
                 const timer = setInterval(() => {
                     const leftTime = this.state.timerCount - 1
@@ -66,17 +66,18 @@ class ForgotPassWord extends React.Component {
                                 <Button type="primary" disabled={this.state.disabled}
                                         style={{width: 120, height: 35, marginRight: 10}}
                                         onPress={onCode}>
-                                    <Text style={{fontSize: 14}}>{this.state.disabled?`重新获取(${this.state.timerCount})`:"获取验证码"}</Text>
+                                    <Text
+                                        style={{fontSize: 14}}>{this.state.disabled ? `重新获取(${this.state.timerCount})` : "获取验证码"}</Text>
                                 </Button>}
                             styles={{
                                 container: styles.container
                             }}
                             onChange={setAccount}
-                            placeholder="请输入手机号" />
+                            placeholder="请输入手机号"/>
                         <InputItem
                             clear
                             onChange={setCode}
-                            placeholder="请输入验证码" />
+                            placeholder="请输入验证码"/>
                         <InputItem
                             clear
                             placeholder="请输入密码"

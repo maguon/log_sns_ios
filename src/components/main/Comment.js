@@ -8,6 +8,7 @@ class Comment extends Component {
         super(props)
 
     }
+
     render() {
         const {} = this.props
         return (

@@ -8,6 +8,7 @@ class Location extends Component {
         super(props)
 
     }
+
     render() {
         const {} = this.props
         return (
@@ -19,9 +20,7 @@ class Location extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-
-    }
+    return {}
 }
 
 const mapDispatchProps = (dispatch, props) => ({})

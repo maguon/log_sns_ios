@@ -11,8 +11,8 @@ export const getAboutUsInfo = () => async (dispatch, getState) => {
         let url = `${apiHost}/user/${userId}/about`
         const res = await HttpRequest.get(url)
         console.log(res)
-        if(res.success){
-            dispatch({type:actionType.AboutUsType.set_AboutUs_Info,payload:{aboutUsList:res.result[0]}})
+        if (res.success) {
+            dispatch({type: actionType.AboutUsType.set_AboutUs_Info, payload: {aboutUsList: res.result[0]}})
         }
     } catch (err) {
         Toast.fail(err.message)

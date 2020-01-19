@@ -1,6 +1,6 @@
 const localStorageKey = {
     USER: 'log-ios-app-user',
-    SERVERADDRESS:'server-address',
+    SERVERADDRESS: 'server-address',
     DEVICETOKEN: 'DEVICETOKEN',
     UNIQUEID: 'UNIQUEID',
     ACCESSTOKEN: 'ACCESSTOKEN',

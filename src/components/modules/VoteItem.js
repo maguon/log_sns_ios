@@ -1,9 +1,10 @@
 import React from 'react'
-import {ScrollView, Text, View,TouchableOpacity} from 'react-native'
+import {ScrollView, Text, View, TouchableOpacity, Image, Dimensions, StyleSheet} from 'react-native'
 import {Card, WhiteSpace, WingBlank} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
+import moment from "moment"
 
-
+const {width} = Dimensions.get('window')
 const title = '文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容'
 export default class VoteItem extends React.Component {
     constructor(props) {
@@ -12,63 +13,72 @@ export default class VoteItem extends React.Component {
 
 
     render() {
+        const {item, navigation} = this.props
         return (
             <ScrollView>
                 <View style={{paddingTop: 30}}>
                     <WingBlank size="lg">
                         <Card>
-                            <Card.Header
-                                title={
-                                    <TouchableOpacity style={{width: 280, marginLeft: 5}} onPress={()=>{this.props.navigation.navigate('Space')}}>
-                                        <Text style={globalStyles.largeText}>昵称昵称</Text>
-                                        <Text style={[globalStyles.smallText, {marginTop: 2}]}>2019-6-25 11:30</Text>
-                                    </TouchableOpacity>
-                                }
-                                thumbStyle={{width: 40, height: 40, borderRadius: 30}}
-                                thumb="https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"
-                                extra={
-                                    <View style={{position: 'absolute', right: 0, bottom: 0}}>
-                                        <Text style={{color: '#414445', fontSize: 12}}>进行中</Text>
-                                    </View>
-                                }
-                            />
-                            <Card.Body>
-                                <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={()=>{this.props.navigation.navigate('Vote')}}>
-                                    {title ? (title.length > 60 ? title.substr(0, 60) + "..." : title) : ""}
-                                    <Text style={{fontSize: 14, color: '#1598cc'}}>全文</Text>
+
+                            <View style={{
+                                flexDirection: 'row',
+                                height: 40,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={globalStyles.xlText}>{item.title ? item.title : ""}</Text>
+                                <View style={{position: 'absolute', right: 10, bottom: 15}}>
+                                    <Text style={{
+                                        color: '#414445',
+                                        fontSize: 12
+                                    }}>{item.status == 0 ? "未开启" : (item.status == 1 ? "进行中" : "已结束")}</Text>
+                                </View>
+                            </View>
+
+                            <Text style={[globalStyles.midText, {margin: 15}]} onPress={() => {
+                                this.props.navigation.navigate('Vote')
+                            }}>
+                                {title ? (title.length > 60 ? title.substr(0, 60) + "..." : title) : ""}
+                                <Text style={globalStyles.previewText}>全文</Text>
+                            </Text>
+
+                            <Text style={{backgroundColor: '#d7d7d7', width: width * 0.9, height: 0.2}}/>
+
+                            <View style={{
+                                flexDirection: 'row',
+                                height: 40,
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                            }}>
+                                <Text style={[globalStyles.midText, {
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginLeft: 15
+                                }]}>
+                                    <Text>参与人数：</Text>
+                                    <Text>{item.participants_num}</Text>
                                 </Text>
-                            </Card.Body>
-
-
-                            <Card.Footer
-                                content={
-                                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                                        <Text style={[globalStyles.midText, {
-                                            flexDirection: 'row',
-                                            alignItems: 'center'
-                                        }]}>
-                                            <Text>参与人数：</Text>
-                                            <Text>1435</Text>
-                                        </Text>
-
-
-                                        <Text style={[globalStyles.midText, {
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            color: '#1598cc'
-                                        }]}>
-                                            <Text>点击参与</Text>
-                                        </Text>
-                                    </View>
-                                }
-                            />
+                                <Text style={[globalStyles.midText, {
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    marginRight: 15,
+                                    color: '#1598cc'
+                                }]}
+                                      onPress={() => {
+                                          this.props.navigation.navigate('Vote')
+                                      }}>
+                                    <Text>点击参与</Text>
+                                </Text>
+                            </View>
                         </Card>
                     </WingBlank>
                     <WhiteSpace size="lg"/>
                 </View>
             </ScrollView>
-        );
+        )
     }
 }
 
+const style = StyleSheet.create({
+})
 

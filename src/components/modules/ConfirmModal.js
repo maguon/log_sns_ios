@@ -1,8 +1,8 @@
 import React from 'react'
-import { Text, View, Modal, TouchableOpacity, StyleSheet } from 'react-native'
-import { styleColor } from '../../utils/GlobalStyles'
+import {Text, View, Modal, TouchableOpacity, StyleSheet} from 'react-native'
+import {styleColor} from '../../utils/GlobalStyles'
 
-const ConfirmModal = ({ onPressOk, onPressCancel, isVisible,title }) => {
+const ConfirmModal = ({onPressOk, onPressCancel, isVisible, title}) => {
     //确定模态框
     return (
 
@@ -10,30 +10,30 @@ const ConfirmModal = ({ onPressOk, onPressCancel, isVisible,title }) => {
             animationType='fade'
             transparent
             visible={isVisible}
-             onRequestClose={() => { }}
+            onRequestClose={() => {
+            }}
         >
             <View style={styles.modalStyle}>
                 <View style={styles.subView}>
                     <Text style={styles.titleText}>
                         {title}
-               </Text>
-                    <View style={styles.horizontalLine} />
+                    </Text>
+                    <View style={styles.horizontalLine}/>
                     <TouchableOpacity
                         onPress={onPressOk}>
                         <Text style={styles.buttonText}>
                             确定
-                   </Text>
+                        </Text>
                     </TouchableOpacity>
-                    <View style={styles.horizontalLine} />
+                    <View style={styles.horizontalLine}/>
                     <TouchableOpacity
                         onPress={onPressCancel}>
                         <Text style={styles.buttonText}>
                             取消
-                   </Text>
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-
 
 
         </Modal>

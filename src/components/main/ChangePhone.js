@@ -14,6 +14,7 @@ class ChangePhone extends React.Component {
             timerCount: 60,
         }
     }
+
     componentDidMount() {
         this.props.getChangePassWord()
         this.props.setNewPhone('')
@@ -21,7 +22,7 @@ class ChangePhone extends React.Component {
     }
 
     render() {
-        const {changePassWordReducer:{phone},setNewPhone,setSendCode,onChangePhone}=this.props
+        const {changePassWordReducer: {phone}, setNewPhone, setSendCode, onChangePhone} = this.props
         const onCode = () => {
             this.props.onSendCode();
             const timer = setInterval(() => {
@@ -48,7 +49,7 @@ class ChangePhone extends React.Component {
                         marginLeft: 10,
                         height: 40,
                         lineHeight: 40
-                    }]}>当前绑定手机为：{phone?phone:""}</Text>
+                    }]}>当前绑定手机为：{phone ? phone : ""}</Text>
 
                     <View style={{backgroundColor: '#fff'}}>
                         <InputItem

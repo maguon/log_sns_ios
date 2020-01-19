@@ -1,25 +1,19 @@
 import React from 'react'
-import { View, Text,ScrollView } from 'react-native'
-import Video from '../modules/Video'
-import VideoList from '../modules/VideoList'
-import ImageList from '../modules/ImageList'
-import Address from '../modules/Address'
-import VoteItem from '../modules/VoteItem'
+import {View, Text, ScrollView} from 'react-native'
+import {Provider} from "@ant-design/react-native"
 
-class Collection extends React.Component{
-    constructor(props){
+class Collection extends React.Component {
+    constructor(props) {
         super(props)
     }
 
-    render(){
+    render() {
         return (
+            <Provider>
+                <ScrollView>
 
-            <ScrollView>
-                <ImageList>Collection</ImageList>
-                <Video>Collection</Video>
-                <Address>Collection</Address>
-                <VoteItem>Collection</VoteItem>
-            </ScrollView>
+                </ScrollView>
+            </Provider>
         )
     }
 

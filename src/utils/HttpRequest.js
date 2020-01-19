@@ -75,9 +75,9 @@ function del(url, callback) {
 }
 
 
-function postFile(url,params) {
+function postFile(url, params) {
     let formData = new FormData()
-    let file = { uri: params.imageUrl, type: params.imageType, name: params.imageName }
+    let file = {uri: params.imageUrl, type: params.imageType, name: params.imageName}
     formData.append(params.key, file)
     return fetch(url, {
         method: 'POST',
@@ -88,9 +88,9 @@ function postFile(url,params) {
 
 function postVideo(url, params) {
     let formData = new FormData()
-    let file = { uri: params.param,  name:params.name }
+    let file = {uri: params.param, name: params.name}
     formData.append(params.key, file)
-    console.log("formData",formData)
+    console.log("formData", formData)
     return fetch(url, {
         method: 'POST',
         headers: requestHeaders.formHeaders,
@@ -105,7 +105,7 @@ module.exports = {
     put: put,
     del: del,
     postFile: postFile,
-    postVideo:postVideo,
+    postVideo: postVideo,
     getCallBack: getCallBack,
     postCallBack: postCallBack,
     putCallBack: putCallBack

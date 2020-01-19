@@ -1,11 +1,11 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
-    contactList:[]
+const initialState = {
+    contactList: []
 }
 
-export  default  handleActions({
+export default handleActions({
 
     [actionType.ContactType.get_contactList]: (state, action) => {
         return {
@@ -14,4 +14,4 @@ export  default  handleActions({
         }
     },
 
-},initialState)
+}, initialState)

@@ -1,15 +1,15 @@
 import React from 'react'
-import { TouchableOpacity, StyleSheet } from 'react-native'
-import { Icon } from '@ant-design/react-native'
+import {TouchableOpacity, StyleSheet} from 'react-native'
+import {Icon} from '@ant-design/react-native'
 
 
 const LeftButton = props => {
-    const { style = styles.left } = props
+    const {style = styles.left} = props
     return (
         <TouchableOpacity style={style} onPress={() => {
             props.navigation.pop()
         }}>
-            <Icon name='left' color='#fff' />
+            <Icon name='left' color='#fff'/>
         </TouchableOpacity>
     )
 }

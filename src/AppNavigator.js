@@ -92,7 +92,7 @@ const home = createStackNavigator({
     Home: {
         screen: Home,
         navigationOptions: ({navigation}) => ({
-            headerStyle: {backgroundColor:'#1598cc'},
+            headerStyle: {backgroundColor: '#1598cc'},
             headerTitle: <Title navigation={navigation}></Title>
         })
     },
@@ -103,7 +103,7 @@ const community = createStackNavigator({
         screen: Community,
         navigationOptions: ({navigation}) => ({
             headerTitle: <Title navigation={navigation}></Title>,
-            headerStyle: {backgroundColor:'#1598cc'}
+            headerStyle: {backgroundColor: '#1598cc'}
         })
     }
 })
@@ -113,8 +113,8 @@ const messageList = createStackNavigator({
         screen: Message,
         navigationOptions: ({navigation}) => ({
             headerTitle: '消息',
-            headerTitleStyle:{color: '#fff'},
-            headerStyle: {backgroundColor:'#1598cc'}
+            headerTitleStyle: {color: '#fff'},
+            headerStyle: {backgroundColor: '#1598cc'}
         })
     }
 })
@@ -124,35 +124,33 @@ const personCenter = createStackNavigator({
         screen: PersonCenter,
         navigationOptions: ({navigation}) => ({
             headerTitle: '个人',
-            headerTitleStyle:{color: '#fff'},
-            headerStyle: {backgroundColor:'#1598cc', }
+            headerTitleStyle: {color: '#fff'},
+            headerStyle: {backgroundColor: '#1598cc',}
         })
     }
 })
-
-
 
 
 //导航页面
 const TabBar = createBottomTabNavigator({
     home: {
         screen: home,
-        navigationOptions:({navigation}) => ({
+        navigationOptions: ({navigation}) => ({
             title: '推荐',
         })
     },
     community: {
         screen: community,
-        navigationOptions:({navigation}) => ({
+        navigationOptions: ({navigation}) => ({
             title: '社区',
         })
     },
     messageList: {
-        screen:messageList,
+        screen: messageList,
         navigationOptions: {
             title: '消息',
             headerTitle: '消息',
-            headerTitleStyle:{color: '#fff'},
+            headerTitleStyle: {color: '#fff'},
         }
     },
     personCenter: {
@@ -160,14 +158,14 @@ const TabBar = createBottomTabNavigator({
         navigationOptions: {
             title: '个人',
             headerTitle: '个人',
-            headerTitleStyle:{color: '#fff'},
+            headerTitleStyle: {color: '#fff'},
         }
     },
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerStyle: {backgroundColor:'#1598cc'},
-        tabBarIcon: ({ focused, tintColor }) => {
-            const { routeName } = navigation.state;
+}, {
+    defaultNavigationOptions: ({navigation}) => ({
+        headerStyle: {backgroundColor: '#1598cc'},
+        tabBarIcon: ({focused, tintColor}) => {
+            const {routeName} = navigation.state;
             let iconName;
             if (routeName === 'home') {
                 iconName = 'ios-home'
@@ -179,7 +177,7 @@ const TabBar = createBottomTabNavigator({
                 iconName = 'ios-person'
             }
 
-            return <Icon name={iconName} size={25} color={tintColor} />;
+            return <Icon name={iconName} size={25} color={tintColor}/>;
         },
     }),
     tabBarOptions: {
@@ -189,68 +187,66 @@ const TabBar = createBottomTabNavigator({
 })
 
 
-
-
 //页面screen
 const Main = createStackNavigator({
     TabBar: {
         screen: TabBar,
-        navigationOptions:{
-            header:null
+        navigationOptions: {
+            header: null
         }
     },
     Camera: {
         screen: Camera,
         navigationOptions: ({navigation}) => ({
             header: null,
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
 
     WriteArticle: {
-    screen: WriteArticle,
+        screen: WriteArticle,
         navigationOptions: ({navigation}) => ({
-        title: '写文章',
-        tabBarVisible:false
-    })
+            title: '写文章',
+            tabBarVisible: false
+        })
     },
 
     Scan: {
-    screen: Scan,
+        screen: Scan,
         navigationOptions: ({navigation}) => ({
-        title: '扫一扫',
-        tabBarVisible:false
-    })
+            title: '扫一扫',
+            tabBarVisible: false
+        })
     },
 
     Location: {
-    screen: Location,
+        screen: Location,
         navigationOptions: ({navigation}) => ({
-        title: '定位',
-        tabBarVisible:false
-    })
-     },
+            title: '定位',
+            tabBarVisible: false
+        })
+    },
     Detail: {
         screen: Detail,
         navigationOptions: ({navigation}) => ({
             title: '内容详情',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
 
     Comment: {
-    screen: Comment,
+        screen: Comment,
         navigationOptions: ({navigation}) => ({
-        title: '评论详情页',
-        tabBarVisible:false
-    })
-},
+            title: '评论详情页',
+            tabBarVisible: false
+        })
+    },
     //消息
     FollowMe: {
         screen: FollowMe,
         navigationOptions: ({navigation}) => ({
             title: '关注我',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     EvaluationMe: {
@@ -263,31 +259,30 @@ const Main = createStackNavigator({
         screen: PraiseMe,
         navigationOptions: ({navigation}) => ({
             title: '赞我',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Contact: {
         screen: Contact,
         navigationOptions: ({navigation}) => ({
             title: '申请联系方式',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     VoteRemind: {
         screen: VoteRemind,
         navigationOptions: ({navigation}) => ({
             title: '投票提醒',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     SystemMsg: {
         screen: SystemMsg,
         navigationOptions: ({navigation}) => ({
             title: '系统消息',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
-
 
 
     //个人
@@ -295,135 +290,129 @@ const Main = createStackNavigator({
         screen: Article,
         navigationOptions: ({navigation}) => ({
             title: '我的文章',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Follow: {
         screen: Follow,
         navigationOptions: ({navigation}) => ({
             title: navigation.state.params.otherParam,
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Fans: {
         screen: Fans,
         navigationOptions: ({navigation}) => ({
             title: navigation.state.params.otherParam,
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Collection: {
         screen: Collection,
         navigationOptions: ({navigation}) => ({
             title: '我的收藏',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Evaluation: {
         screen: Evaluation,
         navigationOptions: ({navigation}) => ({
             title: '我的评论',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Vote: {
         screen: Vote,
         navigationOptions: ({navigation}) => ({
             title: '投票',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     ToVote: {
         screen: ToVote,
         navigationOptions: ({navigation}) => ({
             title: '我参与的投票',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     LocationCollection: {
         screen: LocationCollection,
         navigationOptions: ({navigation}) => ({
             title: '我收藏的位置',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Settings: {
         screen: Settings,
         navigationOptions: ({navigation}) => ({
             title: '设置',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     ChangePassWord: {
         screen: ChangePassWord,
         navigationOptions: ({navigation}) => ({
             title: '修改密码',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     ChangePhone: {
         screen: ChangePhone,
         navigationOptions: ({navigation}) => ({
             title: '换绑手机',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     PrivacySetting: {
         screen: PrivacySetting,
         navigationOptions: ({navigation}) => ({
             title: '隐私设置',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     NoticeSetting: {
         screen: NoticeSetting,
         navigationOptions: ({navigation}) => ({
             title: '通知设置',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     AboutUs: {
         screen: AboutUs,
         navigationOptions: ({navigation}) => ({
             title: '关于我们',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     ClearCache: {
         screen: ClearCache,
         navigationOptions: ({navigation}) => ({
             title: '清理缓存',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     UserData: {
         screen: UserData,
         navigationOptions: ({navigation}) => ({
             title: '个人资料',
-            tabBarVisible:false
+            tabBarVisible: false
         })
     },
     Space: {
         screen: Space,
         navigationOptions: ({navigation}) => ({
-            header:null,
-            tabBarVisible:false
+            header: null,
+            tabBarVisible: false
         })
     },
 
-},{
-    defaultNavigationOptions: ({ navigation }) => ({
-        headerTitleStyle:{color:'#fff'},
-        headerStyle: {backgroundColor:'#1598cc'},
+}, {
+    defaultNavigationOptions: ({navigation}) => ({
+        headerTitleStyle: {color: '#fff'},
+        headerStyle: {backgroundColor: '#1598cc'},
         headerLeft: <LeftButton navigation={navigation}/>
     }),
 })
-
-
-
-
-
-
 
 
 //入口

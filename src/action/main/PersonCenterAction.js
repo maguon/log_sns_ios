@@ -11,10 +11,10 @@ export const getUserInfo = (props) => async (dispatch, getState) => {
         let url = `${apiHost}/user/${userId}/userDetail`
         const res = await HttpRequest.get(url)
         console.log(res)
-        if(res.success){
-            dispatch({type:actionType.PersonCenterType.get_UserInfo,payload:{userInfo:res.result[0]}})
-        }else {
-            Alert.alert("",res.msg, [{text: "确定"}])
+        if (res.success) {
+            dispatch({type: actionType.PersonCenterType.get_UserInfo, payload: {userInfo: res.result[0]}})
+        } else {
+            Alert.alert("", res.msg, [{text: "确定"}])
         }
 
     } catch (err) {

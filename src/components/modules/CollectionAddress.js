@@ -24,7 +24,7 @@ export default class CollectionAddress extends React.Component {
                         <Card>
                             <Card.Body>
                                 <View style={{flexDirection: 'row'}}>
-                                    <AntDesign name="enviroment" size={30} style={{color: '#949494',marginLeft:5}}/>
+                                    <AntDesign name="enviroment" size={30} style={{color: '#949494', marginLeft: 5}}/>
                                     <View style={{width: 280, marginLeft: 5}}>
                                         <Text style={globalStyles.largeText}>地址名称地址名称</Text>
                                         <View style={{flexDirection: 'row'}}>
@@ -38,7 +38,12 @@ export default class CollectionAddress extends React.Component {
                                 </View>
 
                                 <ImageBackground source={require('../../images/u422.png')}
-                                                 style={{height: 100, marginTop: 10, marginLeft: 15, marginRight: 15,}}></ImageBackground>
+                                                 style={{
+                                                     height: 100,
+                                                     marginTop: 10,
+                                                     marginLeft: 15,
+                                                     marginRight: 15,
+                                                 }}></ImageBackground>
 
                             </Card.Body>
 

@@ -6,7 +6,7 @@ import * as actionType from '../../actionType/index'
 
 //确认
 export const onChangePhone = (props) => async (dispatch, getState) => {
-    const {LoginReducer: {userId},ChangePhoneReducer:{newPhone,sendCode}} = getState()
+    const {LoginReducer: {userId}, ChangePhoneReducer: {newPhone, sendCode}} = getState()
     console.log(getState())
     try {
         if (newPhone == '') {
@@ -15,19 +15,19 @@ export const onChangePhone = (props) => async (dispatch, getState) => {
             Toast.info("您输入手机号不是11位")
         } else if (sendCode == '') {
             Toast.info("请您输入验证码")
-        } else{
-            let param={
-                phone:newPhone,
-                code:sendCode
+        } else {
+            let param = {
+                phone: newPhone,
+                code: sendCode
             }
             // 基本检索URL
             let url = `${apiHost}/user/${userId}/phone`
-            const res = await HttpRequest.put(url,param)
-            if(res.success){
+            const res = await HttpRequest.put(url, param)
+            if (res.success) {
                 Toast.loading('Loading...', 0.5, () => {
                     Alert.alert("", "换绑成功，确认返回", [{text: "确定", onPress: () => props.navigation.goBack()}])
                 })
-            }else {
+            } else {
                 Toast.loading('Loading...', 0.5, () => {
                     Alert.alert("", res.msg, [{text: "确定"}])
                 })
@@ -41,7 +41,7 @@ export const onChangePhone = (props) => async (dispatch, getState) => {
 
 //发验证码
 export const onSendCode = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId},ChangePhoneReducer:{newPhone}} = getState()
+    const {LoginReducer: {userId}, ChangePhoneReducer: {newPhone}} = getState()
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/phone/${newPhone}/resetSms`

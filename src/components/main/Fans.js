@@ -35,35 +35,39 @@ class Fans extends React.Component {
 
     renderEmpty = () => {
         return (
-            <View style={style.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无粉丝</Text>
+            <View style={globalStyles.listEmptyContainer}>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无粉丝</Text>
             </View>
         )
     }
 
     ListFooterComponent = () => {
         return (
-            <View style={style.footerContainer}>
+            <View style={globalStyles.footerContainer}>
                 <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, style.footerText]}>正在加载...</Text>
+                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
             </View>
         )
     }
     removeFans = (param) => {
-        Alert.alert("", `确定要取消关注吗？`, [{text: "确定", onPress: () => {this.props.removeFans(param)}},{text: "取消",onPress: () => console.log('Cancel Pressed')}])
+        Alert.alert("", `确定要取消关注吗？`, [{
+            text: "确定", onPress: () => {
+                this.props.removeFans(param)
+            }
+        }, {text: "取消", onPress: () => console.log('Cancel Pressed')}])
 
     }
     fans = (param) => {
         this.props.fans(param)
     }
     renderItem = (props) => {
-        const {item,index} = props
+        const {item, index} = props
         const detailItem = item.attention_user_detail_info[0]
         const loginItem = item.attention_user_login_info[0]
         return (
             <View style={{flex: 1}}>
                 <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space")}>
-                    {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={{width: 50, height: 50}}/> :
+                    {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={style.image}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
                     <View>
@@ -73,10 +77,12 @@ class Fans extends React.Component {
                             style={[globalStyles.smallText, {marginTop: 2}]}>{detailItem.intro ? `${detailItem.intro}` : "无签名"}</Text>
                     </View>
 
-                    {item.fans_status == 1? <Text style={[style.focus, {backgroundColor: "#fff"}]}
-                                                    onPress={() => {this.removeFans({fansUserId: item._user_id,index:index})}}>取消关注</Text> :
+                    {item.fans_status == 1 ? <Text style={[style.focus, {backgroundColor: "#fff"}]}
+                                                   onPress={() => {
+                                                       this.removeFans({fansUserId: item._user_id, index: index})
+                                                   }}>取消关注</Text> :
                         <Text style={[style.focus, {backgroundColor: "#fece09"}]}
-                              onPress={() => this.fans({fansUserId: item._user_id,index:index})}>关注</Text>}
+                              onPress={() => this.fans({fansUserId: item._user_id, index: index})}>关注</Text>}
 
                 </TouchableOpacity>
 
@@ -119,7 +125,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, ownProps) => ({
-    getTitle:()=>{
+    getTitle: () => {
         dispatch(action.FansAction.getTitle(ownProps))
     },
     getFansList: () => {
@@ -165,23 +171,8 @@ const style = StyleSheet.create({
         marginRight: 15,
         borderRadius: 30,
     },
-    listEmptyContainer: {
-        alignItems: 'center',
-        marginTop: 60
-    },
-    listEmptyText: {
-        color: '#aaa',
-        marginTop: 30
-    },
-    footerContainer: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        margin: 10,
-        alignItems: 'center'
-    },
-    footerText: {
-        paddingLeft: 10
-    }
+
+
 })
 
 

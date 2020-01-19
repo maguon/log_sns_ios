@@ -13,14 +13,14 @@ const globalStyles = StyleSheet.create({
     styleBackgroundColor: {
         backgroundColor: '#1598cc'
     },
-    containerBackgroundColor:{
+    containerBackgroundColor: {
         backgroundColor: '#f0f0f0',
     },
-    lightText:{
+    lightText: {
         fontSize: 12,
         color: '#b7b8b9'
     },
-    textColor:{
+    textColor: {
         color: '#838485'
     },
     midText: {
@@ -35,44 +35,61 @@ const globalStyles = StyleSheet.create({
         fontSize: 10,
         color: '#838485'
     },
-    largeText:{
+    largeText: {
         fontSize: 16,
         color: '#414445'
     },
-    fourText:{
+    fourText: {
         fontSize: 14,
         color: '#414445'
     },
-    xlText:{
+    xlText: {
         fontSize: 18,
         color: '#414445'
     },
-    xxlText:{
+    xxlText: {
         fontSize: 20,
         color: '#414445'
     },
-    xxxlText:{
+    xxxlText: {
         fontSize: 24,
         color: '#414445'
     },
-    formIcon:{
+    formIcon: {
         marginLeft: 10,
-        fontSize:20,
+        fontSize: 20,
         color: '#777'
     },
-    listBackgroundColor:{
-        backgroundColor: '#edf1f4'
-    },
-    errorText:{
+    errorText: {
         fontSize: 12,
         color: 'red'
     },
-    separator:{
-        height:15
+    separator: {
+        height: 15
     },
+    previewText: {
+        fontSize: 14,
+        color: '#1598cc'
+    },
+    listBackgroundColor: {
+        backgroundColor: '#edf1f4'
+    },
+    listEmptyText: {
+        color: '#aaa',
+        marginTop: 30
+    },
+    footerContainer: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        margin: 10,
+        alignItems: 'center'
+    },
+    footerText: {
+        paddingLeft: 10
+    }
 
 })
 
-export const styleColor='#1598cc'
+export const styleColor = '#1598cc'
 
 export default globalStyles

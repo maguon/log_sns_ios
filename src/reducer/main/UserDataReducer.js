@@ -1,13 +1,13 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
-   userData:[],
-    userDetailInfo:[],
+const initialState = {
+    userData: [],
+    userDetailInfo: [],
 
 }
 
-export  default  handleActions({
+export default handleActions({
 
     [actionType.UserDataType.get_UserData]: (state, action) => {
         return {
@@ -22,4 +22,4 @@ export  default  handleActions({
         }
     },
 
-},initialState)
+}, initialState)

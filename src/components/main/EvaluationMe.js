@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, StyleSheet} from 'react-native'
-import { Provider} from '@ant-design/react-native'
+import {Provider} from '@ant-design/react-native'
 
 
 class EvaluationMe extends Component {
@@ -9,17 +9,18 @@ class EvaluationMe extends Component {
         super(props)
 
     }
+
     render() {
-        const {evaluationMeReducer:{selected}}=this.props
+        const {evaluationMeReducer: {selected}} = this.props
         console.log(this.props)
         return (
 
             <View>
-                {selected=='所有评论'&& <Text>所有评论</Text>}
-                {selected=='我的文章'&& <Text>我的文章</Text>}
-                {selected=='我的求助'&& <Text>我的求助</Text>}
-                {selected=='我的评论'&& <Text>我的评论</Text>}
-                {selected=='我的解答'&& <Text>我的解答</Text>}
+                {selected == '所有评论' && <Text>所有评论</Text>}
+                {selected == '我的文章' && <Text>我的文章</Text>}
+                {selected == '我的求助' && <Text>我的求助</Text>}
+                {selected == '我的评论' && <Text>我的评论</Text>}
+                {selected == '我的解答' && <Text>我的解答</Text>}
             </View>
         )
     }
@@ -27,7 +28,7 @@ class EvaluationMe extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        evaluationMeReducer:state.EvaluationMeReducer
+        evaluationMeReducer: state.EvaluationMeReducer
     }
 }
 

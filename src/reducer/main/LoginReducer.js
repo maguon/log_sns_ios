@@ -1,11 +1,11 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from "../../actionType"
 
-const initialState={
-    user:'',
-    password:'',
-    userId:'5dfacafe98cc5501fd1e80db',
-    userLogin:[],
+const initialState = {
+    user: '',
+    password: '',
+    userId: '5dfacafe98cc5501fd1e80db',
+    userLogin: [],
 }
 
 export default handleActions({
@@ -35,4 +35,4 @@ export default handleActions({
     },
 
 
-},initialState)
+}, initialState)

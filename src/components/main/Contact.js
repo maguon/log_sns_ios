@@ -11,7 +11,7 @@ import {
     Alert
 } from 'react-native'
 import {connect} from "react-redux"
-import {Button,Provider} from '@ant-design/react-native'
+import {Button, Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 
@@ -33,17 +33,17 @@ class Contact extends React.Component {
 
     renderEmpty = () => {
         return (
-            <View style={style.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, style.listEmptyText]}>暂无消息</Text>
+            <View style={globalStyles.listEmptyContainer}>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无消息</Text>
             </View>
         )
     }
 
     ListFooterComponent = () => {
         return (
-            <View style={style.footerContainer}>
+            <View style={globalStyles.footerContainer}>
                 <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, style.footerText]}>正在加载...</Text>
+                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
             </View>
         )
     }
@@ -65,7 +65,8 @@ class Contact extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space")}>
-                    <View style={{width: 8, height: 8, borderRadius: 30, marginRight: 5, backgroundColor: "red"}}></View>
+                    <View
+                        style={{width: 8, height: 8, borderRadius: 30, marginRight: 5, backgroundColor: "red"}}></View>
                     {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={{width: 50, height: 50}}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
@@ -151,23 +152,6 @@ const style = StyleSheet.create({
         marginRight: 15,
         borderRadius: 30,
     },
-    listEmptyContainer: {
-        alignItems: 'center',
-        marginTop: 60
-    },
-    listEmptyText: {
-        color: '#aaa',
-        marginTop: 30
-    },
-    footerContainer: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        margin: 10,
-        alignItems: 'center'
-    },
-    footerText: {
-        paddingLeft: 10
-    }
 })
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {ScrollView, ImageBackground, Text, Image, View, StyleSheet, Dimensions,TouchableOpacity} from 'react-native'
+import {ScrollView, ImageBackground, Text, Image, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
 import {Card, Toast, WhiteSpace, WingBlank} from '@ant-design/react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import httpRequest from '../../utils/HttpRequest'
@@ -13,14 +13,16 @@ export default class VideoList extends React.Component {
         super(props)
         this.state = {
             focus: false,
-            praise:false,
-            star:false,
+            praise: false,
+            star: false
         }
 
     }
 
 
     render() {
+        const {item, name, navigation} = this.props
+        const userInfo = item.user_detail_info[0]
         return (
             <ScrollView>
                 <View>
@@ -33,17 +35,25 @@ export default class VideoList extends React.Component {
                                   }}>{this.state.focus ? "关注" : "取消关注"}</Text>
                         </View>
                         <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                        <Text style={styles.text} onPress={()=>{this.props.navigation.navigate('Detail')}}>
+                        <Text style={styles.text} onPress={() => {
+                            this.props.navigation.navigate('Detail')
+                        }}>
                             {title ? (title.length > 30 ? title.substr(0, 30) + "..." : title) : ""}
-                            <Text style={styles.previewText}>全文</Text>
+                            <Text style={globalStyles.previewText}>全文</Text>
                         </Text>
                     </ImageBackground>
 
-                    <View style={{width: width, height: 60, flexDirection: 'row'}} >
-                        <TouchableOpacity style={{width: width * 0.4, marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}
-                                          onPress={()=>{this.props.navigation.navigate('Space')}}>
-                            <Image source={{uri: "https://gw.alipayobjects.com/zos/rmsportal/MRhHctKOineMbKAZslML.jpg"}}
-                                   style={{width: 40, height: 40, borderRadius: 30}}/>
+                    <View style={{width: width, height: 60, flexDirection: 'row'}}>
+                        <TouchableOpacity
+                            style={{width: width * 0.4, marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}
+                            onPress={() => {
+                                this.props.navigation.navigate('Space')
+                            }}>
+
+                            {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
+                                                      style={{width: 40, height: 40, borderRadius: 30}}/> :
+                                <Image source={require('../../images/head.png')}
+                                       style={{width: 40, height: 40, borderRadius: 30}}/>}
 
                             <View style={{marginLeft: 5}}>
                                 <Text style={globalStyles.largeText}>昵称昵称</Text>
@@ -98,7 +108,8 @@ export default class VideoList extends React.Component {
                                     praise: !this.state.praise
                                 })
                             }}>
-                                <AntDesign name={this.state.praise?"like1":"like2"} size={18} style={{color:this.state.praise?'#ffa600':'#838485'}}/>
+                                <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
+                                           style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
                                 <Text>1250</Text>
                             </Text>
                         </View>
@@ -137,9 +148,5 @@ const styles = StyleSheet.create({
         marginRight: 15,
         position: 'absolute',
         bottom: 10
-    },
-    previewText: {
-        fontSize: 14,
-        color: '#1598cc'
     },
 })

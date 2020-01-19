@@ -10,11 +10,11 @@ export const getContactList = () => async (dispatch, getState) => {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/contact`
         const res = await HttpRequest.get(url)
-       if(res.success){
-           dispatch({type:actionType.ContactType.get_contactList,payload:{contactList:res.result}})
-       }else {
-           Toast.fail(res.msg)
-       }
+        if (res.success) {
+            dispatch({type: actionType.ContactType.get_contactList, payload: {contactList: res.result}})
+        } else {
+            Toast.fail(res.msg)
+        }
 
     } catch (err) {
         Toast.fail(err.message)

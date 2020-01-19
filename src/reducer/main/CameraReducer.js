@@ -1,12 +1,6 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
+const initialState = {}
 
-}
-
-export  default  handleActions({
-
-
-
-},initialState)
+export default handleActions({}, initialState)

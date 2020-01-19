@@ -11,8 +11,8 @@ export const getFollowList = () => async (dispatch, getState) => {
         let url = `${apiHost}/user/${userId}/followUserInfo`
         const res = await HttpRequest.get(url)
         console.log(res)
-        if(res.success){
-         dispatch({type:actionType.FollowMeType.get_followMe_List,payload:{followMeList:res.result[0]}})
+        if (res.success) {
+            dispatch({type: actionType.FollowMeType.get_followMe_List, payload: {followMeList: res.result[0]}})
         }
 
     } catch (err) {
@@ -28,7 +28,7 @@ export const getFollowListMore = () => async (dispatch, getState) => {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/followUserInfo`
         const res = await HttpRequest.get(url)
-        if(res.success){
+        if (res.success) {
 
         }
 

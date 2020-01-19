@@ -1,11 +1,11 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
-  userInfo:[]
+const initialState = {
+    userInfo: []
 }
 
-export  default  handleActions({
+export default handleActions({
 
     [actionType.PersonCenterType.get_UserInfo]: (state, action) => {
         return {
@@ -14,4 +14,4 @@ export  default  handleActions({
         }
     }
 
-},initialState)
+}, initialState)

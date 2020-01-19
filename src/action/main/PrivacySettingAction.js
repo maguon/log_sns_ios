@@ -11,9 +11,9 @@ export const getList = (props) => async (dispatch, getState) => {
         let url = `${apiHost}/user/${userId}/privacie`
 
         const res = await HttpRequest.get(url)
-        if(res.success){
-            const values  ={
-                PrivacyId:res.result[0]._id,
+        if (res.success) {
+            const values = {
+                PrivacyId: res.result[0]._id,
                 name: res.result[0].name,
                 phone: res.result[0].phone,
                 city: res.result[0].city,
@@ -22,7 +22,7 @@ export const getList = (props) => async (dispatch, getState) => {
                 msgAuthority: res.result[0].msg_authority
             }
             dispatch(setPrivacyInfo(values))
-        }else {
+        } else {
         }
 
 
@@ -37,21 +37,20 @@ export const setPrivacyInfo = values => (dispatch) => {
 
 
 export const change = value => async (dispatch, getState) => {
-console.log(value )
+    console.log(value)
     const {LoginReducer: {userId}, PrivacySettingReducer: {PrivacyId}} = getState()
     try {
         let url = `${apiHost}/user/${userId}/privacie/${PrivacyId}/privacie`
         const res = await HttpRequest.put(url, value)
         if (res.success) {
             dispatch(setPrivacyInfo(value))
-        }else {
+        } else {
 
         }
     } catch (err) {
         Toast.fail(err.message)
     }
 }
-
 
 
 //

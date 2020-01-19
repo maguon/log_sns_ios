@@ -1,14 +1,14 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
-    changeCode:"",
-    changePassword:"",
-    changeNewPassword:"",
-    phone:""
+const initialState = {
+    changeCode: "",
+    changePassword: "",
+    changeNewPassword: "",
+    phone: ""
 }
 
-export  default  handleActions({
+export default handleActions({
 
     [actionType.ChangePassWordType.get_Phone]: (state, action) => {
         return {
@@ -35,4 +35,4 @@ export  default  handleActions({
         }
     },
 
-},initialState)
+}, initialState)

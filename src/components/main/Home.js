@@ -1,45 +1,115 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet, ScrollView} from 'react-native'
-import {Provider} from "@ant-design/react-native"
-import Address from '../modules/Address'
-import CollectionAddress from '../modules/CollectionAddress'
-import VoteItem from '../modules/VoteItem'
-import ImageList from '../modules/ImageList'
-import Video from '../modules/Video'
-import ArticleItem from '../modules/ArticleItem'
+import {View, Text, StyleSheet, ScrollView, ActivityIndicator, FlatList} from 'react-native'
+// import Address from '../modules/Address'
+// import CollectionAddress from '../modules/CollectionAddress'
+// import VoteItem from '../modules/VoteItem'
+// import ImageList from '../modules/ImageList'
+// import Video from '../modules/Video'
+// import ArticleItem from '../modules/ArticleItem'
+import Item from '../modules/Item'
 import * as action from "../../action"
-
+import {Provider} from "@ant-design/react-native"
+import globalStyles from "../../utils/GlobalStyles"
 
 class Home extends Component {
     constructor(props) {
         super(props)
     }
 
+    componentDidMount() {
+        this.props.getHotList()
+        this.props.getHomeFollow()
+        this.props.getNearList()
+    }
+
+    renderEmpty = () => {
+        return (
+            <View style={globalStyles.listEmptyContainer}>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
+            </View>
+        )
+    }
+
+    ListFooterComponent = () => {
+        return (
+            <View style={globalStyles.footerContainer}>
+                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
+                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
+            </View>
+        )
+    }
+
+    renderItem = (props) => {
+        const {item} = props
+
+        return (
+            <View style={{flex: 1}}>
+                <Item item={item} name='Home' navigation={this.props.navigation}/>
+            </View>
+        )
+    }
+
+
     render() {
-        console.log('props', this.props)
-        const {navigation: {state: {params = {index: 0}}}} = this.props
+        const {navigation: {state: {params = {index: 0}}}, homeReducer: {hotList, homeFollow, nearList, isResultStatus}} = this.props
         const {index} = params
+
         return (
             <Provider>
                 <View style={{flex: 1}}>
                     {index == 0 &&
                     <ScrollView>
-                        <ImageList navigation={this.props.navigation}/>
-                        <VoteItem navigation={this.props.navigation}/>
-                        <Video navigation={this.props.navigation}/>
-                        <Address navigation={this.props.navigation}/>
+                        <FlatList
+                            keyExtractor={(item, index) => `${index}`}
+                            data={hotList}
+                            renderItem={this.renderItem}
+                            ListEmptyComponent={this.renderEmpty}
+                            onEndReachedThreshold={0.2}
+                            onEndReached={() => {
+                                // if (isResultStatus == 0) {
+                                //     props.getFansListMore()
+                                // }
+                            }}
+                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
+                                <View style={{height: 10}}/>}
+                        />
                     </ScrollView>
 
                     }
                     {index == 1 &&
                     <ScrollView>
-                        <VoteItem navigation={this.props.navigation}/>
-                        <ArticleItem navigation={this.props.navigation}/>
+                        <FlatList
+                            keyExtractor={(item, index) => `${index}`}
+                            data={homeFollow}
+                            renderItem={this.renderItem}
+                            ListEmptyComponent={this.renderEmpty}
+                            onEndReachedThreshold={0.2}
+                            onEndReached={() => {
+                                // if (isResultStatus == 0) {
+                                //     props.getFansListMore()
+                                // }
+                            }}
+                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
+                                <View style={{height: 10}}/>}
+                        />
                     </ScrollView>}
                     {index == 2 &&
                     <ScrollView>
-                        <CollectionAddress navigation={this.props.navigation}/>
+                        <FlatList
+                            keyExtractor={(item, index) => `${index}`}
+                            data={nearList}
+                            renderItem={this.renderItem}
+                            ListEmptyComponent={this.renderEmpty}
+                            onEndReachedThreshold={0.2}
+                            onEndReached={() => {
+                                // if (isResultStatus == 0) {
+                                //     props.getFansListMore()
+                                // }
+                            }}
+                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
+                                <View style={{height: 10}}/>}
+                        />
                     </ScrollView>}
                 </View>
             </Provider>
@@ -54,11 +124,18 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
-    getData: () => {
-        dispatch(action.HomeAction.getData())
+    getHotList: () => {
+        dispatch(action.HomeAction.getHotList())
+    },
+    getHomeFollow: () => {
+        dispatch(action.HomeAction.getHomeFollow())
+    },
+    getNearList: () => {
+        dispatch(action.HomeAction.getNearList())
     },
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Home)
 
-const styles = StyleSheet.create({})
+const style = StyleSheet.create({
+})

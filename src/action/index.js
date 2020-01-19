@@ -31,10 +31,14 @@ import * as VoteRemindAction from './main/VoteRemindAction'
 
 import * as WriteArticleAction from './main/WriteArticleAction'
 import * as ScanAction from './main/ScanAction'
+import * as SpaceAction from './main/SpaceAction'
 import * as LocationAction from './main/LocationAction'
 import * as DetailAction from './main/DetailAction'
 import * as ToVoteAction from './main/ToVoteAction'
 import * as CommentAction from './main/CommentAction'
+import * as ItemAction from './modules/ItemAction'
+
+
 export {
     HomeAction,
     InitAction,
@@ -68,9 +72,11 @@ export {
     VoteRemindAction,
     WriteArticleAction,
     ScanAction,
+    SpaceAction,
     LocationAction,
     DetailAction,
     ToVoteAction,
     CommentAction,
+    ItemAction
 
 }

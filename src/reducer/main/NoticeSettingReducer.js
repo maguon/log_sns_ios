@@ -1,8 +1,8 @@
 import {handleActions} from 'redux-actions'
 import * as actionType from '../../actionType/index'
 
-const initialState={
-    noticeId:"",
+const initialState = {
+    noticeId: "",
     sysmsg: 0,
     praise: 0,
     comment: 0,
@@ -11,13 +11,13 @@ const initialState={
     followAddmsg: 0,
 }
 
-export  default  handleActions({
+export default handleActions({
     [actionType.NoticeSettingType.set_Notice_Info]: (state, action) => {
-        const { payload: { noticeInfo } } = action
+        const {payload: {noticeInfo}} = action
         return {
             ...noticeInfo
         }
     }
 
 
-},initialState)
+}, initialState)

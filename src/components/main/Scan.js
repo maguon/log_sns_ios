@@ -8,6 +8,7 @@ class Scan extends Component {
         super(props)
 
     }
+
     render() {
         const {} = this.props
         return (

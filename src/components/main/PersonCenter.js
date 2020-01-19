@@ -28,10 +28,13 @@ class PersonCenter extends React.Component {
                                       }}>
                         <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
                             <View style={{margin: 16}}>
-                                <View style={{width: 60, height: 60, borderRadius: 30}}>
-                                    {avatar ? <Image source={{uri: avatar}}/> :
-                                        <Image source={require('../../images/head.png')}/>}
-                                </View>
+
+                                {avatar ? <Image
+                                        source={{uri: 'https://img3.doubanio.com/view/subject/s/public/s29446503.jpg'}}
+                                        style={{width: 60, height: 60, borderRadius: 30}}/> :
+                                    <Image source={require('../../images/head.png')}
+                                           style={{width: 60, height: 60, borderRadius: 30}}/>}
+
                             </View>
                             <View style={{flex: 1, justifyContent: 'center', marginRight: 16}}>
                                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -56,13 +59,13 @@ class PersonCenter extends React.Component {
                     <List>
                         <Item arrow="horizontal"
                               onPress={() => {
-                                  navigation.navigate('Follow',{otherParam: ''})
+                                  navigation.navigate('Follow', {otherParam: ''})
                               }}
                               thumb={<AntDesign name="hearto" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>我的关注</Text></Item>
                         <Item arrow="horizontal"
                               onPress={() => {
-                                  navigation.navigate('Fans',{otherParam: ''})
+                                  navigation.navigate('Fans', {otherParam: ''})
                               }}
                               thumb={<AntDesign name="team" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>我的粉丝</Text></Item>
