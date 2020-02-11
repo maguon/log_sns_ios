@@ -5,6 +5,7 @@ const initialState={
     focus: false,
     praise: false,
     star: false,
+    msgId:""
 }
 
 export  default  handleActions({
@@ -30,6 +31,14 @@ export  default  handleActions({
         return {
             ...state,
             star
+        }
+    },
+
+    [actionType.ItemType.get_MsgId]: (state, action) => {
+        const {payload:{msgId}}=action
+        return {
+            ...state,
+            msgId
         }
     },
 

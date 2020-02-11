@@ -1,6 +1,19 @@
 import React from 'react'
-import {View, Text, StyleSheet, ScrollView, ActivityIndicator, FlatList} from 'react-native'
-import {Provider, Tabs} from '@ant-design/react-native'
+import {
+    View,
+    Text,
+    StyleSheet,
+    ScrollView,
+    ActivityIndicator,
+    FlatList,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    Dimensions
+} from 'react-native'
+import {Provider, Tabs, WhiteSpace, WingBlank, Card, Modal, Button} from '@ant-design/react-native'
+import AntDesign from "react-native-vector-icons/AntDesign"
+import moment from "moment"
 import {connect} from "react-redux"
 import globalStyles from '../../utils/GlobalStyles'
 import VoteItem from '../modules/VoteItem'
@@ -8,9 +21,17 @@ import Item from '../modules/Item'
 import * as action from "../../action/index"
 
 
+
+const {width} = Dimensions.get('window')
+let cellWH = (width - 2 * 20 - 15) / 3.3
 class Community extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            praise: false,
+            star: false,
+            visible:false,
+        }
     }
 
 
@@ -40,15 +61,141 @@ class Community extends React.Component {
         )
     }
 
+    onClose = () => {
+        this.setState({
+            visible: false,
+        });
+    }
     renderItem = (props) => {
         const {item} = props
+        const userInfo = item.user_detail_info[0]
+
+        if (item.carrier == 2) {
+            if (item.media.length < 2) {
+                cellWH = (width - 2 * 20 - 15) / 1.1
+            } else if (item.media.length < 3) {
+                cellWH = (width - 2 * 20 - 15) / 2.1
+            } else if (item.media.length >= 3) {
+                cellWH = (width - 2 * 20 - 15) / 3.3
+            }
+        }
         return (
             <View style={{flex: 1}}>
-                {/*{item.carrier==1&& <ArticleItem item={item} name='Art' navigation={this.props.navigation}/>}*/}
-                {/*{item.carrier==2&& <ImageList item={item} name='Art'  navigation={this.props.navigation}/>}*/}
-                {/*{item.carrier==3&& <Video item={item} name='Art'  navigation={this.props.navigation}/>}*/}
-                {/*{item.carrier==4&& <Address item={item} name='Art'  navigation={this.props.navigation}/>}*/}
-                <Item item={item} name='Community' navigation={this.props.navigation}/>
+                <View style={{paddingTop: 30}}>
+                    <WingBlank size="lg">
+                        <Card>
+                            <Card.Header
+                                title={
+                                    <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
+                                        {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
+                                                                  style={{width: 40, height: 40, borderRadius: 30}}/> :
+                                            <Image source={require('../../images/head.png')}
+                                                   style={{width: 40, height: 40, borderRadius: 30}}/>}
+                                        <TouchableOpacity style={{width: 280, marginLeft: 5}} onPress={() => {
+                                            this.props.navigation.navigate('Space', {userId: item._user_id})
+                                        }}>
+                                            <Text
+                                                style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+
+                                            <View style={{flexDirection: 'row'}}>
+                                                <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
+                                                <Text style={[globalStyles.smallText, {
+                                                    marginTop: 2,
+                                                    marginLeft: 2
+                                                }]}>{item.address_name ? item.address_name : ''}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                }
+
+                                extra={
+                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
+                                        <Text
+                                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                    </View>
+                                }
+                            />
+                            <Card.Body>
+                                <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
+                                    this.props.navigation.navigate('Detail')
+                                }}>
+                                    {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
+                                    <Text style={globalStyles.previewText}>全文</Text>
+                                </Text>
+                                {item.carrier == 2 && <FlatList
+                                    data={item.media}
+                                    numColumns={3}
+                                    renderItem={(params)=> {
+                                        const { item } = params
+                                        return (
+                                            <TouchableOpacity activeOpacity={0.5}>
+                                                <View style={globalStyles.item}>
+                                                    <Image source={{uri: item.url}}
+                                                           style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
+                                                </View>
+                                            </TouchableOpacity>
+                                        )
+                                    }
+                                    }
+                                    keyExtractor={(item, index) => `${index}`}
+                                    contentContainerStyle={globalStyles.list_container}
+                                />}
+
+                                {item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
+                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
+                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
+                                </ImageBackground>}
+                                {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
+                                                                       style={globalStyles.image}></ImageBackground>}
+                            </Card.Body>
+
+                            <Card.Footer
+                                content={
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <TouchableOpacity
+                                            style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
+                                            onPress={() => {
+                                                this.setState({
+                                                    visible: true
+                                                })
+                                            }}>
+                                            <AntDesign name={this.state.star ? "star" : "staro"} size={18}
+                                                       style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
+                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.collect_num ? item.collect_num :0}</Text>
+                                        </TouchableOpacity>
+
+
+                                        <TouchableOpacity
+                                            style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
+                                            onPress={() => {
+                                                this.props.navigation.navigate('Comment')
+                                            }}>
+                                            <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
+                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.comment_num ? item.comment_num : 0}</Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
+                                            onPress={() => {
+                                                this.setState({
+                                                    praise: !this.state.praise
+                                                })
+                                            }}>
+                                            <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
+                                                       style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
+                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.agree_num ? item.agree_num : 0}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                }
+                            />
+                        </Card>
+                    </WingBlank>
+                    <WhiteSpace size="lg"/>
+                </View>
             </View>
         )
     }
@@ -149,6 +296,16 @@ class Community extends React.Component {
                         </View>
                     </ScrollView>
                 </Tabs>
+                <Modal
+                    popup
+                    visible={this.state.visible}
+                    animationType="slide-up"
+                    onClose={this.onClose}
+                >
+                    <Button>从相册中选择</Button>
+                    <Button>拍照</Button>
+                    <Button onPress={this.onClose}>取消</Button>
+                </Modal>
             </Provider>
         )
     }

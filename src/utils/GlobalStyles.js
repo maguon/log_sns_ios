@@ -13,14 +13,14 @@ const globalStyles = StyleSheet.create({
     styleBackgroundColor: {
         backgroundColor: '#1598cc'
     },
-    containerBackgroundColor: {
+    containerBackgroundColor:{
         backgroundColor: '#f0f0f0',
     },
-    lightText: {
+    lightText:{
         fontSize: 12,
         color: '#b7b8b9'
     },
-    textColor: {
+    textColor:{
         color: '#838485'
     },
     midText: {
@@ -35,44 +35,45 @@ const globalStyles = StyleSheet.create({
         fontSize: 10,
         color: '#838485'
     },
-    largeText: {
+    largeText:{
         fontSize: 16,
         color: '#414445'
     },
-    fourText: {
+    fourText:{
         fontSize: 14,
         color: '#414445'
     },
-    xlText: {
+    xlText:{
         fontSize: 18,
         color: '#414445'
     },
-    xxlText: {
+    xxlText:{
         fontSize: 20,
         color: '#414445'
     },
-    xxxlText: {
+    xxxlText:{
         fontSize: 24,
         color: '#414445'
     },
-    formIcon: {
+    formIcon:{
         marginLeft: 10,
-        fontSize: 20,
+        fontSize:20,
         color: '#777'
     },
-    errorText: {
+    listBackgroundColor:{
+        backgroundColor: '#edf1f4'
+    },
+    errorText:{
         fontSize: 12,
         color: 'red'
     },
-    separator: {
-        height: 15
+    separator:{
+        height:15
     },
-    previewText: {
-        fontSize: 14,
-        color: '#1598cc'
-    },
-    listBackgroundColor: {
-        backgroundColor: '#edf1f4'
+
+    listEmptyContainer: {
+        alignItems: 'center',
+        marginTop: 60
     },
     listEmptyText: {
         color: '#aaa',
@@ -86,10 +87,41 @@ const globalStyles = StyleSheet.create({
     },
     footerText: {
         paddingLeft: 10
+    },
+    previewText:{
+        fontSize: 16,
+        color: '#1598cc'
+    },
+    list_container: {
+        marginTop: 10,
+        marginLeft: -5,
+        // 主轴方向
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        // 一行显示不下,换一行
+        // flexWrap: 'wrap',
+        // 侧轴方向
+        // alignContent: 'space-between', // 必须设置,否则换行不起作用
+        paddingHorizontal: 20,
+    },
+    item: {
+        marginTop: 5,
+        marginLeft: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    image: {
+        flex: 1,
+        height: 150,
+        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
-
 })
 
-export const styleColor = '#1598cc'
+export const styleColor='#1598cc'
 
 export default globalStyles

@@ -25,15 +25,14 @@ class ImageList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            focus: false,
             praise: false,
             star: false,
         }
     }
 
-    // componentDidMount() {
-    //     this.props.followStatus()
-    // }
+    componentDidMount() {
+
+    }
 
     renderItem({item}) {
         return (
@@ -47,8 +46,16 @@ class ImageList extends React.Component {
     }
 
     render() {
-        const {itemReducer:{focus},item, name, itemDelete, navigation} = this.props
-        const userInfo = item.user_detail_info[0]
+        const {itemList, name, itemDelete, navigation,setCollection,delCollection,delColl,itemReducer:{msgId,star}} = this.props
+        let userInfo = []
+        let item=[]
+        if(name=='Collection'){
+            userInfo = itemList.msg_user_detail_info[0]
+            item=itemList.msg_info[0]
+        }else {
+            userInfo = itemList.user_detail_info[0]
+            item=itemList
+        }
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -58,14 +65,14 @@ class ImageList extends React.Component {
                 cellWH = (width - 2 * 20 - 15) / 3.3
             }
         }
-
+       console.log(itemList)
         return (
             <View style={{paddingTop: 30}}>
                 <WingBlank size="lg">
                     <Card>
                         <Card.Header
                             title={
-                                <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
+                                <View style={{flexDirection: 'row', flex: 3, alignItems: 'center',width:width*0.8}}>
                                     {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
                                                               style={{width: 40, height: 40, borderRadius: 30}}/> :
                                         <Image source={require('../../images/head.png')}
@@ -89,8 +96,10 @@ class ImageList extends React.Component {
                             }
 
                             extra={
-                                <View style={{position: 'absolute', right: 0, bottom: 0}}>
-                                    <Text style={[globalStyles.smallText, {marginTop: 2}]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                <View style={{position:'absolute',right:0,marginTop:-15}}>
+                                    <Text style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                    {name=='Art'&&<Text style={[globalStyles.smallText]}>阅读数:{item.read_num}</Text>}
+
                                 </View>
                             }
                         />
@@ -129,23 +138,19 @@ class ImageList extends React.Component {
                                     {name != 'Art' && <Text
                                         style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                         onPress={() => {
-                                            this.setState({
-                                                star: !this.state.star
-                                            })
-                                            if (this.state.star) {
-                                                Toast.success('取消收藏', 1, () => {
-                                                    console.log('111')
-                                                })
-                                            } else {
-                                                Toast.success('收藏成功', 1, () => {
-                                                    console.log('000')
-                                                })
-                                            }
-
+                                            setCollection(item)
+                                            // this.setState({
+                                            //     star: !this.state.star
+                                            // })
+                                            //  if(name=='Collection'){
+                                            //     this.state.star?(name=='Collection'?delColl(itemList._id):delCollection(msgId)):setCollection(item)
+                                            // }else {
+                                            //     this.state.star? delCollection(msgId):setCollection(item)
+                                            // }
                                         }}>
                                         <AntDesign name={this.state.star ? "star" : "staro"} size={18}
                                                    style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
-                                        <Text>1435</Text>
+                                        <Text>{userInfo.comment_num ?userInfo.comment_num:""}</Text>
                                     </Text>}
 
 
@@ -155,7 +160,7 @@ class ImageList extends React.Component {
                                             this.props.navigation.navigate('Comment')
                                         }}>
                                         <AntDesign name="message1" size={18}/>
-                                        <Text>3425</Text>
+                                        <Text>{userInfo.comment_num?userInfo.comment_num:""}</Text>
                                     </Text>
 
                                     <Text
@@ -167,7 +172,7 @@ class ImageList extends React.Component {
                                         }}>
                                         <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
                                                    style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
-                                        <Text>1250</Text>
+                                        <Text>{userInfo.comment_num?userInfo.comment_num:""}</Text>
                                     </Text>
 
 
@@ -202,27 +207,21 @@ const mapDispatchProps = (dispatch, props) => ({
     itemDelete: () => {
         dispatch(action.ArticleAction.itemDelete(props))
     },
-    // followStatus: (props) => {
-    //     dispatch(action.ItemAction.followStatus(props))
-    // },
+    setCollection: (value) => {
+        dispatch(action.ItemAction.setCollection(value))
+    },
+    delCollection: (value) => {
+        dispatch(action.ItemAction.delCollection(value))
+    },
+    delColl: (value) => {
+        dispatch(action.ItemAction.delColl(value))
+    },
 
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(ImageList)
 
 const styles = StyleSheet.create({
-    focus: {
-        overflow: 'hidden',
-        width: 60,
-        height: 20,
-        lineHeight: 20,
-        textAlign: 'center',
-        backgroundColor: '#000',
-        borderRadius: 10,
-        color: '#fff',
-        fontSize: 12,
-        marginRight: 0
-    },
 
     list_container: {
         marginTop: 10,

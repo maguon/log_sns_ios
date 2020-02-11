@@ -3,8 +3,11 @@ import * as actionType from "../../actionType/index"
 
 const initialState = {
     hotList: [],
+    hotSize:5,
     homeFollow: [],
+    homeSize:5,
     nearList: [],
+    nearSize:5,
     isResultStatus: 0,
     pageSize: 10,
 }
@@ -15,7 +18,16 @@ export default handleActions({
         const {payload: {hotList}} = action
         return {
             ...state,
-            hotList
+            hotList,
+            isResultStatus: 1,
+
+        }
+    },
+    [actionType.HomeActionType.set_HotSize]: (state, action) => {
+        const {payload: {hotSize}} = action
+        return {
+            ...state,
+            hotSize
         }
     },
     [actionType.HomeActionType.get_HomeFollow]: (state, action) => {

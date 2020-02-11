@@ -1,3 +1,3 @@
 import {createAction} from 'redux-actions'
 
-export const set_Info=createAction('set_Info')
+export const get_CollectionList=createAction('get_CollectionList')

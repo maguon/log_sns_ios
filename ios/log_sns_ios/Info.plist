@@ -37,8 +37,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -77,5 +75,9 @@
 		<string>antfill.ttf</string>
 		<string>antoutline.ttf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>请允许访问您的位置</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>请允许访问您的位置信息</string>
 </dict>
 </plist>
