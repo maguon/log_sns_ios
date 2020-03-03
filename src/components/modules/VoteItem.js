@@ -5,7 +5,6 @@ import globalStyles from '../../utils/GlobalStyles'
 import moment from "moment"
 
 const {width} = Dimensions.get('window')
-const title = '文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容内容文章内容文章内容文章内容'
 export default class VoteItem extends React.Component {
     constructor(props) {
         super(props)
@@ -15,7 +14,6 @@ export default class VoteItem extends React.Component {
     render() {
         const {item, navigation} = this.props
         return (
-            <ScrollView>
                 <View style={{paddingTop: 30}}>
                     <WingBlank size="lg">
                         <Card>
@@ -36,10 +34,10 @@ export default class VoteItem extends React.Component {
                             </View>
 
                             <Text style={[globalStyles.midText, {margin: 15}]} onPress={() => {
-                                this.props.navigation.navigate('Vote')
+                                this.props.navigation.navigate('Vote',{item:item})
                             }}>
-                                {title ? (title.length > 60 ? title.substr(0, 60) + "..." : title) : ""}
-                                <Text style={globalStyles.previewText}>全文</Text>
+                                {item.info ? (item.info.length > 60 ? item.info.substr(0, 60) + "..." : item.info) : ""}
+                                {item.info.length > 60&&<Text style={globalStyles.previewText}>全文</Text>}
                             </Text>
 
                             <Text style={{backgroundColor: '#d7d7d7', width: width * 0.9, height: 0.2}}/>
@@ -58,6 +56,7 @@ export default class VoteItem extends React.Component {
                                     <Text>参与人数：</Text>
                                     <Text>{item.participants_num}</Text>
                                 </Text>
+
                                 <Text style={[globalStyles.midText, {
                                     flexDirection: 'row',
                                     alignItems: 'center',
@@ -65,20 +64,16 @@ export default class VoteItem extends React.Component {
                                     color: '#1598cc'
                                 }]}
                                       onPress={() => {
-                                          this.props.navigation.navigate('Vote')
+                                          this.props.navigation.navigate('Vote',{item:item})
                                       }}>
-                                    <Text>点击参与</Text>
+                                    {item.user_votes==""? <Text>点击参与</Text>:<Text style={globalStyles.midText}>已参与</Text>}
                                 </Text>
+
                             </View>
                         </Card>
                     </WingBlank>
                     <WhiteSpace size="lg"/>
                 </View>
-            </ScrollView>
         )
     }
 }
-
-const style = StyleSheet.create({
-})
-

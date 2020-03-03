@@ -90,7 +90,7 @@ class Space extends Component {
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2
+                                                    marginLeft: 2,marginRight:15
                                                 }]}>{item.address_name ? item.address_name : ''}</Text>
                                             </View>
                                         </TouchableOpacity>

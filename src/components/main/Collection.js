@@ -212,7 +212,6 @@ class Collection extends React.Component {
             </Provider>
         )
     }
-
 }
 const mapStateToProps = (state) => {
     return {

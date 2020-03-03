@@ -8,7 +8,7 @@ import {
     ActivityIndicator, Dimensions, Image, TouchableOpacity, ImageBackground, Alert
 } from 'react-native'
 import {connect} from "react-redux"
-import {Provider, Tabs, WhiteSpace, WingBlank,Card} from "@ant-design/react-native"
+import {Provider, Tabs, WhiteSpace, WingBlank, Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import Item from '../modules/Item'
@@ -16,16 +16,16 @@ import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 
 
-
-
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
+
 class Article extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             praise: false,
-            star: false
+            star: false,
+            tabIndex:0,
         }
     }
 
@@ -33,8 +33,9 @@ class Article extends React.Component {
         this.props.getArtInfo()
         this.props.getArtArticle()
         this.props.getArtImage()
+        this.props.getArtHelp()
         this.props.getArtVideo()
-        this.props.getArtAddress()
+
     }
 
     renderEmpty = () => {
@@ -45,19 +46,46 @@ class Article extends React.Component {
         )
     }
 
-    ListFooterComponent = () => {
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
+
+            )
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
+    }
+
+    //加载等待页
+    renderLoadingView() {
         return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F5FCFF',
+            }}>
+                <ActivityIndicator
+                    animating={true}
+                    color='red'
+                    size="large"
+                />
             </View>
-        )
+        );
     }
 
     renderItem = (props) => {
-        const {item} = props
+        const {item,index} = props
         const userInfo = item.user_detail_info[0]
-
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -87,7 +115,7 @@ class Article extends React.Component {
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2
+                                                    marginLeft: 2, marginRight: 15
                                                 }]}>{item.address_name ? item.address_name : ''}</Text>
                                             </View>
                                         </View>
@@ -112,8 +140,8 @@ class Article extends React.Component {
                                 {item.carrier == 2 && <FlatList
                                     data={item.media}
                                     numColumns={3}
-                                    renderItem={(params)=> {
-                                        const { item } = params
+                                    renderItem={(params) => {
+                                        const {item} = params
                                         return (
                                             <TouchableOpacity activeOpacity={0.5}>
                                                 <View style={globalStyles.item}>
@@ -122,7 +150,7 @@ class Article extends React.Component {
                                                 </View>
                                             </TouchableOpacity>
                                         )
-                                     }
+                                    }
                                     }
                                     keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
@@ -138,14 +166,19 @@ class Article extends React.Component {
 
                             <Card.Footer
                                 content={
-                                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
                                                 this.props.navigation.navigate('Comment')
                                             }}>
-                                            <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.comment_num ? item.comment_num : 0}</Text>
+                                            <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.comment_num ? item.comment_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <TouchableOpacity
@@ -157,18 +190,21 @@ class Article extends React.Component {
                                             }}>
                                             <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
                                                        style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.agree_num ? item.agree_num : 0}</Text>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <Text style={[globalStyles.midText, {fontSize: 14}]}
-                                                                onPress={() => {
-                                                                    Alert.alert("", "确认删除", [{
-                                                                        text: "确定",
-                                                                        onPress:itemDelete
-                                                                    }, {text: "取消",
-                                                                        onPress: () => console.log("canncel")
-                                                                    }])
-                                                                }}>删除</Text>
+                                              onPress={() => {
+                                                  // let value = {item:item,index:index,tabIndex:this.state.tabIndex}
+                                                  Alert.alert("", "确认删除", [{
+                                                      text: "确定",
+                                                      onPress:()=>{this.props.itemDelete()}
+                                                  }, {
+                                                      text: "取消",
+                                                      onPress: () => console.log("canncel")
+                                                  }])
+                                              }}>删除</Text>
                                     </View>
                                 }
                             />
@@ -182,35 +218,41 @@ class Article extends React.Component {
 
     render() {
         const tabs = [{title: '所有'}, {title: '文章'}, {title: '图片'}, {title: '视频'}, {title: '求助'}]
-        const {articleReducer: {artInfo, artArticle, artImage, artVideo, artAddress, isResultStatus}} = this.props
+        const {
+            articleReducer: {
+                artInfo, isComplete, isResultStatus, artLoading, artArticle, artComplete, artResultStatus,
+                artImage, imgComplete, imgResultStatus, artVideo, vidComplete, vidResultStatus, artHelp, helpComplete, helpResultStatus
+            }, getArtInfo, getArtArticle, getArtImage, getArtHelp, getArtVideo} = this.props
 
         return (
             <Provider>
                 <Tabs tabs={tabs}
+                      onChange={(tab, index) => {
+                         this.setState({tabIndex:index})
+                      }}
                       tabBarBackgroundColor='#fff'
                       tabBarActiveTextColor='#1598cc'
                       tabBarInactiveTextColor='#414445'
                       tabBarUnderlineStyle={{backgroundColor: '#1598cc'}}
                       tabBarTextStyle={{fontSize: 14}}
                 >
-                    <ScrollView>
-                        <FlatList
+                    <View style={{flex: 1}}>
+                        {artLoading && <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artInfo}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
-                                // if (isResultStatus == 0) {
-                                //     props.getFansListMore()
-                                // }
+                                if (!isComplete) {
+                                    getArtInfo()
+                                }
                             }}
-                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
-                        />
-                    </ScrollView>
-                    <ScrollView>
-
+                            ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                        />}
+                        {!artLoading && this.renderLoadingView()}
+                    </View>
+                    <View style={{flex: 1}}>
                         <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artArticle}
@@ -218,16 +260,14 @@ class Article extends React.Component {
                             ListEmptyComponent={this.renderEmpty}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
-                                // if (isResultStatus == 0) {
-                                //     props.getFansListMore()
-                                // }
+                                if (!artComplete) {
+                                    getArtArticle()
+                                }
                             }}
-                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
+                            ListFooterComponent={this.ListFooterComponent(artResultStatus)}
                         />
-
-                    </ScrollView>
-                    <ScrollView>
+                    </View>
+                    <View style={{flex: 1}}>
                         <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artImage}
@@ -235,50 +275,43 @@ class Article extends React.Component {
                             ListEmptyComponent={this.renderEmpty}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
-                                // if (isResultStatus == 0) {
-                                //     props.getFansListMore()
-                                // }
+                                if (!imgComplete) {
+                                    getArtImage()
+                                }
                             }}
-                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
+                            ListFooterComponent={this.ListFooterComponent(imgResultStatus)}
                         />
-                    </ScrollView>
-                    <ScrollView>
-                        <View>
-                            <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={artVideo}
-                                renderItem={this.renderItem}
-                                ListEmptyComponent={this.renderEmpty}
-                                onEndReachedThreshold={0.2}
-                                onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
-                                }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
-                            />
-                        </View>
-                    </ScrollView>
-                    <ScrollView>
-                        <View>
-                            <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={artAddress}
-                                renderItem={this.renderItem}
-                                ListEmptyComponent={this.renderEmpty}
-                                onEndReachedThreshold={0.2}
-                                onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
-                                }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
-                            />
-                        </View>
-                    </ScrollView>
+                    </View>
+                    <View style={{flex: 1}}>
+                        <FlatList
+                            keyExtractor={(item, index) => `${index}`}
+                            data={artVideo}
+                            renderItem={this.renderItem}
+                            ListEmptyComponent={this.renderEmpty}
+                            onEndReachedThreshold={0.2}
+                            onEndReached={() => {
+                                if (!vidComplete) {
+                                    getArtVideo()
+                                }
+                            }}
+                            ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
+                        />
+                    </View>
+                    <View style={{flex: 1}}>
+                        <FlatList
+                            keyExtractor={(item, index) => `${index}`}
+                            data={artHelp}
+                            renderItem={this.renderItem}
+                            ListEmptyComponent={this.renderEmpty}
+                            onEndReachedThreshold={0.2}
+                            onEndReached={() => {
+                                if (!helpComplete) {
+                                    getArtHelp()
+                                }
+                            }}
+                            ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
+                        />
+                    </View>
                 </Tabs>
             </Provider>
 
@@ -303,13 +336,16 @@ const mapDispatchProps = (dispatch, props) => ({
     getArtImage: () => {
         dispatch(action.ArticleAction.getArtImage())
     },
+    getArtHelp: () => {
+        dispatch(action.ArticleAction.getArtHelp())
+    },
     getArtVideo: () => {
         dispatch(action.ArticleAction.getArtVideo())
     },
-    getArtAddress: () => {
-        dispatch(action.ArticleAction.getArtAddress())
-    },
-
+    itemDelete: (value ) => {
+        console.log(value)
+        dispatch(action.ArticleAction.itemDelete(value))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Article)

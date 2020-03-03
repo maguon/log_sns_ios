@@ -11,7 +11,7 @@ import {
     ImageBackground
 } from 'react-native'
 import Item from '../modules/Item'
-import {Provider, WhiteSpace, WingBlank, Card, Modal, Button,ActivityIndicator} from "@ant-design/react-native"
+import {Provider, WhiteSpace, WingBlank, Card, Modal, Button, ActivityIndicator} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import * as action from "../../action"
@@ -27,6 +27,7 @@ class Home extends Component {
         super(props)
         this.state = {
             itemInfo: "",
+            focus:false,
             praise: false,
             star: false,
             visible: false,
@@ -36,7 +37,7 @@ class Home extends Component {
     componentDidMount() {
         this.props.getHotList()
         this.props.getHomeFollow()
-        Geolocation.getCurrentPosition(info =>  this.props.getNearList(info))
+        Geolocation.getCurrentPosition(info => this.props.getNearList(info))
     }
 
     renderEmpty = () => {
@@ -47,15 +48,47 @@ class Home extends Component {
         )
     }
 
-    ListFooterComponent = () => {
-        return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator />
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
-            </View>
-        )
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
+
+            )
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
+        // else if(param==1){
+        //    return(
+        //   <View style={{height: 10}}/>
+        //    )
+        // }
     }
 
+    //加载等待页
+    renderLoadingView() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F5FCFF',
+            }}>
+                <ActivityIndicator
+                    animating={true}
+                    color='red'
+                    size="large"
+                />
+            </View>
+        );
+    }
 
     onClose = () => {
         this.setState({
@@ -96,11 +129,14 @@ class Home extends Component {
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
+                                            <Text
+                                                style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+
                                             <View style={{flexDirection: 'row'}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
-                                                    marginTop: 2,
-                                                    marginLeft: 2
+                                                    marginTop: 2, marginLeft: 2,
+                                                    marginRight: 15
                                                 }]}>{item.address_name ? item.address_name : ''}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -108,9 +144,12 @@ class Home extends Component {
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
-                                        <Text
-                                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                    <View style={{position: 'absolute', right: 5, top: -20,}}>
+                                        {item.user_relations == "" ?
+                                        <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
+                                              onPress={() => {this.props.follow(item._user_id)}}>关注</Text>:
+                                            <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
+                                              onPress={() => {this.props.cancelFollow(item._user_id)}}>取消关注</Text>}
                                     </View>
                                 }
                             />
@@ -185,8 +224,8 @@ class Home extends Component {
                                             onPress={() => {
                                                 setPraise(item)
                                             }}>
-                                            <AntDesign name={item.praise ? "like1" : "like2"} size={18}
-                                                       style={{color: item.praise? '#ffa600' : '#838485'}}/>
+                                            {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
+                                                                   <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
                                             <Text
                                                 style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
@@ -203,65 +242,65 @@ class Home extends Component {
 
 
     render() {
-        const {navigation: {state: {params = {index: 0}}}, homeReducer: {hotList, homeFollow, nearList, isResultStatus},getHotList, getHotListMore,setCollection} = this.props
+        const {
+            navigation: {state: {params = {index: 0}}}, homeReducer: {
+                hotList, hotLoading, isComplete, isResultStatus,
+                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus
+            }, getHotList, getHomeFollow, getNearList, setCollection
+        } = this.props
         const {index} = params
         console.log(hotList)
         return (
             <Provider>
                 <View style={{flex: 1}}>
-                    {index == 0 &&
-                    <ScrollView>
-                        <FlatList
-                            keyExtractor={(item, index) => `${index}`}
-                            data={hotList}
-                            renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
-                            onEndReachedThreshold={0.01}
-                            onEndReached={() => {
-                                 // if (isResultStatus == 0) {
+                    {(index == 0 && hotLoading) &&
+                    <FlatList
+                        data={hotList}
+                        renderItem={this.renderItem}
+                        onEndReachedThreshold={0.2}
+                        onEndReached={() => {
+                            if (!isComplete) {
                                 getHotList()
-                                 // }
-                            }}
-                            ListFooterComponent={isResultStatus == 1 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
-                        />
-                    </ScrollView>
+                            }
+                        }
+                        }
+                        ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                        ListEmptyComponent={this.renderEmpty}
+                    />
+                    }
+                    {(index == 0 && !hotLoading) && this.renderLoadingView()}
+
+
+                    {index == 1 &&
+                    <FlatList
+                        data={homeFollow}
+                        renderItem={this.renderItem}
+                        onEndReachedThreshold={0.2}
+                        onEndReached={() => {
+                            if (!homeComplete) {
+                                getHomeFollow()
+                            }
+                        }}
+                        ListFooterComponent={this.ListFooterComponent(homeResultStatus)}
+                        ListEmptyComponent={this.renderEmpty}
+                    />
+                    }
+
+                    {index == 2 &&
+                    <FlatList
+                        data={nearList}
+                        renderItem={this.renderItem}
+                        onEndReachedThreshold={0.2}
+                        onEndReached={() => {
+                            if (!nearComplete) {
+                                getNearList()
+                            }
+                        }}
+                        ListFooterComponent={this.ListFooterComponent(nearResultStatus)}
+                        ListEmptyComponent={this.renderEmpty}
+                    />
 
                     }
-                    {index == 1 &&
-                    <ScrollView>
-                        <FlatList
-                            keyExtractor={(item, index) => `${index}`}
-                            data={homeFollow}
-                            renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
-                            onEndReachedThreshold={0.2}
-                            onEndReached={() => {
-                                // if (isResultStatus == 0) {
-                                //     props.getFansListMore()
-                                // }
-                            }}
-                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
-                        />
-                    </ScrollView>}
-                    {index == 2 &&
-                    <ScrollView>
-                        <FlatList
-                            keyExtractor={(item, index) => `${index}`}
-                            data={nearList}
-                            renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
-                            onEndReachedThreshold={0.2}
-                            onEndReached={() => {
-                                // if (isResultStatus == 0) {
-                                //     props.getFansListMore()
-                                // }
-                            }}
-                            ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                <View style={{height: 10}}/>}
-                        />
-                    </ScrollView>}
                 </View>
 
                 <Modal
@@ -298,9 +337,6 @@ const mapDispatchProps = (dispatch) => ({
     getHotList: () => {
         dispatch(action.HomeAction.getHotList())
     },
-    getHotListMore: () => {
-        dispatch(action.HomeAction.getHotListMore())
-    },
     getHomeFollow: () => {
         dispatch(action.HomeAction.getHomeFollow())
     },
@@ -313,7 +349,13 @@ const mapDispatchProps = (dispatch) => ({
 
     setPraise: (value) => {
         dispatch(action.HomeAction.setPraise(value))
-    }
+    },
+    cancelFollow: (value) => {
+        dispatch(action.HomeAction.cancelFollow(value))
+    },
+    follow: (value) => {
+        dispatch(action.HomeAction.follow(value))
+    },
 
 })
 

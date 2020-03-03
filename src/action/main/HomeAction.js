@@ -1,70 +1,69 @@
 import {apiHost} from '../../config/HostConfig'
 import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import {Alert} from 'react-native'
 
+
+const pageSize = 5
 export const getHotList = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId},HomeReducer:{hotSize}} = getState()
+    const {LoginReducer: {userId},HomeReducer: {hotList}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/popularMsg?start=0&size=${hotSize}`
+        let url = `${apiHost}/user/${userId}/popularMsg?status=1&start=${hotList.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         if (res.success) {
-            dispatch({type: actionType.HomeActionType.get_HotList, payload: {hotList: res.result}})
+            dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.HomeActionType.get_HotList_end, payload: {hotList: res.result, isComplete: true}})
+            } else {
+                dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList: res.result, isComplete: false } })
+            }
         }
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
 
-export const getHotListMore = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId},HomeReducer:{hotSize}} = getState()
-    try {
-        let newhotSize = hotSize + 2
-        dispatch({type: actionType.HomeActionType.set_HotSize, payload: {hotSize: newhotSize}})
-        dispatch(getHotList())
-    } catch (err) {
-        Toast.fail(err.message)
-    }
-}
 
 
 //关注
 export const getHomeFollow = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+    const {LoginReducer: {userId},HomeReducer: {homeFollow}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/followUserMsg`
+        let url = `${apiHost}/user/${userId}/followUserMsg?status=1&start=${homeFollow.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         if (res.success) {
-            dispatch({type: actionType.HomeActionType.get_HomeFollow, payload: {homeFollow: res.result}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.HomeActionType.get_HomeFollow, payload: {homeFollow: res.result, homeComplete: true}})
+            } else {
+                dispatch({ type: actionType.HomeActionType.get_HomeFollow_end, payload: { homeFollow: res.result, homeComplete: false } })
+            }
         }
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
 //附近
 export const getNearList = (value) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+    const {LoginReducer: {userId},HomeReducer: {nearList}} = getState()
     const {coords:{longitude,latitude}}=value
-    console.log(longitude)
-    console.log(latitude)
     try {
         // 基本检索URL
-        let url = apiHost+'/user/'+userId+'/nearbyMsg?address=['+longitude+','+latitude+']&radius='+100
+        let url = apiHost+'/user/'+userId+'/nearbyMsg?address=['+longitude+','+latitude+']&radius='+1000+'&start='+nearList.length+'&size='+pageSize
         const res = await HttpRequest.get(url)
-        console.log(res)
         if (res.success) {
-            dispatch({type: actionType.HomeActionType.get_NearList, payload: {nearList: res.result}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.HomeActionType.get_NearList, payload: {nearList: res.result,nearComplete: true}})
+            } else {
+                dispatch({ type: actionType.HomeActionType.get_NearList_end, payload: { nearList: res.result, nearComplete: false } })
+            }
         }
 
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
 
 //收藏
@@ -86,14 +85,15 @@ export const setCollection = (value) => async (dispatch, getState) => {
                 // dispatch({type: actionType.ItemType.get_Star, payload: {msgId: res.true}})
             })
         }else {
-            Toast.fail(res.msg)
+            Toast.info(res.msg)
         }
-
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
+
+
+
 
 //点赞
 export const setPraise = (value) => async (dispatch, getState) => {
@@ -111,7 +111,28 @@ export const setPraise = (value) => async (dispatch, getState) => {
         if(res.success){
            dispatch(getHotList())
             dispatch(getHomeFollow())
-            dispatch(getNearList())
+            // dispatch(getNearList())
+        }else {
+            Toast.info(res.msg)
+        }
+
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+
+
+//取消关注
+export const cancelFollow = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId},HomeReducer: {hotList}} = getState()
+
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/followUser/${value}/del`
+        const res = await HttpRequest.del(url)
+        if(res.success){
+            dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList:hotList, isComplete: false } })
         }else {
             Toast.fail(res.msg)
         }
@@ -122,4 +143,22 @@ export const setPraise = (value) => async (dispatch, getState) => {
 
 }
 
+//关注
+export const follow = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId},HomeReducer: {hotList}} = getState()
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userRelation`
+        const res = await HttpRequest.post(url,{userById:value})
+        if(res.success){
+            dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList:hotList, isComplete: false } })
+        }else {
+            Toast.fail(res.msg)
+        }
+
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
 

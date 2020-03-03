@@ -3,67 +3,134 @@ import * as actionType from '../../actionType/index'
 
 const initialState = {
     artInfo: [],
-    artArticle: [],
-    artImage: [],
-    artVideo: [],
-    artAddress: [],
-    artHelp: [],
-    voteList: [],
-    isResultStatus: 0,
+    isComplete: false,
+    isResultStatus: 0,// 控制foot， 0：隐藏footer  1：已加载完成,没有更多数据   2 ：显示加载中
+    artLoading:false,
 
+    artArticle: [],
+    artComplete: false,
+    artResultStatus: 0,
+
+    artImage: [],
+    imgComplete: false,
+    imgResultStatus: 0,
+
+    artVideo: [],
+    vidComplete: false,
+    vidResultStatus: 0,
+
+    artHelp: [],
+    helpComplete: false,
+    helpResultStatus: 0,
 }
 
 export default handleActions({
+    [actionType.ArticleType.set_ArtLoading]: (state, action) => {
+        const {payload: {artLoading}} = action
+        return {
+            ...state,
+            artLoading,
+        }
+    },
 
     [actionType.ArticleType.get_ArtInfo]: (state, action) => {
-        const {payload: {artInfo}} = action
+        const {payload: {artInfo,isComplete}} = action
         return {
             ...state,
-            artInfo
+            artInfo: [...state.artInfo, ...artInfo],
+            isComplete,
+            isResultStatus: 2,
         }
     },
+    [actionType.ArticleType.set_ArtInfo]: (state, action) => {
+        const {payload: {artInfo,isComplete}} = action
+        return {
+            ...state,
+            artInfo: [...state.artInfo, ...artInfo],
+            isComplete,
+            isResultStatus: 1,
+        }
+    },
+
+
     [actionType.ArticleType.get_ArtArticle]: (state, action) => {
-        const {payload: {artArticle}} = action
+        const {payload: {artArticle,artComplete}} = action
         return {
             ...state,
-            artArticle
+            artArticle: [...state.artArticle, ...artArticle],
+            artComplete,
+            artResultStatus: 2,
         }
     },
+    [actionType.ArticleType.set_ArtArticle]: (state, action) => {
+        const {payload: {artArticle,artComplete}} = action
+        return {
+            ...state,
+            artArticle: [...state.artArticle, ...artArticle],
+            artComplete,
+            artResultStatus: 1,
+        }
+    },
+
+
     [actionType.ArticleType.get_ArtImage]: (state, action) => {
-        const {payload: {artImage}} = action
+        const {payload: {artImage,imgComplete}} = action
         return {
             ...state,
-            artImage
+            artImage: [...state.artImage, ...artImage],
+            imgComplete,
+            imgResultStatus: 2,
         }
     },
+
+    [actionType.ArticleType.set_ArtImage]: (state, action) => {
+        const {payload: {artImage,imgComplete}} = action
+        return {
+            ...state,
+            artImage: [...state.artImage, ...artImage],
+            imgComplete,
+            imgResultStatus: 1,
+        }
+    },
+
     [actionType.ArticleType.get_ArtVideo]: (state, action) => {
-        const {payload: {artVideo}} = action
+        const {payload: {artVideo,vidComplete}} = action
         return {
             ...state,
-            artVideo
+            artVideo: [...state.artVideo, ...artVideo],
+            vidComplete,
+            vidResultStatus: 2,
         }
     },
-    [actionType.ArticleType.get_ArtAddress]: (state, action) => {
-        const {payload: {artAddress}} = action
+    [actionType.ArticleType.set_ArtVideo]: (state, action) => {
+        const {payload: {artVideo,vidComplete}} = action
         return {
             ...state,
-            artAddress
+            artVideo: [...state.artVideo, ...artVideo],
+            vidComplete,
+            vidResultStatus: 1,
         }
     },
+
     [actionType.ArticleType.get_ArtHelp]: (state, action) => {
-        const {payload: {artHelp}} = action
+        const {payload: {artHelp,helpComplete}} = action
         return {
             ...state,
-            artHelp
+            artHelp: [...state.artHelp, ...artHelp],
+            helpComplete,
+            helpResultStatus: 2,
         }
     },
-    [actionType.ArticleType.get_VoteList]: (state, action) => {
-        const {payload: {voteList}} = action
+    [actionType.ArticleType.set_ArtHelp]: (state, action) => {
+        const {payload: {artHelp,helpComplete}} = action
         return {
             ...state,
-            voteList
+            artHelp: [...state.artHelp, ...artHelp],
+            helpComplete,
+            helpResultStatus: 1,
         }
     },
+
 
 
 }, initialState)

@@ -119,7 +119,19 @@ const globalStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    focus: {
+        overflow: 'hidden',
+        width: 60,
+        height: 20,
+        lineHeight: 20,
+        textAlign: 'center',
+        borderRadius: 10,
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 12,
+        marginRight: 0
+    },
 })
 
 export const styleColor='#1598cc'

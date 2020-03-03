@@ -3,53 +3,91 @@ import * as actionType from "../../actionType/index"
 
 const initialState = {
     hotList: [],
-    hotSize:5,
+    isComplete: false,
+    isResultStatus: 0,// 控制foot， 0：隐藏footer  1：已加载完成,没有更多数据   2 ：显示加载中
+    hotLoading:false,
+
     homeFollow: [],
-    homeSize:5,
+    homeComplete:false,
+    homeResultStatus:0,
+
+
     nearList: [],
-    nearSize:5,
-    isResultStatus: 0,
-    pageSize: 10,
+    nearComplete:false,
+    nearResultStatus:0
 }
 
-//isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(失败)]
 export default handleActions({
-    [actionType.HomeActionType.get_HotList]: (state, action) => {
-        const {payload: {hotList}} = action
+    [actionType.HomeActionType.set_HotLoading]: (state, action) => {
+        const {payload: {hotLoading}} = action
         return {
             ...state,
-            hotList,
+            hotLoading,
+        }
+    },
+    [actionType.HomeActionType.get_HotList_success]: (state, action) => {
+        const {payload: {hotList,isComplete}} = action
+        return {
+            ...state,
+            hotList: [...state.hotList, ...hotList],
+            isComplete,
+            isResultStatus: 2,
+        }
+    },
+    [actionType.HomeActionType.get_HotList_end]: (state, action) => {
+        const {payload: {hotList,isComplete}} = action
+        return {
+            ...state,
+            hotList: [...state.hotList, ...hotList],
+            isComplete,
             isResultStatus: 1,
 
         }
     },
-    [actionType.HomeActionType.set_HotSize]: (state, action) => {
-        const {payload: {hotSize}} = action
-        return {
-            ...state,
-            hotSize
-        }
-    },
+
+
+
     [actionType.HomeActionType.get_HomeFollow]: (state, action) => {
-        const {payload: {homeFollow}} = action
+        const {payload: {homeFollow,homeComplete}} = action
         return {
             ...state,
-            homeFollow
+            homeFollow:[...state.homeFollow, ...homeFollow],
+            homeComplete,
+            homeResultStatus:1,
         }
     },
+    [actionType.HomeActionType.get_HomeFollow_end]: (state, action) => {
+        const {payload: {homeFollow,homeComplete}} = action
+        return {
+            ...state,
+            homeFollow:[...state.homeFollow, ...homeFollow],
+            homeComplete,
+            homeResultStatus:2,
+        }
+    },
+
+
+
+
     [actionType.HomeActionType.get_NearList]: (state, action) => {
-        const {payload: {nearList}} = action
+        const {payload: {nearList,nearComplete}} = action
         return {
             ...state,
-            nearList
+            nearList:[...state.nearList, ...nearList],
+            nearComplete,
+            nearResultStatus:1,
         }
     },
-    [actionType.HomeActionType.update_PageSize]: (state, action) => {
-        const {payload: {pageSize}} = action
+
+    [actionType.HomeActionType.get_NearList]: (state, action) => {
+        const {payload: {nearList,nearComplete}} = action
         return {
             ...state,
-            pageSize
+            nearList:[...state.nearList, ...nearList],
+            nearComplete,
+            nearResultStatus:2,
         }
-    }
+    },
+
 
 }, initialState)

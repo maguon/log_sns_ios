@@ -36,11 +36,10 @@ class Community extends React.Component {
 
 
     componentDidMount() {
-        this.props.getArtInfo()
-        this.props.getArtArticle()
-        this.props.getArtVideo()
-        this.props.getArtHelp()
-        this.props.getVoteList()
+        this.props.getComInfo()
+        this.props.getComVideo()
+        this.props.getComHelp()
+        this.props.getComVoteList()
 
     }
 
@@ -52,13 +51,42 @@ class Community extends React.Component {
         )
     }
 
-    ListFooterComponent = () => {
+
+    //加载等待页
+    renderLoadingView() {
         return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F5FCFF',
+            }}>
+                <ActivityIndicator
+                    animating={true}
+                    color='red'
+                    size="large"
+                />
             </View>
-        )
+        );
+    }
+
+
+    ListFooterComponent = (param) => {
+        if(param==1) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
+            )
+        }else if(param==2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
     }
 
     onClose = () => {
@@ -101,7 +129,7 @@ class Community extends React.Component {
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2
+                                                    marginLeft: 2, marginRight:15
                                                 }]}>{item.address_name ? item.address_name : ''}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -210,8 +238,10 @@ class Community extends React.Component {
 
     render() {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
-        const {articleReducer: {artInfo, artVideo, artHelp, voteList, isResultStatus}} = this.props
-        console.log(voteList)
+        const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
+            comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus},
+            getComInfo,getComVideo,getComHelp,getComVoteList} = this.props
+
         return (
             <Provider>
                 <Tabs tabs={tabs}
@@ -221,80 +251,69 @@ class Community extends React.Component {
                       tabBarUnderlineStyle={{backgroundColor: '#1598cc'}}
                       tabBarTextStyle={{fontSize: 14}}
                 >
-                    <ScrollView>
-                        <View style={style.content}>
+                    <View style={style.content}>
+                        {comLoading&&
                             <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={artInfo}
+                                data={comInfo}
                                 renderItem={this.renderItem}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
+                                    if (!isComplete) {
+                                       getComInfo()
+                                    }
                                 }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
-                            />
+                                ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                            />}
+                        {!comLoading && this.renderLoadingView()}
                         </View>
-                    </ScrollView>
-                    <ScrollView>
+
                         <View>
                             <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={artVideo}
+                                data={comVideo}
                                 renderItem={this.renderItem}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
+                                    if (!vidComplete) {
+                                       getComVideo()
+                                    }
                                 }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
+                                ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
                             />
                         </View>
-                    </ScrollView>
-                    <ScrollView>
+
+
                         <View>
                             <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={artHelp}
+                                data={comHelp}
                                 renderItem={this.renderItem}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
+                                    if (!helpComplete) {
+                                       getComHelp()
+                                    }
                                 }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
+                                ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
                             />
                         </View>
-                    </ScrollView>
 
 
-                    <ScrollView>
                         <View style={style.content}>
                             <FlatList
-                                keyExtractor={(item, index) => `${index}`}
-                                data={voteList}
+                                data={comVoteList}
                                 renderItem={this.renderItemTo}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
-                                    // if (isResultStatus == 0) {
-                                    //     props.getFansListMore()
-                                    // }
+                                    if (!voteComplete) {
+                                        getComVoteList()
+                                    }
                                 }}
-                                ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                                    <View style={{height: 10}}/>}
+                                ListFooterComponent={this.ListFooterComponent(voteResultStatus)}
                             />
                         </View>
-                    </ScrollView>
                 </Tabs>
                 <Modal
                     popup
@@ -313,25 +332,22 @@ class Community extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        articleReducer: state.ArticleReducer
+        communityReducer: state.CommunityReducer
     }
 }
 
 const mapDispatchProps = (dispatch, props) => ({
-    getArtInfo: () => {
-        dispatch(action.ArticleAction.getArtInfo())
+    getComInfo: () => {
+        dispatch(action.CommunityAction.getComInfo())
     },
-    getArtArticle: () => {
-        dispatch(action.ArticleAction.getArtArticle())
+    getComHelp: () => {
+        dispatch(action.CommunityAction.getComHelp())
     },
-    getArtHelp: () => {
-        dispatch(action.ArticleAction.getArtHelp())
+    getComVideo: () => {
+        dispatch(action.CommunityAction.getComVideo())
     },
-    getArtVideo: () => {
-        dispatch(action.ArticleAction.getArtVideo())
-    },
-    getVoteList: () => {
-        dispatch(action.ArticleAction.getVoteList())
+    getComVoteList: () => {
+        dispatch(action.CommunityAction.getComVoteList())
     },
 
 
