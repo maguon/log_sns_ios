@@ -5516,6 +5516,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-native-amap-geolocation@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npm.taobao.org/react-native-amap-geolocation/download/react-native-amap-geolocation-1.0.4.tgz#f855532e7ba0e7859affc314e5631c8ca5d87926"
+  integrity sha1-+FVTLnug54Wa/8MU5WMcjKXYeSY=
+
 react-native-collapsible@^1.4.0:
   version "1.5.1"
   resolved "https://registry.npm.taobao.org/react-native-collapsible/download/react-native-collapsible-1.5.1.tgz#da2937b509921b28bf1b0f9eb8e50ad61c3ffb5d"

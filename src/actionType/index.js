@@ -16,6 +16,7 @@ import * as CommunityType from './main/CommunityType'
 import * as ContactType from './main/ContactType'
 import * as EvaluationMeType from './main/EvaluationMeType'
 import * as EvaluationType from './main/EvaluationType'
+import * as EvaluationListType from './main/EvaluationListType'
 import * as FansType from './main/FansType'
 import * as FollowMeType from './main/FollowMeType'
 import * as FollowType from './main/FollowType'
@@ -58,6 +59,7 @@ export {
     ContactType,
     EvaluationMeType,
     EvaluationType,
+    EvaluationListType,
     FansType,
     FollowMeType,
     FollowType,

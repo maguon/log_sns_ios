@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs'
 import {createStackNavigator} from 'react-navigation-stack'
 import Icon from 'react-native-vector-icons/Ionicons'
 import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator'
-
+import ArtRightButton from "./components/modules/ArtRightButton"
 //login
 import Login from './components/main/Login'
 import Registered from './components/main/Registered'
@@ -207,7 +207,8 @@ const Main = createStackNavigator({
         screen: WriteArticle,
         navigationOptions: ({navigation}) => ({
             title: '写文章',
-            tabBarVisible: false
+            headerRight: <ArtRightButton navigation={navigation}></ArtRightButton>,
+            tabBarVisible: false,
         })
     },
 

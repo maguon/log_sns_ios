@@ -13,6 +13,7 @@ import * as CommunityAction from './main/CommunityAction'
 import * as ContactAction from './main/ContactAction'
 import * as EvaluationAction from './main/EvaluationAction'
 import * as EvaluationMeAction from './main/EvaluationMeAction'
+import * as EvaluationListAction from './main/EvaluationListAction'
 import * as FansAction from './main/FansAction'
 import * as FollowAction from './main/FollowAction'
 import * as FollowMeAction from './main/FollowMeAction'
@@ -55,6 +56,7 @@ export {
     ContactAction,
     EvaluationAction,
     EvaluationMeAction,
+    EvaluationListAction,
     FansAction,
     FollowAction,
     FollowMeAction,

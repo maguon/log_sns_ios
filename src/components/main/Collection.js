@@ -44,17 +44,26 @@ class Collection extends React.Component {
         )
     }
 
-    ListFooterComponent = () => {
-        return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
-            </View>
-        )
+
+    ListFooterComponent = (param) => {
+        if(param==1) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
+            )
+        }else if(param==2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
     }
 
     renderItem = (props) => {
-        const {item} = props
+        const {item,index} = props
         const {delCollection}=this.props
         const userInfo = item.msg_user_detail_info[0]
         const msgInfo=item.msg_info[0]
@@ -148,7 +157,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                Alert.alert("", "确定要取消收藏", [{text: "确定", onPress: () => {delCollection(item._id)}},{text: "取消"}])
+                                                Alert.alert("", "确定要取消收藏", [{text: "确定", onPress: () => {delCollection({index:index,id:item._id})}},{text: "取消"}])
                                             }}>
                                             <AntDesign name="star" size={18}
                                                        style={{color:'#ffa600'}}/>
@@ -189,8 +198,8 @@ class Collection extends React.Component {
 
 
     render() {
-        const {collectionReducer:{collectionList,isResultStatus}}=this.props
-
+        const {collectionReducer:{collectionList,colResultStatus,colComplete},getCollectionList}=this.props
+console.log(collectionList)
         return (
             <Provider>
                 <ScrollView>
@@ -201,12 +210,11 @@ class Collection extends React.Component {
                         ListEmptyComponent={this.renderEmpty}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
-                            // if (isResultStatus == 0) {
-                            //     props.getFansListMore()
-                            // }
+                            if (!colComplete) {
+                                getCollectionList()
+                            }
                         }}
-                        ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                            <View style={{height: 10}}/>}
+                        ListFooterComponent={this.ListFooterComponent(colResultStatus)}
                     />
                 </ScrollView>
             </Provider>

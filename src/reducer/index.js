@@ -16,6 +16,7 @@ import CommunityReducer from './main/CommunityReducer'
 import ContactReducer from './main/ContactReducer'
 import EvaluationMeReducer from './main/EvaluationMeReducer'
 import EvaluationReducer from './main/EvaluationReducer'
+import EvaluationListReducer from './main/EvaluationListReducer'
 import FansReducer from './main/FansReducer'
 import FollowMeReducer from './main/FollowMeReducer'
 import FollowReducer from './main/FollowReducer'
@@ -58,6 +59,7 @@ export default combineReducers({
     ContactReducer,
     EvaluationMeReducer,
     EvaluationReducer,
+    EvaluationListReducer,
     FansReducer,
     FollowMeReducer,
     FollowReducer,

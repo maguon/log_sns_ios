@@ -1,19 +1,24 @@
-import {apiHost} from '../../config/HostConfig'
-import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import httpRequest from '../../utils/HttpRequest'
 
-export const toLogin = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+export const getLikeMeList = () => async (dispatch) => {
     try {
-        // 基本检索URL
-        let url = `${apiHost}/userLogin`
-        const res = await HttpRequest.get(url)
-
-
+        const url = ``
+        const res = await httpRequest.get(url)
+        if (res.success) {
+            dispatch({ type: actionType.PraiseMeType.get_likeMeList_success, payload: {} })
+        } else {
+            dispatch({ type: actionType.PraiseMeType.get_likeMeList_failed, payload: {} })
+        }
     } catch (err) {
-        Toast.fail(err.message)
+        dispatch({ type: actionType.PraiseMeType.get_likeMeList_failed, payload: {} })
     }
+}
+
+export const getLikeMeListWaiting = () => (dispatch) => {
+    dispatch({ type: actionType.PraiseMeType.get_likeMeList_waiting })
+}
+
+export const getLikeMeListMore = () => (dispatch) => {
 
 }

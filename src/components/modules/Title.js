@@ -29,9 +29,9 @@ class Title extends React.Component {
                 placement="bottom"
                 onSelect={v => {
                     if (v == "发布文章") {
-                        this.props.navigation.navigate("WriteArticle")
+                        this.props.navigation.navigate("WriteArticle",{title:v})
                     } else if (v == "发布求助") {
-                        this.props.navigation.navigate("WriteArticle")
+                        this.props.navigation.navigate("WriteArticle",{title:v})
                     } else if (v == "扫一扫") {
                         this.props.navigation.navigate("Scan")
                     } else {
