@@ -40,7 +40,6 @@ import * as LocationType from './main/LocationType'
 import * as DetailType from './main/DetailType'
 import * as ToVoteType from './main/ToVoteType'
 import * as CommentType from './main/CommentType'
-import * as ItemType from './modules/ItemType'
 
 
 export {
@@ -81,6 +80,5 @@ export {
     DetailType,
     ToVoteType,
     CommentType,
-    ItemType,
     SpaceType,
 }

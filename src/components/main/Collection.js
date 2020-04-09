@@ -15,7 +15,7 @@ import {Provider, WhiteSpace, WingBlank,Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import globalStyles from "../../utils/GlobalStyles"
-import Item from "../modules/Item"
+import Item from "../modules/ChildItem"
 import * as action from "../../action/index"
 
 
@@ -47,10 +47,8 @@ class Collection extends React.Component {
 
     ListFooterComponent = (param) => {
         if(param==1) {
-            return (
-                <View style={globalStyles.footerContainer}>
-                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
-                </View>
+            return(
+                <View style={{height: 10}}/>
             )
         }else if(param==2) {
             return (
@@ -64,7 +62,7 @@ class Collection extends React.Component {
 
     renderItem = (props) => {
         const {item,index} = props
-        const {delCollection}=this.props
+        const {delCollection,setColPraise}=this.props
         const userInfo = item.msg_user_detail_info[0]
         const msgInfo=item.msg_info[0]
         if (msgInfo.carrier == 2) {
@@ -99,7 +97,7 @@ class Collection extends React.Component {
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2
+                                                    marginLeft: 2,
                                                 }]}>{msgInfo.address_name ? msgInfo.address_name : ''}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -157,7 +155,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                Alert.alert("", "确定要取消收藏", [{text: "确定", onPress: () => {delCollection({index:index,id:item._id})}},{text: "取消"}])
+                                                Alert.alert("", "确定要取消收藏", [{text: "确定", onPress: () => {delCollection(item)}},{text: "取消"}])
                                             }}>
                                             <AntDesign name="star" size={18}
                                                        style={{color:'#ffa600'}}/>
@@ -177,13 +175,12 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.setState({
-                                                    praise: !this.state.praise
-                                                })
+                                                setColPraise(item)
                                             }}>
-                                            <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
-                                                       style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{msgInfo.agree_num ? msgInfo.agree_num : 0}</Text>
+                                            {msgInfo.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
+                                                <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{msgInfo.agree_num ? msgInfo.agree_num : 0}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 }
@@ -230,6 +227,10 @@ const mapStateToProps = (state) => {
 const mapDispatchProps = (dispatch, props) => ({
     getCollectionList: () => {
         dispatch(action.CollectionAction.getCollectionList())
+    },
+
+    setColPraise: (value) => {
+        dispatch(action.CollectionAction.setColPraise(value))
     },
     delCollection: (value) => {
         dispatch(action.CollectionAction.delCollection(value))

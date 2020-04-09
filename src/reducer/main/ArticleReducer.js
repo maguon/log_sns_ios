@@ -51,6 +51,13 @@ export default handleActions({
             isResultStatus: 1,
         }
     },
+    [actionType.ArticleType.set_ArtInfo_Praise]: (state, action) => {
+        const {payload: {artInfo}} = action
+        return {
+            ...state,
+            artInfo
+        }
+    },
 
 
     [actionType.ArticleType.get_ArtArticle]: (state, action) => {
@@ -69,6 +76,13 @@ export default handleActions({
             artArticle: [...state.artArticle, ...artArticle],
             artComplete,
             artResultStatus: 1,
+        }
+    },
+    [actionType.ArticleType.set_ArtArticle_Praise]: (state, action) => {
+        const {payload: {artArticle}} = action
+        return {
+            ...state,
+            artArticle
         }
     },
 
@@ -92,6 +106,15 @@ export default handleActions({
             imgResultStatus: 1,
         }
     },
+    [actionType.ArticleType.set_ArtImage_Praise]: (state, action) => {
+        const {payload: {artImage}} = action
+        return {
+            ...state,
+            artImage
+        }
+    },
+
+
 
     [actionType.ArticleType.get_ArtVideo]: (state, action) => {
         const {payload: {artVideo,vidComplete}} = action
@@ -111,6 +134,15 @@ export default handleActions({
             vidResultStatus: 1,
         }
     },
+    [actionType.ArticleType.set_ArtVideo_Praise]: (state, action) => {
+        const {payload: {artVideo}} = action
+        return {
+            ...state,
+            artVideo
+        }
+    },
+
+
 
     [actionType.ArticleType.get_ArtHelp]: (state, action) => {
         const {payload: {artHelp,helpComplete}} = action
@@ -130,7 +162,13 @@ export default handleActions({
             helpResultStatus: 1,
         }
     },
-
+    [actionType.ArticleType.set_ArtHelp_Praise]: (state, action) => {
+        const {payload: {artHelp}} = action
+        return {
+            ...state,
+            artHelp
+        }
+    },
 
 
 }, initialState)

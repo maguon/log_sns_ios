@@ -9,7 +9,7 @@ import Home from '../main/Home'
 
 const Item = Popover.Item
 const {width} = Dimensions.get('window')
-const tabs = [{title: '热门'}, {title: '关注'}, {title: '附近'},]
+const tabs = [{title: '最近'}, {title: '关注'}, {title: '附近'},]
 
 class Title extends React.Component {
     constructor(props) {
@@ -99,7 +99,7 @@ class Title extends React.Component {
                 <View style={{width: width * 0.6, height: 45.5, alignItems: 'center', backgroundColor: '#1598cc'}}>
                     <Tabs tabs={tabs}
                           onChange={(tab, index) => {
-                              this.props.navigation.setParams({tab: tab, index: index})
+                              this.props.navigation.setParams({tab: tab, tabIndex: index})
                           }}
                           tabBarBackgroundColor='#1598cc'
                           tabBarActiveTextColor='#fff'

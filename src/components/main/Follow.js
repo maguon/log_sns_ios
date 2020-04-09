@@ -37,18 +37,25 @@ class Follow extends React.Component {
     renderEmpty = () => {
         return (
             <View style={globalStyles.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无关注内容</Text>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
             </View>
         )
     }
 
-    ListFooterComponent = () => {
-        return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
-            </View>
-        )
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return(
+                <View style={{height: 10}}/>
+            )
+
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
     }
     removeFollow = (param) => {
         Alert.alert("", `确定要取消关注吗？`, [{
@@ -67,7 +74,7 @@ class Follow extends React.Component {
         const loginItem = item.follow_user_login_info[0]
         return (
             <View style={{flex: 1}}>
-                <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space")}>
+                <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space",{userId:item._user_by_id})}>
                     {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={style.image}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
@@ -96,7 +103,7 @@ class Follow extends React.Component {
     };
 
     render() {
-        const {followReducer: {followList, isResultStatus}} = this.props
+        const {followReducer: {followList, isResultStatus,isComplete},getFollowList} = this.props
         console.log(this.props)
 
         return (
@@ -106,15 +113,14 @@ class Follow extends React.Component {
                     keyExtractor={(item, index) => `${index}`}
                     data={followList}
                     renderItem={this.renderItem}
-                    ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
-                        if (isResultStatus == 0) {
-                            props.getFollowListMore()
+                        if (!isComplete) {
+                            getFollowList()
                         }
                     }}
-                    ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent : <View style={{height: 10}}/>}
-
+                    ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                    ListEmptyComponent={this.renderEmpty}
                 />
             </Provider>
         )
@@ -135,9 +141,7 @@ const mapDispatchProps = (dispatch, ownProps) => ({
     getFollowList: () => {
         dispatch(action.FollowAction.getFollowList())
     },
-    getFollowListMore: (value) => {
-        dispatch(action.FollowAction.getFollowListMore(value))
-    },
+
     follow: (param) => {
         dispatch(action.FollowAction.follow(param))
     },

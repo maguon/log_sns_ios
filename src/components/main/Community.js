@@ -9,7 +9,7 @@ import {
     Image,
     TouchableOpacity,
     ImageBackground,
-    Dimensions
+    Dimensions, Alert
 } from 'react-native'
 import {Provider, Tabs, WhiteSpace, WingBlank, Card, Modal, Button} from '@ant-design/react-native'
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -17,8 +17,9 @@ import moment from "moment"
 import {connect} from "react-redux"
 import globalStyles from '../../utils/GlobalStyles'
 import VoteItem from '../modules/VoteItem'
-import Item from '../modules/Item'
+import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
+import * as actionType from "../../actionType";
 
 
 
@@ -28,18 +29,18 @@ class Community extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            praise: false,
-            star: false,
             visible:false,
+            itemInfo:"",
+            star: false,
+            tabIndex:0,
         }
     }
 
 
     componentDidMount() {
+        this.props.getComLoad()
         this.props.getComInfo()
-        this.props.getComVideo()
-        this.props.getComHelp()
-        this.props.getComVoteList()
+
 
     }
 
@@ -74,10 +75,8 @@ class Community extends React.Component {
 
     ListFooterComponent = (param) => {
         if(param==1) {
-            return (
-                <View style={globalStyles.footerContainer}>
-                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
-                </View>
+            return(
+                <View style={{height: 10}}/>
             )
         }else if(param==2) {
             return (
@@ -89,15 +88,18 @@ class Community extends React.Component {
         }
     }
 
+
     onClose = () => {
         this.setState({
             visible: false,
+            star: false
         });
     }
-    renderItem = (props) => {
-        const {item} = props
-        const userInfo = item.user_detail_info[0]
 
+    renderItem = (props) => {
+        const {item,index} = props
+        const userInfo = item.user_detail_info[0]
+        const {setComPraise} = this.props
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -122,24 +124,38 @@ class Community extends React.Component {
                                         <TouchableOpacity style={{width: 280, marginLeft: 5}} onPress={() => {
                                             this.props.navigation.navigate('Space', {userId: item._user_id})
                                         }}>
-                                            <Text
-                                                style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+                                            <Text style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
-                                            <View style={{flexDirection: 'row'}}>
+                                            <Text style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                            {item.address_name!=""&&<View style={{flexDirection: 'row'}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
                                                     marginLeft: 2, marginRight:15
-                                                }]}>{item.address_name ? item.address_name : ''}</Text>
-                                            </View>
+                                                }]}>{item.address_name}</Text>
+                                            </View>}
                                         </TouchableOpacity>
                                     </View>
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
-                                        <Text
-                                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                    <View style={{position: 'absolute', right: 0, top: -20,}}>
+                                        {item.user_relations == "" ?
+                                            <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
+                                                  onPress={() => {
+                                                      const params={
+                                                          item:item,tabIndex:this.state.tabIndex
+                                                      }
+                                                      this.props.comFollow(params)}}>关注</Text>:
+                                            <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
+                                                  onPress={() => {
+                                                      Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
+                                                              const params={
+                                                                  item:item,tabIndex:this.state.tabIndex
+                                                              }
+                                                              this.props.comCancelFollow(params)
+                                                          }},{text: "取消"}])
+                                                  }}>取消关注</Text>}
                                     </View>
                                 }
                             />
@@ -188,12 +204,14 @@ class Community extends React.Component {
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
                                                 this.setState({
-                                                    visible: true
+                                                    visible: true,
+                                                    itemInfo: item
                                                 })
                                             }}>
-                                            <AntDesign name={this.state.star ? "star" : "staro"} size={18}
-                                                       style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.collect_num ? item.collect_num :0}</Text>
+                                            <AntDesign name="export" size={18}
+                                                       style={{color: '#838485'}}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.collect_num ? item.collect_num : 0}</Text>
                                         </TouchableOpacity>
 
 
@@ -202,20 +220,23 @@ class Community extends React.Component {
                                             onPress={() => {
                                                 this.props.navigation.navigate('Comment')
                                             }}>
-                                            <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.comment_num ? item.comment_num : 0}</Text>
+                                            <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.comment_num ? item.comment_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.setState({
-                                                    praise: !this.state.praise
-                                                })
+                                                const params={
+                                                    item:item,tabIndex:this.state.tabIndex
+                                                }
+                                                setComPraise(params)
                                             }}>
-                                            <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
-                                                       style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.agree_num ? item.agree_num : 0}</Text>
+                                            {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
+                                                <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 }
@@ -240,11 +261,23 @@ class Community extends React.Component {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
         const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
             comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus},
-            getComInfo,getComVideo,getComHelp,getComVoteList} = this.props
+            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection} = this.props
 
         return (
             <Provider>
                 <Tabs tabs={tabs}
+                      onChange={(tab, index) => {
+                          this.setState({tabIndex: index})
+                          if(index==0){
+                              getComVideo()
+                          }else if(index==1){
+                              getComVideo()
+                          }else if(index==2){
+                             getComHelp()
+                          }else if(index==3){
+                              getComVoteList()
+                          }
+                      }}
                       tabBarBackgroundColor='#fff'
                       tabBarActiveTextColor='#1598cc'
                       tabBarInactiveTextColor='#414445'
@@ -321,8 +354,17 @@ class Community extends React.Component {
                     animationType="slide-up"
                     onClose={this.onClose}
                 >
-                    <Button>从相册中选择</Button>
-                    <Button>拍照</Button>
+                    <TouchableOpacity
+                        style={{height: 80, justifyContent: "center", alignItems: "center", marginBottom: 5}}
+                        onPress={() => {
+                            this.setState({star: true})
+                            setCollection(this.state.itemInfo)
+                            this.onClose()
+                        }}>
+                        <AntDesign name={this.state.star ? "star" : "staro"} size={50}
+                                   style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
+                        <Text style={globalStyles.midText}>收藏</Text>
+                    </TouchableOpacity>
                     <Button onPress={this.onClose}>取消</Button>
                 </Modal>
             </Provider>
@@ -337,6 +379,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    getComLoad:()=>{
+        dispatch({type: actionType.CommunityType.set_ComLoading, payload: {comLoading: false}})
+    },
     getComInfo: () => {
         dispatch(action.CommunityAction.getComInfo())
     },
@@ -349,7 +394,18 @@ const mapDispatchProps = (dispatch, props) => ({
     getComVoteList: () => {
         dispatch(action.CommunityAction.getComVoteList())
     },
-
+    setCollection: (value) => {
+        dispatch(action.HomeAction.setCollection(value))
+    },
+    setComPraise: (value) => {
+        dispatch(action.CommunityAction.setComPraise(value))
+    },
+    comCancelFollow: (value) => {
+        dispatch(action.CommunityAction.comCancelFollow(value))
+    },
+    comFollow: (value) => {
+        dispatch(action.CommunityAction.comFollow(value))
+    },
 
 })
 

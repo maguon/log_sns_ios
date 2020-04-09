@@ -13,6 +13,8 @@ const initialState = {
 
 
     nearList: [],
+    longitude:0,
+    latitude:0,
     nearComplete:false,
     nearResultStatus:0
 }
@@ -25,6 +27,7 @@ export default handleActions({
             hotLoading,
         }
     },
+
     [actionType.HomeActionType.get_HotList_success]: (state, action) => {
         const {payload: {hotList,isComplete}} = action
         return {
@@ -44,6 +47,14 @@ export default handleActions({
 
         }
     },
+    [actionType.HomeActionType.set_HotList_Praise]: (state, action) => {
+        const {payload: {hotList}} = action
+        return {
+            ...state,
+            hotList:hotList,
+        }
+    },
+
 
 
 
@@ -65,7 +76,13 @@ export default handleActions({
             homeResultStatus:2,
         }
     },
-
+    [actionType.HomeActionType.set_HomeFollow_Praise]: (state, action) => {
+        const {payload: {homeFollow}} = action
+        return {
+            ...state,
+            homeFollow:homeFollow,
+        }
+    },
 
 
 
@@ -87,6 +104,23 @@ export default handleActions({
             nearComplete,
             nearResultStatus:2,
         }
+    },
+    [actionType.HomeActionType.set_NearList_Praise]: (state, action) => {
+        const {payload: {nearList}} = action
+        return {
+            ...state,
+            nearList:nearList,
+        }
+    },
+
+    [actionType.HomeActionType.get_address]: (state, action) => {
+        const {payload: {longitude,latitude}} = action
+        return {
+            ...state,
+            longitude,
+            latitude,
+        }
+
     },
 
 

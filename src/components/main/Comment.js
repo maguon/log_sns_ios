@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, StyleSheet} from 'react-native'
+import ChildItem from '../modules/ChildItem'
 
 
 class Comment extends Component {
@@ -10,11 +11,14 @@ class Comment extends Component {
     }
 
     render() {
-        const {} = this.props
+        const {navigation:{state:{params:{item}}}} = this.props
+        console.log(item)
         return (
-            <View>
-                <Text>Comment</Text>
-            </View>
+            <ChildItem item={item}></ChildItem>
+            // <View>
+            //     <Text>2019-12-08 11:30</Text>
+            //     <Text>652人阅读</Text>
+            // </View>
         )
     }
 }

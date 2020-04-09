@@ -133,6 +133,27 @@ class Vote extends React.Component {
             )
         })
     }
+     //已结束
+    renderEnd = (props) => {
+        const {option,participants_num} = props
+        return option.map((item, index) => {
+            const barWidth = width * 0.65 * item.num / participants_num ? width * 0.65 * item.num / participants_num : 10
+            return (
+                <Item  key={index} style={{height: 60}}>
+                    <View >
+                        <Brief>{item.txt}</Brief>
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
+                            <View style={{width: barWidth, height: 15, backgroundColor: "#ff9700"}}></View>
+                            <Text style={[globalStyles.midText, {marginLeft: 5}]}>{item.num}人支持</Text>
+                        </View>
+                    </View>
+                </Item>
+            )
+        })
+    }
+
+
+
     render() {
         const {navigation: {state: {params: {item}}}, setSupport} = this.props
         return (
@@ -184,8 +205,8 @@ class Vote extends React.Component {
                         </View>
                     }>
                     </List>
-                    {item.user_votes==""?<View>
-                    {item.max_num > 1 ? this.renderCheckbox(item) : this.renderRadio(item)}
+                    {item.status != 1 ?this.renderEnd(item):(item.user_votes==""?
+                        <View>{item.max_num > 1 ? this.renderCheckbox(item) : this.renderRadio(item)}
                     <View style={{alignItems: 'center'}}>
                         <Button type="primary" style={{marginTop: 50, width: width * 0.8}} onPress={() => {
                             const value = {
@@ -196,7 +217,7 @@ class Vote extends React.Component {
                             setSupport(value)
                         }}>投票</Button>
                     </View>
-                </View>:this.renderItem(item)}
+                </View>:this.renderItem(item))}
                 </View>
             </Provider>
         )

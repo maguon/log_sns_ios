@@ -114,26 +114,82 @@ export const getArtHelp = () => async (dispatch, getState) => {
 
 
 
-//删除
-export const itemDelete = (value) => async (dispatch, getState) => {
-    console.log(value)
+export const update=(tabIndex)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},ArticleReducer:{artInfo,artArticle,artImage,artVideo,artHelp}} = getState()
-    const {_id} = value
+    if(tabIndex==0){
+        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&status=1&start=0&size=${artInfo.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtInfo_Praise, payload: {artInfo: res.result}})
+        }
+    }else if(tabIndex==1){
+        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=1&status=1&start=0&size=${artArticle.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtArticle_Praise, payload: {artArticle: res.result}})
+        }
+
+    }else if(tabIndex==2){
+        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=2&status=1&start=0&size=${artImage.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtImage_Praise, payload: {artImage: res.result}})
+        }
+    }else if(tabIndex==3){
+        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=3&status=1&start=0&size=${artVideo.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtVideo_Praise, payload: {artVideo: res.result}})
+        }
+    }else if(tabIndex==4){
+        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=0&size=${artHelp.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtHelp_Praise, payload: {artHelp: res.result}})
+        }
+    }
+}
+
+
+//点赞
+export const setArtPraise = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    console.log(params)
+    const {item,tabIndex} =params
 
     try {
-        // 基本检索URL
-        // let url = `${apiHost}/user/${userId}/msg/${_id}/del`
-        // const res = await HttpRequest.del(url)
-        // console.log(res)
-        // if (res.success) {
-            // dispatch(getArtInfo())
-            // dispatch(getArtArticle())
-            // dispatch(getArtImage())
-            // dispatch(getArtVideo())
-            // dispatch(getArtHelp())
+        let params={type:1, msgId:`${item._id}`, msgUserId:`${item._user_id}`,}
+        console.log(params)
+        let url = `${apiHost}/user/${userId}/userPraise`
+        const res = await HttpRequest.post(url,params)
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.info(res.msg)
+        }
 
-        // }
+    } catch (err) {
 
+        Toast.fail(err.message)
+    }
+}
+
+
+
+//删除
+export const itemDelete = (params) => async (dispatch, getState) => {
+    console.log(params)
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+
+    try {
+       // 基本检索URL
+        let url = `${apiHost}/user/${userId}/msg/${item._id}/del`
+        const res = await HttpRequest.del(url)
+        console.log(res)
+        if (res.success) {
+            dispatch(update(tabIndex))
+        }
     } catch (err) {
         Toast.fail(err.message)
     }

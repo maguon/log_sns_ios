@@ -4,6 +4,8 @@ import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
+
+const pageSize = 5
 //个人信息
 export const getSpaceUser = (value) => async (dispatch, getState) => {
 
@@ -28,9 +30,13 @@ export const getSpaceData = (value) => async (dispatch, getState) => {
         // 基本检索URL
         let url = `${apiHost}/user/${value}/msg?sendMsgUserId=${value}`
         const res = await HttpRequest.get(url)
-
+        console.log(res.result)
         if (res.success) {
-            dispatch({type: actionType.SpaceType.get_spaceData, payload: {spaceData: res.result}})
+            dispatch({type: actionType.SpaceType.get_spaceData_Loading, payload: {spaceLoading: true}})
+                dispatch({
+                    type: actionType.SpaceType.get_spaceData,
+                    payload: {spaceData: res.result,isComplete: false}
+                })
         }
 
     } catch (err) {
@@ -52,7 +58,6 @@ export const followStatus = (value) => async (dispatch, getState) => {
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
 
 
@@ -89,6 +94,27 @@ export const follow = (value) => async (dispatch, getState) => {
         }
 
     } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+
+//点赞
+export const setPraise = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item} =params
+
+    try {
+        let params={type:1, msgId:`${item._id}`, msgUserId:`${item._user_id}`}
+        let url = `${apiHost}/user/${userId}/userPraise`
+        const res = await HttpRequest.post(url,params)
+        if(res.success){
+            dispatch(getSpaceData(item._user_id))
+        }else {
+            Toast.info(res.msg)
+        }
+    } catch (err) {
+
         Toast.fail(err.message)
     }
 

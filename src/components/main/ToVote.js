@@ -3,21 +3,13 @@ import {
     View,
     Text,
     StyleSheet,
-    ScrollView,
     ActivityIndicator,
     FlatList,
-    Image,
-    TouchableOpacity,
-    ImageBackground,
-    Dimensions
 } from 'react-native'
-import {Provider, Tabs, WhiteSpace, WingBlank, Card, Modal, Button} from '@ant-design/react-native'
-import AntDesign from "react-native-vector-icons/AntDesign"
-import moment from "moment"
+
 import {connect} from "react-redux"
 import globalStyles from '../../utils/GlobalStyles'
 import VoteItem from '../modules/VoteItem'
-import Item from '../modules/Item'
 import * as action from "../../action/index"
 
 class ToVote extends React.Component {

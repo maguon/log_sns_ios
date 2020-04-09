@@ -48,6 +48,15 @@ export default handleActions({
             isResultStatus: 1,
         }
     },
+    [actionType.CommunityType.set_ComInfo_Praise]: (state, action) => {
+        const {payload: {comInfo}} = action
+        return {
+            ...state,
+            comInfo,
+        }
+    },
+
+
 
 
 
@@ -69,7 +78,13 @@ export default handleActions({
             vidResultStatus: 1,
         }
     },
-
+    [actionType.CommunityType.set_ComVideo_Praise]: (state, action) => {
+        const {payload: {comVideo}} = action
+        return {
+            ...state,
+            comVideo,
+        }
+    },
 
 
     [actionType.CommunityType.get_ComHelp]: (state, action) => {
@@ -90,6 +105,14 @@ export default handleActions({
             helpResultStatus: 1,
         }
     },
+    [actionType.CommunityType.set_ComHelp_Praise]: (state, action) => {
+        const {payload: {comHelp}} = action
+        return {
+            ...state,
+            comHelp,
+        }
+    },
+
 
 
     [actionType.CommunityType.get_ComVoteList]: (state, action) => {
@@ -108,6 +131,13 @@ export default handleActions({
             comVoteList: [...state.comVoteList, ...comVoteList],
             voteComplete,
             voteResultStatus: 1,
+        }
+    },
+    [actionType.CommunityType.set_ComVoteList_Praise]: (state, action) => {
+        const {payload: {comVoteList}} = action
+        return {
+            ...state,
+            comVoteList,
         }
     },
 

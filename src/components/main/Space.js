@@ -15,8 +15,9 @@ import * as action from "../../action/index";
 import globalStyles, {styleColor} from "../../utils/GlobalStyles"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import {Button, Modal, Provider, WhiteSpace, WingBlank,Card} from "@ant-design/react-native"
-import Item from "../modules/Item"
+import Item from "../modules/ChildItem"
 import moment from "moment"
+import * as actionType from "../../actionType";
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -34,6 +35,7 @@ class Space extends Component {
 
     componentDidMount() {
         const {params: {userId}} = this.props.navigation.state
+        this.props.getSpaceLoad()
         this.props.getSpaceData(userId)
         this.props.getSpaceUser(userId)
         this.props.followStatus(userId)
@@ -48,17 +50,24 @@ class Space extends Component {
         )
     }
 
-    ListFooterComponent = () => {
-        return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
-            </View>
-        )
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return(
+                <View style={{height: 10}}/>
+            )
+
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
     }
 
     renderItem = (props) => {
-        const {item} = props
+        const {item,index} = props
         const userInfo = item.user_detail_info[0]
 
         if (item.carrier == 2) {
@@ -150,12 +159,13 @@ class Space extends Component {
                                             onPress={() => {
                                                 this.setState({
                                                     visible: true,
-                                                    itemInfo:item
+                                                    itemInfo: item
                                                 })
                                             }}>
                                             <AntDesign name="export" size={18}
-                                                       style={{color:'#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.collect_num ? item.collect_num :0}</Text>
+                                                       style={{color: '#838485'}}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.collect_num ? item.collect_num : 0}</Text>
                                         </TouchableOpacity>
 
 
@@ -164,20 +174,23 @@ class Space extends Component {
                                             onPress={() => {
                                                 this.props.navigation.navigate('Comment')
                                             }}>
-                                            <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{item.comment_num ? item.comment_num : 0}</Text>
+                                            <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.comment_num ? item.comment_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.setState({
-                                                    praise: !this.state.praise
-                                                })
+                                                const params={
+                                                    item:item,index:index
+                                                }
+                                                this.props.setPraise(params)
                                             }}>
-                                            <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
-                                                       style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]} >{item.agree_num ? item.agree_num : 0}</Text>
+                                            {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
+                                                <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 }
@@ -208,10 +221,29 @@ class Space extends Component {
             star:false
         });
     }
+    //加载等待页
+    renderLoadingView() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F5FCFF',
+            }}>
+                <ActivityIndicator
+                    animating={true}
+                    color='red'
+                    size="large"
+                />
+            </View>
+        );
+    }
+
 
     render() {
-        const {spaceReducer: {spaceData, spaceUser, spaceHidden, isResultStatus}, setCollection, follow, navigation: {state: {params: {userId}}}} = this.props
-console.log(spaceHidden)
+        const {spaceReducer: {spaceData, spaceUser, spaceHidden,isComplete,spaceLoading, isResultStatus},getSpaceData, setCollection, follow, navigation: {state: {params: {userId}}}} = this.props
+console.log(spaceData)
         return (
             <Provider>
             <View style={{flex: 1}}>
@@ -264,20 +296,19 @@ console.log(spaceHidden)
                     </View>
                 </View>
 
-                <FlatList
+                {spaceLoading?<FlatList
                     keyExtractor={(item, index) => `${index}`}
                     data={spaceData}
                     renderItem={this.renderItem}
                     ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
-                        // if (isResultStatus == 0) {
-                        //     props.getFansListMore()
+                        // if (!isComplete) {
+                        //     getSpaceData()
                         // }
                     }}
-                    ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent :
-                        <View style={{height: 10}}/>}
-                />
+                    ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                />:this.renderLoadingView()}
 
             </View>
 
@@ -311,7 +342,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    getSpaceLoad:()=>{
+        dispatch({type: actionType.SpaceType.get_spaceData_Loading, payload: {spaceLoading: false}})
+    },
     getSpaceData: (value) => {
+        console.log(value)
         dispatch(action.SpaceAction.getSpaceData(value))
     },
     getSpaceUser: (value) => {
@@ -328,6 +363,9 @@ const mapDispatchProps = (dispatch, props) => ({
     },
     setCollection: (value) => {
         dispatch(action.HomeAction.setCollection(value))
+    },
+    setPraise: (value) => {
+        dispatch(action.SpaceAction.setPraise(value))
     },
 })
 export default connect(mapStateToProps, mapDispatchProps)(Space)

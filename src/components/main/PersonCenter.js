@@ -83,7 +83,7 @@ class PersonCenter extends React.Component {
                                   navigation.navigate('Evaluation')
                               }}
                               thumb={<AntDesign name="edit" size={20} style={style.icon}/>}>
-                            <Text style={globalStyles.largeText}>我的评价</Text></Item>
+                            <Text style={globalStyles.largeText}>我的评论</Text></Item>
                         <Item arrow="horizontal"
                               onPress={() => {
                                   navigation.navigate('ToVote')

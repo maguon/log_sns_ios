@@ -66,7 +66,7 @@ export default class VoteItem extends React.Component {
                                       onPress={() => {
                                           this.props.navigation.navigate('Vote',{item:item})
                                       }}>
-                                    {item.user_votes==""? <Text>点击参与</Text>:<Text style={globalStyles.midText}>已参与</Text>}
+                                    {item.status != 1?<Text>查看详情</Text>:(item.user_votes==""? <Text>点击参与</Text>:<Text style={globalStyles.midText}>已参与</Text>)}
                                 </Text>
 
                             </View>

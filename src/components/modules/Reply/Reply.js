@@ -11,7 +11,8 @@ const Reply = props => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', flex: 3 }}>
                     <View style={{ width: 48, height: 48, margin: 10 }}>
-                        <Image source={{ uri: data.avatar }} style={{ width: 48, height: 48, borderRadius: 24 }} />
+                        { data.avatar?<Image source={{ uri: data.avatar }} style={{ width: 40, height: 40, borderRadius: 30 }} />
+                            : <Image source={require('../../../images/head.png')} style={{ width: 40, height: 40, borderRadius: 30}}/>}
                     </View>
                     <View style={{ marginTop: 10 }}>
                         <Text style={{ fontSize: 16 }}>{data.nick}</Text>

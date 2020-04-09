@@ -3,6 +3,7 @@ import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import {getHomeFollow, getNearList} from "./HomeAction";
 
 
 
@@ -93,4 +94,101 @@ export const getComVoteList = () => async (dispatch, getState) => {
     } catch (err) {
         Toast.fail(err.message)
     }
+}
+
+export const update=(tabIndex)=>async (dispatch, getState)=>{
+    const {LoginReducer: {userId},CommunityReducer:{comInfo,comVideo,comHelp,comVoteList}} = getState()
+    if(tabIndex==0){
+        let url = `${apiHost}/user/${userId}/msg?status=1&start=0&size=${comInfo.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComInfo_Praise, payload: {comInfo: res.result}})
+        }
+    }else if(tabIndex==1){
+        let url = `${apiHost}/user/${userId}/msg?carrier=3&status=1&start=0&size=${comVideo.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComVideo_Praise, payload: {comVideo: res.result}})
+        }
+
+    }else if(tabIndex==2){
+        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=0&size=${comHelp.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComHelp_Praise, payload: {comHelp: res.result}})
+        }
+    }else if(tabIndex==3){
+        let url = `${apiHost}/user/${userId}/vote?start=0&size=${comVoteList.length}`
+        const res = await HttpRequest.get(url)
+        if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComVoteList_Praise, payload: {comVoteList: res.result}})
+        }
+    }
+}
+
+//点赞
+export const setComPraise = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    console.log(params)
+    const {item,tabIndex} =params
+
+    try {
+        let params={
+            type:1,
+            msgId:`${item._id}`,
+            msgUserId:`${item._user_id}`,
+        }
+        console.log(params)
+        let url = `${apiHost}/user/${userId}/userPraise`
+        const res = await HttpRequest.post(url,params)
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.info(res.msg)
+        }
+
+    } catch (err) {
+
+        Toast.fail(err.message)
+    }
+}
+
+
+
+//取消关注
+export const comCancelFollow = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/followUser/${item._user_id}/del`
+        const res = await HttpRequest.del(url)
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+
+//关注
+export const comFollow = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userRelation`
+        const res = await HttpRequest.post(url,{userById:item._user_id})
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
 }

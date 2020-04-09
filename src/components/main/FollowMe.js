@@ -35,18 +35,25 @@ class FollowMe extends React.Component {
     renderEmpty = () => {
         return (
             <View style={globalStyles.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无消息</Text>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
             </View>
         )
     }
 
-    ListFooterComponent = () => {
-        return (
-            <View style={globalStyles.footerContainer}>
-                <ActivityIndicator color={globalStyles.styleColor} styleAttr='Small'/>
-                <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载...</Text>
-            </View>
-        )
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return(
+                <View style={{height: 10}}/>
+            )
+
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
     }
     removeFans = (param) => {
         Alert.alert("", `确定要取消关注吗？`, [{
@@ -65,7 +72,7 @@ class FollowMe extends React.Component {
         const loginItem = item.attention_user_login_info[0]
         return (
             <View style={{flex: 1}}>
-                <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space")}>
+                <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space", {userId: item._user_id})}>
                     {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={style.image}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
@@ -91,9 +98,7 @@ class FollowMe extends React.Component {
     };
 
     render() {
-        const {fansReducer: {fansList, isResultStatus}} = this.props
-        console.log(fansList)
-
+        const {fansReducer: {fansList, fansResultStatus,isComplete},getFansList} = this.props
         return (
             <Provider>
                 <FlatList
@@ -104,11 +109,11 @@ class FollowMe extends React.Component {
                     ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
-                        if (isResultStatus == 0) {
-                            props.getFansListMore()
+                        if (!isComplete) {
+                            getFansList()
                         }
                     }}
-                    ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent : <View style={{height: 10}}/>}
+                    ListFooterComponent={this.ListFooterComponent(fansResultStatus)}
 
                 />
             </Provider>
@@ -126,9 +131,6 @@ const mapStateToProps = (state) => {
 const mapDispatchProps = (dispatch, ownProps) => ({
     getFansList: () => {
         dispatch(action.FansAction.getFansList())
-    },
-    getFansListMore: (value) => {
-        dispatch(action.FansAction.getFansListMore(value))
     },
     fans: (param) => {
         dispatch(action.FansAction.fans(param))

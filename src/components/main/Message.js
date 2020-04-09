@@ -16,7 +16,7 @@ const Message = props => {
                           onPress={() => {
                               navigation.navigate('FollowMe')
                           }}
-                          extra={<View style={styles.extra}><Text style={styles.extraText}>1</Text></View>}
+                          // extra={<View style={styles.extra}><Text style={styles.extraText}>1</Text></View>}
                           thumb={<Image source={require('../../images/focus.png')}
                                         style={{width: 25, height: 25, marginRight: 10}}/>}>
                         <Text style={globalStyles.largeText}>关注我</Text></Item>
@@ -24,7 +24,7 @@ const Message = props => {
                           onPress={() => {
                               navigation.navigate('EvaluationMe')
                           }}
-                          extra={<View style={styles.extra}><Text style={styles.extraText}>2</Text></View>}
+                          // extra={<View style={styles.extra}><Text style={styles.extraText}>2</Text></View>}
                           thumb={<Image source={require('../../images/tall.png')}
                                         style={{width: 25, height: 25, marginRight: 10}}/>}>
                         <Text style={globalStyles.largeText}>评论我</Text></Item>
@@ -32,7 +32,7 @@ const Message = props => {
                           onPress={() => {
                               navigation.navigate('PraiseMe')
                           }}
-                          extra={<View style={styles.extra}><Text style={styles.extraText}>3</Text></View>}
+                          // extra={<View style={styles.extra}><Text style={styles.extraText}>3</Text></View>}
                           thumb={<Image source={require('../../images/praise.png')}
                                         style={{width: 25, height: 25, marginRight: 10}}/>}>
                         <Text style={globalStyles.largeText}>赞我</Text></Item>
@@ -46,17 +46,17 @@ const Message = props => {
                 {/*<Text style={globalStyles.largeText}>申请联系方式</Text></Item>*/}
                 {/*</List>*/}
                 {/*<WhiteSpace size='md' style={globalStyles.containerBackgroundColor} />*/}
-                <List>
-                    <Item arrow="horizontal"
-                          onPress={() => {
-                              navigation.navigate('VoteRemind')
-                          }}
-                          extra={<View style={styles.extra}><Text style={styles.extraText}>5</Text></View>}
-                          thumb={<Image source={require('../../images/vote.png')}
-                                        style={{width: 25, height: 25, marginRight: 10}}/>}>
-                        <Text style={globalStyles.largeText}>投票提醒</Text></Item>
-                </List>
-                <WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>
+                {/*<List>*/}
+                    {/*<Item arrow="horizontal"*/}
+                          {/*onPress={() => {*/}
+                              {/*navigation.navigate('VoteRemind')*/}
+                          {/*}}*/}
+                          {/*extra={<View style={styles.extra}><Text style={styles.extraText}>5</Text></View>}*/}
+                          {/*thumb={<Image source={require('../../images/vote.png')}*/}
+                                        {/*style={{width: 25, height: 25, marginRight: 10}}/>}>*/}
+                        {/*<Text style={globalStyles.largeText}>投票提醒</Text></Item>*/}
+                {/*</List>*/}
+                {/*<WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>*/}
                 <List>
                     <Item arrow="horizontal"
                           onPress={() => {

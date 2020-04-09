@@ -11,7 +11,7 @@ import {connect} from "react-redux"
 import {Provider, Tabs, WhiteSpace, WingBlank, Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
-import Item from '../modules/Item'
+import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 
@@ -26,6 +26,7 @@ class Article extends React.Component {
             praise: false,
             star: false,
             tabIndex:0,
+
         }
     }
 
@@ -48,11 +49,8 @@ class Article extends React.Component {
 
     ListFooterComponent = (param) => {
         if (param == 1) {
-            return (
-                <View style={globalStyles.footerContainer}>
-                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
-                </View>
-
+            return(
+                <View style={{height: 10}}/>
             )
         } else if (param == 2) {
             return (
@@ -85,6 +83,7 @@ class Article extends React.Component {
 
     renderItem = (props) => {
         const {item,index} = props
+        const {setArtPraise} = this.props
         const userInfo = item.user_detail_info[0]
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -112,7 +111,7 @@ class Article extends React.Component {
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
                                             <View style={{flexDirection: 'row'}}>
-                                                <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
+                                                {item.address_name!=""&&<AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>}
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
                                                     marginLeft: 2, marginRight: 15
@@ -125,8 +124,8 @@ class Article extends React.Component {
                                 extra={
                                     <View style={{position: 'absolute', right: 0, marginTop: -15}}>
                                         <Text
-                                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
-                                        <Text style={[globalStyles.smallText]}>阅读数:{item.read_num}</Text>
+                                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD hh:mm')}` : ''}</Text>
+                                        {/*<Text style={[globalStyles.smallText]}>阅读数:{item.read_num}</Text>*/}
                                     </View>
                                 }
                             />
@@ -181,25 +180,27 @@ class Article extends React.Component {
                                                 style={[globalStyles.midText, {marginLeft: 5}]}>{item.comment_num ? item.comment_num : 0}</Text>
                                         </TouchableOpacity>
 
+
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.setState({
-                                                    praise: !this.state.praise
-                                                })
+                                                const params={
+                                                    item:item,tabIndex:this.state.tabIndex
+                                                }
+                                                setArtPraise(params)
                                             }}>
-                                            <AntDesign name={this.state.praise ? "like1" : "like2"} size={18}
-                                                       style={{color: this.state.praise ? '#ffa600' : '#838485'}}/>
+                                            {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
+                                                <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
                                             <Text
                                                 style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <Text style={[globalStyles.midText, {fontSize: 14}]}
                                               onPress={() => {
-                                                  // let value = {item:item,index:index,tabIndex:this.state.tabIndex}
+                                                  const params={item:item,tabIndex:this.state.tabIndex}
                                                   Alert.alert("", "确认删除", [{
                                                       text: "确定",
-                                                      onPress:()=>{this.props.itemDelete()}
+                                                      onPress:()=>{this.props.itemDelete(params)}
                                                   }, {
                                                       text: "取消",
                                                       onPress: () => console.log("canncel")
@@ -228,7 +229,7 @@ class Article extends React.Component {
             <Provider>
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
-                         this.setState({tabIndex:index})
+                          this.setState({tabIndex: index})
                       }}
                       tabBarBackgroundColor='#fff'
                       tabBarActiveTextColor='#1598cc'
@@ -345,7 +346,11 @@ const mapDispatchProps = (dispatch, props) => ({
     itemDelete: (value ) => {
         console.log(value)
         dispatch(action.ArticleAction.itemDelete(value))
-    }
+    },
+    setArtPraise: (value ) => {
+        dispatch(action.ArticleAction.setArtPraise(value))
+    },
+
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Article)

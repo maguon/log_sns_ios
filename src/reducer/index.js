@@ -39,7 +39,6 @@ import LocationReducer from './main/LocationReducer'
 import DetailReducer from './main/DetailReducer'
 import ToVoteReducer from './main/ToVoteReducer'
 import CommentReducer from './main/CommentReducer'
-import ItemReducer from './modules/ItemReducer'
 
 
 export default combineReducers({
@@ -82,5 +81,4 @@ export default combineReducers({
     DetailReducer,
     ToVoteReducer,
     CommentReducer,
-    ItemReducer,
 })

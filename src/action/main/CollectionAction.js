@@ -24,18 +24,46 @@ export const getCollectionList = () => async (dispatch, getState) => {
     }
 }
 
+//点赞
+export const setColPraise = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
+
+    try {
+        let params={type:1, msgId:`${value._id}`, msgUserId:`${value._user_id}`,}
+        console.log(params)
+        let url = `${apiHost}/user/${userId}/userPraise`
+        const res = await HttpRequest.post(url,params)
+        if(res.success){
+            let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: res.result } })
+            }
+        }else {
+            Toast.info(res.msg)
+        }
+
+    } catch (err) {
+
+        Toast.fail(err.message)
+    }
+}
+
 //取消收藏
 export const delCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
-    console.log(value)
-    const {index,id}=value
-    const  newList=collectionList.splice(index,1)
+
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userMsgColl/${id}/del`
+        let url = `${apiHost}/user/${userId}/userMsgColl/${value._id}/del`
         const res = await HttpRequest.del(url)
         if(res.success){
-        dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: newList} })
+            let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: res.result } })
+            }
+
         }else {
             Toast.fail(res.msg)
         }

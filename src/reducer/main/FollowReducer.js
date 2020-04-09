@@ -3,25 +3,36 @@ import * as actionType from '../../actionType/index'
 
 const initialState = {
     followList: "",
+    isComplete: false,
     isResultStatus: 0,
-    pageSize: 20
 }
 
 export default handleActions({
 
-    [actionType.FollowType.get_follow_list]: (state, action) => {
+    [actionType.FollowType.get_followList]: (state, action) => {
+        const {payload: {followList,isComplete}} = action
+        return {
+            ...state,
+            followList: [...state.followList, ...followList],
+            isComplete,
+            isResultStatus: 2,
+        }
+    },
+    [actionType.FollowType.get_follow_end]: (state, action) => {
+        const {payload: {followList,isComplete}} = action
+        return {
+            ...state,
+            followList: [...state.followList, ...followList],
+            isComplete,
+            isResultStatus: 1,
+
+        }
+    },
+    [actionType.FollowType.get_follow]: (state, action) => {
         const {payload: {followList}} = action
         return {
             ...state,
-            followList,
-            isResultStatus: 1
-        }
-    },
-    [actionType.FollowType.page_Size]: (state, action) => {
-        const {payload: {pageSize}} = action
-        return {
-            ...state,
-            pageSize
+            followList:followList,
         }
     }
 

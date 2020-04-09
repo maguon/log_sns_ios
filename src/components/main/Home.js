@@ -8,15 +8,16 @@ import {
     Dimensions,
     Image,
     TouchableOpacity,
-    ImageBackground
+    ImageBackground, Alert
 } from 'react-native'
-import Item from '../modules/Item'
+// import Item from '../modules/Item'
 import {Provider, WhiteSpace, WingBlank, Card, Modal, Button, ActivityIndicator} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import * as action from "../../action"
 import globalStyles from "../../utils/GlobalStyles"
 import Geolocation from '@react-native-community/geolocation'
+import * as actionType from "../../actionType";
 
 
 const {width} = Dimensions.get('window')
@@ -27,14 +28,13 @@ class Home extends Component {
         super(props)
         this.state = {
             itemInfo: "",
-            focus:false,
-            praise: false,
             star: false,
             visible: false,
         }
     }
 
     componentDidMount() {
+        this.props.getHotLoad()
         this.props.getHotList()
         this.props.getHomeFollow()
         Geolocation.getCurrentPosition(info => this.props.getNearList(info))
@@ -50,12 +50,10 @@ class Home extends Component {
 
     ListFooterComponent = (param) => {
         if (param == 1) {
-            return (
-                <View style={globalStyles.footerContainer}>
-                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
-                </View>
-
+            return(
+                <View style={{height: 10}}/>
             )
+
         } else if (param == 2) {
             return (
                 <View style={globalStyles.footerContainer}>
@@ -64,10 +62,13 @@ class Home extends Component {
                 </View>
             )
         }
-        // else if(param==1){
-        //    return(
-        //   <View style={{height: 10}}/>
-        //    )
+        // else{
+        //     return (
+        //         <View style={globalStyles.footerContainer}>
+        //             <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+        //         </View>
+        //
+        //     )
         // }
     }
 
@@ -98,9 +99,10 @@ class Home extends Component {
     }
 
     renderItem = (props) => {
-        const {item} = props
+        const {item,index} = props
         const userInfo = item.user_detail_info[0]
-        const {setPraise} = this.props
+        const {setPraise, navigation: {state: {params = {tabIndex: 0}}}} = this.props
+        const {tabIndex} = params
 
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -132,24 +134,35 @@ class Home extends Component {
                                             <Text
                                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
 
-                                            <View style={{flexDirection: 'row'}}>
+                                            {item.address_name!=""&&<View style={{flexDirection: 'row'}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2, marginLeft: 2,
                                                     marginRight: 15
-                                                }]}>{item.address_name ? item.address_name : ''}</Text>
-                                            </View>
+                                                }]}>{item.address_name}</Text>
+                                            </View>}
                                         </TouchableOpacity>
                                     </View>
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 5, top: -20,}}>
+                                    <View style={{position: 'absolute', right: 0, top: -20,}}>
                                         {item.user_relations == "" ?
                                         <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
-                                              onPress={() => {this.props.follow(item._user_id)}}>关注</Text>:
+                                              onPress={() => {
+                                                  const params={
+                                                      item:item,tabIndex:tabIndex
+                                                  }
+                                                  this.props.follow(params)}}>关注</Text>:
                                             <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
-                                              onPress={() => {this.props.cancelFollow(item._user_id)}}>取消关注</Text>}
+                                              onPress={() => {
+                                                  Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
+                                                          const params={
+                                                              item:item,tabIndex:tabIndex
+                                                          }
+                                                          this.props.cancelFollow(params)
+                                                      }},{text: "取消"}])
+                                                  }}>取消关注</Text>}
                                     </View>
                                 }
                             />
@@ -175,7 +188,6 @@ class Home extends Component {
                                         )
                                     }
                                     }
-                                    keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
@@ -212,7 +224,7 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Comment')
+                                                this.props.navigation.navigate('Comment',{item:item})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -222,7 +234,10 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                setPraise(item)
+                                                const params={
+                                                    item:item,tabIndex:tabIndex,index:index
+                                                }
+                                                setPraise(params)
                                             }}>
                                             {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
                                                                    <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
@@ -240,20 +255,19 @@ class Home extends Component {
         )
     }
 
-
     render() {
         const {
-            navigation: {state: {params = {index: 0}}}, homeReducer: {
+            navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus
             }, getHotList, getHomeFollow, getNearList, setCollection
         } = this.props
-        const {index} = params
-        console.log(hotList)
+        const {tabIndex} = params
+        // console.log(homeFollow)
         return (
             <Provider>
                 <View style={{flex: 1}}>
-                    {(index == 0 && hotLoading) &&
+                    {(tabIndex == 0 && hotLoading) &&
                     <FlatList
                         data={hotList}
                         renderItem={this.renderItem}
@@ -262,16 +276,15 @@ class Home extends Component {
                             if (!isComplete) {
                                 getHotList()
                             }
-                        }
+                         }
                         }
                         ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                         ListEmptyComponent={this.renderEmpty}
                     />
                     }
-                    {(index == 0 && !hotLoading) && this.renderLoadingView()}
+                    {(tabIndex == 0 && !hotLoading) && this.renderLoadingView()}
 
-
-                    {index == 1 &&
+                    {tabIndex == 1 &&
                     <FlatList
                         data={homeFollow}
                         renderItem={this.renderItem}
@@ -286,7 +299,7 @@ class Home extends Component {
                     />
                     }
 
-                    {index == 2 &&
+                    {tabIndex == 2 &&
                     <FlatList
                         data={nearList}
                         renderItem={this.renderItem}
@@ -334,6 +347,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch) => ({
+    getHotLoad:()=>{
+        dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: false}})
+    },
     getHotList: () => {
         dispatch(action.HomeAction.getHotList())
     },
