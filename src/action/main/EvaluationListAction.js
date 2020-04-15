@@ -93,7 +93,6 @@ export const likeComment = reqParams => async (dispatch, getState) => {
             const resComment = await httpRequest.get(urlComment)
             // console.log('resComment', resComment)
 
-
             if (resComment.success) {
                 dispatch({ type: actionType.EvaluationListType.like_commentForCommentList_success, payload: { commentInfo: resComment.result[0] } })
                 Portal.remove(likeLoading)

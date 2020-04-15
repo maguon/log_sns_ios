@@ -19,6 +19,9 @@ import Location from './components/main/Location'
 import Detail from './components/main/Detail'
 import ToVote from './components/main/ToVote'
 import Comment from './components/main/Comment'
+import LvOneCommentList from './components/main/CommentLvOne'
+import LvTwoCommentList from './components/main/CommentLvTwo'
+
 //社区
 import Community from './components/main/Community'
 //消息
@@ -235,13 +238,7 @@ const Main = createStackNavigator({
         })
     },
 
-    Comment: {
-        screen: Comment,
-        navigationOptions: ({navigation}) => ({
-            title: '评论详情页',
-            tabBarVisible: false
-        })
-    },
+
     //消息
     FollowMe: {
         screen: FollowMe,
@@ -284,6 +281,37 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
+    Comment: {
+        screen: Comment,
+        navigationOptions: ({navigation}) => ({
+            title: '评论详情页',
+            tabBarVisible: false
+        })
+    },
+    LvTwoCommentList: {
+        screen: LvTwoCommentList,
+        navigationOptions: {
+            title: '评论列表'
+        }
+    },
+    LvOneCommentList: {
+        screen: LvOneCommentList,
+        navigationOptions: {
+            title: '对方昵称'
+        }
+    },
+    // Comment: {
+    //     screen: Comment,
+    //     navigationOptions: {
+    //         title: '评论',
+    //         header: ({ scene, previous, navigation }) => {
+    //             // console.log('props',props)
+    //             return <NavComment scene={scene} previous={previous} navigation={navigation} />
+    //         }
+    //     }
+    // },
+
+
 
 
     //个人

@@ -28,7 +28,6 @@ export const getCode = () => async (dispatch, getState) => {
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }
 
 export const onChangePassWord = (props) => async (dispatch, getState) => {

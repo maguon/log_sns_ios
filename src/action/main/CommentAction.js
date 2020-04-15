@@ -1,19 +1,31 @@
-import {apiHost} from '../../config/HostConfig'
-import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import HttpRequest from '../../utils/HttpRequest'
+import {apiHost} from '../../config/HostConfig'
+import { Portal, Toast } from '@ant-design/react-native'
 
-export const toLogin = () => async (dispatch, getState) => {
+export const createComment = reqParam => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
+    const likeLoading = Toast.loading('发送评论', 0)
     try {
-        // 基本检索URL
-        let url = `${apiHost}/userLogin`
-        const res = await HttpRequest.get(url)
-
+        // console.log('reqParam',reqParam)
+        dispatch({ type: actionType.CommentType.create_comment_waiting })
+        const url = `${apiHost}/user/${userId}/msgComment`
+        // console.log('url', url)
+        const res = await HttpRequest.post(url, reqParam)
+        // console.log('res', res)
+        if (res.success) {
+            dispatch({ type: actionType.CommentType.create_comment_success })
+            Portal.remove(likeLoading)
+            Toast.success("评论成功！", 0.5)
+        } else {
+            dispatch({ type: actionType.CommentType.create_comment_failed, payload: { failedMsg: `${res.msg}` } })
+            Portal.remove(likeLoading)
+            Toast.success("评论失败！", 0.5)
+        }
 
     } catch (err) {
-        Toast.fail(err.message)
+        dispatch({ type: actionType.CommentType.create_comment_failed, payload: { failedMsg: `${err}` } })
+        Portal.remove(likeLoading)
+        Toast.success("评论失败！", 0.5)
     }
-
 }

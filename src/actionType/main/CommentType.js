@@ -1,3 +1,5 @@
 import {createAction} from 'redux-actions'
 
-export const set_Info=createAction('set_Info')
+export const create_comment_success=createAction('create_comment_success')
+export const create_comment_failed=createAction('create_comment_failed')
+export const create_comment_waiting=createAction('create_comment_waiting')
