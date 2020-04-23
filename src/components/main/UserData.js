@@ -5,6 +5,22 @@ import {connect} from "react-redux"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import globalStyles from "../../utils/GlobalStyles"
 import * as action from "../../action/index"
+import  ImagePicker from 'react-native-image-picker';
+import EvilIcons from "react-native-vector-icons/EvilIcons";
+const photoOptions = {
+    //底部弹出框选项
+    title:'',
+    cancelButtonTitle:'取消',
+    takePhotoButtonTitle:'拍照',
+    chooseFromLibraryButtonTitle:'选择相册',
+    quality:0.75,
+    allowsEditing:true,
+    noData:false,
+    storageOptions: {
+        skipBackup: true,
+        path:'images'
+    }
+}
 
 
 const Item = List.Item
@@ -27,6 +43,54 @@ class UserData extends React.Component {
         });
     };
 
+    uploadImage(uri){
+        let formData=new FormData()
+        let file={uri:uri,type:'multipart/from-data',name:'image.png'}
+        formData.append('file',file)
+        console.log(formData)
+        fetch ('url',{
+            method:'POST',
+            headers:{
+                'Content-Type':'multipart/from-data'
+            },
+            body:formData,
+        }).then((response)=>response.text()).then((responseData)=>{
+            console.log('responseData',responseData)
+            alert('上传成功')
+        }).catch((error)=>{
+            console.log('error',error)
+            alert('上传失败')
+        })
+    }
+    cameraAction = () =>{
+
+        ImagePicker.showImagePicker(photoOptions, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                // let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                // this.setState({
+                //     avatarSource: source
+                // });
+
+                this.uploadImage(response.uri)
+            }
+        });
+    }
+
     render() {
         const {navigation, userDataReducer: {userData: {phone}, userDetailInfo: {nick_name, sex, avatar, intro, city_name}}} = this.props
 
@@ -35,7 +99,7 @@ class UserData extends React.Component {
                 <View style={{flex: 1}}>
                     <ScrollView style={globalStyles.container}>
                         <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}
-                                          onPress={() => this.setState({visible: true})}>
+                                          onPress={()=>this.cameraAction()}>
                             <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
                                 <View style={{margin: 16}}>
 
@@ -105,16 +169,7 @@ class UserData extends React.Component {
                         </WingBlank>
                         <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
 
-                        <Modal
-                            popup
-                            visible={this.state.visible}
-                            animationType="slide-up"
-                            onClose={this.onClose}
-                        >
-                            <Button>从相册中选择</Button>
-                            <Button>拍照</Button>
-                            <Button onPress={this.onClose}>取消</Button>
-                        </Modal>
+
                     </ScrollView>
                 </View>
             </Provider>

@@ -15,3 +15,4 @@ export const get_NearList=createAction('get_NearList')
 export const get_NearList_end=createAction('get_NearList_waiting')
 export const get_address=createAction('get_address')
 
+export const set_Visible=createAction('set_Visible')

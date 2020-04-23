@@ -13,6 +13,8 @@ import ForgotPassWord from './components/main/ForgotPassWord'
 //home
 import Home from './components/main/Home'
 import Camera from './components/main/Camera'
+import PhotoList from './components/main/PhotoList'
+import CameraList from './components/main/CameraList'
 import WriteArticle from './components/main/WriteArticle'
 import Scan from './components/main/Scan'
 import Location from './components/main/Location'
@@ -57,6 +59,7 @@ import LeftButton from './components/modules/LeftButton'
 import LoginLeftButton from './components/modules/LoginLeftButton'
 import Title from './components/modules/Title'
 import EvaTitle from './components/modules/EvaTitle'
+import ImageView from './components/modules/ImageView'
 
 
 //登录页面
@@ -205,6 +208,29 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
+    CameraList: {
+        screen: CameraList,
+        navigationOptions: ({navigation}) => ({
+            header: null,
+            tabBarVisible: false
+        })
+    },
+
+    PhotoList: {
+        screen: PhotoList,
+        navigationOptions: ({navigation}) => ({
+            header: null,
+            tabBarVisible: false
+        })
+    },
+    ImageView: {
+    screen: ImageView,
+        navigationOptions: ({navigation}) => ({
+        header: null,
+        tabBarVisible: false
+    })
+},
+
 
     WriteArticle: {
         screen: WriteArticle,

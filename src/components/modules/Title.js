@@ -1,10 +1,40 @@
 import React from 'react';
-import {Text, View, Dimensions} from 'react-native'
+import {Text, View, Dimensions, TouchableOpacity} from 'react-native'
 import {Popover, Tabs} from '@ant-design/react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import ImageCropPicker from 'react-native-image-crop-picker'
 import Home from '../main/Home'
+import * as actionType from "../../actionType/index";
+import ImageResizer from 'react-native-image-resizer'
+import {connect} from 'react-redux'
+import  ImagePicker from 'react-native-image-picker';
+let photoOptions = {
+    //底部弹出框选项
+    title:'',
+    cancelButtonTitle:'取消',
+    takePhotoButtonTitle:'',
+    chooseFromLibraryButtonTitle:'',
+    customButtons: [
+        {name: 'photo', title: '拍照'},
+        {name: 'hangge', title: '选择相册'},
+    ],
+    quality:0.75,
+    allowsEditing:true,
+    noData:false,
+    cropping:false,
+    mediaType: 'mixed', // 'photo' or 'video'
+    videoQuality: 'medium', // 'low', 'medium', or 'high'
+    durationLimit: 5,
+    maxWidth: 960, //拍照之后得到的照片的最大宽度
+    maxHeight: 960,//拍照之后得到的照片的最大高度
+    storageOptions: {
+        skipBackup: true,
+        path:'images'
+    }
+}
+
 
 
 const Item = Popover.Item
@@ -16,10 +46,161 @@ class Title extends React.Component {
         super(props)
         this.state = {
             selected: '',
-        };
+            uri:"",
+            videoUri: ""
 
     }
 
+    }
+
+    static defaultProps = {
+        getImage: (param) => console.log('选择的图片信息', param), //回调图片信息
+        _cameraStart: () => console.log('开始压缩选择的图片')//开始压缩选择的图片
+    }
+
+    uploadImage(uri){
+        let formData=new FormData()
+        let file={uri:uri,type:'multipart/from-data',name:'image.png'}
+        formData.append('file',file)
+        console.log(formData)
+        fetch ('url',{
+            method:'POST',
+            headers:{
+                'Content-Type':'multipart/from-data'
+            },
+            body:formData,
+        }).then((response)=>response.text()).then((responseData)=>{
+            console.log('responseData',responseData)
+            alert('上传成功')
+        }).catch((error)=>{
+            console.log('error',error)
+            alert('上传失败')
+        })
+    }
+    launchCamera() {//打开照相机进行拍照
+        ImagePicker.launchCamera(photoOptions, (response) => {
+
+            if (response.didCancel) {
+                console.log(response)
+            }
+            else if (response.error) {
+                //console.log('ImagePicker Error: ', response.error)
+            }
+            else {
+                console.log(response)
+                this.props.getImage([{
+                    success: true,
+                    res: {
+                        imageUrl: response.uri,
+                        imageType: response.type,
+                        imageName: encodeURI(response.fileName)
+                    }
+                }])
+            }
+        })
+    }
+
+
+
+    createResizedImage(param) {//图片压缩
+        if (param.height <= 960 && param.width <= 960) {
+            const pos = param.path.lastIndexOf('/')
+            return Promise.resolve({
+                success: true,
+                res: {
+                    imageUrl: param.path,
+                    imageType: param.mime,
+                    imageName: encodeURI(param.path.substring(pos + 1))
+                }
+            })
+        }
+        return new Promise((resolve, reject) =>
+            ImageResizer.createResizedImage(param.path, 960, 960, 'JPEG', 100)
+                .then((resizedImageUri) => {
+                    const pos = param.path.lastIndexOf('/')
+                    resolve({
+                        success: true,
+                        res: {
+                            imageUrl: resizedImageUri.uri,
+                            imageType: param.mime,
+                            imageName: encodeURI(param.path.substring(pos + 1))
+                        }
+                    })
+                })
+                .catch((err) => {
+                    console.log('err', err)
+
+                    reject({
+                        success: false,
+                        errMsg: err
+                    })
+                })
+        )
+    }
+    openPicker() {
+        this._timer=setInterval(()=>{
+            ImageCropPicker.openPicker({
+                multiple: true
+            }).then(images => {
+                this.isPicker(images)
+
+            }).catch(e => console.log(e));
+            this._timer&&clearInterval(this._timer);
+
+        },1000);
+
+
+    }
+    async isPicker(param){
+        console.log("param",param)
+        try{
+            this.props._cameraStart()
+            const newImages =await Promise.all(param.map(item => {
+                return this.createResizedImage(item)
+                console.log("item",item)
+            }))
+            console.log("newImages",newImages)
+            this.props.getImage(newImages)
+        }catch (err) {
+            console.log('err', err)
+        }
+
+    }
+
+
+    cameraAction = () =>{
+
+        ImagePicker.showImagePicker(photoOptions, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                if(response.customButton=='photo'){
+                    this.launchCamera()
+                }else {
+                    this.openPicker()
+                }
+
+            }
+            else {
+                // let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                // this.setState({
+                //     avatarSource: source
+                // });
+
+                // this.uploadImage(response.uri)
+            }
+        });
+    }
 
     renderList(overlay, key) {
         return (
@@ -38,11 +219,6 @@ class Title extends React.Component {
                         this.props.navigation.navigate("Location")
                     }
                 }
-
-
-                    // this.setState({
-                    //     [`selected${key}`]: v,
-                    // })
                 }
             >
                 <AntDesign name='plus' size={30} style={{color: '#fff'}}/>
@@ -87,13 +263,15 @@ class Title extends React.Component {
 
         ])
 
-
         return (
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{width: width * 0.2, alignItems: 'center'}}>
-                    <EvilIcons name='camera' size={35} style={{color: '#fff'}} onPress={() => {
-                        this.props.navigation.navigate("Camera")
-                    }}/>
+                    <EvilIcons name='camera' size={35} style={{color: '#fff'}}
+
+                               // onPress={() => {this.props.navigation.navigate("Camera")}}
+                               // onPress={this.props.setVisible}
+                               onPress={()=>this.cameraAction()}
+                    />
                 </View>
                 {routeName == 'Home' &&
                 <View style={{width: width * 0.6, height: 45.5, alignItems: 'center', backgroundColor: '#1598cc'}}>
@@ -127,8 +305,22 @@ class Title extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        homeReducer: state.HomeReducer
+    }
+}
 
-export default Title
+const mapDispatchProps = (dispatch) => ({
+
+    setVisible:() => {
+        dispatch({type: actionType.HomeActionType.set_Visible, payload: {setVisible: true}})
+    }
+
+})
+
+
+export default connect(mapStateToProps, mapDispatchProps)(Title)
 
 
 

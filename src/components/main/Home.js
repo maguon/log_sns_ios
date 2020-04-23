@@ -6,22 +6,26 @@ import {
     ScrollView,
     FlatList,
     Dimensions,
+    TouchableHighlight,
     Image,
     TouchableOpacity,
     ImageBackground, Alert
 } from 'react-native'
-// import Item from '../modules/Item'
+
 import {Provider, WhiteSpace, WingBlank, Card, Modal, Button, ActivityIndicator} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import * as action from "../../action"
 import globalStyles from "../../utils/GlobalStyles"
 import Geolocation from '@react-native-community/geolocation'
-import * as actionType from "../../actionType";
+import * as actionType from "../../actionType/index";
+
+
 
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
+
 
 class Home extends Component {
     constructor(props) {
@@ -30,6 +34,7 @@ class Home extends Component {
             itemInfo: "",
             star: false,
             visible: false,
+            uri:""
         }
     }
 
@@ -97,6 +102,8 @@ class Home extends Component {
             star: false
         });
     }
+
+
 
     renderItem = (props) => {
         const {item,index} = props
@@ -255,12 +262,13 @@ class Home extends Component {
         )
     }
 
+
     render() {
         const {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
-                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus
-            }, getHotList, getHomeFollow, getNearList, setCollection
+                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,setVisible
+            }, getHotList, getHomeFollow, getNearList, setCollection,onCancel
         } = this.props
         const {tabIndex} = params
         // console.log(homeFollow)
@@ -335,6 +343,18 @@ class Home extends Component {
                     </TouchableOpacity>
                     <Button onPress={this.onClose}>取消</Button>
                 </Modal>
+
+                {/*<Modal*/}
+                    {/*popup*/}
+                    {/*visible={setVisible}*/}
+                    {/*animationType="slide-up"*/}
+                    {/*onClose={onCancel}*/}
+                {/*>*/}
+                    {/*<Button onPress={()=>this.cameraAction()}>从相册中选择</Button>*/}
+                    {/*<Button onPress={() => {this.props.navigation.navigate("Camera")}}>拍照</Button>*/}
+                    {/*<Button onPress={onCancel}>取消</Button>*/}
+                {/*</Modal>*/}
+
             </Provider>
         )
     }
@@ -347,6 +367,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch) => ({
+
     getHotLoad:()=>{
         dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: false}})
     },
@@ -372,6 +393,9 @@ const mapDispatchProps = (dispatch) => ({
     follow: (value) => {
         dispatch(action.HomeAction.follow(value))
     },
+    onCancel:() => {
+        dispatch({type:actionType.HomeActionType.set_Visible,payload: {setVisible:false}})
+    }
 
 })
 

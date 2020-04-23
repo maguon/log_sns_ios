@@ -16,7 +16,9 @@ const initialState = {
     longitude:0,
     latitude:0,
     nearComplete:false,
-    nearResultStatus:0
+    nearResultStatus:0,
+
+    setVisible:false
 }
 
 export default handleActions({
@@ -119,6 +121,14 @@ export default handleActions({
             ...state,
             longitude,
             latitude,
+        }
+
+    },
+    [actionType.HomeActionType.set_Visible]: (state, action) => {
+        const {payload: {setVisible}} = action
+        return {
+            ...state,
+            setVisible
         }
 
     },
