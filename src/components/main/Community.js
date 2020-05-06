@@ -20,6 +20,7 @@ import VoteItem from '../modules/VoteItem'
 import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import * as actionType from "../../actionType";
+import Video from "react-native-video";
 
 
 
@@ -98,6 +99,7 @@ class Community extends React.Component {
 
     renderItem = (props) => {
         const {item,index} = props
+        const  media= item.media
         const userInfo = item.user_detail_info[0]
         const {setComPraise} = this.props
         if (item.carrier == 2) {
@@ -127,11 +129,11 @@ class Community extends React.Component {
                                             <Text style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
                                             <Text style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
-                                            {item.address_name!=""&&<View style={{flexDirection: 'row'}}>
+                                            {item.address_name!=""&&<View style={{flexDirection: 'row', width:width*0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2, marginRight:15
+                                                    marginLeft: 2
                                                 }]}>{item.address_name}</Text>
                                             </View>}
                                         </TouchableOpacity>
@@ -166,13 +168,17 @@ class Community extends React.Component {
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
                                     <Text style={globalStyles.previewText}>全文</Text>
                                 </Text>
+
                                 {item.carrier == 2 && <FlatList
-                                    data={item.media}
+                                    data={media}
                                     numColumns={3}
-                                    renderItem={(params)=> {
-                                        const { item } = params
+                                    renderItem={(params) => {
+                                        const {item,index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5}>
+                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                                                this.props.navigation.navigate("ImageView",{media:media,index:index})
+                                            }}>
+
                                                 <View style={globalStyles.item}>
                                                     <Image source={{uri: item.url}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
@@ -181,16 +187,25 @@ class Community extends React.Component {
                                         )
                                     }
                                     }
-                                    keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
-                                {item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
-                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                </ImageBackground>}
+                                {item.carrier == 3 &&
+
+                                <Video source={{uri:media[0].url}}
+                                       paused={true}
+                                       repeat={true}
+                                       controls={true}
+                                       style={globalStyles.image}/>
+                                }
+
+                                {/*{item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}*/}
+                                                                       {/*style={[globalStyles.image, {backgroundColor: '#292929'}]}>*/}
+                                    {/*<AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>*/}
+                                {/*</ImageBackground>}*/}
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
+
                             </Card.Body>
 
                             <Card.Footer

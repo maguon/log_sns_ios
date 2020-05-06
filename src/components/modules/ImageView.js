@@ -29,10 +29,11 @@ class ImageView extends Component {
 
 
 
-    renderPhoteView(imageList) {
-        return imageList.map((item, i) => {
-            return <View key={i} style={{flex:1,marginTop:40}}>
-                <Image source={{uri: item.uri}} style={{flex:1}}/>
+    renderPhoteView(media) {
+        console.log(media)
+        return media.map((item, i) => {
+            return <View key={i} style={{flex:1}}>
+                <Image source={{uri: item.url}} style={{flex:1}}/>
             </View>
         })
     }
@@ -56,7 +57,8 @@ class ImageView extends Component {
     }
 
     render() {
-        const { CameraReducer:{imageList}, navigation:{state:{params:{index}}}, navigation} = this.props
+        const { CameraReducer:{imageList}, navigation:{state:{params:{media,index}}}, navigation} = this.props
+        console.log(navigation)
         return (
             <Provider style={{ flex: 1 }}>
                 <Swiper
@@ -66,21 +68,21 @@ class ImageView extends Component {
                     loop={false}
                     automaticallyAdjustContentInsets={true}
                 >
-                    {this.renderPhoteView(imageList)}
+                    {this.renderPhoteView(media)}
                 </Swiper>
 
 
-                <View style={{height:40, width:width,position: 'absolute', top: 0, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#1598cc'}}>
-                    <TouchableOpacity   style={{ position: 'absolute', left: 0, }}
-                                        onPress={()=>navigation.pop()}>
-                        <Text style={[globalStyles.largeText, {color:"white", marginLeft:15  }]}>返回</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity  style={{ position: 'absolute', right: 0, }}
-                                       onPress={()=>this.delImage()}
-                    >
-                        <Text style={[globalStyles.largeText, {  color:"white", marginRight:15 }]}>删除</Text>
-                    </TouchableOpacity>
-                </View>
+                {/*<View style={{height:40, width:width,position: 'absolute', top: 0, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#1598cc'}}>*/}
+                    {/*<TouchableOpacity   style={{ position: 'absolute', left: 0, }}*/}
+                                        {/*onPress={()=>navigation.pop()}>*/}
+                        {/*<Text style={[globalStyles.largeText, {color:"white", marginLeft:15  }]}>返回</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<TouchableOpacity  style={{ position: 'absolute', right: 0, }}*/}
+                                       {/*onPress={()=>this.delImage()}*/}
+                    {/*>*/}
+                        {/*<Text style={[globalStyles.largeText, {  color:"white", marginRight:15 }]}>删除</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                {/*</View>*/}
                 <ConfirmModal
                     title='确认删除图片？'
                     isVisible={this.state.confirmModalVisible}

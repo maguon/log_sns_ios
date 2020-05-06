@@ -10,6 +10,7 @@ import * as actionType from "../../actionType/index";
 import ImageResizer from 'react-native-image-resizer'
 import {connect} from 'react-redux'
 import  ImagePicker from 'react-native-image-picker';
+import { LogLevel, RNFFmpeg } from 'react-native-ffmpeg'
 let photoOptions = {
     //底部弹出框选项
     title:'',
@@ -18,17 +19,14 @@ let photoOptions = {
     chooseFromLibraryButtonTitle:'',
     customButtons: [
         {name: 'photo', title: '拍照'},
+        {name: 'camera', title: '摄像'},
         {name: 'hangge', title: '选择相册'},
     ],
     quality:0.75,
     allowsEditing:true,
     noData:false,
-    cropping:false,
-    mediaType: 'mixed', // 'photo' or 'video'
+    mediaType: 'video', // 'photo' or 'video'
     videoQuality: 'medium', // 'low', 'medium', or 'high'
-    durationLimit: 5,
-    maxWidth: 960, //拍照之后得到的照片的最大宽度
-    maxHeight: 960,//拍照之后得到的照片的最大高度
     storageOptions: {
         skipBackup: true,
         path:'images'
@@ -45,12 +43,8 @@ class Title extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selected: '',
             uri:"",
-            videoUri: ""
-
-    }
-
+      }
     }
 
     static defaultProps = {
@@ -58,60 +52,51 @@ class Title extends React.Component {
         _cameraStart: () => console.log('开始压缩选择的图片')//开始压缩选择的图片
     }
 
-    uploadImage(uri){
-        let formData=new FormData()
-        let file={uri:uri,type:'multipart/from-data',name:'image.png'}
-        formData.append('file',file)
-        console.log(formData)
-        fetch ('url',{
-            method:'POST',
-            headers:{
-                'Content-Type':'multipart/from-data'
-            },
-            body:formData,
-        }).then((response)=>response.text()).then((responseData)=>{
-            console.log('responseData',responseData)
-            alert('上传成功')
-        }).catch((error)=>{
-            console.log('error',error)
-            alert('上传失败')
+
+    uploadImage(param){
+        this.props.navigation.navigate("WriteArticle")
+        this.props.setFile(param)
+    }
+    launchPhoto() {//打开照相机进行拍照
+
+        ImageCropPicker.openCamera({
+            width: 300,
+            height: 400,
+        }).then(image => {
+            this.uploadImage([{
+                url: image.path,
+                preview:"image",
+
+            }])
         })
     }
-    launchCamera() {//打开照相机进行拍照
-        ImagePicker.launchCamera(photoOptions, (response) => {
+    launchCamera() {
 
+        ImagePicker.launchCamera(photoOptions, (response) => {
             if (response.didCancel) {
                 console.log(response)
             }
             else if (response.error) {
-                //console.log('ImagePicker Error: ', response.error)
+                console.log('ImagePicker Error: ', response.error)
             }
             else {
                 console.log(response)
-                this.props.getImage([{
-                    success: true,
-                    res: {
-                        imageUrl: response.uri,
-                        imageType: response.type,
-                        imageName: encodeURI(response.fileName)
-                    }
+                this.uploadImage([{
+                    url: response.uri,
+                    preview: "video"
                 }])
             }
         })
     }
 
 
-
     createResizedImage(param) {//图片压缩
         if (param.height <= 960 && param.width <= 960) {
             const pos = param.path.lastIndexOf('/')
             return Promise.resolve({
-                success: true,
-                res: {
-                    imageUrl: param.path,
-                    imageType: param.mime,
-                    imageName: encodeURI(param.path.substring(pos + 1))
-                }
+                    url: param.path,
+                preview:"image",
+
             })
         }
         return new Promise((resolve, reject) =>
@@ -119,12 +104,8 @@ class Title extends React.Component {
                 .then((resizedImageUri) => {
                     const pos = param.path.lastIndexOf('/')
                     resolve({
-                        success: true,
-                        res: {
-                            imageUrl: resizedImageUri.uri,
-                            imageType: param.mime,
-                            imageName: encodeURI(param.path.substring(pos + 1))
-                        }
+                        url: resizedImageUri.uri,
+                        preview:"image",
                     })
                 })
                 .catch((err) => {
@@ -140,7 +121,10 @@ class Title extends React.Component {
     openPicker() {
         this._timer=setInterval(()=>{
             ImageCropPicker.openPicker({
-                multiple: true
+                multiple: true,
+                maxFiles:9,
+                smartAlbums:['UserLibrary' ],
+                mediaType:'photo',
             }).then(images => {
                 this.isPicker(images)
 
@@ -152,15 +136,12 @@ class Title extends React.Component {
 
     }
     async isPicker(param){
-        console.log("param",param)
         try{
             this.props._cameraStart()
             const newImages =await Promise.all(param.map(item => {
                 return this.createResizedImage(item)
-                console.log("item",item)
             }))
-            console.log("newImages",newImages)
-            this.props.getImage(newImages)
+            this.uploadImage(newImages)
         }catch (err) {
             console.log('err', err)
         }
@@ -181,24 +162,15 @@ class Title extends React.Component {
             }
             else if (response.customButton) {
                 if(response.customButton=='photo'){
+                    this.launchPhoto()
+                }else if(response.customButton=='camera'){
                     this.launchCamera()
-                }else {
+                }else{
                     this.openPicker()
                 }
 
             }
-            else {
-                // let source = { uri: response.uri };
 
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-                // this.setState({
-                //     avatarSource: source
-                // });
-
-                // this.uploadImage(response.uri)
-            }
         });
     }
 
@@ -313,8 +285,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch) => ({
 
-    setVisible:() => {
-        dispatch({type: actionType.HomeActionType.set_Visible, payload: {setVisible: true}})
+    setFile:(param) => {
+        dispatch({type: actionType.HomeActionType.set_File, payload: {setFile: param}})
     }
 
 })

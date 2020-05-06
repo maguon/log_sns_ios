@@ -14,6 +14,7 @@ import moment from "moment"
 import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
+import Video from "react-native-video";
 
 
 const {width} = Dimensions.get('window')
@@ -84,6 +85,7 @@ class Article extends React.Component {
     renderItem = (props) => {
         const {item,index} = props
         const {setArtPraise} = this.props
+        const  media= item.media
         const userInfo = item.user_detail_info[0]
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -137,12 +139,15 @@ class Article extends React.Component {
                                     <Text style={globalStyles.previewText}>全文</Text>
                                 </Text>
                                 {item.carrier == 2 && <FlatList
-                                    data={item.media}
+                                    data={media}
                                     numColumns={3}
                                     renderItem={(params) => {
-                                        const {item} = params
+                                        const {item,index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5}>
+                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                                                this.props.navigation.navigate("ImageView",{media:media,index:index})
+                                            }}>
+
                                                 <View style={globalStyles.item}>
                                                     <Image source={{uri: item.url}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
@@ -151,14 +156,17 @@ class Article extends React.Component {
                                         )
                                     }
                                     }
-                                    keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
-                                {item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
-                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                </ImageBackground>}
+                                {item.carrier == 3 &&
+
+                                <Video source={{uri:media[0].url}}
+                                       paused={true}
+                                       repeat={true}
+                                       controls={true}
+                                       style={globalStyles.image}/>
+                                }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
                             </Card.Body>

@@ -17,6 +17,7 @@ import moment from "moment"
 import globalStyles from "../../utils/GlobalStyles"
 import Item from "../modules/ChildItem"
 import * as action from "../../action/index"
+import Video from "react-native-video";
 
 
 
@@ -121,26 +122,34 @@ class Collection extends React.Component {
                                 {msgInfo.carrier == 2 && <FlatList
                                     data={msgInfo.media}
                                     numColumns={3}
-                                    renderItem={(params)=> {
-                                        const { item } = params
+                                    keyExtractor={(item, index) => `${index}`}
+                                    renderItem={(params) => {
+                                        const {item,index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5}>
+                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                                                this.props.navigation.navigate("ImageView",{media:msgInfo.media,index:index})
+                                            }}>
+
                                                 <View style={globalStyles.item}>
                                                     <Image source={{uri: item.url}}
+
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
                                         )
                                     }
                                     }
-                                    keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
-                                {msgInfo.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
-                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                </ImageBackground>}
+                                {msgInfo.carrier == 3 &&
+
+                                <Video source={{uri:msgInfo.media[0].url}}
+                                       paused={true}
+                                       repeat={true}
+                                       controls={true}
+                                       style={globalStyles.image}/>
+                                }
                                 {msgInfo.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
                             </Card.Body>

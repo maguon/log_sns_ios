@@ -19,6 +19,7 @@ import * as action from "../../action"
 import globalStyles from "../../utils/GlobalStyles"
 import Geolocation from '@react-native-community/geolocation'
 import * as actionType from "../../actionType/index";
+import Video from "react-native-video";
 
 
 
@@ -34,7 +35,8 @@ class Home extends Component {
             itemInfo: "",
             star: false,
             visible: false,
-            uri:""
+            uri:"",
+
         }
     }
 
@@ -104,9 +106,9 @@ class Home extends Component {
     }
 
 
-
     renderItem = (props) => {
         const {item,index} = props
+        const  media= item.media
         const userInfo = item.user_detail_info[0]
         const {setPraise, navigation: {state: {params = {tabIndex: 0}}}} = this.props
         const {tabIndex} = params
@@ -141,11 +143,10 @@ class Home extends Component {
                                             <Text
                                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
 
-                                            {item.address_name!=""&&<View style={{flexDirection: 'row'}}>
+                                            {item.address_name!=""&&<View style={{flexDirection: 'row',   width:width*0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
-                                                    marginTop: 2, marginLeft: 2,
-                                                    marginRight: 15
+                                                    marginTop: 2, marginLeft: 2
                                                 }]}>{item.address_name}</Text>
                                             </View>}
                                         </TouchableOpacity>
@@ -181,12 +182,15 @@ class Home extends Component {
                                     <Text style={globalStyles.previewText}>全文</Text>
                                 </Text>
                                 {item.carrier == 2 && <FlatList
-                                    data={item.media}
+                                    data={media}
                                     numColumns={3}
                                     renderItem={(params) => {
-                                        const {item} = params
+                                        const {item,index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5}>
+                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                                                this.props.navigation.navigate("ImageView",{media:media,index:index})
+                                            }}>
+
                                                 <View style={globalStyles.item}>
                                                     <Image source={{uri: item.url}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
@@ -198,10 +202,18 @@ class Home extends Component {
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
-                                {item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
-                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                </ImageBackground>}
+                                {item.carrier == 3 &&
+
+                                <Video source={{uri:media[0].url}}
+                                       paused={true}
+                                       repeat={true}
+                                       controls={true}
+                                       style={globalStyles.image}/>
+                                // <ImageBackground source={require('../../images/tall.png')}
+                                //                                        style={[globalStyles.image, {backgroundColor: '#292929'}]}>
+                                //     <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
+                                // </ImageBackground>
+                                }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
                             </Card.Body>
@@ -267,7 +279,7 @@ class Home extends Component {
         const {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
-                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,setVisible
+                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,
             }, getHotList, getHomeFollow, getNearList, setCollection,onCancel
         } = this.props
         const {tabIndex} = params
@@ -344,17 +356,6 @@ class Home extends Component {
                     <Button onPress={this.onClose}>取消</Button>
                 </Modal>
 
-                {/*<Modal*/}
-                    {/*popup*/}
-                    {/*visible={setVisible}*/}
-                    {/*animationType="slide-up"*/}
-                    {/*onClose={onCancel}*/}
-                {/*>*/}
-                    {/*<Button onPress={()=>this.cameraAction()}>从相册中选择</Button>*/}
-                    {/*<Button onPress={() => {this.props.navigation.navigate("Camera")}}>拍照</Button>*/}
-                    {/*<Button onPress={onCancel}>取消</Button>*/}
-                {/*</Modal>*/}
-
             </Provider>
         )
     }
@@ -392,11 +393,7 @@ const mapDispatchProps = (dispatch) => ({
     },
     follow: (value) => {
         dispatch(action.HomeAction.follow(value))
-    },
-    onCancel:() => {
-        dispatch({type:actionType.HomeActionType.set_Visible,payload: {setVisible:false}})
     }
-
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Home)

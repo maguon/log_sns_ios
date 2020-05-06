@@ -18,7 +18,7 @@ const initialState = {
     nearComplete:false,
     nearResultStatus:0,
 
-    setVisible:false
+    setFile:[]
 }
 
 export default handleActions({
@@ -124,14 +124,21 @@ export default handleActions({
         }
 
     },
-    [actionType.HomeActionType.set_Visible]: (state, action) => {
-        const {payload: {setVisible}} = action
+    [actionType.HomeActionType.set_File]: (state, action) => {
+        const {payload: {setFile}} = action
         return {
             ...state,
-            setVisible
+            setFile
         }
 
     },
+    [actionType.HomeActionType.add_File]: (state, action) => {
+        const {payload: {addFile}} = action
+        return {
+            ...state,
+            setFile:[...state.setFile,...addFile]
+        }
 
+    },
 
 }, initialState)

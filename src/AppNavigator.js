@@ -12,9 +12,9 @@ import Registered from './components/main/Registered'
 import ForgotPassWord from './components/main/ForgotPassWord'
 //home
 import Home from './components/main/Home'
-import Camera from './components/main/Camera'
-import PhotoList from './components/main/PhotoList'
-import CameraList from './components/main/CameraList'
+// import Camera from './components/main/Camera'
+// import PhotoList from './components/main/PhotoList'
+// import CameraList from './components/main/CameraList'
 import WriteArticle from './components/main/WriteArticle'
 import Scan from './components/main/Scan'
 import Location from './components/main/Location'
@@ -201,32 +201,31 @@ const Main = createStackNavigator({
             header: null
         }
     },
-    Camera: {
-        screen: Camera,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            tabBarVisible: false
-        })
-    },
-    CameraList: {
-        screen: CameraList,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            tabBarVisible: false
-        })
-    },
-
-    PhotoList: {
-        screen: PhotoList,
-        navigationOptions: ({navigation}) => ({
-            header: null,
-            tabBarVisible: false
-        })
-    },
+    // Camera: {
+    //     screen: Camera,
+    //     navigationOptions: ({navigation}) => ({
+    //         header: null,
+    //         tabBarVisible: false
+    //     })
+    // },
+    // CameraList: {
+    //     screen: CameraList,
+    //     navigationOptions: ({navigation}) => ({
+    //         header: null,
+    //         tabBarVisible: false
+    //     })
+    // },
+    //
+    // PhotoList: {
+    //     screen: PhotoList,
+    //     navigationOptions: ({navigation}) => ({
+    //         header: null,
+    //         tabBarVisible: false
+    //     })
+    // },
     ImageView: {
     screen: ImageView,
         navigationOptions: ({navigation}) => ({
-        header: null,
         tabBarVisible: false
     })
 },

@@ -18,6 +18,7 @@ import {Button, Modal, Provider, WhiteSpace, WingBlank,Card} from "@ant-design/r
 import Item from "../modules/ChildItem"
 import moment from "moment"
 import * as actionType from "../../actionType";
+import Video from "react-native-video";
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -69,6 +70,7 @@ class Space extends Component {
     renderItem = (props) => {
         const {item,index} = props
         const userInfo = item.user_detail_info[0]
+        const  media= item.media
 
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -121,12 +123,15 @@ class Space extends Component {
                                     <Text style={globalStyles.previewText}>全文</Text>
                                 </Text>
                                 {item.carrier == 2 && <FlatList
-                                    data={item.media}
+                                    data={media}
                                     numColumns={3}
-                                    renderItem={(params)=> {
-                                        const { item } = params
+                                    renderItem={(params) => {
+                                        const {item,index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5}>
+                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                                                this.props.navigation.navigate("ImageView",{media:media,index:index})
+                                            }}>
+
                                                 <View style={globalStyles.item}>
                                                     <Image source={{uri: item.url}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
@@ -135,14 +140,17 @@ class Space extends Component {
                                         )
                                     }
                                     }
-                                    keyExtractor={(item, index) => `${index}`}
                                     contentContainerStyle={globalStyles.list_container}
                                 />}
 
-                                {item.carrier == 3 && <ImageBackground source={require('../../images/tall.png')}
-                                                                       style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                    <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                </ImageBackground>}
+                                {item.carrier == 3 &&
+
+                                <Video source={{uri:media[0].url}}
+                                       paused={true}
+                                       repeat={true}
+                                       controls={true}
+                                       style={globalStyles.image}/>
+                                }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
                             </Card.Body>
@@ -248,7 +256,7 @@ console.log(spaceData)
             <Provider>
             <View style={{flex: 1}}>
                 <View style={{width: width, backgroundColor: styleColor}}>
-                    <View style={{height: 75, flexDirection: "row", alignItems: "flex-end", marginLeft: 10}}>
+                    <View style={{height: 50, flexDirection: "row", alignItems: "flex-end", marginLeft: 10}}>
                         <AntDesign name="left" size={20} style={{color: '#fff'}}
                                    onPress={() => this.props.navigation.goBack()}/>
                     </View>
