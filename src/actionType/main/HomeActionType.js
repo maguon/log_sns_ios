@@ -17,3 +17,4 @@ export const get_address=createAction('get_address')
 
 export const set_File=createAction('set_File')
 export const add_File=createAction('add_File')
+export const set_Waiting=createAction('set_Waiting')

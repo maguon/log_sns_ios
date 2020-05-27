@@ -1,7 +1,8 @@
-import {apiHost} from '../../config/HostConfig'
+import {apiHost,fileHost} from '../../config/HostConfig'
 import * as actionType from '../../actionType/index'
 import httpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
+import {Toast} from '@ant-design/react-native'
 
 const iosMapKey = '22d16ea40b6fdb3ebc3daa1b48db3287'
 let carrierType=""
@@ -10,23 +11,41 @@ export const createArticle = (props) => async (dispatch, getState) => {
     try {
         const { WriteArticleReducer: { data ,posSwitch,content},HomeReducer:{setFile}, LoginReducer: {userId} } = getState()
         dispatch({ type: actionType.WriteArticleType.create_article_waiting })
-        const url = `${apiHost}/user/${userId}/msg`
-        console.log('url', url)
         let params = {}
 
-        const typeBool=setFile.filter((item)=>{return item.preview=="video"})
+        const typeBool=setFile.filter((item)=>{return item.preview!=""})
         if(setFile) {
             if (typeBool.length==0) {
                 carrierType = 2
+                const fileUrl = `${fileHost}/user/${userId}/image`
+                const fileRes = await Promise.all(setFile.map(item => httpRequest.postFile(fileUrl, {
+                    key: 'image',
+                    imageUrl: item.url,
+                    imageType:0,
+                    imageName:'image'
+                })))
+                setFile.map((item, index) => {item.url = fileRes[index].imageId})
+
             } else {
+                console.log('setFile', setFile)
                 carrierType = 3
+                const fileUrl = `${fileHost}/user/${userId}/media`
+                const fileRes = await Promise.all(setFile.map(item => httpRequest.postVideo(fileUrl, {
+                    key: 'video',
+                    video: item.url,
+                    preview:item.preview,
+                })))
+                // console.log('fileRes', fileRes)
+                setFile.map((item, index) => {item.url = `http://media.myxxjs.com/${fileRes[index].result.url}`})
+
             }
         }else {
             carrierType = 1
         }
 
-        console.log('carrierType', carrierType)
-        console.log('setFile', setFile)
+
+        // console.log('carrierType', carrierType)
+        // console.log('setFile', setFile)
         if(props.navigation.state.params.title=="发布求助"){
             if (posSwitch) {
                 params = {type: 2, carrier: carrierType, info: content, address: [data.longitude, data.latitude], addressName: data.currentAddrName, addressReal: data.currentAddrReal, addressShow: 1,media:setFile}
@@ -41,11 +60,15 @@ export const createArticle = (props) => async (dispatch, getState) => {
             }
         }
         console.log('params', params)
+        const url = `${apiHost}/user/${userId}/msg`
         const res = await httpRequest.post(url, params)
         console.log('res', res)
         if (res.success) {
-            Alert.alert("", "发布成功，确认返回", [{text: "确定", onPress: () =>  props.navigation.pop()}])
-            dispatch({ type: actionType.WriteArticleType.create_article_success })
+
+            Alert.alert("", "发布成功，确认返回", [{text: "确定", onPress: () =>  {
+                dispatch({ type: actionType.WriteArticleType.create_article_success })
+                    props.navigation.pop()}}])
+
         } else {
             dispatch({ type:actionType.WriteArticleType.create_article_failed, payload: { failedMsg: `${res.msg}` } })
         }

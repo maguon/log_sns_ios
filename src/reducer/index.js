@@ -4,6 +4,7 @@ import HomeReducer from './main/HomeReducer'
 import InitReducer from './main/InitReducer'
 import RegisterReducer from './main/RegisterReducer'
 import LoginReducer from './main/LoginReducer'
+import WelcomeReducer from './main/WelcomeReducer'
 
 import AboutUsReducer from './main/AboutUsReducer'
 import ArticleReducer from './main/ArticleReducer'
@@ -49,6 +50,7 @@ export default combineReducers({
     InitReducer,
     RegisterReducer,
     LoginReducer,
+    WelcomeReducer,
     AboutUsReducer,
     ArticleReducer,
     CameraReducer,

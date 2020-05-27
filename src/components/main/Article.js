@@ -15,6 +15,7 @@ import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
+import {fileHost} from "../../config/HostConfig";
 
 
 const {width} = Dimensions.get('window')
@@ -149,7 +150,7 @@ class Article extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: item.url}}
+                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>

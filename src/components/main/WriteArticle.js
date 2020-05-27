@@ -5,12 +5,15 @@ import {
     ScrollView,
     TextInput,
     FlatList,
+    Modal,
     TouchableOpacity,
     ImageBackground,
     Dimensions,
+    ActivityIndicator,
+    StyleSheet,
     Alert
 } from 'react-native'
-import { List, TextareaItem, Icon, Switch } from '@ant-design/react-native'
+import {List, TextareaItem, Icon, Switch, Provider} from '@ant-design/react-native'
 import Geolocation from '@react-native-community/geolocation'
 import { connect } from 'react-redux'
 import * as action from '../../action/index'
@@ -20,8 +23,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import ImageCropPicker from "react-native-image-crop-picker";
 import ImageResizer from "react-native-image-resizer";
 import  ImagePicker from 'react-native-image-picker';
-import EvilIcons from "react-native-vector-icons/EvilIcons";
+import { LogLevel, RNFFmpeg } from 'react-native-ffmpeg'
 import Video from 'react-native-video';
+import* as RNFS from 'react-native-fs'
 let photoOptions = {
     //底部弹出框选项
     title:'',
@@ -62,10 +66,10 @@ class WriteArticle extends Component {
             paused: true,
             skin: 'embed',
             isBuffering: false,
+            waiting:false
         }
 
     }
-
 
     onLoad=data=>{
         console.log('On load fired!');
@@ -105,7 +109,7 @@ class WriteArticle extends Component {
                 .then((resizedImageUri) => {
                     this.props.addFile([{
                         url: resizedImageUri.uri,
-                        preview:"image",
+                        preview:"",
 
                     }])
                 })
@@ -131,11 +135,24 @@ class WriteArticle extends Component {
                 console.log('ImagePicker Error: ', response.error)
             }
             else {
-                console.log(response.path)
-                this.props.addFile([{
-                    url: response.uri,
-                    preview: "video"
-                }])
+                this.setState({waiting: true});
+                const path=response.uri.replace("MOV","mp4")
+                const newpath=`${RNFS.CachesDirectoryPath}/preview.jpg`;
+                RNFFmpeg.execute(` -i ${response.uri} -ss 00:00:01  -frames:v 1  -f image2 -y ${newpath}`).then(result => console.log("result",result.rc));
+                RNFFmpeg.executeWithArguments(["-i", response.uri,"-b:v","2M","-vf","scale=-2:1080", path]).then(result =>{
+                    //压缩成功
+                    if(result.rc==0) {
+
+                        this.props.addFile([{
+                            url: path,
+                            preview:newpath
+                        }])
+                        this.setState({waiting: false});
+                    }else {
+
+                    }
+                } );
+
             }
         })
     }
@@ -146,7 +163,7 @@ class WriteArticle extends Component {
             const pos = param.path.lastIndexOf('/')
             return Promise.resolve({
                 url: param.path,
-                preview:"image",
+                preview:"",
 
             })
         }
@@ -156,7 +173,7 @@ class WriteArticle extends Component {
                     const pos = param.path.lastIndexOf('/')
                     resolve({
                         url: resizedImageUri.uri,
-                        preview:"image",
+                        preview:"",
                     })
                 })
                 .catch((err) => {
@@ -227,9 +244,10 @@ class WriteArticle extends Component {
         });
     }
     render() {
-        const { navigation,homeReducer:{setFile},writeArticleReducer: { data: { currentAddrName },posSwitch},setContent} = this.props
-        const typeBool=setFile.filter((item)=>{return item.preview=="video"})
+        const { navigation,homeReducer:{setFile},writeArticleReducer: { data: { currentAddrName },posSwitch,createArticle:{isResultStatus}},setContent} = this.props
+        const typeBool=setFile.filter((item)=>{return item.preview!=""})
         return (
+    <Provider>
             <ScrollView style={{ flex: 1 }}
                 automaticallyAdjustContentInsets={false}
                 showsHorizontalScrollIndicator={false}
@@ -260,7 +278,6 @@ class WriteArticle extends Component {
                     contentContainerStyle={globalStyles.list_container}
                     renderItem={(data) => {
                         const {item,index} = data
-
                         return (
                             <View style={{marginTop: 5, marginLeft:4,alignItems: 'center',justifyContent: 'center'}}>
                                 <TouchableOpacity activeOpacity={0.5} >
@@ -296,7 +313,7 @@ class WriteArticle extends Component {
                     <View style={{width: cellWH, height: cellWH,justifyContent:'center',alignItems:'center',marginTop: 5, marginLeft:20}}>
                         <AntDesign style={{color:"#d2d2d2"}} name="pluscircleo" size={50}
                                    onPress={()=> {
-                                       const imageBool=setFile.filter((item)=>{return item.preview=="image"})
+                                       const imageBool=setFile.filter((item)=>{return item.preview==""})
                                        if(imageBool!=""){
                                            photoOptions.customButtons=[
                                                {name: 'photo', title: '拍照'},
@@ -322,11 +339,50 @@ class WriteArticle extends Component {
                 <View style={{width:width,height:40,justifyContent:'center',marginBottom: 5,alignItems:'center'}}>
                         <Text style={{color:"#d2d2d2",fontSize:14}}>最多只能添加1个视频文件</Text>
                     </View>}
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={isResultStatus==1}
+                    onRequestClose={() => { }}>
+                    <View style={style.modalContainer} >
+                        <View style={style.modalItem}>
+                            <ActivityIndicator
+                                animating={isResultStatus==1}
+                                style={style.modalActivityIndicator}
+                                size="large"
+                            />
+                            <Text style={style.modalText}>正在发布视频...</Text>
+                        </View>
+                    </View>
+                </Modal>
             </ScrollView>
+    </Provider>
         )
     }
 }
 
+const style = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalItem: {
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalActivityIndicator: {
+        height: 40
+    },
+    modalText: {
+        color: '#fff',
+        paddingLeft: 10
+    }
+});
 
 const mapStateToProps = (state) => {
     return {

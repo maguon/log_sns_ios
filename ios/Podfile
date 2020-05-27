@@ -1,5 +1,6 @@
-platform :ios, '9.0'
+platform :ios, '9.3'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+source 'https://github.com/CocoaPods/Specs.git'
 
 target 'log_sns_ios' do
   # Pods for log_sns_ios
@@ -8,6 +9,7 @@ target 'log_sns_ios' do
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
   pod 'RCTTypeSafety', :path => "../node_modules/react-native/Libraries/TypeSafety"
   pod 'React', :path => '../node_modules/react-native/'
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
   pod 'React-Core', :path => '../node_modules/react-native/'
   pod 'React-CoreModules', :path => '../node_modules/react-native/React/CoreModules'
   pod 'React-Core/DevSupport', :path => '../node_modules/react-native/'
@@ -33,8 +35,6 @@ target 'log_sns_ios' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-
 
   target 'log_sns_iosTests' do
     inherit! :search_paths

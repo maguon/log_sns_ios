@@ -9,7 +9,7 @@ import {
     TouchableHighlight,
     Image,
     TouchableOpacity,
-    ImageBackground, Alert
+    ImageBackground, Alert, StyleSheet
 } from 'react-native'
 
 import {Provider, WhiteSpace, WingBlank, Card, Modal, Button, ActivityIndicator} from "@ant-design/react-native"
@@ -20,8 +20,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import Geolocation from '@react-native-community/geolocation'
 import * as actionType from "../../actionType/index";
 import Video from "react-native-video";
-
-
+import {fileHost} from '../../config/HostConfig'
 
 
 const {width} = Dimensions.get('window')
@@ -112,7 +111,6 @@ class Home extends Component {
         const userInfo = item.user_detail_info[0]
         const {setPraise, navigation: {state: {params = {tabIndex: 0}}}} = this.props
         const {tabIndex} = params
-
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -192,7 +190,7 @@ class Home extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: item.url}}
+                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
@@ -279,7 +277,7 @@ class Home extends Component {
         const {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
-                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,
+                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,waiting
             }, getHotList, getHomeFollow, getNearList, setCollection,onCancel
         } = this.props
         const {tabIndex} = params
@@ -356,10 +354,52 @@ class Home extends Component {
                     <Button onPress={this.onClose}>取消</Button>
                 </Modal>
 
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={waiting}
+                    onRequestClose={() => { }}
+                    style={style.modalContainer}>
+
+                        <View style={style.modalItem}>
+                            <ActivityIndicator
+                                animating={waiting}
+                                style={style.modalActivityIndicator}
+                                size="large"
+                            />
+                            <Text style={style.modalText}>正在上传视频...</Text>
+                        </View>
+
+                </Modal>
+
             </Provider>
         )
     }
 }
+
+
+const style = StyleSheet.create({
+    modalContainer: {
+        height: 80,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalItem: {
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalActivityIndicator: {
+        height: 40
+    },
+    modalText: {
+        color: '#fff',
+        paddingLeft: 10
+    }
+});
 
 const mapStateToProps = (state) => {
     return {

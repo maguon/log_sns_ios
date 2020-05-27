@@ -22,6 +22,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - mobile-ffmpeg-https (4.3.1)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -196,6 +197,12 @@ PODS:
     - React
   - react-native-camera/RN (3.22.0):
     - React
+  - react-native-ffmpeg (0.4.4):
+    - React
+    - react-native-ffmpeg/https (= 0.4.4)
+  - react-native-ffmpeg/https (0.4.4):
+    - mobile-ffmpeg-https (= 4.3.1)
+    - React
   - react-native-geolocation (2.0.2):
     - React
   - react-native-image-picker (2.3.1):
@@ -250,6 +257,12 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.7.1):
     - React
+  - RNCPushNotificationIOS (1.2.0):
+    - React
+  - RNDeviceInfo (5.6.0):
+    - React
+  - RNFS (2.16.6):
+    - React
   - RNGestureHandler (1.5.2):
     - React
   - RNImageCropPicker (0.28.0):
@@ -264,8 +277,6 @@ PODS:
   - RNReanimated (1.4.0):
     - React
   - RNScreens (2.0.0-alpha.17):
-    - React
-  - RNThumbnail (1.0.0):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -291,6 +302,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-amap-geolocation (from `../node_modules/react-native-amap-geolocation/lib/ios`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-ffmpeg (from `../node_modules/react-native-ffmpeg`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
@@ -310,15 +322,19 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - RNThumbnail (from `../node_modules/react-native-thumbnail/ios`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - mobile-ffmpeg-https
   trunk:
     - AMapFoundation
     - AMapLocation
@@ -358,6 +374,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-amap-geolocation/lib/ios"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-ffmpeg:
+    :path: "../node_modules/react-native-ffmpeg"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-image-picker:
@@ -394,6 +412,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -402,8 +426,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNThumbnail:
-    :path: "../node_modules/react-native-thumbnail/ios"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -418,6 +440,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  mobile-ffmpeg-https: c4a3c255163ddb1abc4b4dfc613c2d885f8c46eb
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -429,6 +452,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-amap-geolocation: c210391e3042ffcb21482745d3d2d52d7b60a91f
   react-native-camera: fcfb64dea064dfa8c2ce2b5a11390c8dd8354731
+  react-native-ffmpeg: f9a60452aaa5d478aac205b248224994f3bde416
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-image-picker: 668e72d0277dc8c12ae90e835507c1eddd2e4f85
   react-native-image-resizer: 487329f0748d62a075f9d1ba1676c3ab394d169f
@@ -447,15 +471,17 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: 8539fc80a0075fcc9c8e2dff84cd22dc5bf1dacf
+  RNCPushNotificationIOS: 9aa40ed0ff0e53f8ecf3baaaa7e5ccbaa5ba3894
+  RNDeviceInfo: 23eef94a8911a03ecf5d6c79df71db34091c8f40
+  RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
   RNImageCropPicker: cf129d17e042ce3e96fb9ada967c28f21f977c82
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: f5e2ff7ccde2a1bfcf2a48c6fd07fdcf1fd95223
-  RNThumbnail: f5d3c6e18dd15213ce46e1f631be65d4c6fcb133
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 29cc11d3bf475df2aaa4723bdf57308d93a0f0e2
+PODFILE CHECKSUM: b62c1b38a92aa7fb3d63c4c025c3f0c17cc3405a
 
 COCOAPODS: 1.8.3

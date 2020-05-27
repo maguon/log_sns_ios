@@ -1,6 +1,7 @@
 import * as HomeAction from './main/HomeAction'
 import * as InitAction from './main/InitAction'
 import * as RegisterAction from './main/RegisterAction'
+import * as WelcomeAction from './main/WelcomeAction'
 import * as LoginAction from './main/LoginAction'
 import * as AboutUsAction from './main/AboutUsAction'
 import * as ArticleAction from './main/ArticleAction'
@@ -44,6 +45,7 @@ export {
     HomeAction,
     InitAction,
     RegisterAction,
+    WelcomeAction,
     LoginAction,
     AboutUsAction,
     ArticleAction,

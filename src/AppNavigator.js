@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator'
 import ArtRightButton from "./components/modules/ArtRightButton"
 //login
+import Welcome from './components/main/Welcome'
 import Login from './components/main/Login'
 import Registered from './components/main/Registered'
 import ForgotPassWord from './components/main/ForgotPassWord'
@@ -56,6 +57,7 @@ import Space from './components/main/Space'
 
 //modules
 import LeftButton from './components/modules/LeftButton'
+import WriteLeftButton from './components/modules/WriteLeftButton'
 import LoginLeftButton from './components/modules/LoginLeftButton'
 import Title from './components/modules/Title'
 import EvaTitle from './components/modules/EvaTitle'
@@ -201,28 +203,7 @@ const Main = createStackNavigator({
             header: null
         }
     },
-    // Camera: {
-    //     screen: Camera,
-    //     navigationOptions: ({navigation}) => ({
-    //         header: null,
-    //         tabBarVisible: false
-    //     })
-    // },
-    // CameraList: {
-    //     screen: CameraList,
-    //     navigationOptions: ({navigation}) => ({
-    //         header: null,
-    //         tabBarVisible: false
-    //     })
-    // },
-    //
-    // PhotoList: {
-    //     screen: PhotoList,
-    //     navigationOptions: ({navigation}) => ({
-    //         header: null,
-    //         tabBarVisible: false
-    //     })
-    // },
+
     ImageView: {
     screen: ImageView,
         navigationOptions: ({navigation}) => ({
@@ -236,6 +217,7 @@ const Main = createStackNavigator({
         navigationOptions: ({navigation}) => ({
             title: '写文章',
             headerRight: <ArtRightButton navigation={navigation}></ArtRightButton>,
+            headerLeft:<WriteLeftButton navigation={navigation}/>,
             tabBarVisible: false,
         })
     },
@@ -471,9 +453,12 @@ const Main = createStackNavigator({
 
 //入口
 const AppNavigator = createSwitchNavigator({
-    // LoginPage:{
-    //     screen:LoginPage
-    // },
+    Welcome:{
+        screen:Welcome
+    },
+    LoginPage:{
+        screen:LoginPage
+    },
     Main: {
         screen: Main
     }

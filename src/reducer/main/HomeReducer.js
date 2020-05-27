@@ -18,7 +18,8 @@ const initialState = {
     nearComplete:false,
     nearResultStatus:0,
 
-    setFile:[]
+    setFile:[],
+    waiting:false
 }
 
 export default handleActions({
@@ -137,6 +138,15 @@ export default handleActions({
         return {
             ...state,
             setFile:[...state.setFile,...addFile]
+        }
+
+    },
+
+    [actionType.HomeActionType.set_Waiting]: (state, action) => {
+        const {payload: {waiting}} = action
+        return {
+            ...state,
+            waiting
         }
 
     },

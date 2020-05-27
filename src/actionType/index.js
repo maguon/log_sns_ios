@@ -4,6 +4,7 @@ import * as HomeActionType from './main/HomeActionType'
 import * as InitActionTyp from './main/InitActionType'
 import * as RegisterActionType from './main/RegisterActionType'
 import * as LoginActionType from './main/LoginActionType'
+import * as WelcomeActionType from './main/WelcomeActionType'
 
 import * as AboutUsType from './main/AboutUsType'
 import * as ArticleType from './main/ArticleType'
@@ -48,6 +49,7 @@ export {
     InitActionTyp,
     RegisterActionType,
     LoginActionType,
+    WelcomeActionType,
     AboutUsType,
     ArticleType,
     CameraType,

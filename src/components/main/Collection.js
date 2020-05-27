@@ -18,6 +18,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import Item from "../modules/ChildItem"
 import * as action from "../../action/index"
 import Video from "react-native-video";
+import {fileHost} from "../../config/HostConfig";
 
 
 
@@ -66,6 +67,8 @@ class Collection extends React.Component {
         const {delCollection,setColPraise}=this.props
         const userInfo = item.msg_user_detail_info[0]
         const msgInfo=item.msg_info[0]
+        console.log(item)
+        console.log(msgInfo)
         if (msgInfo.carrier == 2) {
             if (msgInfo.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -131,7 +134,7 @@ class Collection extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: item.url}}
+                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
 
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>

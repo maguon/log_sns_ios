@@ -73,21 +73,25 @@ export const setCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     console.log(value)
     try {
-        let params={
-            msgId:`${value._id}`,
-            msgUserId:`${value._user_id}`,
-            remarks:"string"
-        }
-        console.log(params)
-        let url = `${apiHost}/user/${userId}/userMsgColl`
-        const res = await HttpRequest.post(url,params)
-        if(res.success){
-            Toast.success('收藏成功', 1, () => {
-                // dispatch({type: actionType.ItemType.get_MsgId, payload: {msgId: res.id}})
-                // dispatch({type: actionType.ItemType.get_Star, payload: {msgId: res.true}})
-            })
+        if(userId==value._user_id){
+
         }else {
-            Toast.info(res.msg)
+            let params = {
+                msgId: `${value._id}`,
+                msgUserId: `${value._user_id}`,
+                remarks: "string"
+            }
+            console.log(params)
+            let url = `${apiHost}/user/${userId}/userMsgColl`
+            const res = await HttpRequest.post(url, params)
+            if (res.success) {
+                Toast.success('收藏成功', 1, () => {
+                    // dispatch({type: actionType.ItemType.get_MsgId, payload: {msgId: res.id}})
+                    // dispatch({type: actionType.ItemType.get_Star, payload: {msgId: res.true}})
+                })
+            } else {
+                Toast.info(res.msg)
+            }
         }
     } catch (err) {
         Toast.fail(err.message)

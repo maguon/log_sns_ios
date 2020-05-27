@@ -19,6 +19,7 @@ import Item from "../modules/ChildItem"
 import moment from "moment"
 import * as actionType from "../../actionType";
 import Video from "react-native-video";
+import {fileHost} from "../../config/HostConfig";
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -133,7 +134,7 @@ class Space extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: item.url}}
+                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>

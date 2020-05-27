@@ -13,6 +13,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import ConfirmModal from '../modules/ConfirmModal'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as action from "../../action";
+import {fileHost} from "../../config/HostConfig";
 
 
 const { width, height } = Dimensions.get('window')
@@ -33,7 +34,7 @@ class ImageView extends Component {
         console.log(media)
         return media.map((item, i) => {
             return <View key={i} style={{flex:1}}>
-                <Image source={{uri: item.url}} style={{flex:1}}/>
+                <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}} style={{flex:1}}/>
             </View>
         })
     }

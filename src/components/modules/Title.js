@@ -11,6 +11,8 @@ import ImageResizer from 'react-native-image-resizer'
 import {connect} from 'react-redux'
 import  ImagePicker from 'react-native-image-picker';
 import { LogLevel, RNFFmpeg } from 'react-native-ffmpeg'
+import* as RNFS from 'react-native-fs'
+
 let photoOptions = {
     //底部弹出框选项
     title:'',
@@ -54,7 +56,7 @@ class Title extends React.Component {
 
 
     uploadImage(param){
-        this.props.navigation.navigate("WriteArticle")
+        this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
         this.props.setFile(param)
     }
     launchPhoto() {//打开照相机进行拍照
@@ -63,11 +65,22 @@ class Title extends React.Component {
             width: 300,
             height: 400,
         }).then(image => {
-            this.uploadImage([{
-                url: image.path,
-                preview:"image",
+            ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
+                .then((resizedImageUri) => {
+                    this.props.addFile([{
+                        url: resizedImageUri.uri,
+                        preview:"",
 
-            }])
+                    }])
+                })
+                .catch((err) => {
+                    console.log('err', err)
+
+                    reject({
+                        success: false,
+                        errMsg: err
+                    })
+                })
         })
     }
     launchCamera() {
@@ -80,11 +93,27 @@ class Title extends React.Component {
                 console.log('ImagePicker Error: ', response.error)
             }
             else {
-                console.log(response)
-                this.uploadImage([{
-                    url: response.uri,
-                    preview: "video"
-                }])
+
+                this.props.setWaiting(true)
+                const path=response.uri.replace("MOV","mp4")
+                const newpath=`${RNFS.CachesDirectoryPath}/preview.jpg`;
+                RNFFmpeg.execute(` -i ${response.uri} -ss 00:00:01  -frames:v 1  -f image2 -y ${newpath}`).then(result => console.log("result",result.rc));
+
+                RNFFmpeg.executeWithArguments(["-i", response.uri,"-b:v","2M","-vf","scale=-2:1080", path]).then(result =>{
+                    console.log("result",result)
+
+                    //压缩成功
+                    if(result.rc==0) {
+
+                        this.uploadImage([{
+                            url: path,
+                            preview:newpath
+                        }])
+                        this.props.setWaiting(false)
+                    }else {
+
+                    }
+                } );
             }
         })
     }
@@ -95,7 +124,7 @@ class Title extends React.Component {
             const pos = param.path.lastIndexOf('/')
             return Promise.resolve({
                     url: param.path,
-                preview:"image",
+                    preview:"",
 
             })
         }
@@ -105,7 +134,7 @@ class Title extends React.Component {
                     const pos = param.path.lastIndexOf('/')
                     resolve({
                         url: resizedImageUri.uri,
-                        preview:"image",
+                        preview:"",
                     })
                 })
                 .catch((err) => {
@@ -164,6 +193,7 @@ class Title extends React.Component {
                 if(response.customButton=='photo'){
                     this.launchPhoto()
                 }else if(response.customButton=='camera'){
+
                     this.launchCamera()
                 }else{
                     this.openPicker()
@@ -287,7 +317,11 @@ const mapDispatchProps = (dispatch) => ({
 
     setFile:(param) => {
         dispatch({type: actionType.HomeActionType.set_File, payload: {setFile: param}})
+    },
+    setWaiting:(value) => {
+        dispatch({type: actionType.HomeActionType.set_Waiting, payload: {waiting: value}})
     }
+
 
 })
 

@@ -21,6 +21,7 @@ import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import * as actionType from "../../actionType";
 import Video from "react-native-video";
+import {fileHost} from "../../config/HostConfig";
 
 
 
@@ -180,7 +181,7 @@ class Community extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: item.url}}
+                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
@@ -275,7 +276,7 @@ class Community extends React.Component {
     render() {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
         const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
-            comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus},
+            comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus}, homeReducer: {waiting},
             getComInfo,getComVideo,getComHelp,getComVoteList,setCollection} = this.props
 
         return (
@@ -284,7 +285,7 @@ class Community extends React.Component {
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
                           if(index==0){
-                              getComVideo()
+                              getComInfo()
                           }else if(index==1){
                               getComVideo()
                           }else if(index==2){
@@ -299,7 +300,7 @@ class Community extends React.Component {
                       tabBarUnderlineStyle={{backgroundColor: '#1598cc'}}
                       tabBarTextStyle={{fontSize: 14}}
                 >
-                    <View style={style.content}>
+                    <View style={{flex: 1}}>
                         {comLoading&&
                             <FlatList
                                 data={comInfo}
@@ -382,6 +383,24 @@ class Community extends React.Component {
                     </TouchableOpacity>
                     <Button onPress={this.onClose}>取消</Button>
                 </Modal>
+
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={waiting}
+                    onRequestClose={() => { }}
+                    style={style.modalContainer}>
+
+                    <View style={style.modalItem}>
+                        <ActivityIndicator
+                            animating={waiting}
+                            style={style.modalActivityIndicator}
+                            size="large"
+                        />
+                        <Text style={style.modalText}>正在上传视频...</Text>
+                    </View>
+
+                </Modal>
             </Provider>
         )
     }
@@ -389,7 +408,8 @@ class Community extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        communityReducer: state.CommunityReducer
+        communityReducer: state.CommunityReducer,
+        homeReducer: state.HomeReducer
     }
 }
 
@@ -434,6 +454,25 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#fff',
     },
-
+    modalContainer: {
+        height: 80,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalItem: {
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalActivityIndicator: {
+        height: 40
+    },
+    modalText: {
+        color: '#fff',
+        paddingLeft: 10
+    }
 
 })
