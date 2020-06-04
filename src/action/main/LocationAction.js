@@ -1,19 +1,20 @@
 import {apiHost} from '../../config/HostConfig'
 import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native'
+import { ObjectToUrl } from '../../utils/util'
 import * as actionType from '../../actionType/index'
 
-export const toLogin = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+export const getAddress = (param) => async (dispatch) => {
+    dispatch({ type: actionType.LocationType.get_addressAtMap_waiting, payload: {} })
     try {
-        // 基本检索URL
-        let url = `${apiHost}/userLogin`
+        const url = `http://restapi.amap.com/v3/geocode/regeo?${ObjectToUrl(param)}`
         const res = await HttpRequest.get(url)
-
-
+        // console.log("url",url)
+        if (res.info=='OK') {
+            dispatch({ type: actionType.LocationType.get_addressAtMap_success, payload: { addressInfo: res.regeocode } })
+        } else {
+            dispatch({ type: actionType.LocationType.get_addressAtMap_failed, payload: { failedMsg: res.msg } })
+        }
     } catch (err) {
-        Toast.fail(err.message)
+        dispatch({ type: actionType.LocationType.get_addressAtMap_error, payload: { errorMsg: err } })
     }
-
 }

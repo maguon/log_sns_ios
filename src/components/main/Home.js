@@ -54,6 +54,7 @@ class Home extends Component {
         )
     }
 
+
     ListFooterComponent = (param) => {
         if (param == 1) {
             return(
@@ -278,7 +279,7 @@ class Home extends Component {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection,onCancel
+            }, getHotList, getHomeFollow, getNearList, setCollection,update
         } = this.props
         const {tabIndex} = params
         // console.log(homeFollow)
@@ -289,6 +290,10 @@ class Home extends Component {
                     <FlatList
                         data={hotList}
                         renderItem={this.renderItem}
+                        refreshing = { false }
+                        onRefresh = {()=>{
+                            update(0)
+                        }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
                             if (!isComplete) {
@@ -306,6 +311,10 @@ class Home extends Component {
                     <FlatList
                         data={homeFollow}
                         renderItem={this.renderItem}
+                        refreshing = { false }
+                        onRefresh = {()=>{
+                            update(1)
+                        }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
                             if (!homeComplete) {
@@ -321,6 +330,10 @@ class Home extends Component {
                     <FlatList
                         data={nearList}
                         renderItem={this.renderItem}
+                        refreshing = { false }
+                        onRefresh = {()=>{
+                            update(2)
+                        }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
                             if (!nearComplete) {
@@ -433,6 +446,9 @@ const mapDispatchProps = (dispatch) => ({
     },
     follow: (value) => {
         dispatch(action.HomeAction.follow(value))
+    },
+    update: (value) => {
+        dispatch(action.HomeAction.update(value))
     }
 })
 

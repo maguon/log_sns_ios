@@ -1,4 +1,6 @@
 PODS:
+  - AMap3DMap (7.2.0):
+    - AMapFoundation (~> 1.5)
   - AMapFoundation (1.6.3)
   - AMapLocation (2.6.5):
     - AMapFoundation (~> 1.6.3)
@@ -189,6 +191,9 @@ PODS:
   - react-native-amap-geolocation (1.0.4):
     - AMapLocation (~> 2.6.0)
     - React
+  - react-native-amap3d (2.0.1):
+    - AMap3DMap (~> 7.2.0)
+    - React
   - react-native-camera (3.22.0):
     - React
     - react-native-camera/RCT (= 3.22.0)
@@ -301,6 +306,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-amap-geolocation (from `../node_modules/react-native-amap-geolocation/lib/ios`)
+  - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-ffmpeg (from `../node_modules/react-native-ffmpeg`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
@@ -334,6 +340,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - AMap3DMap
     - mobile-ffmpeg-https
   trunk:
     - AMapFoundation
@@ -372,6 +379,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-amap-geolocation:
     :path: "../node_modules/react-native-amap-geolocation/lib/ios"
+  react-native-amap3d:
+    :path: "../node_modules/react-native-amap3d/lib/ios"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
   react-native-ffmpeg:
@@ -432,6 +441,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AMap3DMap: be13191194c9aeb29a67d9d3e9a797588fb329aa
   AMapFoundation: 9ed923193b357ebb30a073e9fe255d3c24054d5a
   AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
@@ -451,6 +461,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-amap-geolocation: c210391e3042ffcb21482745d3d2d52d7b60a91f
+  react-native-amap3d: 59fb8bb3aba6514b40bc573ec14525eb17d5ceb6
   react-native-camera: fcfb64dea064dfa8c2ce2b5a11390c8dd8354731
   react-native-ffmpeg: f9a60452aaa5d478aac205b248224994f3bde416
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8

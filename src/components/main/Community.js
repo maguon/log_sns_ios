@@ -277,7 +277,7 @@ class Community extends React.Component {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
         const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
             comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus}, homeReducer: {waiting},
-            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection} = this.props
+            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update} = this.props
 
         return (
             <Provider>
@@ -305,6 +305,10 @@ class Community extends React.Component {
                             <FlatList
                                 data={comInfo}
                                 renderItem={this.renderItem}
+                                refreshing = { false }
+                                onRefresh = {()=>{
+                                    update(0)
+                                }}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
@@ -321,6 +325,10 @@ class Community extends React.Component {
                             <FlatList
                                 data={comVideo}
                                 renderItem={this.renderItem}
+                                refreshing = { false }
+                                onRefresh = {()=>{
+                                    update(1)
+                                }}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
@@ -337,6 +345,10 @@ class Community extends React.Component {
                             <FlatList
                                 data={comHelp}
                                 renderItem={this.renderItem}
+                                refreshing = { false }
+                                onRefresh = {()=>{
+                                    update(2)
+                                }}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
@@ -353,6 +365,10 @@ class Community extends React.Component {
                             <FlatList
                                 data={comVoteList}
                                 renderItem={this.renderItemTo}
+                                refreshing = { false }
+                                onRefresh = {()=>{
+                                    update(3)
+                                }}
                                 ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
@@ -440,6 +456,9 @@ const mapDispatchProps = (dispatch, props) => ({
     },
     comFollow: (value) => {
         dispatch(action.CommunityAction.comFollow(value))
+    },
+    update: (value) => {
+        dispatch(action.CommunityAction.update(value))
     },
 
 })

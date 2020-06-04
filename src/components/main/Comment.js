@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { TextareaItem,Toast} from '@ant-design/react-native'
+import {List, TextareaItem, Toast} from '@ant-design/react-native'
 import { reduxForm, Field } from 'redux-form'
 import * as action from '../../action/index'
 import { required, requiredObj } from '../../utils/validators'
@@ -15,7 +15,8 @@ const msgCommentField = props => {
                       count={100}
                       error={error}
                       onErrorClick={() => Toast.info(error, 1, undefined, false)}
-                      {...input} />
+                      input={input}
+                      onChange={onChange}/>
     )
 }
 

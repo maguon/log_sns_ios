@@ -13,17 +13,16 @@ import Registered from './components/main/Registered'
 import ForgotPassWord from './components/main/ForgotPassWord'
 //home
 import Home from './components/main/Home'
-// import Camera from './components/main/Camera'
-// import PhotoList from './components/main/PhotoList'
-// import CameraList from './components/main/CameraList'
 import WriteArticle from './components/main/WriteArticle'
 import Scan from './components/main/Scan'
 import Location from './components/main/Location'
 import Detail from './components/main/Detail'
 import ToVote from './components/main/ToVote'
+import ScannerResult from './components/main/ScannerResult'
 import Comment from './components/main/Comment'
 import LvOneCommentList from './components/main/CommentLvOne'
 import LvTwoCommentList from './components/main/CommentLvTwo'
+
 
 //社区
 import Community from './components/main/Community'
@@ -230,6 +229,13 @@ const Main = createStackNavigator({
         })
     },
 
+    ScannerResult: {
+    screen:ScannerResult,
+        navigationOptions: ({navigation}) => ({
+        title: '扫面信息页',
+        tabBarVisible: false
+    })
+    },
     Location: {
         screen: Location,
         navigationOptions: ({navigation}) => ({
@@ -453,12 +459,12 @@ const Main = createStackNavigator({
 
 //入口
 const AppNavigator = createSwitchNavigator({
-    Welcome:{
-        screen:Welcome
-    },
-    LoginPage:{
-        screen:LoginPage
-    },
+    // Welcome:{
+    //     screen:Welcome
+    // },
+    // LoginPage:{
+    //     screen:LoginPage
+    // },
     Main: {
         screen: Main
     }
