@@ -206,7 +206,8 @@ const Main = createStackNavigator({
     ImageView: {
     screen: ImageView,
         navigationOptions: ({navigation}) => ({
-        tabBarVisible: false
+        tabBarVisible: false,
+            header: null
     })
 },
 

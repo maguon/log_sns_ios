@@ -39,7 +39,7 @@ export default class VideoList extends React.Component {
                             this.props.navigation.navigate('Detail')
                         }}>
                             {title ? (title.length > 30 ? title.substr(0, 30) + "..." : title) : ""}
-                            <Text style={globalStyles.previewText}>全文</Text>
+                            {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                         </Text>
                     </ImageBackground>
 

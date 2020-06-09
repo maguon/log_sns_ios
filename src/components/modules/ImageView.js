@@ -6,7 +6,7 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native'
-import {Button, Modal, Provider} from "@ant-design/react-native"
+import {Button, Icon, Modal, Provider} from "@ant-design/react-native"
 import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux'
 import globalStyles from "../../utils/GlobalStyles"
@@ -34,7 +34,7 @@ class ImageView extends Component {
         console.log(media)
         return media.map((item, i) => {
             return <View key={i} style={{flex:1}}>
-                <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}} style={{flex:1}}/>
+                <Image source={{uri:item.url,cache: 'force-cache'}} style={{flex:1}}/>
             </View>
         })
     }
@@ -73,17 +73,17 @@ class ImageView extends Component {
                 </Swiper>
 
 
-                {/*<View style={{height:40, width:width,position: 'absolute', top: 0, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#1598cc'}}>*/}
-                    {/*<TouchableOpacity   style={{ position: 'absolute', left: 0, }}*/}
-                                        {/*onPress={()=>navigation.pop()}>*/}
-                        {/*<Text style={[globalStyles.largeText, {color:"white", marginLeft:15  }]}>返回</Text>*/}
+                <View style={{height:70, width:width,position: 'absolute', top: 0, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center'}}>
+                    <TouchableOpacity   style={{ position: 'absolute', left: 0, }}
+                                        onPress={()=>navigation.pop()}>
+                        <Icon name='left'  style={{color:"white", marginLeft:15  }}/>
                     {/*</TouchableOpacity>*/}
                     {/*<TouchableOpacity  style={{ position: 'absolute', right: 0, }}*/}
                                        {/*onPress={()=>this.delImage()}*/}
                     {/*>*/}
                         {/*<Text style={[globalStyles.largeText, {  color:"white", marginRight:15 }]}>删除</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                {/*</View>*/}
+                    </TouchableOpacity>
+                </View>
                 <ConfirmModal
                     title='确认删除图片？'
                     isVisible={this.state.confirmModalVisible}

@@ -15,7 +15,6 @@ import {Provider, WhiteSpace, WingBlank,Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import globalStyles from "../../utils/GlobalStyles"
-import Item from "../modules/ChildItem"
 import * as action from "../../action/index"
 import Video from "react-native-video";
 import {fileHost} from "../../config/HostConfig";
@@ -120,7 +119,7 @@ class Collection extends React.Component {
                                     this.props.navigation.navigate('Detail')
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
-                                    <Text style={globalStyles.previewText}>全文</Text>
+                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                                 </Text>
                                 {msgInfo.carrier == 2 && <FlatList
                                     data={msgInfo.media}
@@ -134,7 +133,7 @@ class Collection extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <Image source={{uri:  item.url,cache: 'force-cache'}}
 
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>

@@ -36,8 +36,8 @@ export default class VoteItem extends React.Component {
                             <Text style={[globalStyles.midText, {margin: 15}]} onPress={() => {
                                 this.props.navigation.navigate('Vote',{item:item})
                             }}>
-                                {item.info ? (item.info.length > 60 ? item.info.substr(0, 60) + "..." : item.info) : ""}
-                                {item.info.length > 60&&<Text style={globalStyles.previewText}>全文</Text>}
+                                {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
+                                {item.info.length > 40&&<Text style={globalStyles.previewText}>全文</Text>}
                             </Text>
 
                             <Text style={{backgroundColor: '#d7d7d7', width: width * 0.9, height: 0.2}}/>

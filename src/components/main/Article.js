@@ -11,11 +11,10 @@ import {connect} from "react-redux"
 import {Provider, Tabs, WhiteSpace, WingBlank, Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
-import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
-import {fileHost} from "../../config/HostConfig";
+
 
 
 const {width} = Dimensions.get('window')
@@ -137,7 +136,7 @@ class Article extends React.Component {
                                     this.props.navigation.navigate('Detail')
                                 }}>
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
-                                    <Text style={globalStyles.previewText}>全文</Text>
+                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                                 </Text>
                                 {item.carrier == 2 && <FlatList
                                     data={media}
@@ -150,7 +149,7 @@ class Article extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <Image source={{uri:  item.url,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>

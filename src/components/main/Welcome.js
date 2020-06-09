@@ -178,7 +178,7 @@ class Welcome extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar hidden={true} />
-                <ImageBackground source={require('../../images/init_back.png')} style={styles.image}>
+                <ImageBackground source={require('../../images/init.png')} style={styles.image}>
                     <View style={styles.Activity}>
                         <ActivityIndicator
                             animating={true}

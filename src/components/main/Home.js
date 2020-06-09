@@ -178,7 +178,7 @@ class Home extends Component {
                                     this.props.navigation.navigate('Detail')
                                 }}>
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
-                                    <Text style={globalStyles.previewText}>全文</Text>
+                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                                 </Text>
                                 {item.carrier == 2 && <FlatList
                                     data={media}
@@ -191,7 +191,7 @@ class Home extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:  `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <Image source={{uri:  item.url,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
@@ -208,10 +208,6 @@ class Home extends Component {
                                        repeat={true}
                                        controls={true}
                                        style={globalStyles.image}/>
-                                // <ImageBackground source={require('../../images/tall.png')}
-                                //                                        style={[globalStyles.image, {backgroundColor: '#292929'}]}>
-                                //     <AntDesign name="play" size={50} style={{color: '#cecece'}}></AntDesign>
-                                // </ImageBackground>
                                 }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}

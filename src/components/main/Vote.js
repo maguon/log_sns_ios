@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Text, View, TouchableOpacity, Dimensions} from 'react-native'
+import {Text, View, TouchableOpacity, Dimensions,ScrollView} from 'react-native'
 import {Button, List, Provider, Radio, Checkbox} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action";
@@ -205,19 +205,19 @@ class Vote extends React.Component {
                         </View>
                     }>
                     </List>
+
+                    <ScrollView>
                     {item.status != 1 ?this.renderEnd(item):(item.user_votes==""?
                         <View>{item.max_num > 1 ? this.renderCheckbox(item) : this.renderRadio(item)}
                     <View style={{alignItems: 'center'}}>
-                        <Button type="primary" style={{marginTop: 50, width: width * 0.8}} onPress={() => {
-                            const value = {
-                                itemId: item._id,
+                        <Button type="primary" style={{marginTop: 50, marginBottom: 50,width: width * 0.8}} onPress={() => {
+                            setSupport({ itemId: item._id,
                                 voteItem: this.state.voteItem,
-                                navigation:this.props.navigation
-                            }
-                            setSupport(value)
+                                navigation:this.props.navigation})
                         }}>投票</Button>
                     </View>
                 </View>:this.renderItem(item))}
+                    </ScrollView>
                 </View>
             </Provider>
         )

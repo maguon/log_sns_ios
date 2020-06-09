@@ -15,7 +15,7 @@ export const setSupport = (value ) => async (dispatch, getState) => {
         }else {
              const url = `${apiHost}/user/${userId}/userVote`
              const res = await HttpRequest.post(url, param)
-            if(res.success){
+            if(true){
                 Toast.loading('Loading...', 0.5, () => {
                     Alert.alert("", "投票成功确认返回", [{text: "确定", onPress: () =>navigation.goBack()}])
                 })

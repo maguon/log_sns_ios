@@ -17,7 +17,6 @@ import moment from "moment"
 import {connect} from "react-redux"
 import globalStyles from '../../utils/GlobalStyles'
 import VoteItem from '../modules/VoteItem'
-import Item from '../modules/ChildItem'
 import * as action from "../../action/index"
 import * as actionType from "../../actionType";
 import Video from "react-native-video";
@@ -167,7 +166,7 @@ class Community extends React.Component {
                                     this.props.navigation.navigate('Detail')
                                 }}>
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
-                                    <Text style={globalStyles.previewText}>全文</Text>
+                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                                 </Text>
 
                                 {item.carrier == 2 && <FlatList
@@ -181,7 +180,7 @@ class Community extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <Image source={{uri: item.url,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
