@@ -1,30 +1,34 @@
-import {apiHost,fileHost} from '../../config/HostConfig'
+import {apiHost, fileHost} from '../../config/HostConfig'
 import * as actionType from '../../actionType/index'
 import httpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 
 const iosMapKey = '22d16ea40b6fdb3ebc3daa1b48db3287'
-let carrierType=""
+let carrierType = ""
 export const createArticle = (props) => async (dispatch, getState) => {
     console.log(props)
     try {
-        const { WriteArticleReducer: { data ,posSwitch,content},HomeReducer:{setFile}, LoginReducer: {userId} } = getState()
-        dispatch({ type: actionType.WriteArticleType.create_article_waiting })
+        const {WriteArticleReducer: {data, posSwitch, content}, HomeReducer: {setFile}, LoginReducer: {userId}} = getState()
+        dispatch({type: actionType.WriteArticleType.create_article_waiting})
         let params = {}
 
-        const typeBool=setFile.filter((item)=>{return item.preview!=""})
-        if(setFile) {
-            if (typeBool.length==0) {
+        const typeBool = setFile.filter((item) => {
+            return item.preview != ""
+        })
+        if (setFile) {
+            if (typeBool.length == 0) {
                 carrierType = 2
                 const fileUrl = `${fileHost}/user/${userId}/image`
                 const fileRes = await Promise.all(setFile.map(item => httpRequest.postFile(fileUrl, {
                     key: 'image',
                     imageUrl: item.url,
-                    imageType:0,
-                    imageName:'image'
+                    imageType: 0,
+                    imageName: 'image'
                 })))
-                setFile.map((item, index) => {item.url = fileRes[index].imageId})
+                setFile.map((item, index) => {
+                    item.url = fileRes[index].imageId
+                })
 
             } else {
                 console.log('setFile', setFile)
@@ -33,30 +37,51 @@ export const createArticle = (props) => async (dispatch, getState) => {
                 const fileRes = await Promise.all(setFile.map(item => httpRequest.postVideo(fileUrl, {
                     key: 'video',
                     video: item.url,
-                    preview:item.preview,
+                    preview: item.preview,
                 })))
-                // console.log('fileRes', fileRes)
-                setFile.map((item, index) => {item.url = `http://media.myxxjs.com/${fileRes[index].result.url}`})
-
+                console.log('fileRes', fileRes)
+                setFile.map((item, index) => {
+                    item.url = fileRes[index].result.url
+                    // item.preview=fileRes[index].result.preview
+                })
+                console.log('setFile', setFile)
             }
-        }else {
+        } else {
             carrierType = 1
         }
 
 
         // console.log('carrierType', carrierType)
         // console.log('setFile', setFile)
-        if(props.navigation.state.params.title=="发布求助"){
+        if (props.navigation.state.params.title == "发布求助") {
             if (posSwitch) {
-                params = {type: 2, carrier: carrierType, info: content, address: [data.longitude, data.latitude], addressName: data.currentAddrName, addressReal: data.currentAddrReal, addressShow: 1,media:setFile}
+                params = {
+                    type: 2,
+                    carrier: carrierType,
+                    info: content,
+                    address: [data.longitude, data.latitude],
+                    addressName: data.currentAddrName,
+                    addressReal: data.currentAddrReal,
+                    addressShow: 1,
+                    media: setFile
+                }
             } else {
-                params = {type: 2, carrier: carrierType, info: content, addressShow: 0,media:setFile}
+                params = {type: 2, carrier: carrierType, info: content, addressShow: 0, media: setFile}
             }
-        }else {
+        } else {
             if (posSwitch) {
-                params = {type: 1, carrier: carrierType, info: content, address: [data.longitude, data.latitude], addressName: data.currentAddrName, addressReal: data.currentAddrReal, addressShow: 1,media:setFile}
+                params = {
+                    type: 1,
+                    carrier: carrierType,
+                    info: content,
+                    address: [data.longitude, data.latitude],
+                    addressName: data.currentAddrName,
+                    addressReal: data.currentAddrReal,
+                    addressShow: 1,
+                    media: setFile
+                }
             } else {
-                params = {type: 1, carrier: carrierType, info: content, addressShow: 0,media:setFile}
+                params = {type: 1, carrier: carrierType, info: content, addressShow: 0, media: setFile}
             }
         }
         console.log('params', params)
@@ -65,15 +90,18 @@ export const createArticle = (props) => async (dispatch, getState) => {
         console.log('res', res)
         if (res.success) {
 
-            Alert.alert("", "发布成功，确认返回", [{text: "确定", onPress: () =>  {
-                dispatch({ type: actionType.WriteArticleType.create_article_success })
-                    props.navigation.pop()}}])
-
+            Alert.alert("", "发布成功，确认返回", [{
+                text: "确定", onPress: () => {
+                    dispatch({type: actionType.HomeActionType.set_File, payload: {setFile: []}})
+                    dispatch({type: actionType.WriteArticleType.create_article_success})
+                    props.navigation.pop()
+                }
+            }])
         } else {
-            dispatch({ type:actionType.WriteArticleType.create_article_failed, payload: { failedMsg: `${res.msg}` } })
+            dispatch({type: actionType.WriteArticleType.create_article_failed, payload: {failedMsg: `${res.msg}`}})
         }
     } catch (err) {
-        dispatch({ type: actionType.WriteArticleType.create_article_failed, payload: { failedMsg: `${err}` } })
+        dispatch({type: actionType.WriteArticleType.create_article_failed, payload: {failedMsg: `${err}`}})
     }
 }
 
@@ -95,14 +123,17 @@ export const getCurrentAddr = value => async (dispatch) => {
                 }
             })
         } else {
-            dispatch({ type: actionType.WriteArticleType.get_currentAddr_failed, payload: { failedMsg: `${res.infocode}` } })
+            dispatch({
+                type: actionType.WriteArticleType.get_currentAddr_failed,
+                payload: {failedMsg: `${res.infocode}`}
+            })
         }
     } catch (err) {
         console.log('err', err)
-        dispatch({ type: actionType.WriteArticleType.get_currentAddr_failed, payload: { failedMsg: `${err}` } })
+        dispatch({type: actionType.WriteArticleType.get_currentAddr_failed, payload: {failedMsg: `${err}`}})
     }
 }
 
 export const removeCurrentAddr = () => (dispatch) => {
-    dispatch({ type: actionType.WriteArticleType.remove_currentAddr })
+    dispatch({type: actionType.WriteArticleType.remove_currentAddr})
 }

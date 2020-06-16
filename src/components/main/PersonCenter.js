@@ -30,7 +30,7 @@ class PersonCenter extends React.Component {
                             <View style={{margin: 16}}>
 
                                 {avatar ? <Image
-                                        source={{uri: 'https://img3.doubanio.com/view/subject/s/public/s29446503.jpg'}}
+                                        source={{uri: avatar}}
                                         style={{width: 60, height: 60, borderRadius: 30}}/> :
                                     <Image source={require('../../images/head.png')}
                                            style={{width: 60, height: 60, borderRadius: 30}}/>}

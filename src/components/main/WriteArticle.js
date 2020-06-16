@@ -46,8 +46,6 @@ let photoOptions = {
         skipBackup: true,
         path:'images'
     },
-    cropperCancelText:"取消",
-    cropperChooseText:"悬着"
 
 }
 

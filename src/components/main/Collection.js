@@ -17,7 +17,7 @@ import moment from "moment"
 import globalStyles from "../../utils/GlobalStyles"
 import * as action from "../../action/index"
 import Video from "react-native-video";
-import {fileHost} from "../../config/HostConfig";
+import {fileHost, videoHost} from "../../config/HostConfig";
 
 
 
@@ -133,7 +133,7 @@ class Collection extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:  item.url,cache: 'force-cache'}}
+                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
 
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
@@ -146,7 +146,7 @@ class Collection extends React.Component {
 
                                 {msgInfo.carrier == 3 &&
 
-                                <Video source={{uri:msgInfo.media[0].url}}
+                                <Video source={{uri:`${videoHost}${msgInfo.media[0].url}`}}
                                        paused={true}
                                        repeat={true}
                                        controls={true}

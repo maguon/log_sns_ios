@@ -1,25 +1,41 @@
 import React from 'react'
 import {View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native'
-import {Button, Modal, InputItem, List, WhiteSpace, WingBlank, Provider} from "@ant-design/react-native"
+import {
+    Button,
+    Modal,
+    InputItem,
+    List,
+    WhiteSpace,
+    WingBlank,
+    Provider,
+    ActivityIndicator
+} from "@ant-design/react-native"
 import {connect} from "react-redux"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import globalStyles from "../../utils/GlobalStyles"
 import * as action from "../../action/index"
 import  ImagePicker from 'react-native-image-picker';
 import EvilIcons from "react-native-vector-icons/EvilIcons";
-const photoOptions = {
+import ImageCropPicker from "react-native-image-crop-picker";
+import ImageResizer from "react-native-image-resizer";
+let photoOptions = {
     //底部弹出框选项
     title:'',
     cancelButtonTitle:'取消',
-    takePhotoButtonTitle:'拍照',
-    chooseFromLibraryButtonTitle:'选择相册',
+    takePhotoButtonTitle:'',
+    chooseFromLibraryButtonTitle:'',
+    customButtons: [
+        {name: 'photo', title: '拍照'},
+        {name: 'hangge', title: '选择相册'},
+    ],
     quality:0.75,
     allowsEditing:true,
     noData:false,
     storageOptions: {
         skipBackup: true,
         path:'images'
-    }
+    },
+
 }
 
 
@@ -29,7 +45,7 @@ class UserData extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            visible: false
+            url: ""
         }
     }
 
@@ -37,30 +53,106 @@ class UserData extends React.Component {
         this.props.getUserData()
     }
 
-    onClose = () => {
-        this.setState({
-            visible: false,
-        });
-    };
+    // onClose = () => {
+    //     this.setState({
+    //         visible: false,
+    //     });
+    // };
 
-    uploadImage(uri){
-        let formData=new FormData()
-        let file={uri:uri,type:'multipart/from-data',name:'image.png'}
-        formData.append('file',file)
-        console.log(formData)
-        fetch ('url',{
-            method:'POST',
-            headers:{
-                'Content-Type':'multipart/from-data'
-            },
-            body:formData,
-        }).then((response)=>response.text()).then((responseData)=>{
-            console.log('responseData',responseData)
-            alert('上传成功')
-        }).catch((error)=>{
-            console.log('error',error)
-            alert('上传失败')
+    // uploadImage(uri){
+    //     let formData=new FormData()
+    //     let file={uri:uri,type:'multipart/from-data',name:'image.png'}
+    //     formData.append('file',file)
+    //     console.log(formData)
+    //     fetch ('url',{
+    //         method:'POST',
+    //         headers:{
+    //             'Content-Type':'multipart/from-data'
+    //         },
+    //         body:formData,
+    //     }).then((response)=>response.text()).then((responseData)=>{
+    //         console.log('responseData',responseData)
+    //         alert('上传成功')
+    //     }).catch((error)=>{
+    //         console.log('error',error)
+    //         alert('上传失败')
+    //     })
+    // }
+
+    launchPhoto() {//打开照相机进行拍照
+
+        ImageCropPicker.openCamera({
+            width: 300,
+            height: 400,
+        }).then(image => {
+            ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
+                .then((resizedImageUri) => {
+                    this.props.setHead({url:resizedImageUri.uri})
+                })
+                .catch((err) => {
+                    console.log('err', err)
+                    reject({
+                        success: false,
+                        errMsg: err
+                    })
+                })
+
+
         })
+    }
+
+    openPicker() {
+        this._timer=setInterval(()=>{
+            ImageCropPicker.openPicker({
+                multiple: true,
+                maxFiles:1,
+                smartAlbums:['UserLibrary' ],
+                mediaType:'photo',
+            }).then(images => {
+                this.isPicker(images)
+
+            }).catch(e => console.log(e));
+            this._timer&&clearInterval(this._timer);
+
+        },1000);
+
+
+    }
+    async isPicker(param){
+        try{
+            const newImages =await Promise.all(param.map(item => {
+                return this.createResizedImage(item)
+            }))
+            this.props.setHead({url:newImages[0].url})
+        }catch (err) {
+            console.log('err', err)
+        }
+
+    }
+
+    createResizedImage(param) {//图片压缩
+        if (param.height <= 960 && param.width <= 960) {
+            const pos = param.path.lastIndexOf('/')
+            return Promise.resolve({
+                url: param.path
+            })
+        }
+        return new Promise((resolve, reject) =>
+            ImageResizer.createResizedImage(param.path, 960, 960, 'JPEG', 100)
+                .then((resizedImageUri) => {
+                    const pos = param.path.lastIndexOf('/')
+                    resolve({
+                        url: resizedImageUri.uri,
+                    })
+                })
+                .catch((err) => {
+                    console.log('err', err)
+                    reject({
+                        success: false,
+                        errMsg: err
+                    })
+                })
+        )
     }
     cameraAction = () =>{
 
@@ -74,21 +166,34 @@ class UserData extends React.Component {
                 console.log('ImagePicker Error: ', response.error);
             }
             else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+                if(response.customButton=='photo'){
+                    this.launchPhoto()
+                }else{
+                    this.openPicker()
+                }
+
             }
-            else {
-                // let source = { uri: response.uri };
 
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-                // this.setState({
-                //     avatarSource: source
-                // });
-
-                this.uploadImage(response.uri)
-            }
         });
+    }
+
+    //加载等待页
+    renderLoadingView() {
+        return (
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#F5FCFF',
+            }}>
+                <ActivityIndicator
+                    animating={true}
+                    color='red'
+                    size="large"
+                />
+            </View>
+        );
     }
 
     render() {
@@ -187,6 +292,9 @@ const mapStateToProps = (state) => {
 const mapDispatchProps = (dispatch, props) => ({
     getUserData: () => {
         dispatch(action.UserDataAction.getUserData(props))
+    },
+    setHead: (value) => {
+        dispatch(action.UserDataAction.setHead(value))
     },
 })
 

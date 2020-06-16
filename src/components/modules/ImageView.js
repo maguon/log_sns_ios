@@ -4,17 +4,15 @@ import {
     View,
     Image,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native'
 import {Button, Icon, Modal, Provider} from "@ant-design/react-native"
 import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux'
-import globalStyles from "../../utils/GlobalStyles"
 import ConfirmModal from '../modules/ConfirmModal'
-import AntDesign from "react-native-vector-icons/AntDesign";
-import * as action from "../../action";
+import * as action from "../../action"
 import {fileHost} from "../../config/HostConfig";
-
 
 const { width, height } = Dimensions.get('window')
 
@@ -34,7 +32,7 @@ class ImageView extends Component {
         console.log(media)
         return media.map((item, i) => {
             return <View key={i} style={{flex:1}}>
-                <Image source={{uri:item.url,cache: 'force-cache'}} style={{flex:1}}/>
+                <Image source={{uri:`${fileHost}/image/${item.url}`,cache: 'force-cache'}} style={{flex:1}}/>
             </View>
         })
     }
@@ -68,6 +66,17 @@ class ImageView extends Component {
                     style={styles.wrapper}
                     loop={false}
                     automaticallyAdjustContentInsets={true}
+                    loadMinimalLoader={
+                        <View style={{flex:1,flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: '#F5FCFF',}}>
+                        <ActivityIndicator
+                            animating={true}
+                            color='red'
+                            size="large"/>
+                        </View>
+                    }
                 >
                     {this.renderPhoteView(media)}
                 </Swiper>

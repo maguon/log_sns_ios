@@ -14,6 +14,7 @@ import moment from "moment"
 import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
+import {fileHost, videoHost} from "../../config/HostConfig";
 
 
 
@@ -149,7 +150,7 @@ class Article extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:  item.url,cache: 'force-cache'}}
+                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
@@ -161,7 +162,7 @@ class Article extends React.Component {
 
                                 {item.carrier == 3 &&
 
-                                <Video source={{uri:media[0].url}}
+                                <Video source={{uri:`${videoHost}${media[0].url}`}}
                                        paused={true}
                                        repeat={true}
                                        controls={true}
