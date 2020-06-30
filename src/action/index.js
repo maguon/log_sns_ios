@@ -30,6 +30,7 @@ import * as SystemMsgAction from './main/SystemMsgAction'
 import * as UserDataAction from './main/UserDataAction'
 import * as VoteAction from './main/VoteAction'
 import * as VoteRemindAction from './main/VoteRemindAction'
+import * as ReportAction from './main/ReportAction'
 
 import * as WriteArticleAction from './main/WriteArticleAction'
 import * as ScanAction from './main/ScanAction'
@@ -74,6 +75,7 @@ export {
     UserDataAction,
     VoteAction,
     VoteRemindAction,
+    ReportAction,
     WriteArticleAction,
     ScanAction,
     SpaceAction,

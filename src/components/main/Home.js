@@ -12,7 +12,16 @@ import {
     ImageBackground, Alert, StyleSheet
 } from 'react-native'
 
-import {Provider, WhiteSpace, WingBlank, Card, Modal, Button, ActivityIndicator} from "@ant-design/react-native"
+import {
+    Provider,
+    WhiteSpace,
+    WingBlank,
+    Card,
+    Modal,
+    Button,
+    ActivityIndicator,
+    Popover
+} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import * as action from "../../action"
@@ -20,22 +29,24 @@ import globalStyles from "../../utils/GlobalStyles"
 import Geolocation from '@react-native-community/geolocation'
 import * as actionType from "../../actionType/index";
 import Video from "react-native-video";
-import {fileHost,videoHost} from '../../config/HostConfig'
+import {fileHost, videoHost} from '../../config/HostConfig'
+import Entypo from "react-native-vector-icons/Entypo";
 
 
-const {width} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
-
+const Item = Popover.Item
 
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
             itemInfo: "",
-            star: false,
-            visible: false,
-            uri:"",
-
+            visible: true,
+            uri: "",
+            moreVisible: false,
+            shareVisible:false,
+            follow:false
         }
     }
 
@@ -57,7 +68,7 @@ class Home extends Component {
 
     ListFooterComponent = (param) => {
         if (param == 1) {
-            return(
+            return (
                 <View style={{height: 10}}/>
             )
 
@@ -69,14 +80,7 @@ class Home extends Component {
                 </View>
             )
         }
-        // else{
-        //     return (
-        //         <View style={globalStyles.footerContainer}>
-        //             <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
-        //         </View>
-        //
-        //     )
-        // }
+
     }
 
     //加载等待页
@@ -98,17 +102,21 @@ class Home extends Component {
         );
     }
 
-    onClose = () => {
+    moreClose = () => {
         this.setState({
-            visible: false,
-            star: false
+            moreVisible: false
+        });
+    }
+    shareClose = () => {
+        this.setState({
+            shareVisible: false
         });
     }
 
 
     renderItem = (props) => {
-        const {item,index} = props
-        const  media= item.media
+        const {item, index} = props
+        const media = item.media
         const userInfo = item.user_detail_info[0]
         const {setPraise, navigation: {state: {params = {tabIndex: 0}}}} = this.props
         const {tabIndex} = params
@@ -121,6 +129,8 @@ class Home extends Component {
                 cellWH = (width - 2 * 20 - 15) / 3.3
             }
         }
+
+
         return (
             <View style={{flex: 1}}>
                 <View style={{paddingTop: 30}}>
@@ -128,70 +138,91 @@ class Home extends Component {
                         <Card>
                             <Card.Header
                                 title={
-                                    <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
+                                    <TouchableOpacity style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}
+                                                      onPress={() => {
+                                                          this.props.navigation.navigate('Space', {userId: item._user_id})
+                                                      }}>
                                         {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
                                                                   style={{width: 40, height: 40, borderRadius: 30}}/> :
                                             <Image source={require('../../images/head.png')}
                                                    style={{width: 40, height: 40, borderRadius: 30}}/>}
-                                        <TouchableOpacity style={{width: 280, marginLeft: 5}} onPress={() => {
-                                            this.props.navigation.navigate('Space', {userId: item._user_id})
-                                        }}>
+                                        <View style={{width: width * 0.5, marginLeft: 5}}>
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
                                             <Text
                                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
 
-                                            {item.address_name!=""&&<View style={{flexDirection: 'row',   width:width*0.65}}>
+                                            {item.address_name != "" &&
+                                            <View style={{flexDirection: 'row', width: width * 0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2, marginLeft: 2
                                                 }]}>{item.address_name}</Text>
                                             </View>}
-                                        </TouchableOpacity>
-                                    </View>
+                                        </View>
+                                    </TouchableOpacity>
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, top: -20,}}>
-                                        {item.user_relations == "" ?
-                                        <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
-                                              onPress={() => {
-                                                  const params={
-                                                      item:item,tabIndex:tabIndex
-                                                  }
-                                                  this.props.follow(params)}}>关注</Text>:
-                                            <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
-                                              onPress={() => {
-                                                  Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
-                                                          const params={
-                                                              item:item,tabIndex:tabIndex
-                                                          }
-                                                          this.props.cancelFollow(params)
-                                                      }},{text: "取消"}])
-                                                  }}>取消关注</Text>}
-                                    </View>
+                                    <TouchableOpacity style={{position: 'absolute', right: 0, top: -25,}}
+                                                      onPress={() => {
+                                                          this.setState({
+                                                              moreVisible: true,
+                                                              itemInfo: item,
+                                                              follow:item.user_relations == "" ?true:false
+                                                          })
+                                                      }
+                                                      }>
+                                        <AntDesign name="ellipsis1" size={30} style={{color: '#414445'}}/>
+                                    </TouchableOpacity>
+                                    // <View style={{position: 'absolute', right: 0, top: -20,}}>
+                                    //     {item.user_relations == "" ?
+                                    //     <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
+                                    //           onPress={() => {
+                                    //               const params={
+                                    //                   item:item,tabIndex:tabIndex
+                                    //               }
+                                    //               this.props.follow(params)}}>关注</Text>:
+                                    //         <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
+                                    //           onPress={() => {
+                                    //               Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
+                                    //                       const params={
+                                    //                           item:item,tabIndex:tabIndex
+                                    //                       }
+                                    //                       this.props.cancelFollow(params)
+                                    //                   }},{text: "取消"}])
+                                    //               }}>取消关注</Text>}
+                                    // </View>
                                 }
                             />
                             <Card.Body>
-                                <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('Detail')
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate('Detail',{item: item})
                                 }}>
+                                <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} >
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
-                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
+                                    {item.info.length > 40 ? <Text style={globalStyles.previewText}>全文</Text> : ""}
                                 </Text>
+                                </TouchableOpacity>
                                 {item.carrier == 2 && <FlatList
                                     data={media}
                                     numColumns={3}
                                     renderItem={(params) => {
-                                        const {item,index} = params
+                                        const {item, index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                                                this.props.navigation.navigate("ImageView",{media:media,index:index})
+                                            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                                                this.props.navigation.navigate("ImageView", {
+                                                    media: media,
+                                                    index: index
+                                                })
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri:`${fileHost}/image/${item.url}` ,cache: 'force-cache'}}
+                                                    <Image source={{
+                                                        uri: `${fileHost}/image/${item.url}`,
+                                                        cache: 'force-cache'
+                                                    }}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
@@ -203,10 +234,11 @@ class Home extends Component {
 
                                 {item.carrier == 3 &&
 
-                                <Video source={{uri:`${videoHost}${media[0].url}`}}
+                                <Video source={{uri: `${videoHost}${media[0].url}`}}
                                        paused={true}
                                        repeat={true}
                                        controls={true}
+                                       resizeMode="cover"
                                        style={globalStyles.image}/>
                                 }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
@@ -224,7 +256,7 @@ class Home extends Component {
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
                                                 this.setState({
-                                                    visible: true,
+                                                    shareVisible: true,
                                                     itemInfo: item
                                                 })
                                             }}>
@@ -238,7 +270,7 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Comment',{item:item})
+                                                this.props.navigation.navigate('Comment', {item: item})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -248,13 +280,14 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                const params={
-                                                    item:item,tabIndex:tabIndex,index:index
+                                                const params = {
+                                                    item: item, tabIndex: tabIndex, index: index
                                                 }
                                                 setPraise(params)
                                             }}>
-                                            {item.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
-                                                                   <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
+                                            {item.user_praises == "" ?
+                                                <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
+                                                <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
                                             <Text
                                                 style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
@@ -272,10 +305,10 @@ class Home extends Component {
 
     render() {
         const {
-            navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
+            navigation, navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
-                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus,waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection,update
+                homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus, waiting
+            }, getHotList, getHomeFollow, getNearList, setCollection,delCollection, update
         } = this.props
         const {tabIndex} = params
         // console.log(homeFollow)
@@ -286,8 +319,8 @@ class Home extends Component {
                     <FlatList
                         data={hotList}
                         renderItem={this.renderItem}
-                        refreshing = { false }
-                        onRefresh = {()=>{
+                        refreshing={false}
+                        onRefresh={() => {
                             update(0)
                         }}
                         onEndReachedThreshold={0.2}
@@ -295,7 +328,7 @@ class Home extends Component {
                             if (!isComplete) {
                                 getHotList()
                             }
-                         }
+                        }
                         }
                         ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                         ListEmptyComponent={this.renderEmpty}
@@ -307,8 +340,8 @@ class Home extends Component {
                     <FlatList
                         data={homeFollow}
                         renderItem={this.renderItem}
-                        refreshing = { false }
-                        onRefresh = {()=>{
+                        refreshing={false}
+                        onRefresh={() => {
                             update(1)
                         }}
                         onEndReachedThreshold={0.2}
@@ -326,8 +359,8 @@ class Home extends Component {
                     <FlatList
                         data={nearList}
                         renderItem={this.renderItem}
-                        refreshing = { false }
-                        onRefresh = {()=>{
+                        refreshing={false}
+                        onRefresh={() => {
                             update(2)
                         }}
                         onEndReachedThreshold={0.2}
@@ -345,40 +378,124 @@ class Home extends Component {
 
                 <Modal
                     popup
-                    visible={this.state.visible}
+                    visible={this.state.shareVisible}
                     animationType="slide-up"
-                    onClose={this.onClose}
+                    onClose={this.shareClose}
                 >
                     <TouchableOpacity
                         style={{height: 80, justifyContent: "center", alignItems: "center", marginBottom: 5}}
-                        onPress={() => {
-                            this.setState({star: true})
-                            setCollection(this.state.itemInfo)
-                            this.onClose()
-                        }}>
-                        <AntDesign name={this.state.star ? "star" : "staro"} size={50}
-                                   style={{color: this.state.star ? '#ffa600' : '#838485'}}/>
-                        <Text style={globalStyles.midText}>收藏</Text>
+                    >
+                        <AntDesign name="staro"size={50} color={'#ffa600'}/>
+                        <Text style={globalStyles.midText}>分享</Text>
                     </TouchableOpacity>
-                    <Button onPress={this.onClose}>取消</Button>
+                    <Button onPress={this.shareClose}>取消</Button>
                 </Modal>
 
                 <Modal
                     animationType={"fade"}
                     transparent={true}
                     visible={waiting}
-                    onRequestClose={() => { }}
+                    onRequestClose={() => {
+                    }}
                     style={style.modalContainer}>
 
-                        <View style={style.modalItem}>
-                            <ActivityIndicator
-                                animating={waiting}
-                                style={style.modalActivityIndicator}
-                                size="large"
-                            />
-                            <Text style={style.modalText}>正在上传视频...</Text>
-                        </View>
+                    <View style={style.modalItem}>
+                        <ActivityIndicator
+                            animating={waiting}
+                            style={style.modalActivityIndicator}
+                            size="large"
+                        />
+                        <Text style={style.modalText}>正在上传视频...</Text>
+                    </View>
 
+                </Modal>
+
+
+                <Modal
+                    popup
+                    visible={this.state.moreVisible}
+                    animationType="slide-up"
+                    onClose={this.moreClose}
+                    style={{borderRadius: 10}}
+                >
+                    <ScrollView style={{height: height * 0.3, paddingVertical: 5, paddingHorizontal: 50}}>
+                        {this.state.follow?
+                            <TouchableOpacity style={style.border} onPress={() => {
+                                this.setState({
+                                    follow:false
+                                })
+                                const params = {
+                                    item: this.state.itemInfo, tabIndex:tabIndex
+                                }
+                                this.props.follow(params)
+                            }}>
+                                <Entypo name="eye" size={20} color={'#22caff'}/>
+                                <Text style={style.text}>关注</Text>
+                            </TouchableOpacity> :
+
+                            <TouchableOpacity style={style.border} onPress={() => {
+
+                                Alert.alert("", "确定要取消关注吗", [{text: "取消"}, {
+                                    text: "确定", onPress: () => {
+                                        this.setState({
+                                            follow:true
+                                        })
+                                        const params = {
+                                            item: this.state.itemInfo, tabIndex: tabIndex
+                                        }
+                                        this.props.cancelFollow(params)
+                                    }
+                                }])
+                            }}>
+                                <Entypo name="eye-with-line" size={20} color={'#838485'}/>
+                                <Text style={style.text}>已关注</Text>
+                            </TouchableOpacity>}
+
+                        {this.state.visible? <TouchableOpacity
+                        style={style.border} onPress={()=>{
+                                this.setState({
+                                    visible:false
+                                })
+                                setCollection(this.state.itemInfo)
+                            }}>
+                        <AntDesign name="hearto" size={20} color={'#838485'}/>
+                        <Text style={style.text}>收藏</Text>
+                        </TouchableOpacity>:
+
+                        <TouchableOpacity
+                            style={style.border}
+                        //     onPress={()=>{
+                        //     Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
+                        //         text: "确定", onPress: () => {
+                        //             this.setState({
+                        //                 visible:true,
+                        //             })
+                        //             delCollection(this.state.itemInfo)
+                        //         }
+                        //     }])
+                        //
+                        // }}
+                        >
+                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
+                            <Text style={style.text}>已收藏</Text>
+                        </TouchableOpacity>}
+
+                        <TouchableOpacity style={style.border}>
+                            <AntDesign name="deleteuser" size={20} color={'#838485'}/>
+                            <Text style={style.text}>屏蔽</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: "center", justifyContent: "center", height: 40}}
+                            onPress={()=>{
+                                this.moreClose()
+                                this.props.navigation.navigate('Report',{item: this.state.itemInfo})
+                            }}>
+                            <AntDesign name="warning" size={20} color={'#ff1a37'}/>
+                            <Text style={style.text}>举报</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                    <Button type="primary" onPress={this.moreClose}>
+                        取消
+                    </Button>
                 </Modal>
 
             </Provider>
@@ -393,6 +510,20 @@ const style = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0)',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    border: {
+        borderBottomWidth: 0.5,
+        borderBottomColor: "#d4d4d4",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 40
+    },
+    text: {
+        textAlign: 'center',
+        fontSize: 18,
+        color: '#414445',
+        marginLeft: 10
     },
     modalItem: {
         flexDirection: 'row',
@@ -418,7 +549,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = (dispatch) => ({
 
-    getHotLoad:()=>{
+    getHotLoad: () => {
         dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: false}})
     },
     getHotList: () => {
@@ -433,10 +564,13 @@ const mapDispatchProps = (dispatch) => ({
     setCollection: (value) => {
         dispatch(action.HomeAction.setCollection(value))
     },
-
+    // delCollection: (value) => {
+    //     dispatch(action.HomeAction.delCollection(value))
+    // },
     setPraise: (value) => {
         dispatch(action.HomeAction.setPraise(value))
     },
+
     cancelFollow: (value) => {
         dispatch(action.HomeAction.cancelFollow(value))
     },

@@ -166,6 +166,7 @@ class Article extends React.Component {
                                        paused={true}
                                        repeat={true}
                                        controls={true}
+                                       resizeMode="cover"
                                        style={globalStyles.image}/>
                                 }
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}

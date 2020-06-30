@@ -293,6 +293,7 @@ class WriteArticle extends Component {
                                                onProgress={this.onProgress}
                                                repeat={true}
                                                controls={true}
+                                               resizeMode="cover"
                                                style={{width: cellWH, height: cellWH}}/>
                                         <AntDesign style={{color:"#006cf5",position: 'absolute', right:2,top:2}} onPress={()=>{setFile.splice(index, 1)
                                         this.props.setFile(setFile)

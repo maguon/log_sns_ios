@@ -66,8 +66,7 @@ class Collection extends React.Component {
         const {delCollection,setColPraise}=this.props
         const userInfo = item.msg_user_detail_info[0]
         const msgInfo=item.msg_info[0]
-        console.log(item)
-        console.log(msgInfo)
+
         if (msgInfo.carrier == 2) {
             if (msgInfo.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -119,7 +118,7 @@ class Collection extends React.Component {
                                     this.props.navigation.navigate('Detail')
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
-                                    {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
+                                    {msgInfo.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
                                 </Text>
                                 {msgInfo.carrier == 2 && <FlatList
                                     data={msgInfo.media}
@@ -150,6 +149,7 @@ class Collection extends React.Component {
                                        paused={true}
                                        repeat={true}
                                        controls={true}
+                                       resizeMode="cover"
                                        style={globalStyles.image}/>
                                 }
                                 {msgInfo.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
@@ -166,7 +166,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                Alert.alert("", "确定要取消收藏", [{text: "确定", onPress: () => {delCollection(item)}},{text: "取消"}])
+                                                Alert.alert("", "确定要取消收藏", [{text: "取消"},{text: "确定", onPress: () => {delCollection(item)}}])
                                             }}>
                                             <AntDesign name="star" size={18}
                                                        style={{color:'#ffa600'}}/>
@@ -207,7 +207,6 @@ class Collection extends React.Component {
 
     render() {
         const {collectionReducer:{collectionList,colResultStatus,colComplete},getCollectionList}=this.props
-console.log(collectionList)
         return (
             <Provider>
                 <ScrollView>

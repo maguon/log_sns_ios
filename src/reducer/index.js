@@ -42,6 +42,7 @@ import ToVoteReducer from './main/ToVoteReducer'
 import CommentReducer from './main/CommentReducer'
 import CommentLvOneReducer from './main/CommentLvOneReducer'
 import CommentLvTwoReducer from './main/CommentLvTwoReducer'
+import ReportReducer from './main/ReportReducer'
 
 
 export default combineReducers({
@@ -86,5 +87,6 @@ export default combineReducers({
     ToVoteReducer,
     CommentReducer,
     CommentLvOneReducer,
-    CommentLvTwoReducer
+    CommentLvTwoReducer,
+    ReportReducer
 })

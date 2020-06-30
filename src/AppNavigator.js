@@ -22,6 +22,7 @@ import ScannerResult from './components/main/ScannerResult'
 import Comment from './components/main/Comment'
 import LvOneCommentList from './components/main/CommentLvOne'
 import LvTwoCommentList from './components/main/CommentLvTwo'
+import Report from './components/main/Report'
 
 
 //社区
@@ -61,7 +62,8 @@ import LoginLeftButton from './components/modules/LoginLeftButton'
 import Title from './components/modules/Title'
 import EvaTitle from './components/modules/EvaTitle'
 import ImageView from './components/modules/ImageView'
-
+import DetailTitle from './components/modules/DetailTitle'
+import DetailRig from './components/modules/DetailRig'
 
 //登录页面
 const LoginPage = createStackNavigator({
@@ -244,10 +246,19 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
+    Report: {
+        screen: Report,
+        navigationOptions: ({navigation}) => ({
+            title: '举报',
+            tabBarVisible: false
+        })
+    },
     Detail: {
         screen: Detail,
         navigationOptions: ({navigation}) => ({
-            title: '内容详情',
+
+            title: <DetailTitle navigation={navigation}/>,
+            headerRight: <ArtRightButton navigation={navigation}/>,
             tabBarVisible: false
         })
     },

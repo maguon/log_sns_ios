@@ -16,8 +16,6 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2F8765C3243DC3C500E7BAB5 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F8765C1243DC3C500E7BAB5 /* antoutline.ttf */; };
 		2F8765C4243DC3C500E7BAB5 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F8765C2243DC3C500E7BAB5 /* antfill.ttf */; };
-		2F8765C6247CF83400E7BAB5 /* libRNCPushNotificationIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8765C5247CF83400E7BAB5 /* libRNCPushNotificationIOS.a */; };
-		2FC5F0C22396068C00CEF20D /* libreact-native-orientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FC5F0C12396068C00CEF20D /* libreact-native-orientation.a */; };
 		34C11D09456BAFA743F8B047 /* libPods-log_sns_ios-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 948E90B65248E6BBEC9B8D9D /* libPods-log_sns_ios-tvOSTests.a */; };
 		3F2086B35DC8671FEEEFB5D2 /* libPods-log_sns_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2149E4607B525F3DD68F5BEC /* libPods-log_sns_ios.a */; };
 		8EAD44E0E8B80FF4643DC9CB /* libPods-log_sns_iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE00FA3248A5C8D22A2E7709 /* libPods-log_sns_iosTests.a */; };
@@ -96,6 +94,7 @@
 		2F8765C5247CF83400E7BAB5 /* libRNCPushNotificationIOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNCPushNotificationIOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8765C7247CFCB800E7BAB5 /* log_sns_ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = log_sns_ios.entitlements; path = log_sns_ios/log_sns_ios.entitlements; sourceTree = "<group>"; };
 		2FC5F0C12396068C00CEF20D /* libreact-native-orientation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-orientation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FF4EFBF2498AA7C00DEED91 /* log_sns_iosDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = log_sns_iosDebug.entitlements; path = log_sns_ios/log_sns_iosDebug.entitlements; sourceTree = "<group>"; };
 		51FA870DEBBF1769F2FA911D /* Pods-log_sns_ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-log_sns_ios.release.xcconfig"; path = "Target Support Files/Pods-log_sns_ios/Pods-log_sns_ios.release.xcconfig"; sourceTree = "<group>"; };
 		56279266F2301229AD7A4A90 /* Pods-log_sns_ios-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-log_sns_ios-tvOS.release.xcconfig"; path = "Target Support Files/Pods-log_sns_ios-tvOS/Pods-log_sns_ios-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		71BB263A656BAB926FB37FE0 /* Pods-log_sns_ios-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-log_sns_ios-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-log_sns_ios-tvOS/Pods-log_sns_ios-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -134,8 +133,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F8765C6247CF83400E7BAB5 /* libRNCPushNotificationIOS.a in Frameworks */,
-				2FC5F0C22396068C00CEF20D /* libreact-native-orientation.a in Frameworks */,
 				3F2086B35DC8671FEEEFB5D2 /* libPods-log_sns_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +159,7 @@
 		13B07FAE1A68108700A75B9A /* log_sns_ios */ = {
 			isa = PBXGroup;
 			children = (
+				2FF4EFBF2498AA7C00DEED91 /* log_sns_iosDebug.entitlements */,
 				2F8765C7247CFCB800E7BAB5 /* log_sns_ios.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -391,6 +389,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 6A9XT8Y6LJ;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -783,8 +782,10 @@
 			baseConfigurationReference = E44AAB20C3904C0C36424C8D /* Pods-log_sns_ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = log_sns_ios/log_sns_ios.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CODE_SIGN_ENTITLEMENTS = log_sns_ios/log_sns_iosDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 6A9XT8Y6LJ;
 				HEADER_SEARCH_PATHS = (
@@ -810,7 +811,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
 				INFOPLIST_FILE = log_sns_ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.0.1;
 				OTHER_LDFLAGS = (
@@ -820,6 +821,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "log-sns-ios";
 				PRODUCT_NAME = log_sns_ios;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -830,7 +832,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = log_sns_ios/log_sns_ios.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 6A9XT8Y6LJ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -855,7 +857,7 @@
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 				);
 				INFOPLIST_FILE = log_sns_ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.0.1;
 				OTHER_LDFLAGS = (

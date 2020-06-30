@@ -168,6 +168,31 @@ export const cancelFollow = (params) => async (dispatch, getState) => {
     }
 
 }
+// //取消收藏
+// export const delCollection = (value) => async (dispatch, getState) => {
+//     const {LoginReducer: {userId}} = getState()
+//     console.log(value)
+//
+//     try {
+//         // 基本检索URL
+//         let url = `${apiHost}/user/${userId}/userMsgColl?userMsgCollsId=/${value._id}`
+//         const res = await HttpRequest.get(url)
+//         console.log(res)
+//         if(res.success){
+//             let url = `${apiHost}/user/${userId}/userMsgColl/${res.result[0]._id}/del`
+//             const res01 = await HttpRequest.del(url)
+//             if (res01.success) {
+//
+//             }
+//
+//         }else {
+//             Toast.fail(res.msg)
+//         }
+//     } catch (err) {
+//         Toast.fail(err.message)
+//     }
+//
+// }
 
 //关注
 export const follow = (params) => async (dispatch, getState) => {
@@ -187,4 +212,5 @@ export const follow = (params) => async (dispatch, getState) => {
     }
 
 }
+
 

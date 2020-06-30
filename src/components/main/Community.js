@@ -196,6 +196,7 @@ class Community extends React.Component {
                                        paused={true}
                                        repeat={true}
                                        controls={true}
+                                       resizeMode="cover"
                                        style={globalStyles.image}/>
                                 }
 

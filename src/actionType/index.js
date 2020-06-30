@@ -33,6 +33,8 @@ import * as SystemMsgType from './main/SystemMsgType'
 import * as UserDataType from './main/UserDataType'
 import * as VoteType from './main/VoteType'
 import * as VoteRemindType from './main/VoteRemindType'
+import * as ReportType from './main/ReportType'
+
 
 import * as WriteArticleType from './main/WriteArticleType'
 import * as ScanType from './main/ScanType'
@@ -86,4 +88,5 @@ export {
     SpaceType,
     CommentLvOneActionType,
     CommentLvTwoActionType,
+    ReportType
 }

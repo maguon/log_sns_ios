@@ -8,6 +8,7 @@ import * as actionType from '../../actionType/index'
 const pageSize = 5
 export const getCollectionList = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
+    console.log(collectionList)
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userMsgColl?start=${collectionList.length}&size=${pageSize}`
@@ -52,7 +53,6 @@ export const setColPraise = (value) => async (dispatch, getState) => {
 //取消收藏
 export const delCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
-
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userMsgColl/${value._id}/del`
