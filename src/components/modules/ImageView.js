@@ -1,103 +1,104 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {
-    Text,
     View,
     Image,
     Dimensions,
     TouchableOpacity,
     ActivityIndicator
 } from 'react-native'
-import {Button, Icon, Modal, Provider} from "@ant-design/react-native"
+import {Icon, Provider} from "@ant-design/react-native"
 import Swiper from 'react-native-swiper'
-import { connect } from 'react-redux'
-import ConfirmModal from '../modules/ConfirmModal'
-import * as action from "../../action"
-import {fileHost} from "../../config/HostConfig";
+import {connect} from 'react-redux'
+import {fileHost} from "../../config/HostConfig"
+import {CachedImage} from "react-native-img-cache"
 
-const { width, height } = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 
 
 class ImageView extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            confirmModalVisible: false,
+        this.state={
+            loading:false
         }
-    }
-
-
-
-
-    renderPhoteView(media) {
-        console.log(media)
-        return media.map((item, i) => {
-            return <View key={i} style={{flex:1}}>
-                <Image source={{uri:`${fileHost}/image/${item.url}`,cache: 'force-cache'}} style={{flex:1}}/>
-            </View>
-        })
-    }
-
-    onPressOk(index) {
-        const { CameraReducer: { imageList } } = this.props
-        this.setState({ confirmModalVisible: false })
-        imageList.splice(index, 1)
-        this.props.delImageList(imageList)
-
-    }
-
-    onPressCancel() {
-        this.setState({ confirmModalVisible: false })
-    }
-
-    delImage() {
-
-        this.setState({ confirmModalVisible: true })
 
     }
 
     render() {
-        const { CameraReducer:{imageList}, navigation:{state:{params:{media,index}}}, navigation} = this.props
+        const {navigation: {state: {params: {media, index}}}, navigation} = this.props
         console.log(navigation)
         return (
-            <Provider style={{ flex: 1 }}>
+            <Provider>
                 <Swiper
-                    ref='Swiper'
+                    // ref='Swiper'
                     index={index}
-                    style={styles.wrapper}
+                    // style={styles.wrapper}
                     loop={false}
                     automaticallyAdjustContentInsets={true}
-                    loadMinimalLoader={
-                        <View style={{flex:1,flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: '#F5FCFF',}}>
-                        <ActivityIndicator
-                            animating={true}
-                            color='red'
-                            size="large"/>
-                        </View>
+                    loadMinimal={true}
+                    loadMinimalSize={1}
+                    // loadMinimalLoader={() => {
+                    //     <View style={styles.container}>
+                    //         <ActivityIndicator size="large" color="red"/>
+                    //     </View>
+                    // }
+                    // }
+                    dot={
+                        <View
+                            style={{
+                                backgroundColor: '#989a9e',
+                                width: 5,
+                                height: 5,
+                                borderRadius: 4,
+                                marginLeft: 3,
+                                marginRight: 3,
+                                marginTop: 3,
+                                marginBottom: 3
+                            }}
+                        />
                     }
+
                 >
-                    {this.renderPhoteView(media)}
+                    {media.map((item, i) => {
+                        return <View key={i} style={styles.wrapper}>
+                            {/*<Image resizeMode="contain"*/}
+                                   {/*// onLoadStart={(e) => this.setState({loading: true})}*/}
+                                   {/*// onLoadEnd={(e) => this.setState({loading: false})}*/}
+                                   {/*source={{uri: `${fileHost}/image/${item.url}`, cache: 'force-cache'}}*/}
+                                   {/*style={{width: width, height: height}}/>*/}
+
+                            <CachedImage
+                                source={{ uri: `${fileHost}/image/${item.url}` }}
+                                resizeMode='contain'
+                                minimumZoomScale={1}
+                                maximumZoomScale={3}
+                                loader={
+                                    <View style={styles.container}>
+                                        <ActivityIndicator size="large" color="red"/>
+                                    </View>
+                                }
+                                style={{width: width, height: height}}
+                            />
+
+                        </View>
+                    })}
                 </Swiper>
 
-
-                <View style={{height:70, width:width,position: 'absolute', top: 0, flexDirection: "row", justifyContent: 'space-around', alignItems: 'center'}}>
-                    <TouchableOpacity   style={{ position: 'absolute', left: 0, }}
-                                        onPress={()=>navigation.pop()}>
-                        <Icon name='left'  style={{color:"white", marginLeft:15  }}/>
-                    {/*</TouchableOpacity>*/}
-                    {/*<TouchableOpacity  style={{ position: 'absolute', right: 0, }}*/}
-                                       {/*onPress={()=>this.delImage()}*/}
-                    {/*>*/}
-                        {/*<Text style={[globalStyles.largeText, {  color:"white", marginRight:15 }]}>删除</Text>*/}
+                <View style={{
+                    height: 70,
+                    width: width,
+                    position: 'absolute',
+                    top: 0,
+                    flexDirection: "row",
+                    justifyContent: 'space-around',
+                    alignItems: 'center'
+                }}>
+                    <TouchableOpacity style={{position: 'absolute', left: 0,}}
+                                      onPress={()=>navigation.goBack()}>
+                        <Icon name='left' style={{color: "white", marginLeft: 15}}/>
                     </TouchableOpacity>
                 </View>
-                <ConfirmModal
-                    title='确认删除图片？'
-                    isVisible={this.state.confirmModalVisible}
-                    onPressOk={()=>this.onPressOk(index)}
-                    onPressCancel={()=>this.onPressCancel()} />
+
 
             </Provider>
         )
@@ -106,18 +107,16 @@ class ImageView extends Component {
 
 const styles = {
     wrapper: {
-        backgroundColor: 'white',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-    },
-    slide: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#000'
     },
-
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:"center"
+    },
     text: {
         color: '#fff',
         fontSize: 30,
@@ -127,13 +126,8 @@ const styles = {
 
 const mapStateToProps = (state) => {
     return {
-        CameraReducer:state.CameraReducer
+        CameraReducer: state.CameraReducer
     }
 }
-const mapDispatchProps = (dispatch, props) => ({
-    delImageList:(param)=>{
-        dispatch(action.CameraAction.delImageList(param))
-    }
-
-})
+const mapDispatchProps = (dispatch, props) => ({})
 export default connect(mapStateToProps, mapDispatchProps)(ImageView)

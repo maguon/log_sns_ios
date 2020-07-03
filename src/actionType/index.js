@@ -8,7 +8,6 @@ import * as WelcomeActionType from './main/WelcomeActionType'
 
 import * as AboutUsType from './main/AboutUsType'
 import * as ArticleType from './main/ArticleType'
-import * as CameraType from './main/CameraType'
 import * as ChangePassWordType from './main/ChangePassWordType'
 import * as ChangePhoneType from './main/ChangePhoneType'
 import * as ClearCacheType from './main/ClearCacheType'
@@ -54,7 +53,6 @@ export {
     WelcomeActionType,
     AboutUsType,
     ArticleType,
-    CameraType,
     ChangePassWordType,
     ChangePhoneType,
     ClearCacheType,

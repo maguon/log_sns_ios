@@ -304,14 +304,12 @@ class Home extends Component {
 
 
     render() {
-        const {
-            navigation, navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
+        const {navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus, waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection,delCollection, update
+            }, getHotList, getHomeFollow, getNearList, setCollection, update
         } = this.props
         const {tabIndex} = params
-        // console.log(homeFollow)
         return (
             <Provider>
                 <View style={{flex: 1}}>
@@ -464,17 +462,6 @@ class Home extends Component {
 
                         <TouchableOpacity
                             style={style.border}
-                        //     onPress={()=>{
-                        //     Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
-                        //         text: "确定", onPress: () => {
-                        //             this.setState({
-                        //                 visible:true,
-                        //             })
-                        //             delCollection(this.state.itemInfo)
-                        //         }
-                        //     }])
-                        //
-                        // }}
                         >
                             <AntDesign name="heart" size={20} color={'#ffaf27'}/>
                             <Text style={style.text}>已收藏</Text>

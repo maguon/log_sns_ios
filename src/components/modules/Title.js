@@ -39,7 +39,7 @@ let photoOptions = {
 
 const Item = Popover.Item
 const {width} = Dimensions.get('window')
-const tabs = [{title: '最近'}, {title: '关注'}, {title: '附近'},]
+const tabs = [{title: '热门'}, {title: '关注'}, {title: '附近'},]
 
 class Title extends React.Component {
     constructor(props) {

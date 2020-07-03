@@ -256,9 +256,8 @@ const Main = createStackNavigator({
     Detail: {
         screen: Detail,
         navigationOptions: ({navigation}) => ({
-
-            title: <DetailTitle navigation={navigation}/>,
-            headerRight: <ArtRightButton navigation={navigation}/>,
+            headerTitle: <DetailTitle navigation={navigation}/>,
+            headerRight: <DetailRig navigation={navigation}/>,
             tabBarVisible: false
         })
     },

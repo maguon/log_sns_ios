@@ -5,7 +5,6 @@ import * as WelcomeAction from './main/WelcomeAction'
 import * as LoginAction from './main/LoginAction'
 import * as AboutUsAction from './main/AboutUsAction'
 import * as ArticleAction from './main/ArticleAction'
-import * as CameraAction from './main/CameraAction'
 import * as ChangePassWordAction from './main/ChangePassWordAction'
 import * as ChangePhoneAction from './main/ChangePhoneAction'
 import * as ClearCacheAction from './main/ClearCacheAction'
@@ -50,7 +49,6 @@ export {
     LoginAction,
     AboutUsAction,
     ArticleAction,
-    CameraAction,
     ChangePassWordAction,
     ChangePhoneAction,
     ClearCacheAction,

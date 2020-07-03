@@ -22,10 +22,10 @@ class DetailRig extends React.Component  {
             <View>
                 {!release?<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#c1c1c1',borderRadius:5,
                     justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{color:'#c1c1c1',fontSize:14}}>发布</Text>
+                    <Text style={{color:'#c1c1c1',fontSize:14}}>关注</Text>
                 </TouchableOpacity>:<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#fff',borderRadius:5,
                     justifyContent:'center',alignItems:'center'}} onPress={createArticle}>
-                    <Text style={{color:'#fff',fontSize:14}}>发布</Text>
+                    <Text style={{color:'#fff',fontSize:14}}>关注</Text>
                 </TouchableOpacity>}
             </View>
         )

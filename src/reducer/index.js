@@ -8,7 +8,6 @@ import WelcomeReducer from './main/WelcomeReducer'
 
 import AboutUsReducer from './main/AboutUsReducer'
 import ArticleReducer from './main/ArticleReducer'
-import CameraReducer from './main/CameraReducer'
 import ChangePassWordReducer from './main/ChangePassWordReducer'
 import ChangePhoneReducer from './main/ChangePhoneReducer'
 import ClearCacheReducer from './main/ClearCacheReducer'
@@ -54,7 +53,6 @@ export default combineReducers({
     WelcomeReducer,
     AboutUsReducer,
     ArticleReducer,
-    CameraReducer,
     ChangePassWordReducer,
     ChangePhoneReducer,
     ClearCacheReducer,

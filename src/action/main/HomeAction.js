@@ -10,7 +10,7 @@ export const getHotList = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},HomeReducer: {hotList}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?status=1&start=${hotList.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/popularMsg?status=1&start=${hotList.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
