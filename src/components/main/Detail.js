@@ -16,6 +16,8 @@ import {fileHost, videoHost} from "../../config/HostConfig";
 import Video from "react-native-video";
 import {Card, Provider} from "@ant-design/react-native/lib/card";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import moment from "moment";
+import * as action from "../../action";
 
 
 const {width, height} = Dimensions.get('window')
@@ -27,18 +29,47 @@ class Detail extends Component {
 
     }
 
-    render() {
+    componentDidMount() {
         const {navigation: {state: {params: {item}}}} = this.props
-        console.log(item)
+        this.props.getCommentOne(item)
+    }
+
+    renderItem = () => {
+
+    }
+
+    render() {
+        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentTwo},getCommentTwo} = this.props
+        // console.log(commentMsg)
         const media = item.media
+        if (item.carrier == 2) {
+            if (item.media.length < 2) {
+                cellWH = (width - 2 * 20 - 15) / 1.1
+            } else if (item.media.length < 3) {
+                cellWH = (width - 2 * 20 - 15) / 2.1
+            } else if (item.media.length >= 3) {
+                cellWH = (width - 2 * 20 - 15) / 3.3
+            }
+        }
         return (
 
             <ScrollView>
                 <View style={{flex: 1}}>
-
+                    <View style={{
+                        width: width * 0.9,
+                        height: 40,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginLeft: width * 0.05,
+                        justifyContent: "space-between"
+                    }}>
+                        <Text
+                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                        <Text style={[globalStyles.smallText]}>{item.read_num} 人阅读</Text>
+                    </View>
                     <Text style={[globalStyles.midText, {
-                        marginLeft: 15,
-                        marginRight: 15
+                        marginLeft: width * 0.05,
+                        marginRight: width * 0.05
                     }]}>{item.info ? item.info : ""}</Text>
 
                     {item.carrier == 2 && <FlatList
@@ -80,55 +111,106 @@ class Detail extends Component {
                     {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                            style={globalStyles.image}></ImageBackground>}
 
+                    <View style={{
+                        width: width, height: 40, backgroundColor: "#f2f2f2",
+                        flexDirection: "row", alignItems: "center", marginTop: 20
+                    }}>
+                        <Text style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{item.comment_num}）</Text>
+                        <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {item.collect_num}</Text>
+                        <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {item.agree_num}</Text>
+                    </View>
 
-                    {/*<View style={{*/}
-                    {/*flexDirection: 'row',*/}
-                    {/*justifyContent: 'space-between',*/}
-                    {/*alignItems: 'center'*/}
-                    {/*}}>*/}
-                    {/*<TouchableOpacity*/}
-                    {/*style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}*/}
-                    {/*// onPress={() => {*/}
-                    {/*//     this.setState({*/}
-                    {/*//         shareVisible: true,*/}
-                    {/*//         itemInfo: item*/}
-                    {/*//     })*/}
-                    {/*// }}*/}
-                    {/*>*/}
-                    {/*<AntDesign name="export" size={18}*/}
-                    {/*style={{color: '#838485'}}/>*/}
-                    {/*<Text*/}
-                    {/*style={[globalStyles.midText, {marginLeft: 5}]}>{item.collect_num ? item.collect_num : 0}</Text>*/}
-                    {/*</TouchableOpacity>*/}
+                   <View style={{width: width}}>
+                        <FlatList
+                            data={commentMsg}
+                            renderItem={(params) => {
+                                const {item, index} = params
+                                const userInfo = item.user_detail_info[0]
+                                // console.log(item)
+                                return (
+                                    <View style={{width: width}}>
+                                        <View style={{flexDirection: "row"}}>
+
+                                            <TouchableOpacity
+                                                style={{marginLeft: width * 0.05, marginTop: width * 0.05}}
+                                                onPress={() => {
+                                                    this.props.navigation.navigate('Space', {userId: item._user_id})
+                                                }}>
+                                                {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
+                                                                          style={{
+                                                                              width: 35,
+                                                                              height: 35,
+                                                                              borderRadius: 30
+                                                                          }}/> :
+                                                    <Image source={require('../../images/head.png')}
+                                                           style={{width: 40, height: 40, borderRadius: 30}}/>}
+                                            </TouchableOpacity>
+
+                                            <View style={{
+                                                width:width*0.8,
+                                                flexDirection: "column",
+                                                marginLeft: 10,
+                                                marginTop: width * 0.05,
+                                                borderBottomWidth:0.5,
+                                                borderBottomColor:"#bcbdbe"
+                                            }}>
+                                                <Text style={[globalStyles.fourText, {
+                                                    fontWeight: "bold"
+                                                }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+                                                <Text style={[globalStyles.smallText, {
+                                                    fontWeight: "bold", marginTop: 5
+                                                }]}>{item.comment}</Text>
+                                                {item.comment_num!=0&&<TouchableOpacity style={{ width:width*0.8,height:30,backgroundColor: "#f2f2f2",justifyContent:"center",marginTop: 5}}
+                                                                                        onPress={()=>{
+                                                                                            console.log(item)
+                                                                                            this.props.navigation.navigate('CommentReply', {commentId:item._id})
+                                                                                            // getCommentTwo({commentId:item._msg_com_id})
+                                                                                        }}
+                                                >
+                                                <Text style={{marginLeft:5, color: '#1598cc',fontSize:12}}>共有{item.comment_num}条回复 ></Text>
+                                                </TouchableOpacity>}
+
+                                                <View style={{height: 30, flexDirection: "row", alignItems: "center"}}>
+                                                    <Text
+                                                        style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                                    <TouchableOpacity
+                                                        style={{marginLeft: width * 0.28}}
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate('Comment', {item: item})
+                                                        }}>
+                                                    <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity style={{marginLeft: width * 0.05,flexDirection: "row"}}>
+                                                    {false ? <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
+                                                        <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
+                                                    <Text style={[globalStyles.midText,{marginLeft:2}]}>{item.agree_num}</Text>
+                                                    </TouchableOpacity>
+
+                                                </View>
+                                            </View>
+
+                                        </View>
+                                    </View>
+                                )
+                            }}
+                            refreshing={false}
+                            // onRefresh={() => {
+                            //     update(0)
+                            // }}
+                            // onEndReachedThreshold={0.2}
+                            // onEndReached={() => {
+                            //     if (!isComplete) {
+                            //         getHotList()
+                            //     }
+                            // }
+                            // }
+                            // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                            // ListEmptyComponent={this.renderEmpty}
+                        />
+
+                    </View>
 
 
-                    {/*<TouchableOpacity*/}
-                    {/*style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}*/}
-                    {/*// onPress={() => {*/}
-                    {/*//     this.props.navigation.navigate('Comment', {item: item})*/}
-                    {/*// }}*/}
-                    {/*>*/}
-                    {/*<AntDesign name="message1" style={{color: '#838485'}} size={18}/>*/}
-                    {/*<Text*/}
-                    {/*style={[globalStyles.midText, {marginLeft: 5}]}>{item.comment_num ? item.comment_num : 0}</Text>*/}
-                    {/*</TouchableOpacity>*/}
-
-                    {/*<TouchableOpacity*/}
-                    {/*style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}*/}
-                    {/*// onPress={() => {*/}
-                    {/*//     const params = {*/}
-                    {/*//         item: item, tabIndex: tabIndex, index: index*/}
-                    {/*//     }*/}
-                    {/*//     setPraise(params)*/}
-                    {/*// }}*/}
-                    {/*>*/}
-                    {/*{item.user_praises == "" ?*/}
-                    {/*<AntDesign name="like2" size={18} style={{color: '#838485'}}/> :*/}
-                    {/*<AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}*/}
-                    {/*<Text*/}
-                    {/*style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>*/}
-                    {/*</TouchableOpacity>*/}
-                    {/*</View>*/}
                 </View>
             </ScrollView>
         )
@@ -136,10 +218,19 @@ class Detail extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        DetailReducer: state.DetailReducer
+    }
 }
 
-const mapDispatchProps = (dispatch, props) => ({})
+const mapDispatchProps = (dispatch, props) => ({
+    getCommentOne: (value) => {
+        dispatch(action.DetailAction.getCommentOne(value))
+    },
+    getCommentTwo: (value) => {
+        dispatch(action.DetailAction.getCommentTwo(value))
+    },
+})
 
 export default connect(mapStateToProps, mapDispatchProps)(Detail)
 

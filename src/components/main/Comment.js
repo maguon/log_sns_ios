@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View ,ScrollView} from 'react-native'
 import {List, TextareaItem, Toast} from '@ant-design/react-native'
 import { reduxForm, Field } from 'redux-form'
 import * as action from '../../action/index'
@@ -8,7 +8,7 @@ import { required, requiredObj } from '../../utils/validators'
 const requiredValidator = required('必填')
 
 const msgCommentField = props => {
-    const { input, meta: { error } } = props
+    const { input, meta: { error },onChange } = props
     return (
         <TextareaItem rows={8}
                       placeholder="输入文章内容"
@@ -26,12 +26,12 @@ class Comment extends Component {
     }
     render() {
         return (
-            <View>
+            <ScrollView>
                 <Field
                     name='msgComment'
                     component={msgCommentField}
                     validate={[requiredValidator]} />
-            </View>
+            </ScrollView>
         )
     }
 }

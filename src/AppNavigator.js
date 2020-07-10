@@ -35,6 +35,8 @@ import PraiseMe from './components/main/PraiseMe'
 import Contact from './components/main/Contact'
 import VoteRemind from './components/main/VoteRemind'
 import SystemMsg from './components/main/SystemMsg'
+import CommentReply from './components/main/CommentReply'
+
 
 //个人
 import PersonCenter from './components/main/PersonCenter'
@@ -258,6 +260,13 @@ const Main = createStackNavigator({
         navigationOptions: ({navigation}) => ({
             headerTitle: <DetailTitle navigation={navigation}/>,
             headerRight: <DetailRig navigation={navigation}/>,
+            tabBarVisible: false
+        })
+    },
+    CommentReply: {
+        screen: CommentReply,
+        navigationOptions: ({navigation}) => ({
+            title: '',
             tabBarVisible: false
         })
     },

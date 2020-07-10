@@ -147,27 +147,6 @@ export const setPraise = (params) => async (dispatch, getState) => {
 }
 
 
-
-
-//取消关注
-export const cancelFollow = (params) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
-    const {item,tabIndex} =params
-
-    try {
-        // 基本检索URL
-        let url = `${apiHost}/user/${userId}/followUser/${item._user_id}/del`
-        const res = await HttpRequest.del(url)
-        if(res.success){
-            dispatch(update(tabIndex))
-        }else {
-            Toast.fail(res.msg)
-        }
-    } catch (err) {
-        Toast.fail(err.message)
-    }
-
-}
 // //取消收藏
 // export const delCollection = (value) => async (dispatch, getState) => {
 //     const {LoginReducer: {userId}} = getState()
@@ -193,6 +172,27 @@ export const cancelFollow = (params) => async (dispatch, getState) => {
 //     }
 //
 // }
+
+
+//取消关注
+export const cancelFollow = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/followUser/${item._user_id}/del`
+        const res = await HttpRequest.del(url)
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
 
 //关注
 export const follow = (params) => async (dispatch, getState) => {

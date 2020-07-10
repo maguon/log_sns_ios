@@ -213,11 +213,11 @@ class Space extends Component {
     }
 
     cancelFollow = (param) => {
-        Alert.alert("", `确定要取消关注吗？`, [{
+        Alert.alert("", `确定要取消关注吗？`, [ {text: "取消", onPress: () => console.log('Cancel Pressed')},{
             text: "确定", onPress: () => {
                 this.props.cancelFollow(param)
             }
-        }, {text: "取消", onPress: () => console.log('Cancel Pressed')}])
+        }])
 
     }
     follow = (param) => {
@@ -252,7 +252,7 @@ class Space extends Component {
 
     render() {
         const {spaceReducer: {spaceData, spaceUser, spaceHidden,isComplete,spaceLoading, isResultStatus},getSpaceData, setCollection, follow, navigation: {state: {params: {userId}}}} = this.props
-console.log(spaceData)
+// console.log(spaceData)
         return (
             <Provider>
             <View style={{flex: 1}}>
@@ -355,7 +355,6 @@ const mapDispatchProps = (dispatch, props) => ({
         dispatch({type: actionType.SpaceType.get_spaceData_Loading, payload: {spaceLoading: false}})
     },
     getSpaceData: (value) => {
-        console.log(value)
         dispatch(action.SpaceAction.getSpaceData(value))
     },
     getSpaceUser: (value) => {

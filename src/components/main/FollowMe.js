@@ -56,11 +56,11 @@ class FollowMe extends React.Component {
         }
     }
     removeFans = (param) => {
-        Alert.alert("", `确定要取消关注吗？`, [{
+        Alert.alert("", `确定要取消关注吗？`, [ {text: "取消", onPress: () => console.log('Cancel Pressed')},{
             text: "确定", onPress: () => {
                 this.props.removeFans(param)
             }
-        }, {text: "取消", onPress: () => console.log('Cancel Pressed')}])
+        }])
 
     }
     fans = (param) => {

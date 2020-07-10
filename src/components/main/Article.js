@@ -209,11 +209,11 @@ class Article extends React.Component {
                                               onPress={() => {
                                                   const params={item:item,tabIndex:this.state.tabIndex}
                                                   Alert.alert("", "确认删除", [{
-                                                      text: "确定",
-                                                      onPress:()=>{this.props.itemDelete(params)}
-                                                  }, {
                                                       text: "取消",
                                                       onPress: () => console.log("canncel")
+                                                  },{
+                                                      text: "确定",
+                                                      onPress:()=>{this.props.itemDelete(params)}
                                                   }])
                                               }}>删除</Text>
                                     </View>

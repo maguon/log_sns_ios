@@ -1,3 +1,4 @@
 import {createAction} from 'redux-actions'
 
-export const set_Info=createAction('set_Info')
+export const get_Comment=createAction('get_Comment')
+export const get_commentTwo=createAction('get_commentTwo')

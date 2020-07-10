@@ -112,7 +112,11 @@ class Home extends Component {
             shareVisible: false
         });
     }
-
+    onLoadStart = ()=>{
+        return(<View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
+            <ActivityIndicator size="large" color="red"/>
+        </View>)
+    }
 
     renderItem = (props) => {
         const {item, index} = props
@@ -223,6 +227,7 @@ class Home extends Component {
                                                         uri: `${fileHost}/image/${item.url}`,
                                                         cache: 'force-cache'
                                                     }}
+                                                           onLoadStart={this.onLoadStart}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>
