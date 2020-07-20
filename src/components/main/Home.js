@@ -180,24 +180,6 @@ class Home extends Component {
                                                       }>
                                         <AntDesign name="ellipsis1" size={30} style={{color: '#414445'}}/>
                                     </TouchableOpacity>
-                                    // <View style={{position: 'absolute', right: 0, top: -20,}}>
-                                    //     {item.user_relations == "" ?
-                                    //     <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
-                                    //           onPress={() => {
-                                    //               const params={
-                                    //                   item:item,tabIndex:tabIndex
-                                    //               }
-                                    //               this.props.follow(params)}}>关注</Text>:
-                                    //         <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
-                                    //           onPress={() => {
-                                    //               Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
-                                    //                       const params={
-                                    //                           item:item,tabIndex:tabIndex
-                                    //                       }
-                                    //                       this.props.cancelFollow(params)
-                                    //                   }},{text: "取消"}])
-                                    //               }}>取消关注</Text>}
-                                    // </View>
                                 }
                             />
                             <Card.Body>
@@ -275,7 +257,7 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Comment', {item: item})
+                                                this.props.navigation.navigate('Detail',{item: item})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -293,8 +275,7 @@ class Home extends Component {
                                             {item.user_praises == "" ?
                                                 <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
                                                 <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
-                                            <Text
-                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
+                                            <Text style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 }

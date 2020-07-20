@@ -1,69 +1,46 @@
 import * as actionType from '../../actionType/index'
 import {apiHost} from '../../config/HostConfig'
-import httpRequest from '../../utils/HttpRequest'
-import { sleep } from '../../utils/util'
-const pageSize = 1
+import HttpRequest from '../../utils/HttpRequest'
+import {Toast} from "@ant-design/react-native";
 
-export const getCommentOnMeList = () => async (dispatch, getState) => {
+
+export const getEvaluationMe = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+
     try {
-        const { LoginReducer: {userId} } = getState()
-        const url = `${apiHost}/user/${userId}/userBeMsgComment?start=0&size=${pageSize}`
-        // console.log('url', url)
-        const res = await httpRequest.get(url)
-        // console.log('res', res)
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userBeMsgComment?level=1`
+        const res = await HttpRequest.get(url)
+        console.log(res)
+        if(res.success){
+            dispatch({type: actionType.EvaluationMeType.get_evaluationMe_success, payload: {evaluationMe: res.result}})
 
-        if (res.success) {
-            dispatch({
-                type: actionType.EvaluationMeType.get_commentOnMeList_success, payload: {
-                    commentOnMeList: res.result,
-                    isCompleted: (res.result.length == 0 || res.result.length % pageSize != 0)
-                }
-            })
-        } else {
-            dispatch({ type: actionType.EvaluationMeType.get_commentOnMeList_failed, payload: {} })
+        }else {
+            Toast.fail(res.msg)
         }
     } catch (err) {
-        console.log('err', err)
-        dispatch({ type: actionType.EvaluationMeType.get_commentOnMeList_failed, payload: {} })
+        Toast.fail(err.message)
     }
 }
 
-export const getCommentOnMeListWaiting = () => (dispatch) => {
-    dispatch({ type: actionType.EvaluationMeType.get_commentOnMeList_waiting })
-}
 
-export const getCommentOnMeListMore = () => async (dispatch, getState) => {
-    const { LoginReducer: {userId}, EvaluationMeReducer } = getState()
-    if (EvaluationMeReducer.getCommentOnMeListMore.isResultStatus == 1) {
-        await sleep(1000)
-        dispatch(getCommentOnMeListMore)
-    } else {
-        if (!EvaluationMeReducer.data.isCompleted) {
-            dispatch({ type: actionType.EvaluationMeType.get_commentOnMeListMore_waiting, payload: {} })
-            try {
-                const url = `${apiHost}/user/${userId}/userBeMsgComment?start=${(EvaluationMeReducer.data.commentOnMeList.length)}&size=${pageSize}`
-                console.log('url', url)
-                const res = await httpRequest.get(url)
-                console.log('res', res)
-                if (res.success) {
-                    const isCompleted = res.result.length == 0 || res.result.length % pageSize != 0
-                    // if (isCompleted) {
-                    //     ToastAndroid.show('已全部加载完毕！', 10)
-                    // }
-                    dispatch({
-                        type: actionType.EvaluationMeType.get_commentOnMeListMore_success, payload: {
-                            commentOnMeList: res.result,
-                            isCompleted,
-                        }
-                    })
-                } else {
-                    dispatch({ type: actionType.EvaluationMeType.get_commentOnMeListMore_failed, payload: { failedMsg: `${res.msg}` } })
-                }
-            } catch (err) {
-                console.log('err', err)
 
-                dispatch({ type: actionType.EvaluationMeType.get_commentOnMeListMore_failed, payload: { failedMsg: `${err}` } })
-            }
-        }
-    }
-}
+// export const getCommentTwo = (params) => async (dispatch, getState) => {
+//     const {LoginReducer: {userId}} = getState()
+// const {commentId}=params
+//     try {
+//         // 基本检索URL
+//         let url = `${apiHost}/user/${userId}/userBeMsgComment?msgComId=${commentId}&level=2`
+//         const res = await HttpRequest.get(url)
+//         console.log(res)
+//         if(res.success){
+//             dispatch({type: actionType.DetailType.get_Comment, payload: {commentTwo: res.result}})
+//
+//         }else {
+//             Toast.fail(res.msg)
+//         }
+//     } catch (err) {
+//         Toast.fail(err.message)
+//     }
+//
+// }

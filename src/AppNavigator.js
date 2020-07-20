@@ -25,6 +25,7 @@ import LvTwoCommentList from './components/main/CommentLvTwo'
 import Report from './components/main/Report'
 
 
+
 //社区
 import Community from './components/main/Community'
 //消息
@@ -66,6 +67,7 @@ import EvaTitle from './components/modules/EvaTitle'
 import ImageView from './components/modules/ImageView'
 import DetailTitle from './components/modules/DetailTitle'
 import DetailRig from './components/modules/DetailRig'
+import ComRightButton from "./components/modules/ComRightButton"
 
 //登录页面
 const LoginPage = createStackNavigator({
@@ -318,21 +320,22 @@ const Main = createStackNavigator({
         screen: Comment,
         navigationOptions: ({navigation}) => ({
             title: '评论详情页',
+            headerRight: <ComRightButton navigation={navigation}/>,
             tabBarVisible: false
         })
     },
-    LvTwoCommentList: {
-        screen: LvTwoCommentList,
-        navigationOptions: {
-            title: '评论列表'
-        }
-    },
-    LvOneCommentList: {
-        screen: LvOneCommentList,
-        navigationOptions: {
-            title: '对方昵称'
-        }
-    },
+    // LvTwoCommentList: {
+    //     screen: LvTwoCommentList,
+    //     navigationOptions: {
+    //         title: '评论列表'
+    //     }
+    // },
+    // LvOneCommentList: {
+    //     screen: LvOneCommentList,
+    //     navigationOptions: {
+    //         title: '对方昵称'
+    //     }
+    // },
     // Comment: {
     //     screen: Comment,
     //     navigationOptions: {
