@@ -38,8 +38,6 @@ import * as LocationAction from './main/LocationAction'
 import * as DetailAction from './main/DetailAction'
 import * as ToVoteAction from './main/ToVoteAction'
 import * as CommentAction from './main/CommentAction'
-import * as CommentLvOneAction from './main/CommentLvOneAction'
-import * as CommentLvTwoAction from './main/CommentLvTwoAction'
 import * as CommentReplyAction from './main/CommentReplyAction'
 
 export {
@@ -82,8 +80,6 @@ export {
     DetailAction,
     ToVoteAction,
     CommentAction,
-    CommentLvOneAction,
-    CommentLvTwoAction,
     CommentReplyAction
 
 }

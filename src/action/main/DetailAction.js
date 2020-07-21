@@ -6,16 +6,23 @@ import * as actionType from '../../actionType/index'
 import {update} from "./HomeAction";
 
 
+const pageSize = 10
 export const getCommentOne = (params) => async (dispatch, getState) => {
     const {_id,_user_id} = params
+    const {DetailReducer:{commentMsg}} = getState()
 console.log(params)
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${_user_id}/userBeMsgComment?msgId=${_id}&level=1`
+        let url = `${apiHost}/user/${_user_id}/userBeMsgComment?msgId=${_id}&level=1&start=${commentMsg.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if(res.success){
-            dispatch({type: actionType.DetailType.get_Comment, payload: {commentMsg: res.result}})
+            dispatch({type: actionType.DetailType.commentLoading, payload: {commentLoading: true}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.DetailType.get_Comment_end, payload: {commentMsg: res.result, isComplete: true}})
+            } else {
+                dispatch({ type: actionType.DetailType.get_Comment_success, payload: { commentMsg: res.result, isComplete: false } })
+            }
 
         }else {
             Toast.fail(res.msg)
@@ -24,6 +31,8 @@ console.log(params)
         Toast.fail(err.message)
     }
 }
+
+
 
 
 export const getCommentTwo = (params) => async (dispatch, getState) => {

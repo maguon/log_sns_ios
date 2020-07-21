@@ -4,20 +4,22 @@ import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 
-export const getCommentReply= (value ) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+const pageSize = 10
+export const getCommentReply = (value) => async (dispatch,getState) => {
+    const {commentId,userId}=value
+    const {CommentReplyReducer:{commentReply}} = getState()
     try {
-        // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userBeMsgComment?msgComId=${value}&level=2`
+        let url = `${apiHost}/user/${userId}/userMsgComment?msgComId=${commentId}&level=2&start=${commentReply.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
-        console.log(res)
-        if(res.success){
-            dispatch({type: actionType.CommentReplyType.get_Reply, payload: {commentReply: res.result}})
-        }else {
-            Toast.fail(res.msg)
+        if (res.success) {
+            dispatch({type: actionType.CommentReplyType.Loading, payload: {Loading: true}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.CommentReplyType.get_commentReply_end, payload: {commentReply: res.result, isComplete: true}})
+            } else {
+                dispatch({ type: actionType.CommentReplyType.get_commentReply_success, payload: { commentReply: res.result, isComplete: false } })
+            }
         }
     } catch (err) {
         Toast.fail(err.message)
     }
-
 }

@@ -18,6 +18,7 @@ import {Card, Provider} from "@ant-design/react-native/lib/card";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import moment from "moment";
 import * as action from "../../action";
+import {ActivityIndicator} from "@ant-design/react-native";
 
 
 const {width, height} = Dimensions.get('window')
@@ -33,14 +34,33 @@ class Detail extends Component {
         const {navigation: {state: {params: {item}}}} = this.props
         this.props.getCommentOne(item)
     }
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return (
+                <View style={{height: 10}}/>
+            )
 
-    renderItem = () => {
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
 
+    }
+    renderEmpty = () => {
+        return (
+            <View style={globalStyles.listEmptyContainer}>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
+            </View>
+        )
     }
 
     render() {
-        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentTwo},setPraise} = this.props
-        // console.log(commentMsg)
+        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,isResultStatus,isComplete},setPraise,getCommentOne} = this.props
+
         const media = item.media
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -170,7 +190,7 @@ class Detail extends Component {
                            }}
                                                                        onPress={() => {
                                                                            console.log(item)
-                                                                           this.props.navigation.navigate('CommentReply', {commentId: item._id})
+                                                                           this.props.navigation.navigate('CommentReply', {commentId: item._id,userId:item._user_id})
                                                                            // getCommentTwo({commentId:item._msg_com_id})
                                                                        }}
                            >
@@ -205,18 +225,15 @@ class Detail extends Component {
                            )
                        }}
                            refreshing={false}
-                           // onRefresh={() => {
-                           //     update(0)
-                           // }}
-                           // onEndReachedThreshold={0.2}
-                           // onEndReached={() => {
-                           //     if (!isComplete) {
-                           //         getHotList()
-                           //     }
-                           // }
-                           // }
-                           // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                           // ListEmptyComponent={this.renderEmpty}
+                           onEndReachedThreshold={0.2}
+                           onEndReached={() => {
+                               if (!isComplete) {
+                                   getCommentOne(item)
+                               }
+                           }
+                           }
+                           ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                           ListEmptyComponent={this.renderEmpty}
                            />
                        }
                     </View>
@@ -282,7 +299,7 @@ const mapDispatchProps = (dispatch, props) => ({
     },
     Praise: (value) => {
         dispatch(action.HomeAction.setPraise(value))
-    },
+    }
 
 })
 

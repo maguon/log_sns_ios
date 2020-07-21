@@ -9,7 +9,7 @@ export const createComment = reqParam => async (dispatch, getState) => {
     const {LoginReducer: {userId},CommentReducer:{comment}} = getState()
     try {
         console.log('reqParam', reqParam)
-        console.log('comment', comment)
+        // console.log('comment', comment)
         const {navigation,navigation: {state: {params: {item, level}}}} = reqParam
 
         if (level == 1) {
@@ -31,9 +31,9 @@ export const createComment = reqParam => async (dispatch, getState) => {
         }
 
         const url = `${apiHost}/user/${userId}/msgComment`
-        // console.log('url', url)
+        console.log('param', param)
         const res = await HttpRequest.post(url, param)
-        console.log('res', res)
+        // console.log('res', res)
         if (res.success) {
             dispatch(actionType.CommentType.set_Comment(""))
             Alert.alert("", "评论已发送", [ {

@@ -3,20 +3,19 @@ import {apiHost} from '../../config/HostConfig'
 import HttpRequest from '../../utils/HttpRequest'
 import {Toast} from "@ant-design/react-native";
 
-
-export const getEvaluationMe = (params) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
-
+const pageSize = 10
+export const getEvaluationMe = () => async (dispatch,getState) => {
+    const {LoginReducer: {userId},EvaluationMeReducer:{evaluationMe}} = getState()
     try {
-        // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userBeMsgComment?level=1`
+        let url = `${apiHost}/user/${userId}/userBeMsgComment?level=1&start=${evaluationMe.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
-        console.log(res)
-        if(res.success){
-            dispatch({type: actionType.EvaluationMeType.get_evaluationMe_success, payload: {evaluationMe: res.result}})
-
-        }else {
-            Toast.fail(res.msg)
+        if (res.success) {
+            dispatch({type: actionType.EvaluationMeType.set_evaLoading, payload: {evaMeLoading: true}})
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.EvaluationMeType.get_evaluationMe_end, payload: {evaluationMe: res.result, isComplete: true}})
+            } else {
+                dispatch({ type: actionType.EvaluationMeType.get_evaluationMe_success, payload: { evaluationMe: res.result, isComplete: false } })
+            }
         }
     } catch (err) {
         Toast.fail(err.message)
@@ -24,23 +23,13 @@ export const getEvaluationMe = (params) => async (dispatch, getState) => {
 }
 
 
+export const update=()=>async (dispatch, getState)=>{
+    const {LoginReducer: {userId},EvaluationMeReducer:{evaluationMe}} = getState()
 
-// export const getCommentTwo = (params) => async (dispatch, getState) => {
-//     const {LoginReducer: {userId}} = getState()
-// const {commentId}=params
-//     try {
-//         // 基本检索URL
-//         let url = `${apiHost}/user/${userId}/userBeMsgComment?msgComId=${commentId}&level=2`
-//         const res = await HttpRequest.get(url)
-//         console.log(res)
-//         if(res.success){
-//             dispatch({type: actionType.DetailType.get_Comment, payload: {commentTwo: res.result}})
-//
-//         }else {
-//             Toast.fail(res.msg)
-//         }
-//     } catch (err) {
-//         Toast.fail(err.message)
-//     }
-//
-// }
+    let url = `${apiHost}/user/${userId}/userBeMsgComment?level=1&start=0&size=${evaluationMe.length}`
+    const res = await HttpRequest.get(url)
+    if (res.success) {
+        dispatch({type: actionType.EvaluationMeType.set_evaluationMe_Praise, payload: {evaluationMe: res.result}})
+    }
+
+}

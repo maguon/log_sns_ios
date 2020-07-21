@@ -20,8 +20,6 @@ import Detail from './components/main/Detail'
 import ToVote from './components/main/ToVote'
 import ScannerResult from './components/main/ScannerResult'
 import Comment from './components/main/Comment'
-import LvOneCommentList from './components/main/CommentLvOne'
-import LvTwoCommentList from './components/main/CommentLvTwo'
 import Report from './components/main/Report'
 
 
@@ -324,28 +322,6 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
-    // LvTwoCommentList: {
-    //     screen: LvTwoCommentList,
-    //     navigationOptions: {
-    //         title: '评论列表'
-    //     }
-    // },
-    // LvOneCommentList: {
-    //     screen: LvOneCommentList,
-    //     navigationOptions: {
-    //         title: '对方昵称'
-    //     }
-    // },
-    // Comment: {
-    //     screen: Comment,
-    //     navigationOptions: {
-    //         title: '评论',
-    //         header: ({ scene, previous, navigation }) => {
-    //             // console.log('props',props)
-    //             return <NavComment scene={scene} previous={previous} navigation={navigation} />
-    //         }
-    //     }
-    // },
 
 
 

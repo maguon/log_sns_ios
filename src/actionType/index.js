@@ -42,8 +42,6 @@ import * as LocationType from './main/LocationType'
 import * as DetailType from './main/DetailType'
 import * as ToVoteType from './main/ToVoteType'
 import * as CommentType from './main/CommentType'
-import * as CommentLvOneActionType from './main/CommentLvOneActionType'
-import * as CommentLvTwoActionType from './main/CommentLvTwoActionType'
 import * as CommentReplyType from './main/CommentReplyType'
 
 export {
@@ -85,8 +83,6 @@ export {
     ToVoteType,
     CommentType,
     SpaceType,
-    CommentLvOneActionType,
-    CommentLvTwoActionType,
     ReportType,
     CommentReplyType
 }

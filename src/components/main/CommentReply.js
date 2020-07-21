@@ -5,6 +5,7 @@ import * as action from "../../action";
 import globalStyles from "../../utils/GlobalStyles";
 import moment from "moment";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import {ActivityIndicator} from "@ant-design/react-native";
 
 const {width, height} = Dimensions.get('window')
 class CommentReply extends Component {
@@ -13,12 +14,37 @@ class CommentReply extends Component {
 
     }
     componentDidMount() {
-        const {navigation: {state: {params: {commentId}}}} = this.props
-        this.props.getCommentReply(commentId)
+        const {navigation: {state: {params: {commentId,userId}}}} = this.props
+        this.props.getCommentReply({commentId,userId})
+    }
+
+
+    ListFooterComponent = (param) => {
+        if (param == 1) {
+            return (
+                <View style={{height: 10}}/>
+            )
+
+        } else if (param == 2) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <ActivityIndicator/>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>正在加载更多数据...</Text>
+                </View>
+            )
+        }
+
+    }
+    renderEmpty = () => {
+        return (
+            <View style={globalStyles.listEmptyContainer}>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
+            </View>
+        )
     }
 
     render() {
-        const {CommentReplyReducer:{commentReply}} = this.props
+        const {navigation: {state: {params: {commentId,userId}}},CommentReplyReducer:{commentReply,isComplete,isResultStatus},getCommentReply,update} = this.props
         console.log(this.props)
         return (
             <ScrollView >
@@ -77,18 +103,15 @@ class CommentReply extends Component {
                         )
                     }}
                     refreshing={false}
-                    // onRefresh={() => {
-                    //     update(0)
-                    // }}
-                    // onEndReachedThreshold={0.2}
-                    // onEndReached={() => {
-                    //     if (!isComplete) {
-                    //         getHotList()
-                    //     }
-                    // }
-                    // }
-                    // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    // ListEmptyComponent={this.renderEmpty}
+                    onEndReachedThreshold={0.2}
+                    onEndReached={() => {
+                        if (!isComplete) {
+                            getCommentReply({commentId,userId})
+                        }
+                    }
+                    }
+                    ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                    ListEmptyComponent={this.renderEmpty}
                 />
             </ScrollView>
         )
