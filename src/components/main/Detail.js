@@ -34,6 +34,7 @@ class Detail extends Component {
         const {navigation: {state: {params: {item}}}} = this.props
         this.props.getCommentOne(item)
     }
+
     ListFooterComponent = (param) => {
         if (param == 1) {
             return (
@@ -59,8 +60,8 @@ class Detail extends Component {
     }
 
     render() {
-        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,isResultStatus,isComplete},setPraise,getCommentOne} = this.props
-
+        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg}, setPraise} = this.props
+         console.log(item)
         const media = item.media
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -73,177 +74,204 @@ class Detail extends Component {
         }
         return (
             <View style={{flex: 1}}>
-            <ScrollView>
-                <View>
-                    <View style={{
-                        width: width * 0.9,
-                        height: 40,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginLeft: width * 0.05,
-                        justifyContent: "space-between"
-                    }}>
-                        <Text
-                            style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
-                        <Text style={[globalStyles.smallText]}>{item.read_num} 人阅读</Text>
-                    </View>
-                    <Text style={[globalStyles.midText, {
-                        marginLeft: width * 0.05,
-                        marginRight: width * 0.05
-                    }]}>{item.info ? item.info : ""}</Text>
+                <ScrollView>
+                    <View>
+                        <View style={{
+                            width: width * 0.9,
+                            height: 40,
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginLeft: width * 0.05,
+                            justifyContent: "space-between"
+                        }}>
+                            <Text
+                                style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                            <Text style={[globalStyles.smallText]}>{item.read_num} 人阅读</Text>
+                        </View>
+                        <Text style={[globalStyles.midText, {
+                            marginLeft: width * 0.05,
+                            marginRight: width * 0.05
+                        }]}>{item.info ? item.info : ""}</Text>
 
-                    {item.carrier == 2 && <FlatList
-                        data={media}
-                        numColumns={3}
-                        renderItem={(params) => {
-                            const {item, index} = params
-                            return (
-                                <TouchableOpacity activeOpacity={0.5} onPress={() => {
-                                    this.props.navigation.navigate("ImageView", {
-                                        media: media,
-                                        index: index
-                                    })
-                                }}>
+                        {item.carrier == 2 && <FlatList
+                            data={media}
+                            numColumns={3}
+                            renderItem={(params) => {
+                                const {item, index} = params
+                                return (
+                                    <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                                        this.props.navigation.navigate("ImageView", {
+                                            media: media,
+                                            index: index
+                                        })
+                                    }}>
 
-                                    <View style={globalStyles.item}>
-                                        <Image source={{
-                                            uri: `${fileHost}/image/${item.url}`,
-                                            cache: 'force-cache'
-                                        }}
-                                               style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
-                                    </View>
-                                </TouchableOpacity>
-                            )
+                                        <View style={globalStyles.item}>
+                                            <Image source={{
+                                                uri: `${fileHost}/image/${item.url}`,
+                                                cache: 'force-cache'
+                                            }}
+                                                   style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
+                                        </View>
+                                    </TouchableOpacity>
+                                )
+                            }
+                            }
+                            contentContainerStyle={globalStyles.list_container}
+                        />}
+
+                        {item.carrier == 3 &&
+
+                        <Video source={{uri: `${videoHost}${media[0].url}`}}
+                               paused={true}
+                               repeat={true}
+                               controls={true}
+                               resizeMode="cover"
+                               style={globalStyles.image}/>
                         }
-                        }
-                        contentContainerStyle={globalStyles.list_container}
-                    />}
+                        {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
+                                                               style={globalStyles.image}></ImageBackground>}
 
-                    {item.carrier == 3 &&
+                        <View style={{
+                            width: width, height: 40, backgroundColor: "#f2f2f2",
+                            flexDirection: "row", alignItems: "center", marginTop: 20
+                        }}>
+                            <Text
+                                style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{item.comment_num}）</Text>
+                            <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {item.collect_num}</Text>
+                            <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {item.agree_num}</Text>
+                        </View>
 
-                    <Video source={{uri: `${videoHost}${media[0].url}`}}
-                           paused={true}
-                           repeat={true}
-                           controls={true}
-                           resizeMode="cover"
-                           style={globalStyles.image}/>
-                    }
-                    {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
-                                                           style={globalStyles.image}></ImageBackground>}
+                        <View style={{width: width, marginBottom: 40}}>
+                            {commentMsg == "" ?
+                                <View style={{justifyContent: "center", alignItems: "center", marginTop: 20}}><Text
+                                    style={{fontSize: 18, color: "#838485"}}>暂无评论</Text></View> :
+                                < FlatList
+                                    data={commentMsg}
+                                    renderItem={(params) => {
+                                        const {item, index} = params
+                                        const userInfo = item.user_detail_info[0]
+                                        // console.log(item)
+                                        return (
+                                            <View style={{width: width}}>
+                                                <View style={{flexDirection: "row"}}>
 
-                    <View style={{
-                        width: width, height: 40, backgroundColor: "#f2f2f2",
-                        flexDirection: "row", alignItems: "center", marginTop: 20
-                    }}>
-                        <Text style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{item.comment_num}）</Text>
-                        <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {item.collect_num}</Text>
-                        <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {item.agree_num}</Text>
+                                                    <TouchableOpacity
+                                                        style={{marginLeft: width * 0.05, marginTop: width * 0.05}}
+                                                        onPress={() => {
+                                                            this.props.navigation.navigate('Space', {userId: item._user_id})
+                                                        }}>
+                                                        {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
+                                                                                  style={{
+                                                                                      width: 35,
+                                                                                      height: 35,
+                                                                                      borderRadius: 30
+                                                                                  }}/> :
+                                                            <Image source={require('../../images/head.png')}
+                                                                   style={{width: 40, height: 40, borderRadius: 30}}/>}
+                                                    </TouchableOpacity>
+
+                                                    <View style={{
+                                                        width: width * 0.8,
+                                                        flexDirection: "column",
+                                                        marginLeft: 10,
+                                                        marginTop: width * 0.05,
+                                                        borderBottomWidth: 0.5,
+                                                        borderBottomColor: "#bcbdbe"
+                                                    }}>
+                                                        <Text style={[globalStyles.fourText, {
+                                                            fontWeight: "bold"
+                                                        }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+                                                        <Text style={[globalStyles.smallText, {
+                                                            fontWeight: "bold", marginTop: 5
+                                                        }]}>{item.comment}</Text>
+                                                        {item.comment_num != 0 && <TouchableOpacity style={{
+                                                            width: width * 0.8,
+                                                            height: 30,
+                                                            backgroundColor: "#f2f2f2",
+                                                            justifyContent: "center",
+                                                            marginTop: 5
+                                                        }} onPress={() => {
+                                                            this.props.navigation.navigate('CommentReply', {
+                                                                commentId: item._id,
+                                                                userId: item._user_id
+                                                            })
+                                                        }}
+                                                        >
+                                                            <Text style={{
+                                                                marginLeft: 5,
+                                                                color: '#1598cc',
+                                                                fontSize: 12
+                                                            }}>共有{item.comment_num}条回复
+                                                                ></Text>
+                                                        </TouchableOpacity>}
+
+                                                        <View style={{
+                                                            height: 30,
+                                                            flexDirection: "row",
+                                                            alignItems: "center"
+                                                        }}>
+                                                            <Text
+                                                                style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                                            <TouchableOpacity
+                                                                style={{marginLeft: width * 0.28}}
+                                                                onPress={() => {
+                                                                    this.props.navigation.navigate('Comment', {
+                                                                        item: item,
+                                                                        level: 2
+                                                                    })
+                                                                }}>
+                                                                <AntDesign name="message1" style={{color: '#838485'}}
+                                                                           size={18}/>
+                                                            </TouchableOpacity>
+                                                            <TouchableOpacity
+                                                                style={{marginLeft: width * 0.05, flexDirection: "row"}}
+                                                                onPress={() => {
+                                                                    setPraise({item: item})
+                                                                }}>
+                                                                {item.user_praises == "" ?
+                                                                    <AntDesign name="like2" size={18}
+                                                                               style={{color: '#838485'}}/> :
+                                                                    <AntDesign name="like1" size={18}
+                                                                               style={{color: '#ffa600'}}/>}
+                                                                <Text
+                                                                    style={[globalStyles.midText, {marginLeft: 2}]}>{item.agree_num}</Text>
+                                                            </TouchableOpacity>
+
+                                                        </View>
+                                                    </View>
+
+                                                </View>
+                                            </View>
+                                        )
+                                    }}
+                                    // refreshing={false}
+                                    // onEndReachedThreshold={0.2}
+                                    // onEndReached={() => {
+                                    //     if (!isComplete) {
+                                    //         getCommentOne(item)
+                                    //     }
+                                    // }
+                                    // }
+                                    // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                                    // ListEmptyComponent={this.renderEmpty}
+                                />
+                            }
+                        </View>
+
+
                     </View>
-
-                   <View style={{width: width, marginBottom:40}}>
-                       {commentMsg==""?<View style={{justifyContent:"center",alignItems:"center",marginTop:20}}><Text style={{fontSize:18, color:"#838485"}}>暂无评论</Text></View>:
-                           < FlatList
-                           data={commentMsg}
-                           renderItem={(params) => {
-                           const {item, index} = params
-                           const userInfo = item.user_detail_info[0]
-                           // console.log(item)
-                           return (
-                           <View style={{width: width}}>
-                           <View style={{flexDirection: "row"}}>
-
-                           <TouchableOpacity
-                           style={{marginLeft: width * 0.05, marginTop: width * 0.05}}
-                           onPress={() => {
-                           this.props.navigation.navigate('Space', {userId: item._user_id})
-                       }}>
-                           {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
-                                                     style={{
-                                                         width: 35,
-                                                         height: 35,
-                                                         borderRadius: 30
-                                                     }}/> :
-                               <Image source={require('../../images/head.png')}
-                                      style={{width: 40, height: 40, borderRadius: 30}}/>}
-                           </TouchableOpacity>
-
-                           <View style={{
-                           width: width * 0.8,
-                           flexDirection: "column",
-                           marginLeft: 10,
-                           marginTop: width * 0.05,
-                           borderBottomWidth: 0.5,
-                           borderBottomColor: "#bcbdbe"
-                       }}>
-                           <Text style={[globalStyles.fourText, {
-                           fontWeight: "bold"
-                       }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
-                           <Text style={[globalStyles.smallText, {
-                           fontWeight: "bold", marginTop: 5
-                       }]}>{item.comment}</Text>
-                           {item.comment_num != 0 && <TouchableOpacity style={{
-                               width: width * 0.8,
-                               height: 30,
-                               backgroundColor: "#f2f2f2",
-                               justifyContent: "center",
-                               marginTop: 5
-                           }}
-                                                                       onPress={() => {
-                                                                           console.log(item)
-                                                                           this.props.navigation.navigate('CommentReply', {commentId: item._id,userId:item._user_id})
-                                                                           // getCommentTwo({commentId:item._msg_com_id})
-                                                                       }}
-                           >
-                               <Text style={{marginLeft: 5, color: '#1598cc', fontSize: 12}}>共有{item.comment_num}条回复
-                                   ></Text>
-                           </TouchableOpacity>}
-
-                           <View style={{height: 30, flexDirection: "row", alignItems: "center"}}>
-                           <Text
-                           style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
-                           <TouchableOpacity
-                           style={{marginLeft: width * 0.28}}
-                           onPress={() => {
-                           this.props.navigation.navigate('Comment', {item: item, level: 2})
-                       }}>
-                           <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
-                           </TouchableOpacity>
-                           <TouchableOpacity style={{marginLeft: width * 0.05, flexDirection: "row"}}
-                           onPress={() => {
-                           setPraise({item: item})
-                       }}>
-                           {item.user_praises == "" ? <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
-                               <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
-                           <Text style={[globalStyles.midText, {marginLeft: 2}]}>{item.agree_num}</Text>
-                           </TouchableOpacity>
-
-                           </View>
-                           </View>
-
-                           </View>
-                           </View>
-                           )
-                       }}
-                           refreshing={false}
-                           onEndReachedThreshold={0.2}
-                           onEndReached={() => {
-                               if (!isComplete) {
-                                   getCommentOne(item)
-                               }
-                           }
-                           }
-                           ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                           ListEmptyComponent={this.renderEmpty}
-                           />
-                       }
-                    </View>
-
-
-                </View>
-            </ScrollView>
-                <View style={{position:"absolute",bottom:0,height:40,width:width,backgroundColor:"#f2f2f2",justifyContent:"center"}}>
+                </ScrollView>
+                <View style={{
+                    position: "absolute",
+                    bottom: 0,
+                    height: 40,
+                    width: width,
+                    backgroundColor: "#f2f2f2",
+                    justifyContent: "center"
+                }}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <TouchableOpacity style={[globalStyles.midText,  styles.bottomBut]}>
+                        <TouchableOpacity style={[globalStyles.midText, styles.bottomBut]}>
                             <AntDesign name="export" size={18} style={{color: '#838485'}}/>
                             <Text style={[globalStyles.midText, {marginLeft: 5}]}>收藏</Text>
                         </TouchableOpacity>
@@ -252,7 +280,7 @@ class Detail extends Component {
                         <TouchableOpacity
                             style={[globalStyles.midText, styles.bottomBut]}
                             onPress={() => {
-                                this.props.navigation.navigate('Comment', {item: item,level:1})
+                                this.props.navigation.navigate('Comment', {item: item, level: 1})
                             }}>
                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                             <Text style={[globalStyles.midText, {marginLeft: 5}]}>评论</Text>
@@ -262,7 +290,7 @@ class Detail extends Component {
                             style={[globalStyles.midText, styles.bottomBut]}
                             onPress={() => {
                                 const params = {
-                                    item: item,tabIndex:0
+                                    item: item, tabIndex: 0
                                 }
                                 this.props.Praise(params)
                             }}>
@@ -306,11 +334,11 @@ const mapDispatchProps = (dispatch, props) => ({
 export default connect(mapStateToProps, mapDispatchProps)(Detail)
 
 const styles = StyleSheet.create({
-    bottomBut:{
+    bottomBut: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        width:width*0.33
+        width: width * 0.33
     }
 
 })

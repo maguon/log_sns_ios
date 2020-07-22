@@ -1,30 +1,23 @@
 import {apiHost} from '../../config/HostConfig'
 import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
-import {update} from "./HomeAction";
 
 
-const pageSize = 10
 export const getCommentOne = (params) => async (dispatch, getState) => {
-    const {_id,_user_id} = params
-    const {DetailReducer:{commentMsg}} = getState()
-console.log(params)
+    const {_id, _user_id} = params
+    console.log(params)
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${_user_id}/userBeMsgComment?msgId=${_id}&level=1&start=${commentMsg.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${_user_id}/userBeMsgComment?msgId=${_id}&level=1`
         const res = await HttpRequest.get(url)
         console.log(res)
-        if(res.success){
-            dispatch({type: actionType.DetailType.commentLoading, payload: {commentLoading: true}})
-            if (res.result.length % pageSize != 0 || res.result.length == 0) {
-                dispatch({type: actionType.DetailType.get_Comment_end, payload: {commentMsg: res.result, isComplete: true}})
-            } else {
-                dispatch({ type: actionType.DetailType.get_Comment_success, payload: { commentMsg: res.result, isComplete: false } })
-            }
-
-        }else {
+        if (res.success) {
+            dispatch({
+                type: actionType.DetailType.get_Comment_success,
+                payload: {commentMsg: res.result, isComplete: false}
+            })
+        } else {
             Toast.fail(res.msg)
         }
     } catch (err) {
@@ -33,20 +26,18 @@ console.log(params)
 }
 
 
-
-
 export const getCommentTwo = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    const {commentId}=params
+    const {commentId} = params
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userBeMsgComment?msgComId=${commentId}&level=2`
         const res = await HttpRequest.get(url)
         console.log(res)
-        if(res.success){
+        if (res.success) {
             dispatch({type: actionType.DetailType.get_Comment, payload: {commentTwo: res.result}})
 
-        }else {
+        } else {
             Toast.fail(res.msg)
         }
     } catch (err) {
@@ -58,14 +49,14 @@ export const getCommentTwo = (params) => async (dispatch, getState) => {
 //取消关注
 export const cancelFollow = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    const {item} =params
+    const {item} = params
 
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/followUser/${item._user_id}/del`
         const res = await HttpRequest.del(url)
-        if(res.success){
-        }else {
+        if (res.success) {
+        } else {
             Toast.fail(res.msg)
         }
     } catch (err) {
@@ -74,18 +65,17 @@ export const cancelFollow = (params) => async (dispatch, getState) => {
 }
 
 
-
 //关注
 export const follow = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    const {item} =params
+    const {item} = params
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userRelation`
-        const res = await HttpRequest.post(url,{userById:item._user_id})
-        if(res.success){
+        const res = await HttpRequest.post(url, {userById: item._user_id})
+        if (res.success) {
 
-        }else {
+        } else {
             Toast.fail(res.msg)
         }
     } catch (err) {
@@ -98,16 +88,23 @@ export const follow = (params) => async (dispatch, getState) => {
 //点赞
 export const setPraise = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    const {item} =params
+    const {item} = params
     console.log(item)
     try {
-        let params={type:2, msgId:item._msg_id, msgUserId:item._msg_user_id,msgComId:item._msg_com_id,msgComUserId:item.__msg_com_user_id}
+        let params = {
+            type: 2,
+            msgId: item._msg_id,
+            msgUserId: item._msg_user_id,
+            msgComId: item._msg_com_id,
+            msgComUserId: item.__msg_com_user_id,
+            bePraisedUserId: `${item._user_id}`
+        }
         let url = `${apiHost}/user/${userId}/userPraise`
-        const res = await HttpRequest.post(url,params)
+        const res = await HttpRequest.post(url, params)
         console.log(params)
-        if(res.success){
+        if (res.success) {
             dispatch(getCommentOne())
-        }else {
+        } else {
             Toast.info(res.msg)
         }
     } catch (err) {

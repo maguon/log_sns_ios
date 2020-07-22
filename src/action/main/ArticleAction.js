@@ -158,7 +158,7 @@ export const setArtPraise = (params) => async (dispatch, getState) => {
     const {item,tabIndex} =params
 
     try {
-        let params={type:1, msgId:`${item._id}`, msgUserId:`${item._user_id}`,}
+        let params={type:1, msgId:`${item._id}`, msgUserId:`${item._user_id}`,bePraisedUserId:`${item._user_id}`}
         console.log(params)
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url,params)

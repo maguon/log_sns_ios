@@ -16,17 +16,22 @@ class DetailTitle extends React.Component {
     }
 
     render() {
-        const {navigation: {state: {params: {item}}}} = this.props
-        const userInfo = item.user_detail_info[0]
-        // console.log(item)
+        const {navigation: {state: {params: {item, itemList}}}} = this.props
+        let userInfo = ""
+        if (itemList != "") {
+            userInfo = itemList.msg_user_detail_info[0]
+        } else {
+            userInfo = item.user_detail_info[0]
+        }
+
 
         return (
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: width*0.05}}>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: width * 0.05}}>
 
-                    {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
-                                                  style={{width: 35, height: 35, borderRadius: 30}}/> :
-                <Image source={require('../../images/head.png')}
-                       style={{width: 40, height: 40, borderRadius: 30}}/>}
+                {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
+                                          style={{width: 35, height: 35, borderRadius: 30}}/> :
+                    <Image source={require('../../images/head.png')}
+                           style={{width: 40, height: 40, borderRadius: 30}}/>}
                 <View style={{width: width * 0.5, marginLeft: 5}}>
                     <Text style={[globalStyles.largeText, {
                         color: "white",

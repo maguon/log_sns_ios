@@ -115,7 +115,7 @@ class Collection extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('Detail')
+                                    this.props.navigation.navigate('Detail',{item:item,itemList:""})
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
                                     {msgInfo.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
@@ -177,7 +177,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item: item})
+                                                this.props.navigation.navigate('Detail',{item:item,itemList:""})
                                             }}>
                                             <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
                                             <Text style={[globalStyles.midText,{marginLeft:5}]}>{msgInfo.comment_num ? msgInfo.comment_num : 0}</Text>

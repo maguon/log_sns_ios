@@ -110,9 +110,9 @@ class Evaluation extends Component {
                                     <TouchableOpacity
                                         style={{marginLeft:  width * 0.05,flexDirection: "row",}}
                                         onPress={() => {
-                                            this.props.navigation.navigate('Detail',{item: item,name:"EvaluationMe"})
+                                            this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item})
                                         }}>
-                                        {msgInfo.carrier==1&&<Image source={{uri: userInfo.avatar, cache: 'force-cache'}}
+                                        {(msgInfo.carrier==1&&userInfo.avatar)&&<Image source={{uri: userInfo.avatar, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}
                                         {msgInfo.carrier==2&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].url}`, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}

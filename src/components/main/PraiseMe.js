@@ -45,13 +45,16 @@ class PraiseMe extends Component {
     render() {
         const {praiseMeReducer:{likeMe,isComplete,isResultStatus},getLikeMeList,update} = this.props
 
+        console.log(likeMe)
+
         return (
             <View style={{flex: 1}}>
                 <FlatList
                     data={likeMe}
                     renderItem={(params) => {
                         const {item, index} = params
-                        const userInfo = item.user_detail_info[0]
+                        const userInfo = item.praise_user_detail_info[0]
+                        const msgUserInfo = item.msg_user_detail_info[0]
                         const msgInfo=item.msg_info[0]
                         console.log(item)
                         return (
@@ -94,16 +97,17 @@ class PraiseMe extends Component {
 
 
                                 </View>
-                                <Text style={[globalStyles.largeText,{marginLeft: width * 0.05, marginBottom:5}]}>赞了你</Text>
+                                {item.type==1?<Text style={[globalStyles.midText,{marginLeft: width * 0.08, marginBottom:5}]}>赞了你动态</Text>:
+                                    <Text style={[globalStyles.midText,{marginLeft: width * 0.08, marginBottom:5}]}>赞了你评论</Text>}
                                 { msgInfo&&<View style={{height: 80, flexDirection: "row", alignItems: "center",backgroundColor:'#f2f2f2' }}>
 
                                     <TouchableOpacity
                                         style={{marginLeft:  width * 0.05,flexDirection: "row",}}
                                         onPress={() => {
-                                            this.props.navigation.navigate('Detail',{item: item})
+                                            this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item})
                                         }}>
-                                        {msgInfo.carrier==1&&<Image source={{uri: userInfo.avatar, cache: 'force-cache'}}
-                                                                    style={{width: 50, height: 50}}/>}
+                                        {(msgInfo.carrier==1&&msgUserInfo.avatar)&&<Image source={{uri: msgUserInfo.avatar, cache: 'force-cache'}}
+                                                                                       style={{width: 50, height: 50}}/>}
                                         {msgInfo.carrier==2&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].url}`, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}
                                         {msgInfo.carrier==3&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].preview}`, cache: 'force-cache'}}
@@ -111,7 +115,7 @@ class PraiseMe extends Component {
                                         <View style={{flexDirection:'column',marginLeft:5}}>
                                             <Text style={[globalStyles.fourText, {
                                                 fontWeight: "bold"
-                                            }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+                                            }]}>{msgUserInfo.nick_name ? msgUserInfo.nick_name : '暂无昵称'}</Text>
                                             <Text style={[globalStyles.smallText,{marginTop:5, width:width*0.7}]}>{msgInfo.info ? (msgInfo.info.length > 80 ? msgInfo.info.substr(0, 80) + "..." : msgInfo.info) : ""}</Text>
                                         </View>
 

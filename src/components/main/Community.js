@@ -187,7 +187,7 @@ class Community extends React.Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item: item})
+                                    this.props.navigation.navigate('Detail',{item:item,itemList:""})
                                 }}>
                                     <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} >
                                         {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
@@ -262,7 +262,7 @@ class Community extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item: item})
+                                                this.props.navigation.navigate('Detail',{item:item,itemList:""})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text

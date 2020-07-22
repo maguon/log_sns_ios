@@ -21,9 +21,10 @@ class DetailRig extends React.Component {
     }
 
     render() {
-        const {navigation: {state: {params: {item}}}, cancelFollow, follow} = this.props
+        const {navigation: {state: {params: {item,itemList}}}, cancelFollow, follow} = this.props
         return (
             <View>
+            {itemList?<View></View>:<View>
                 {this.state.hidden ? <TouchableOpacity style={{
                     width: 50, height: 25, marginRight: 15, borderRadius: 5,
                     justifyContent: 'center', alignItems: 'center', backgroundColor: "#ff9803"
@@ -49,6 +50,7 @@ class DetailRig extends React.Component {
                     <Text style={{color: '#c1c1c1', fontSize: 14}}>取消关注</Text>
                 </TouchableOpacity>}
 
+            </View>}
             </View>
         )
     }
