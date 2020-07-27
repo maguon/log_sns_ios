@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet, Dimensions, Alert} from 'react-native'
-import {InputItem, Button, Provider, Toast} from '@ant-design/react-native'
+import {View, Text, StyleSheet, Dimensions,TouchableOpacity, Alert,ScrollView} from 'react-native'
+import {Checkbox,InputItem, Button, Provider, Toast, Modal,WhiteSpace} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as action from '../../action/index'
 import * as actionType from '../../actionType/index'
+
 
 
 const {width, height} = Dimensions.get('window')
@@ -14,10 +15,12 @@ class Registered extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            checkBox: false,
             timerCount: 60,
             disabled: false,
             hidden: false,
-            hiddenA: false
+            hiddenA: false,
+            waiting:true
         }
     }
 
@@ -26,10 +29,22 @@ class Registered extends Component {
         this.props.setPassword('')
         this.props.setPass_word('')
     }
+   onButtonClick = () => {
+        if(this.state.checkBox){
+            this.props.register()
+        }else {
+            Alert.alert("", "请阅读《司聊服务适用协议》并同意", [{text: "取消"}, {
+                text: "确定", onPress: () => {
+                    // this.setState({checkBox:true})
+                    // this.props.navigation.navigate('Agreement')
+                }
+            }])
+        }
+    }
 
 
     render() {
-        const {registerReducer: {account}, register, setAccount, setCode, setPassword, setPass_word} = this.props;
+        const {registerReducer: {account}, setAccount, setCode, setPassword, setPass_word} = this.props;
         //时间倒计时
         const onCode = () => {
             if (account == '') {
@@ -67,10 +82,10 @@ class Registered extends Component {
                                 type='number'
                                 extra={
                                     <Button type="primary" disabled={this.state.disabled}
-                                            style={{width: 120, height: 35, marginRight: -10}}
+                                            style={{width: 100, height: 35, marginRight: -10}}
                                             onPress={onCode}>
                                         <Text
-                                            style={{fontSize: 14}}>{this.state.disabled ? `重新获取(${this.state.timerCount})` : "获取验证码"}</Text>
+                                            style={{fontSize: 12}}>{this.state.disabled ? `重新获取(${this.state.timerCount})` : "获取验证码"}</Text>
                                     </Button>}
                                 style={styles.textInput}
                                 onChange={setAccount}
@@ -116,7 +131,29 @@ class Registered extends Component {
 
                         </View>
                     </View>
-                    <Button type="primary" style={styles.button} onPress={register}>注册</Button>
+
+
+
+                    <WhiteSpace />
+                    <Checkbox
+                        checked={this.state.checkBox}
+                        style={{marginTop:10}}
+                        onChange={event => {
+                            this.setState({ checkBox: event.target.checked })
+                        }}
+                    >
+                        <TouchableOpacity
+                            onPress={()=>{
+                                this.props.navigation.navigate('Agreement')}}
+                        >
+                            <Text style={{marginLeft:5,marginTop:10}}>
+                                同意
+                                <Text style={{color:'#1598cc'}}>《司聊服务使用协议》</Text>
+                            </Text>
+                        </TouchableOpacity></Checkbox>
+                    <Button type="primary" style={styles.button} onPress={this.onButtonClick}>注册</Button>
+                    <WhiteSpace />
+                    {/*<Button type="primary" style={styles.button} onPress={this.register()}>注册</Button>*/}
                 </View>
             </Provider>
         )
@@ -183,7 +220,7 @@ const styles = StyleSheet.create({
     },
     button: {
         justifyContent: 'center',
-        marginTop: 40,
+        marginTop: 20,
         width: width * 0.8,
         height: 40,
         backgroundColor: "#0099db",

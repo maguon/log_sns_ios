@@ -5,6 +5,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import AntDesign from "react-native-vector-icons/AntDesign"
 import {connect} from "react-redux"
 import * as action from "../../action/index"
+import appHost from "../../config/HostConfig"
 
 const Item = List.Item
 
@@ -109,6 +110,14 @@ class PersonCenter extends React.Component {
                               thumb={<AntDesign name="setting" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>设置</Text></Item>
                     </List>
+                    <List>
+                        <Item
+                            extra={<Text style={globalStyles.largeText}>{appHost.version}</Text>}
+                            thumb={<AntDesign name="barschart" size={20} style={style.icon}/>}>
+                            <Text style={globalStyles.largeText}>版本号</Text>
+
+                        </Item>
+                    </List>
                     <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
                     <WingBlank size="lg">
                         <Button type="primary" onPress={() => {
@@ -116,6 +125,8 @@ class PersonCenter extends React.Component {
                     </WingBlank>
                     <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
                 </ScrollView>
+
+
             </View>
         )
     }

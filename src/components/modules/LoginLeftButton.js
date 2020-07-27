@@ -9,7 +9,7 @@ const LoginLeftButton = props => {
         <TouchableOpacity style={style} onPress={() => {
             props.navigation.pop()
         }}>
-            <Icon name='left' color='#000'/>
+            <Icon name='left' color='#fff'/>
         </TouchableOpacity>
     )
 }

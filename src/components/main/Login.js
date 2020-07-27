@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, StyleSheet, Dimensions} from 'react-native'
-import {InputItem, Button, Provider} from '@ant-design/react-native'
+import {View, TouchableOpacity,Text, StyleSheet, Dimensions} from 'react-native'
+import {InputItem, Button, Provider, Checkbox} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as actionType from '../../actionType/index'
@@ -50,13 +50,27 @@ class Login extends Component {
 
                         </View>
                     </View>
+
+                        <TouchableOpacity style={{flexDirection:'row',alignItems:'center', marginTop:10}}
+                            onPress={()=>{this.props.navigation.navigate('Agreement')}}
+                        >
+                            <Checkbox checked disabled />
+                                <Text style={{color:'#1598cc'}}>《司聊服务使用协议》</Text>
+
+                        </TouchableOpacity>
+
+
                     <Button type="primary" style={styles.button} onPress={toLogin}>登录</Button>
 
                     <View style={styles.footer}>
-                        <Text style={globalStyles.fourText}
-                              onPress={() => this.props.navigation.navigate('Registered')}>注册</Text>
-                        <Text style={globalStyles.fourText}
-                              onPress={() => this.props.navigation.navigate('ForgotPassWord')}>忘记密码</Text>
+                        <TouchableOpacity style={globalStyles.fourText}
+                              onPress={() => this.props.navigation.navigate('Registered')}>
+                            <Text>注册</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={globalStyles.fourText}
+                              onPress={() => this.props.navigation.navigate('ForgotPassWord')}>
+                            <Text>忘记密码</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
@@ -96,7 +110,7 @@ const styles = StyleSheet.create({
     },
     title: {
         position: 'absolute',
-        top: height / 4,
+        top: height / 5,
 
     },
     input: {
@@ -115,7 +129,7 @@ const styles = StyleSheet.create({
     },
     button: {
         justifyContent: 'center',
-        marginTop: 30,
+        marginTop: 20,
         width: width * 0.8,
         height: 40,
         backgroundColor: "#0099db",

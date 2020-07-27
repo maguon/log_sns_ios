@@ -66,6 +66,7 @@ import ImageView from './components/modules/ImageView'
 import DetailTitle from './components/modules/DetailTitle'
 import DetailRig from './components/modules/DetailRig'
 import ComRightButton from "./components/modules/ComRightButton"
+import Agreement from "./components/modules/Agreement"
 
 //登录页面
 const LoginPage = createStackNavigator({
@@ -78,14 +79,27 @@ const LoginPage = createStackNavigator({
         Registered: {
             screen: Registered,
             navigationOptions: ({navigation}) => ({
+                headerStyle: {backgroundColor: '#1598cc'},
                 title: '注册',
+                headerTitleStyle: {color: '#fff'},
+                headerLeft: <LoginLeftButton navigation={navigation}/>
+            })
+        },
+        Agreement: {
+            screen: Agreement,
+            navigationOptions: ({navigation}) => ({
+                headerStyle: {backgroundColor: '#1598cc'},
+                title: '司聊服务使用协议',
+                headerTitleStyle: {color: '#fff'},
                 headerLeft: <LoginLeftButton navigation={navigation}/>
             })
         },
         ForgotPassWord: {
             screen: ForgotPassWord,
             navigationOptions: ({navigation}) => ({
+                headerStyle: {backgroundColor: '#1598cc'},
                 title: '忘记密码',
+                headerTitleStyle: {color: '#fff'},
                 headerLeft: <LoginLeftButton navigation={navigation}/>
 
             })
@@ -461,9 +475,9 @@ const AppNavigator = createSwitchNavigator({
     // Welcome:{
     //     screen:Welcome
     // },
-    // LoginPage:{
-    //     screen:LoginPage
-    // },
+    LoginPage:{
+        screen:LoginPage
+    },
     Main: {
         screen: Main
     }
