@@ -4,7 +4,7 @@ import * as actionType from "../../actionType"
 const initialState = {
     user: '',
     password: '',
-    userId: '5dfacafe98cc5501fd1e80db',
+    userId: '',
     userLogin: [],
 }
 
@@ -31,6 +31,12 @@ export default handleActions({
         return {
             ...state,
             userLogin: action.payload
+        }
+    },
+    [actionType.LoginActionType.clean_login]: (state, action) => {
+        return {
+            ...state,
+            user: action.payload.user
         }
     },
 

@@ -1,11 +1,11 @@
 import React from 'react'
-import {View, Text, ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native'
+import {View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Alert} from 'react-native'
 import {Button, WingBlank, WhiteSpace, List} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import AntDesign from "react-native-vector-icons/AntDesign"
 import {connect} from "react-redux"
 import * as action from "../../action/index"
-import appHost from "../../config/HostConfig"
+import * as ios_app from '../../../app.json'
 
 const Item = List.Item
 
@@ -112,7 +112,7 @@ class PersonCenter extends React.Component {
                     </List>
                     <List>
                         <Item
-                            extra={<Text style={globalStyles.largeText}>{appHost.version}</Text>}
+                            extra={<Text style={globalStyles.largeText}>{ios_app.version}</Text>}
                             thumb={<AntDesign name="barschart" size={20} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>版本号</Text>
 
@@ -120,7 +120,12 @@ class PersonCenter extends React.Component {
                     </List>
                     <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
                     <WingBlank size="lg">
-                        <Button type="primary" onPress={() => {
+                        <Button type="primary" onPress={()=>{
+                            Alert.alert("", "您是否要退出程序", [{text: "取消"}, {
+                                text: "确定", onPress: () => {
+                                    this.props.cleanLogin()
+                                }
+                            }])
                         }}>退出当前账号</Button>
                     </WingBlank>
                     <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
@@ -143,6 +148,9 @@ const mapDispatchProps = (dispatch, props) => ({
     getUserInfo: () => {
         dispatch(action.PersonCenterAction.getUserInfo(props))
     },
+    cleanLogin: () => {
+        dispatch(action.LoginAction.cleanLogin(props))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(PersonCenter)

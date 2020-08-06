@@ -72,9 +72,9 @@ class Registered extends Component {
         }
 
         return (
-            <Provider>
+            <ScrollView>
                 <View style={styles.container}>
-                    <Text style={[globalStyles.xxxlText, styles.title]}>欢迎加入司机部落</Text>
+                    <Text style={[globalStyles.xxxlText,styles.title]}>欢迎加入司机部落</Text>
                     <View style={styles.lineTopBottom}>
                         <View style={styles.input}>
                             <InputItem
@@ -155,7 +155,7 @@ class Registered extends Component {
                     <WhiteSpace />
                     {/*<Button type="primary" style={styles.button} onPress={this.register()}>注册</Button>*/}
                 </View>
-            </Provider>
+            </ScrollView>
         )
     }
 }
@@ -195,13 +195,13 @@ export default connect(mapStateToProps, mapDispatchProps)(Registered)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        height:height,
+        flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
     title: {
-        position: 'absolute',
-        top: height / 10,
+        marginTop:50
 
     },
     input: {
@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: width * 0.8,
         height: 200,
+        marginTop:50
     },
     button: {
         justifyContent: 'center',

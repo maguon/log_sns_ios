@@ -32,7 +32,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  return YES;
+
   
   // Define UNUserNotificationCenter
    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -40,6 +40,10 @@
 
    return YES;
 }
+
+
+
+
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
@@ -75,6 +79,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 {
  [RNCPushNotificationIOS didReceiveLocalNotification:notification];
 }
+
+
+
+
+
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {

@@ -472,9 +472,9 @@ const Main = createStackNavigator({
 
 //入口
 const AppNavigator = createSwitchNavigator({
-    // Welcome:{
-    //     screen:Welcome
-    // },
+    Welcome:{
+        screen:Welcome
+    },
     LoginPage:{
         screen:LoginPage
     },

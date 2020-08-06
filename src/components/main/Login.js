@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, TouchableOpacity,Text, StyleSheet, Dimensions} from 'react-native'
+import {View, TouchableOpacity,Text, StyleSheet, Dimensions,ScrollView} from 'react-native'
 import {InputItem, Button, Provider, Checkbox} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -22,9 +22,9 @@ class Login extends Component {
     render() {
         const {setUser, setPassWord, toLogin} = this.props
         return (
-            <Provider>
+            <ScrollView>
                 <View style={styles.container}>
-                    <Text style={[globalStyles.xxxlText, styles.title]}>欢迎登录司机部落</Text>
+                    <Text style={[globalStyles.xxxlText]}>欢迎登录司机部落</Text>
                     <View style={styles.lineTopBottom}>
                         <View style={styles.input}>
                             <InputItem
@@ -74,7 +74,8 @@ class Login extends Component {
                     </View>
 
                 </View>
-            </Provider>
+
+            </ScrollView>
         )
     }
 }
@@ -104,15 +105,13 @@ export default connect(mapStateToProps, mapDispatchProps)(Login)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height:height,
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
-    title: {
-        position: 'absolute',
-        top: height / 5,
 
-    },
     input: {
         backgroundColor: '#fff',
         width: width * 0.8,
@@ -121,11 +120,11 @@ const styles = StyleSheet.create({
         height: 40,
     },
     lineTopBottom: {
-        flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
         width: width * 0.9,
         height: 100,
+        marginTop:80
     },
     button: {
         justifyContent: 'center',
