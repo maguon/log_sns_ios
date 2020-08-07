@@ -65,17 +65,17 @@ export const toLogin = (props) => async (dispatch, getState) => {
             if (deviceRes.success) {
                 console.log("发送用户信息")
                 //用户信息
-                const user = {
+                const userLogin = {
                     userId: res.result.userId, status: res.result.status, type: res.result.type,
                     token: res.result.accessToken
                 }
                 //更新reducer
-                dispatch({type: actionType.LoginActionType.set_UserLogin, payload: {user}})
+                dispatch({type: actionType.LoginActionType.set_UserLogin, payload: {userLogin}})
                 dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: res.result.userId}})
                 //保存本地
                 localStorage.save({
                     key: localStorageKey.USER,
-                    data: user
+                    data: userLogin
 
                 })
                 localStorage.save({
@@ -84,7 +84,7 @@ export const toLogin = (props) => async (dispatch, getState) => {
                         host: apiHost
                     }
                 })
-                dispatch(action.WelcomeAction.goMain(props))
+                props.navigation.navigate('Main')
             } else {
                 console.log("发送用户信息失败")
             }
@@ -100,3 +100,6 @@ export const toLogin = (props) => async (dispatch, getState) => {
     }
 
 }
+
+
+

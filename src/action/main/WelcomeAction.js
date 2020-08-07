@@ -156,6 +156,7 @@ export const loadLocalStorage = param => async (dispatch) => {
         console.log(localStorageRes)
         if (localStorageRes.token && localStorageRes.userId) {
             dispatch(validateToken({ param, user: localStorageRes }))
+            await dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: localStorageRes.userId}})
         }
         else {
             param.navigation.navigate('LoginPage')
@@ -190,13 +191,14 @@ export const validateToken = ({ param, user }) => async (dispatch, getState) => 
             console.log(getUserInfoRes)
             if (getUserInfoRes.success) {
                 const { _id,  type,  status} = getUserInfoRes.result[0]
-                const user = {userId:_id, type, status, token: res.result.accessToken}
+                const userLogin = {userId:_id, type, status, token: res.result.accessToken}
                 //判断请求是否成功，如果成功，更新token
-                localStorage.save({ key: localStorageKey.USER, data: user })
+                localStorage.save({ key: localStorageKey.USER, data: userLogin })
                 // requestHeaders.set('auth-token', res.result.accessToken)
                 // requestHeaders.set('user-type', type)
                 // requestHeaders.set('user-name', mobile)
-                await dispatch({ type: actionType.LoginActionType.set_UserLogin, payload: { user } })
+                await dispatch({ type: actionType.LoginActionType.set_UserLogin, payload: { userLogin } })
+
                 dispatch(goMain(param))
             } else {
                 dispatch({ type: actionType.WelcomeActionType.Welcome_app_failed, payload: { currentStep, msg: '无法换token', param } })
@@ -215,14 +217,9 @@ export const validateToken = ({ param, user }) => async (dispatch, getState) => 
 
 
 export const goMain = param => async (dispatch) => {
-    // console.log('loadDeviceTokenParam', param)
-    const localStorageRes = await localStorage.load({ key: localStorageKey.USER })
-    console.log(localStorageRes)
     try {
-        dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: localStorageRes.userId}})
         dispatch({ type: actionType.WelcomeActionType.Welcome_app_complete, payload: { param } })
         param.navigation.navigate('Main')
-        return
     } catch (err) {
 
     }

@@ -52,6 +52,7 @@ class ForgotPassWord extends React.Component {
             }
         }
         return (
+            <Provider>
             <ScrollView
                 style={{flex: 1, backgroundColor: '#f5f5f9'}}
                 automaticallyAdjustContentInsets={false}
@@ -106,13 +107,12 @@ class ForgotPassWord extends React.Component {
                     </WingBlank>
                 </Provider>
             </ScrollView>
-
+            </Provider>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         registerReducer: state.RegisterReducer,
 

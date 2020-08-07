@@ -29,22 +29,10 @@ class Registered extends Component {
         this.props.setPassword('')
         this.props.setPass_word('')
     }
-   onButtonClick = () => {
-        if(this.state.checkBox){
-            this.props.register()
-        }else {
-            Alert.alert("", "请阅读《司聊服务适用协议》并同意", [{text: "取消"}, {
-                text: "确定", onPress: () => {
-                    // this.setState({checkBox:true})
-                    // this.props.navigation.navigate('Agreement')
-                }
-            }])
-        }
-    }
 
 
     render() {
-        const {registerReducer: {account}, setAccount, setCode, setPassword, setPass_word} = this.props;
+        const {registerReducer: {account,checked},register, setAccount, setCode, setPassword, setPass_word,setChecked} = this.props;
         //时间倒计时
         const onCode = () => {
             if (account == '') {
@@ -72,6 +60,7 @@ class Registered extends Component {
         }
 
         return (
+            <Provider>
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={[globalStyles.xxxlText,styles.title]}>欢迎加入司机部落</Text>
@@ -136,11 +125,9 @@ class Registered extends Component {
 
                     <WhiteSpace />
                     <Checkbox
-                        checked={this.state.checkBox}
+                        checked={checked}
                         style={{marginTop:10}}
-                        onChange={event => {
-                            this.setState({ checkBox: event.target.checked })
-                        }}
+                        onChange={setChecked}
                     >
                         <TouchableOpacity
                             onPress={()=>{
@@ -151,11 +138,12 @@ class Registered extends Component {
                                 <Text style={{color:'#1598cc'}}>《司聊服务使用协议》</Text>
                             </Text>
                         </TouchableOpacity></Checkbox>
-                    <Button type="primary" style={styles.button} onPress={this.onButtonClick}>注册</Button>
+                    <Button type="primary" style={styles.button} onPress={register}>注册</Button>
                     <WhiteSpace />
                     {/*<Button type="primary" style={styles.button} onPress={this.register()}>注册</Button>*/}
                 </View>
             </ScrollView>
+            </Provider>
         )
     }
 }
@@ -186,7 +174,11 @@ const mapDispatchProps = (dispatch, props) => ({
     },
     setPass_word: (value) => {
         dispatch(actionType.RegisterActionType.set_Password_TO(value))
+    },
+    setChecked: (value) => {
+        dispatch(actionType.RegisterActionType.set_Checked(value))
     }
+
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Registered)

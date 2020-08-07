@@ -5,7 +5,8 @@ const initialState = {
     account: "",
     password: "",
     pass_word: "",
-    code: ""
+    code: "",
+    checked:false
 }
 
 export default handleActions({
@@ -32,6 +33,11 @@ export default handleActions({
         return {
             ...state,
             code: action.payload
+        }
+    },[actionType.RegisterActionType.set_Checked]: (state, action) => {
+        return {
+            ...state,
+            checked: action.payload.target.checked
         }
     }
 

@@ -22,6 +22,7 @@ class Login extends Component {
     render() {
         const {setUser, setPassWord, toLogin} = this.props
         return (
+            <Provider>
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={[globalStyles.xxxlText]}>欢迎登录司机部落</Text>
@@ -76,6 +77,7 @@ class Login extends Component {
                 </View>
 
             </ScrollView>
+            </Provider>
         )
     }
 }

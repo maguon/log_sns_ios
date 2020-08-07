@@ -5,9 +5,8 @@ import {Toast} from "@ant-design/react-native"
 
 export const register = (props) => async (dispatch, getState) => {
     try {
-        const {RegisterReducer: {account, password, pass_word, code}} = getState()
-        console.log(props)
-        console.log(getState())
+        const {RegisterReducer: {account, password, pass_word, code,checked}} = getState()
+
         if (account == '') {
             Toast.info("请您输入手机号")
         } else if (account.length != 11) {
@@ -26,7 +25,14 @@ export const register = (props) => async (dispatch, getState) => {
                 Toast.info("设置的密码不得小于6位或大于15位")
             } else if (password != pass_word) {
                 Toast.info("两次密码输入不一致")
-            } else if (props.navigation.state.routeName == "Registered") {
+            } else if(!checked){
+                Alert.alert("", "请阅读《司聊服务适用协议》并同意", [{text: "取消"}, {
+                    text: "确定", onPress: () => {
+                        // this.setState({checkBox:true})
+                        // this.props.navigation.navigate('Agreement')
+                    }
+                }])
+            }else if (props.navigation.state.routeName == "Registered") {
                 //注册
                 let params = {
                     phone: account,
@@ -36,13 +42,13 @@ export const register = (props) => async (dispatch, getState) => {
                 }
                 let res = await HttpRequest.post(apiHost + `/user`, params)
                 if (res.success) {
-                    Toast.loading('Loading...', 0.5, () => {
+
                         Alert.alert("", "注册成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
-                    })
+
                 } else {
-                    Toast.loading('Loading...', 0.5, () => {
+
                         Alert.alert("", res.msg, [{text: "确定"}])
-                    })
+
                 }
 
             } else {
@@ -54,13 +60,13 @@ export const register = (props) => async (dispatch, getState) => {
                 let res = await HttpRequest.put(apiHost + `/phone/${account}/password`, params)
 
                 if (res.success) {
-                    Toast.loading('Loading...', 0.5, () => {
+
                         Alert.alert("", "修改成功，返回登录", [{text: "确定", onPress: () => props.navigation.goBack()}])
-                    })
+
                 } else {
-                    Toast.loading('Loading...', 0.5, () => {
+
                         Alert.alert("", res.msg, [{text: "确定"}])
-                    })
+
                 }
             }
         }
@@ -75,12 +81,15 @@ export const getCode = (props) => async (dispatch, getState) => {
 
         const {RegisterReducer: {account}} = getState()
         let res = await HttpRequest.post(apiHost + `/phone/${account}/regSms`)
+
+        console.log("注册",res)
         if (res.success) {
             console.log('success')
         } else {
-            Toast.loading('Loading...', 0.5, () => {
+            console.log("00000")
+
                 Alert.alert("", `${res.msg},返回登录`, [{text: "确定", onPress: () => props.navigation.goBack()}])
-            })
+
         }
     } catch (err) {
 
@@ -94,9 +103,9 @@ export const forgotGetCode = (props) => async (dispatch, getState) => {
         if (res.success) {
             console.log('success')
         } else {
-            Toast.loading('Loading...', 0.5, () => {
+
                 Alert.alert("", `${res.msg},返回登录`, [{text: "确定", onPress: () => props.navigation.goBack()}])
-            })
+
         }
     } catch (err) {
 
