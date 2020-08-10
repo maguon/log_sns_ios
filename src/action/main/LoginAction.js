@@ -38,57 +38,37 @@ export const cleanLogin = (props) => async (dispatch, getState) => {
 
 export const toLogin = (props) => async (dispatch, getState) => {
     const {LoginReducer: {user, password}} = getState()
-    const deviceName = DeviceInfo.getModel()
-    const versionName = DeviceInfo.getSystemVersion();
-    const loadDeviceToken = await localStorage.load({key: localStorageKey.DEVICETOKEN})
     try {
         //参数
         const params = {userName: user, password: password}
         // 基本检索URL
         let url = `${apiHost}/userLogin`;
         const res = await HttpRequest.post(url, params)
-        if (res.success === true) {
+        if (res.success) {
 
-            const param = {
-                deviceToken: loadDeviceToken,
-                version: ios_app.version,
-                appType: 1,
-                deviceType: ios_app.ios,
-                deviceInfo: [{
-                    deviceName: deviceName,
-                    osVersion: versionName
-                }]
+            //用户信息
+            const userLogin = {
+                userId: res.result.userId, status: res.result.status, type: res.result.type,
+                token: res.result.accessToken
             }
-            console.log("param", res.result.userId)
-            let deviceUrl = `${apiHost}/user/${res.result.userId}/userDevice`;
-            const deviceRes = await HttpRequest.post(deviceUrl, param)
-            if (deviceRes.success) {
-                console.log("发送用户信息")
-                //用户信息
-                const userLogin = {
-                    userId: res.result.userId, status: res.result.status, type: res.result.type,
-                    token: res.result.accessToken
+            console.log(userLogin)
+            //更新reducer
+            dispatch({type: actionType.LoginActionType.set_UserLogin, payload: {userLogin}})
+            dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: res.result.userId}})
+            //保存本地
+            localStorage.save({
+                key: localStorageKey.USER,
+                data: userLogin
+
+            })
+            localStorage.save({
+                key: localStorageKey.SERVERADDRESS,
+                data: {
+                    host: apiHost
                 }
-                //更新reducer
-                dispatch({type: actionType.LoginActionType.set_UserLogin, payload: {userLogin}})
-                dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: res.result.userId}})
-                //保存本地
-                localStorage.save({
-                    key: localStorageKey.USER,
-                    data: userLogin
-
-                })
-                localStorage.save({
-                    key: localStorageKey.SERVERADDRESS,
-                    data: {
-                        host: apiHost
-                    }
-                })
-                props.navigation.navigate('Main')
-            } else {
-                console.log("发送用户信息失败")
-            }
-
+            })
+            dispatch(deviceInfo(res.result.userId))
+            props.navigation.navigate('Main')
         } else {
             Toast.loading('Loading...', 0.5, () => {
                 Alert.alert("", res.msg, [{text: "确定"}])
@@ -103,3 +83,34 @@ export const toLogin = (props) => async (dispatch, getState) => {
 
 
 
+export const deviceInfo = (props) => async (dispatch, getState) => {
+    const deviceName = DeviceInfo.getModel()
+    const versionName = DeviceInfo.getSystemVersion();
+    const loadDeviceToken = await localStorage.load({key: localStorageKey.DEVICETOKEN})
+    console.log(props)
+    try {
+            const param = {
+                deviceToken: loadDeviceToken,
+                version: ios_app.version,
+                appType: ios_app.type,
+                deviceType: ios_app.ios,
+                deviceInfo: [{
+                    deviceName: deviceName,
+                    osVersion: versionName
+                }]
+            }
+
+        console.log(param)
+            let deviceUrl = `${apiHost}/user/${props}/userDevice`
+            const deviceRes = await HttpRequest.post(deviceUrl, param)
+            if (deviceRes.success) {
+                console.log("发送用户信息")
+            } else {
+                console.log("发送用户信息失败")
+            }
+
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
