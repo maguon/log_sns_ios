@@ -115,6 +115,7 @@ export const update=(tabIndex)=>async (dispatch, getState)=>{
         }
     }else if(tabIndex==2){
         let url = apiHost+'/user/'+userId+'/nearbyMsg?address=['+longitude+','+latitude+']&radius='+1000+'&start=0&size='+nearList.length
+        // console.log(nearList.length)
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.HomeActionType.set_NearList_Praise, payload: {nearList: res.result}})

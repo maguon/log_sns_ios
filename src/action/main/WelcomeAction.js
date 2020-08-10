@@ -21,7 +21,7 @@ export const start = (props) => async (dispatch, getState) => {
             newestVersion: '',
             force_update: 0,//0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
             url: '',
-            remark: ''
+            remarks: ''
         },
         deviceInfo: {
             uniqueID: ''
@@ -57,15 +57,7 @@ export const getCommunicationSetting = param => async (dispatch) => {
     // console.log("param"+JSON.stringify(param))
     const currentStep = 1
     try {
-        const serverAddress = await localStorage.load({ key: localStorageKey.SERVERADDRESS })
-        const { host } = serverAddress
-        if (host) {
-            // dispatch(action.communicationSettingAction.saveCommunicationSetting({ url: host }))
-            dispatch((validateVersion(param)))
-        } else {
-            dispatch({ type: actionType.WelcomeActionType.Welcome_app_failed, payload: { currentStep, param, msg: '获取host失败' } })
-            param.navigation.navigate('LoginPage')
-        }
+        dispatch((validateVersion(param)))
     } catch (err) {
         dispatch({ type: actionType.WelcomeActionType.Welcome_app_error, payload: { currentStep, param, msg: '获取host失败' } })
         param.navigation.navigate('LoginPage')
@@ -81,12 +73,10 @@ export const validateVersion = param => async (dispatch, getState) => {
     // console.log('validateVersionParam', param)
     const currentStep = 2
     try {
-        // const { communicationSettingReducer: { data: { base_host } } } = getState()
         const url = `${apiHost}/app?${ObjectToUrl({ appType: ios_app.type, deviceType: ios_app.ios })}`
         // console.log('url', url)
 
         const res = await HttpRequest.get(url)
-
         // console.log('res', res)
 
         if (res.success) {
@@ -94,7 +84,7 @@ export const validateVersion = param => async (dispatch, getState) => {
                 currentVersion: ios_app.version,
                 newestVersion: '',
                 url: '',
-                remark: '',
+                remarks: '',
                 force_update: 0
             }
             let versionList = res.result
@@ -118,7 +108,7 @@ export const validateVersion = param => async (dispatch, getState) => {
                 })
                 versionInfo.newestVersion = versionList[0].version
                 versionInfo.url = versionList[0].url
-                versionInfo.remark = versionList[0].remark
+                versionInfo.remarks = versionList[0].remarks
             } else {
                 versionInfo.force_update = 0
                 versionInfo.newestVersion = versionInfo.currentVersion
@@ -157,8 +147,7 @@ export const loadLocalStorage = param => async (dispatch) => {
         if (localStorageRes.token && localStorageRes.userId) {
             dispatch(validateToken({ param, user: localStorageRes }))
             await dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: localStorageRes.userId}})
-        }
-        else {
+        } else {
             param.navigation.navigate('LoginPage')
         }
     } catch (err) {

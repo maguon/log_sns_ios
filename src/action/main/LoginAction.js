@@ -51,7 +51,7 @@ export const toLogin = (props) => async (dispatch, getState) => {
                 userId: res.result.userId, status: res.result.status, type: res.result.type,
                 token: res.result.accessToken
             }
-            console.log(userLogin)
+            // console.log(userLogin)
             //更新reducer
             dispatch({type: actionType.LoginActionType.set_UserLogin, payload: {userLogin}})
             dispatch({type: actionType.LoginActionType.set_UserId, payload: {userId: res.result.userId}})
@@ -61,14 +61,10 @@ export const toLogin = (props) => async (dispatch, getState) => {
                 data: userLogin
 
             })
-            localStorage.save({
-                key: localStorageKey.SERVERADDRESS,
-                data: {
-                    host: apiHost
-                }
-            })
-            dispatch(deviceInfo(res.result.userId))
+
             props.navigation.navigate('Main')
+            await dispatch(deviceInfo(res.result.userId))
+
         } else {
             Toast.loading('Loading...', 0.5, () => {
                 Alert.alert("", res.msg, [{text: "确定"}])
@@ -89,6 +85,7 @@ export const deviceInfo = (props) => async (dispatch, getState) => {
     const loadDeviceToken = await localStorage.load({key: localStorageKey.DEVICETOKEN})
     console.log(props)
     try {
+
             const param = {
                 deviceToken: loadDeviceToken,
                 version: ios_app.version,
@@ -100,7 +97,7 @@ export const deviceInfo = (props) => async (dispatch, getState) => {
                 }]
             }
 
-        console.log(param)
+            console.log(param)
             let deviceUrl = `${apiHost}/user/${props}/userDevice`
             const deviceRes = await HttpRequest.post(deviceUrl, param)
             if (deviceRes.success) {

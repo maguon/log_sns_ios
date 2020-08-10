@@ -102,7 +102,7 @@ class Space extends Component {
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
                                                     marginLeft: 2,marginRight:15
-                                                }]}>{item.address_name ? item.address_name : ''}</Text>
+                                                }]}>{item.address_name ? item.address_name : ""}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -275,15 +275,15 @@ class Space extends Component {
                             <Text
                                 style={[globalStyles.largeText, {color: '#fff'}]}>{spaceUser.nick_name ? spaceUser.nick_name : ""}</Text>
                             <Text style={[globalStyles.smallText, {marginTop: 5, color: '#fff'}]}>
-                                关注 {spaceUser.follow_num ? spaceUser.follow_num : ""}|
-                                粉丝 {spaceUser.attention_num ? spaceUser.attention_num : ""}</Text>
+                                关注 {spaceUser.follow_num ? spaceUser.follow_num : 0}|
+                                粉丝 {spaceUser.attention_num ? spaceUser.attention_num :0}</Text>
                             <View style={{flexDirection: 'row', marginTop: 5}}>
                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                 <Text style={[globalStyles.smallText, {
                                     marginTop: 2,
                                     color: '#fff',
                                     marginLeft: 2
-                                }]}>{spaceUser.city_name ? spaceUser.city_name : ""}</Text>
+                                }]}>{spaceUser.city_name ? spaceUser.city_name : "暂无地址"}</Text>
                             </View>
                             <Text style={[globalStyles.smallText, {
                                 marginTop: 5,

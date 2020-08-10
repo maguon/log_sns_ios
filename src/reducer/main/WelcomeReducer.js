@@ -8,7 +8,7 @@ const initialState={
             newestVersion: '',
             force_update: 0,//0(版本为最新版), 1(版本过低，强制更新), 2(版本过低，但不需要强制更新)
             url: '',
-            remark: ''
+            remarks: ''
         },
         deviceInfo: {
             uniqueID: ''

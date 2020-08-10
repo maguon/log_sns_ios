@@ -58,6 +58,7 @@ export const Push = () => {
 
 
     const onRegistered = (deviceToken) => {
+
         localStorage.save({ key: localStorageKey.DEVICETOKEN, data: deviceToken })
         // console.log(deviceToken)
         // Alert.alert('Registered For Remote Push', `Device Token: ${deviceToken}`, [
@@ -114,26 +115,8 @@ export const Push = () => {
 
 
     return (
-        <View style={styles.container}>
-
-        </View>
+        <View></View>
     );
 
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    button: {
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonLabel: {
-        color: 'blue',
-    },
-});

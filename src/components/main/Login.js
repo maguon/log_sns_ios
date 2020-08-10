@@ -6,6 +6,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as actionType from '../../actionType/index'
 import * as action from '../../action/index'
+import {Push } from './Push'
 
 
 const {width, height} = Dimensions.get('window')
@@ -25,6 +26,7 @@ class Login extends Component {
             <Provider>
             <ScrollView>
                 <View style={styles.container}>
+                    <Push/>
                     <Text style={[globalStyles.xxxlText]}>欢迎登录司机部落</Text>
                     <View style={styles.lineTopBottom}>
                         <View style={styles.input}>

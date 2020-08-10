@@ -6,7 +6,6 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios"
 import * as action from "../../action"
 import * as actionType from '../../actionType/index'
 import DeviceInfo from 'react-native-device-info';
-import {Push } from './Push'
 const window = Dimensions.get('window');
 
 
@@ -34,11 +33,11 @@ class Welcome extends Component {
         }
     }
 
+
     render() {
         const { WelcomeReducer: { data, initAPP } } = this.props
         return (
             <View style={styles.container}>
-                <Push/>
                 <StatusBar hidden={true} />
                 <ImageBackground source={require('../../images/init.png')} style={styles.image}>
                     <View style={styles.Activity}>
@@ -74,7 +73,7 @@ const mapStateToProps = (state) => {
 const mapDispatchProps = (dispatch, props) => ({
     validateVersion: param => {
         dispatch({type:actionType.WelcomeActionType.Welcome_app_waiting})
-        // dispatch(action.WelcomeAction.validateVersion(param))
+        dispatch(action.WelcomeAction.validateVersion(param))
     },
     start: () => {
         dispatch(action.WelcomeAction.start(props))
