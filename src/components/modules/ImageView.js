@@ -26,23 +26,15 @@ class ImageView extends Component {
 
     render() {
         const {navigation: {state: {params: {media, index}}}, navigation} = this.props
-        console.log(navigation)
+        // console.log(navigation)
         return (
             <Provider>
                 <Swiper
-                    // ref='Swiper'
+                    ref='Swiper'
                     index={index}
-                    // style={styles.wrapper}
                     loop={false}
-                    automaticallyAdjustContentInsets={true}
                     loadMinimal={true}
                     loadMinimalSize={1}
-                    // loadMinimalLoader={() => {
-                    //     <View style={styles.container}>
-                    //         <ActivityIndicator size="large" color="red"/>
-                    //     </View>
-                    // }
-                    // }
                     dot={
                         <View
                             style={{
@@ -61,22 +53,16 @@ class ImageView extends Component {
                 >
                     {media.map((item, i) => {
                         return <View key={i} style={styles.wrapper}>
-                            {/*<Image resizeMode="contain"*/}
-                                   {/*// onLoadStart={(e) => this.setState({loading: true})}*/}
-                                   {/*// onLoadEnd={(e) => this.setState({loading: false})}*/}
-                                   {/*source={{uri: `${fileHost}/image/${item.url}`, cache: 'force-cache'}}*/}
-                                   {/*style={{width: width, height: height}}/>*/}
-
                             <CachedImage
                                 source={{ uri: `${fileHost}/image/${item.url}` }}
                                 resizeMode='contain'
-                                minimumZoomScale={1}
-                                maximumZoomScale={3}
-                                loader={
-                                    <View style={styles.container}>
-                                        <ActivityIndicator size="large" color="red"/>
-                                    </View>
-                                }
+                                // minimumZoomScale={1}
+                                // maximumZoomScale={3}
+                                // loader={
+                                //     <View style={styles.container}>
+                                //         <ActivityIndicator size="large" color="red"/>
+                                //     </View>
+                                // }
                                 style={{width: width, height: height}}
                             />
 
@@ -94,7 +80,7 @@ class ImageView extends Component {
                     alignItems: 'center'
                 }}>
                     <TouchableOpacity style={{position: 'absolute', left: 0,}}
-                                      onPress={()=>navigation.goBack()}>
+                                      onPress={()=>navigation.pop()}>
                         <Icon name='left' style={{color: "white", marginLeft: 15}}/>
                     </TouchableOpacity>
                 </View>

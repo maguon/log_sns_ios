@@ -15,7 +15,7 @@ import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
-
+import {CachedImage} from "react-native-img-cache"
 
 
 const {width} = Dimensions.get('window')
@@ -150,7 +150,7 @@ class Article extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <CachedImage source={{uri: `${fileHost}/image/${item.url}`}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>

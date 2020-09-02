@@ -31,6 +31,7 @@ import * as actionType from "../../actionType/index";
 import Video from "react-native-video";
 import {fileHost, videoHost} from '../../config/HostConfig'
 import Entypo from "react-native-vector-icons/Entypo";
+import {CachedImage} from "react-native-img-cache"
 
 
 const {width, height} = Dimensions.get('window')
@@ -205,9 +206,8 @@ class Home extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{
-                                                        uri: `${fileHost}/image/${item.url}`,
-                                                        cache: 'force-cache'
+                                                    <CachedImage source={{
+                                                        uri: `${fileHost}/image/${item.url}`
                                                     }}
                                                            onLoadStart={this.onLoadStart}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
@@ -296,6 +296,8 @@ class Home extends Component {
             }, getHotList, getHomeFollow, getNearList, setCollection, update
         } = this.props
         const {tabIndex} = params
+
+        console.log(nearList)
         return (
             <Provider>
                 <View style={{flex: 1}}>
@@ -326,6 +328,7 @@ class Home extends Component {
                         renderItem={this.renderItem}
                         refreshing={false}
                         onRefresh={() => {
+                            console.log("000")
                             update(1)
                         }}
                         onEndReachedThreshold={0.2}
@@ -350,7 +353,7 @@ class Home extends Component {
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
                             if (!nearComplete) {
-                                getNearList()
+                                Geolocation.getCurrentPosition(info => this.props.getNearList(info))
                             }
                         }}
                         ListFooterComponent={this.ListFooterComponent(nearResultStatus)}
@@ -402,7 +405,7 @@ class Home extends Component {
                     onClose={this.moreClose}
                     style={{borderRadius: 10}}
                 >
-                    <ScrollView style={{height: height * 0.3, paddingVertical: 5, paddingHorizontal: 50}}>
+                    <ScrollView style={{height: 160, paddingVertical: 5, paddingHorizontal: 50}}>
                         {this.state.follow?
                             <TouchableOpacity style={style.border} onPress={() => {
                                 this.setState({
@@ -444,9 +447,7 @@ class Home extends Component {
                             }}>
                         <AntDesign name="hearto" size={20} color={'#838485'}/>
                         <Text style={style.text}>收藏</Text>
-                        </TouchableOpacity>:
-
-                        <TouchableOpacity
+                        </TouchableOpacity>: <TouchableOpacity
                             style={style.border}
                         >
                             <AntDesign name="heart" size={20} color={'#ffaf27'}/>

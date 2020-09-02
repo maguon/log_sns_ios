@@ -7,7 +7,6 @@ import * as AboutUsAction from './main/AboutUsAction'
 import * as ArticleAction from './main/ArticleAction'
 import * as ChangePassWordAction from './main/ChangePassWordAction'
 import * as ChangePhoneAction from './main/ChangePhoneAction'
-import * as ClearCacheAction from './main/ClearCacheAction'
 import * as CollectionAction from './main/CollectionAction'
 import * as CommunityAction from './main/CommunityAction'
 import * as ContactAction from './main/ContactAction'
@@ -39,6 +38,7 @@ import * as DetailAction from './main/DetailAction'
 import * as ToVoteAction from './main/ToVoteAction'
 import * as CommentAction from './main/CommentAction'
 import * as CommentReplyAction from './main/CommentReplyAction'
+import * as CollectionDetailAction from './main/CollectionDetailAction'
 
 export {
     HomeAction,
@@ -50,7 +50,6 @@ export {
     ArticleAction,
     ChangePassWordAction,
     ChangePhoneAction,
-    ClearCacheAction,
     CollectionAction,
     CommunityAction,
     ContactAction,
@@ -80,6 +79,7 @@ export {
     DetailAction,
     ToVoteAction,
     CommentAction,
-    CommentReplyAction
+    CommentReplyAction,
+    CollectionDetailAction
 
 }

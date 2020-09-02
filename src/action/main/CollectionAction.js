@@ -6,6 +6,20 @@ import * as actionType from '../../actionType/index'
 
 
 const pageSize = 5
+export const getCollection = () => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${pageSize}`
+        const res = await HttpRequest.get(url)
+        if(res.success){
+                dispatch({type: actionType.CollectionType.set_Collection, payload: {collectionList: res.result}})
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+}
+
 export const getCollectionList = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
     console.log(collectionList)

@@ -11,32 +11,30 @@ const initialState = {
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(失败)]
 export default handleActions({
 
-    [actionType.CommentReplyType.Loading]: (state, action) => {
-        const { payload: { Loading } } = action
-        return {
-            ...state,
-            Loading
-        }
-    },
+    // [actionType.CommentReplyType.Loading]: (state, action) => {
+    //     const { payload: { Loading } } = action
+    //     return {
+    //         ...state,
+    //         Loading
+    //     }
+    // },
 
     [actionType.CommentReplyType.get_commentReply_success]: (state, action) => {
-        const {payload: {commentReply,isComplete}} = action
+        const {payload: {commentReply}} = action
         return {
             ...state,
-            commentReply: [...state.commentReply, ...commentReply],
-            isComplete,
-            isResultStatus: 2,
+            commentReply:commentReply,
         }
     },
-    [actionType.CommentReplyType.get_commentReply_end]: (state, action) => {
-        const {payload: {commentReply,isComplete}} = action
-        return {
-            ...state,
-            commentReply: [...state.commentReply, ...commentReply],
-            isComplete,
-            isResultStatus: 1,
-
-        }
-    },
+    // [actionType.CommentReplyType.get_commentReply_end]: (state, action) => {
+    //     const {payload: {commentReply,isComplete}} = action
+    //     return {
+    //         ...state,
+    //         commentReply: [...state.commentReply, ...commentReply],
+    //         isComplete,
+    //         isResultStatus: 1,
+    //
+    //     }
+    // },
 
 }, initialState)

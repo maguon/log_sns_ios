@@ -1,15 +1,44 @@
 import React from 'react'
-import {View, Text, ScrollView, StyleSheet} from 'react-native'
+import {View, Text, ScrollView, StyleSheet,Alert} from 'react-native'
 import globalStyles from "../../utils/GlobalStyles"
 import {List, WhiteSpace} from "@ant-design/react-native"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import  clear from 'react-native-clear-app-cache'
 
 const Item = List.Item
 
 class Setting extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            cacheSize:"",
+            unit:"",
+        };
+        // clear.getAppCacheSize((value,unit)=>{
+        //     this.setState({
+        //         cacheSize:value, //缓存大小
+        //         unit:unit  //缓存单位
+        //     })
+        // });
     }
+
+    componentWillMount() {
+        console.log(clear)
+    }
+    //  清除缓存
+    clearCache(){
+        clear.clearAppCache(() => {
+            console.log("清除成功");
+            clear.getAppCacheSize((value, unit) => {
+                this.setState({
+                    cacheSize: value,
+                    unit: unit
+                })
+            });
+        });
+    }
+
+
 
     render() {
         const {navigation} = this.props
@@ -55,9 +84,9 @@ class Setting extends React.Component {
                               thumb={<Icon name="account-group-outline" size={25} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>关于我们</Text></Item>
                         <Item
-                            extra={<Text style={globalStyles.midText}>323M</Text>}
+                            extra={<Text style={globalStyles.midText}>{this.state.cacheSize}{this.state.unit}</Text>}
                             onPress={() => {
-                                navigation.navigate('ClearCache')
+                                this.clearCache()
                             }}
                             thumb={<Icon name="cached" size={25} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>清理缓存</Text></Item>

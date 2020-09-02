@@ -99,7 +99,7 @@ export default handleActions({
         }
     },
 
-    [actionType.HomeActionType.get_NearList]: (state, action) => {
+    [actionType.HomeActionType.get_NearList_end]: (state, action) => {
         const {payload: {nearList,nearComplete}} = action
         return {
             ...state,

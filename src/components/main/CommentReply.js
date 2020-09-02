@@ -44,7 +44,7 @@ class CommentReply extends Component {
     }
 
     render() {
-        const {navigation: {state: {params: {commentId,userId}}},CommentReplyReducer:{commentReply,isComplete,isResultStatus},getCommentReply,update} = this.props
+        const {navigation: {state: {params: {commentId,userId}}},CommentReplyReducer:{commentReply}} = this.props
         console.log(this.props)
         return (
             <ScrollView >
@@ -103,14 +103,7 @@ class CommentReply extends Component {
                         )
                     }}
                     refreshing={false}
-                    onEndReachedThreshold={0.2}
-                    onEndReached={() => {
-                        if (!isComplete) {
-                            getCommentReply({commentId,userId})
-                        }
-                    }
-                    }
-                    ListFooterComponent={this.ListFooterComponent(isResultStatus)}
+                    // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                     ListEmptyComponent={this.renderEmpty}
                 />
             </ScrollView>

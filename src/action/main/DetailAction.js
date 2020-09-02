@@ -89,21 +89,23 @@ export const follow = (params) => async (dispatch, getState) => {
 export const setPraise = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     const {item} = params
-    console.log(item)
+    // console.log(item)
     try {
         let params = {
             type: 2,
-            msgId: item._msg_id,
+            msgId:item._msg_id,
             msgUserId: item._msg_user_id,
-            msgComId: item._msg_com_id,
-            msgComUserId: item.__msg_com_user_id,
-            bePraisedUserId: `${item._user_id}`
+            msgComId: item._id,
+            msgComUserId: item._user_id,
+            bePraisedUserId: userId
         }
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url, params)
-        console.log(params)
+        // console.log(params)
+        // console.log(res)
         if (res.success) {
-            dispatch(getCommentOne())
+           const param= {_id:item._msg_id, _user_id:item._msg_user_id}
+            dispatch(getCommentOne(param))
         } else {
             Toast.info(res.msg)
         }
@@ -114,3 +116,7 @@ export const setPraise = (params) => async (dispatch, getState) => {
 
 }
 
+// export const update = (params) => async (dispatch, getState) => {
+//     dispatch(getCommentOne())
+//     dispatch(getCommentOne())
+// }

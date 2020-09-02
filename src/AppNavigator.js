@@ -17,6 +17,7 @@ import WriteArticle from './components/main/WriteArticle'
 import Scan from './components/main/Scan'
 import Location from './components/main/Location'
 import Detail from './components/main/Detail'
+import CollectionDetail from './components/main/CollectionDetail'
 import ToVote from './components/main/ToVote'
 import ScannerResult from './components/main/ScannerResult'
 import Comment from './components/main/Comment'
@@ -52,7 +53,6 @@ import ChangePhone from './components/main/ChangePhone'
 import PrivacySetting from './components/main/PrivacySetting'
 import NoticeSetting from './components/main/NoticeSetting'
 import AboutUs from './components/main/AboutUs'
-import ClearCache from './components/main/ClearCache'
 import UserData from './components/main/UserData'
 import Space from './components/main/Space'
 
@@ -224,7 +224,7 @@ const Main = createStackNavigator({
     ImageView: {
     screen: ImageView,
         navigationOptions: ({navigation}) => ({
-        tabBarVisible: false,
+        tabBarVisible: true,
             header: null
     })
 },
@@ -277,6 +277,16 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
+    CollectionDetail: {
+        screen:CollectionDetail,
+        navigationOptions: ({navigation}) => ({
+            headerTitle: <DetailTitle navigation={navigation}/>,
+            // headerRight: <DetailRig navigation={navigation}/>,
+            tabBarVisible: false
+        })
+    },
+
+
     CommentReply: {
         screen: CommentReply,
         navigationOptions: ({navigation}) => ({
@@ -439,13 +449,7 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
-    ClearCache: {
-        screen: ClearCache,
-        navigationOptions: ({navigation}) => ({
-            title: '清理缓存',
-            tabBarVisible: false
-        })
-    },
+
     UserData: {
         screen: UserData,
         navigationOptions: ({navigation}) => ({

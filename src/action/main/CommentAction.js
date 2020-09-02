@@ -3,8 +3,10 @@ import HttpRequest from '../../utils/HttpRequest'
 import {apiHost} from '../../config/HostConfig'
 import { Portal, Toast } from '@ant-design/react-native'
 import {Alert} from "react-native";
+import * as action from "../index";
 
 let  param=""
+let  value=""
 export const createComment = reqParam => async (dispatch, getState) => {
     const {LoginReducer: {userId},CommentReducer:{comment}} = getState()
     try {
@@ -18,6 +20,10 @@ export const createComment = reqParam => async (dispatch, getState) => {
                 level: level,
                 msgId: item._id,
                 msgUserId: item._user_id}
+            value={
+                _id: item._id,
+                _user_id: item._user_id
+            }
         } else {
             param = {
                 comment: comment,
@@ -27,6 +33,10 @@ export const createComment = reqParam => async (dispatch, getState) => {
                 msgUserId: item._msg_user_id,
                 msgComId: item._id,
                 msgComUserId: item._user_id
+            }
+            value={
+                _id: item._msg_id,
+                _user_id: item._msg_user_id
             }
         }
 
@@ -38,6 +48,8 @@ export const createComment = reqParam => async (dispatch, getState) => {
             dispatch(actionType.CommentType.set_Comment(""))
             Alert.alert("", "评论已发送", [ {
                 text: "确定", onPress: () => {
+
+                    dispatch(action.DetailAction.getCommentOne(value))
                     navigation.pop()
                 }
             }])

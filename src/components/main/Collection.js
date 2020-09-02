@@ -18,7 +18,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import * as action from "../../action/index"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
-
+import {CachedImage} from "react-native-img-cache"
 
 
 
@@ -34,7 +34,7 @@ class Collection extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCollectionList()
+        this.props.getCollection()
     }
 
     renderEmpty = () => {
@@ -115,7 +115,7 @@ class Collection extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                    this.props.navigation.navigate('CollectionDetail',{item:item,itemList:item})
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
                                     {msgInfo.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
@@ -132,7 +132,7 @@ class Collection extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <Image source={{uri: `${fileHost}/image/${item.url}`,cache: 'force-cache'}}
+                                                    <CachedImage source={{uri: `${fileHost}/image/${item.url}`}}
 
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
@@ -235,6 +235,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    getCollection: () => {
+        dispatch(action.CollectionAction.getCollection())
+    },
+
     getCollectionList: () => {
         dispatch(action.CollectionAction.getCollectionList())
     },

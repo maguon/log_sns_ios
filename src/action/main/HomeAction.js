@@ -49,12 +49,14 @@ export const getHomeFollow = () => async (dispatch, getState) => {
 export const getNearList = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},HomeReducer: {nearList}} = getState()
     const {coords:{longitude,latitude}}=value
+    console.log(value)
     try {
         dispatch({type: actionType.HomeActionType.get_address, payload: {longitude: longitude,latitude: latitude}})
 
         // 基本检索URL
         let url = apiHost+'/user/'+userId+'/nearbyMsg?address=['+longitude+','+latitude+']&radius='+1000+'&start='+nearList.length+'&size='+pageSize
         const res = await HttpRequest.get(url)
+        console.log(res)
         if (res.success) {
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.HomeActionType.get_NearList, payload: {nearList: res.result,nearComplete: true}})
@@ -135,6 +137,7 @@ export const setPraise = (params) => async (dispatch, getState) => {
         console.log(params)
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url,params)
+        console.log(res)
         if(res.success){
             dispatch(update(tabIndex))
         }else {

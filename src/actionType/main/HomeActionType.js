@@ -12,7 +12,7 @@ export const set_HomeFollow_Praise=createAction('set_HomeFollow_Praise')
 
 export const set_NearList_Praise=createAction('set_NearList_Praise')
 export const get_NearList=createAction('get_NearList')
-export const get_NearList_end=createAction('get_NearList_waiting')
+export const get_NearList_end=createAction('get_NearList_end')
 export const get_address=createAction('get_address')
 
 export const set_File=createAction('set_File')

@@ -10,7 +10,6 @@ import * as AboutUsType from './main/AboutUsType'
 import * as ArticleType from './main/ArticleType'
 import * as ChangePassWordType from './main/ChangePassWordType'
 import * as ChangePhoneType from './main/ChangePhoneType'
-import * as ClearCacheType from './main/ClearCacheType'
 import * as CollectionType from './main/CollectionType'
 import * as CommunityType from './main/CommunityType'
 import * as ContactType from './main/ContactType'
@@ -43,6 +42,7 @@ import * as DetailType from './main/DetailType'
 import * as ToVoteType from './main/ToVoteType'
 import * as CommentType from './main/CommentType'
 import * as CommentReplyType from './main/CommentReplyType'
+import * as CollectionDetailType from './main/CollectionDetailType'
 
 export {
     HomeActionType,
@@ -54,7 +54,6 @@ export {
     ArticleType,
     ChangePassWordType,
     ChangePhoneType,
-    ClearCacheType,
     CollectionType,
     CommunityType,
     ContactType,
@@ -84,5 +83,6 @@ export {
     CommentType,
     SpaceType,
     ReportType,
-    CommentReplyType
+    CommentReplyType,
+    CollectionDetailType
 }

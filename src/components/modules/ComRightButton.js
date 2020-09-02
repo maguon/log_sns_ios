@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as action from "../../action/index";
 
 
-let release=true
+
 class ComRightButton extends React.Component  {
     constructor(props) {
         super(props)
@@ -13,19 +13,14 @@ class ComRightButton extends React.Component  {
     render() {
         const { CommentReducer: {comment},createComment} = this.props
 
-        if(comment==""){
-            release=false
-        }else {
-            release=true
-        }
         return (
             <View>
-                {!release?<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#c1c1c1',borderRadius:5,
-                    justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{color:'#c1c1c1',fontSize:14}}>发送</Text>
-                </TouchableOpacity>:<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#fff',borderRadius:5,
+                {comment?<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#fff',borderRadius:5,
                     justifyContent:'center',alignItems:'center'}} onPress={createComment}>
                     <Text style={{color:'#fff',fontSize:14}}>发送</Text>
+                </TouchableOpacity>:<TouchableOpacity style={{width:50,height:25,marginRight:15,borderWidth:1,borderColor:'#c1c1c1',borderRadius:5,
+                    justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{color:'#c1c1c1',fontSize:14}}>发送</Text>
                 </TouchableOpacity>}
             </View>
         )

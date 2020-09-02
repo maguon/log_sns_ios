@@ -10,7 +10,6 @@ import AboutUsReducer from './main/AboutUsReducer'
 import ArticleReducer from './main/ArticleReducer'
 import ChangePassWordReducer from './main/ChangePassWordReducer'
 import ChangePhoneReducer from './main/ChangePhoneReducer'
-import ClearCacheReducer from './main/ClearCacheReducer'
 import CollectionReducer from './main/CollectionReducer'
 import CommunityReducer from './main/CommunityReducer'
 import ContactReducer from './main/ContactReducer'
@@ -41,6 +40,7 @@ import ToVoteReducer from './main/ToVoteReducer'
 import CommentReducer from './main/CommentReducer'
 import ReportReducer from './main/ReportReducer'
 import CommentReplyReducer from './main/CommentReplyReducer'
+import CollectionDetailReducer from './main/CollectionDetailReducer'
 
 
 export default combineReducers({
@@ -54,7 +54,6 @@ export default combineReducers({
     ArticleReducer,
     ChangePassWordReducer,
     ChangePhoneReducer,
-    ClearCacheReducer,
     CollectionReducer,
     CommunityReducer,
     ContactReducer,
@@ -84,5 +83,6 @@ export default combineReducers({
     ToVoteReducer,
     CommentReducer,
     ReportReducer,
-    CommentReplyReducer
+    CommentReplyReducer,
+    CollectionDetailReducer
 })
