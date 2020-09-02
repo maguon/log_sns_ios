@@ -65,6 +65,7 @@ class Title extends React.Component {
             width: 300,
             height: 400,
         }).then(image => {
+            this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
             ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                 .then((resizedImageUri) => {
                     this.props.addFile([{
@@ -317,6 +318,9 @@ const mapDispatchProps = (dispatch) => ({
 
     setFile:(param) => {
         dispatch({type: actionType.HomeActionType.set_File, payload: {setFile: param}})
+    },
+    addFile:(param) => {
+        dispatch({type: actionType.HomeActionType.add_File, payload: {addFile: param}})
     },
     setWaiting:(value) => {
         dispatch({type: actionType.HomeActionType.set_Waiting, payload: {waiting: value}})

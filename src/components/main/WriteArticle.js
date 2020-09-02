@@ -350,7 +350,7 @@ class WriteArticle extends Component {
                                 style={style.modalActivityIndicator}
                                 size="large"
                             />
-                            <Text style={style.modalText}>正在发布视频...</Text>
+                            <Text style={style.modalText}>正在发布请稍等...</Text>
                         </View>
                     </View>
                 </Modal>
