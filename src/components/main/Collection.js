@@ -95,7 +95,7 @@ class Collection extends React.Component {
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
-                                            <View style={{flexDirection: 'row'}}>
+                                            <View style={{flexDirection: 'row',width: width * 0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
@@ -107,7 +107,7 @@ class Collection extends React.Component {
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
+                                    <View style={{position: 'absolute', right: 0, marginTop: -20}}>
                                         <Text
                                             style={[globalStyles.smallText]}>{msgInfo.created_at ? `${moment(msgInfo.created_at).format('YYYY-MM-DD')}` : ''}</Text>
                                     </View>

@@ -75,9 +75,7 @@ export const setCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     console.log(value)
     try {
-        if(userId==value._user_id){
 
-        }else {
             let params = {
                 msgId: `${value._id}`,
                 msgUserId: `${value._user_id}`,
@@ -86,6 +84,7 @@ export const setCollection = (value) => async (dispatch, getState) => {
             console.log(params)
             let url = `${apiHost}/user/${userId}/userMsgColl`
             const res = await HttpRequest.post(url, params)
+            console.log(res)
             if (res.success) {
                 Toast.success('收藏成功', 1, () => {
                     // dispatch({type: actionType.ItemType.get_MsgId, payload: {msgId: res.id}})
@@ -94,7 +93,7 @@ export const setCollection = (value) => async (dispatch, getState) => {
             } else {
                 Toast.info(res.msg)
             }
-        }
+
     } catch (err) {
         Toast.fail(err.message)
     }

@@ -1,3 +1,5 @@
 import {createAction} from 'redux-actions'
 
-export const set_Info=createAction('set_Info')
+export const get_systemMsg_success=createAction('get_systemMsg_success')
+export const get_systemMsg_end=createAction('get_systemMsg_end')
+export const get_systemMsg=createAction('get_systemMsg')
