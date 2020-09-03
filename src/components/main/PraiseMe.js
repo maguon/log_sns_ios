@@ -62,7 +62,7 @@ class PraiseMe extends Component {
                                 <View style={{flexDirection: "row",height:50,alignItems: "center"}}>
 
                                     <TouchableOpacity
-                                        style={{marginLeft: width * 0.05}}
+                                        style={{marginLeft: width * 0.05,flexDirection:'row',}}
                                         onPress={() => {
                                             this.props.navigation.navigate('Space', {userId: item._user_id})
                                         }}>
@@ -74,17 +74,16 @@ class PraiseMe extends Component {
                                                                   }}/> :
                                             <Image source={require('../../images/head.png')}
                                                    style={{width: 40, height: 40, borderRadius: 30}}/>}
-                                    </TouchableOpacity>
 
 
 
-                                            <View style={{flexDirection:'column',justifyContent: "space-between",marginLeft:5}}>
+                                            <View style={{flexDirection:'column',marginLeft:5}}>
                                                 <Text style={[globalStyles.fourText, {
                                                     fontWeight: "bold"
                                                 }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
                                                 <Text style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
                                             </View>
-
+                                </TouchableOpacity>
 
                                         <TouchableOpacity
                                             style={{position: 'absolute',right:10,width:50,height:20,borderWidth:0.5,borderColor:'#0595e5',alignItems:"center",justifyContent:"center"}}

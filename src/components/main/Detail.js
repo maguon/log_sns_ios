@@ -97,9 +97,7 @@ class Detail extends Component {
                         {item.carrier == 2 && <FlatList
                             data={media}
                             numColumns={3}
-                            onRefresh={() => {
-                                // update()
-                            }}
+
                             renderItem={(params) => {
                                 const {item, index} = params
                                 return (
@@ -182,12 +180,16 @@ class Detail extends Component {
                                                         borderBottomWidth: 0.5,
                                                         borderBottomColor: "#bcbdbe"
                                                     }}>
+                                                        <TouchableOpacity  onPress={() => {
+                                                            this.props.navigation.navigate('Space', {userId: item._user_id})
+                                                        }}>
                                                         <Text style={[globalStyles.fourText, {
                                                             fontWeight: "bold"
                                                         }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
                                                         <Text style={[globalStyles.smallText, {
                                                             fontWeight: "bold", marginTop: 5
                                                         }]}>{item.comment}</Text>
+                                                        </TouchableOpacity>
                                                         {item.comment_num != 0 && <TouchableOpacity style={{
                                                             width: width * 0.8,
                                                             height: 30,

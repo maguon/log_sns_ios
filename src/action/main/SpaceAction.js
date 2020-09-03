@@ -26,17 +26,21 @@ export const getSpaceUser = (value) => async (dispatch, getState) => {
 }
 //内容
 export const getSpaceData = (value) => async (dispatch, getState) => {
+    const {SpaceReducer: {spaceData}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${value}/msg?sendMsgUserId=${value}`
+        let url = `${apiHost}/user/${value}/userMsg?sendMsgUserId=${value}&start=${spaceData.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res.result)
         if (res.success) {
             dispatch({type: actionType.SpaceType.get_spaceData_Loading, payload: {spaceLoading: true}})
-                dispatch({
-                    type: actionType.SpaceType.get_spaceData,
-                    payload: {spaceData: res.result,isComplete: false}
-                })
+
+            if (res.result.length % pageSize != 0 || res.result.length == 0) {
+                dispatch({type: actionType.SpaceType.get_spaceData_end, payload: {spaceData: res.result, isComplete: true}})
+            } else {
+                dispatch({ type: actionType.SpaceType.get_spaceData_success, payload: { spaceData: res.result, isComplete: false } })
+            }
+
         }
 
     } catch (err) {

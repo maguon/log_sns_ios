@@ -78,7 +78,9 @@ class Evaluation extends Component {
                                         marginTop: 10,
                                         marginBottom:10
                                     }}>
-                                        <View style={{flexDirection:'row',justifyContent: "space-between"}}>
+                                        <TouchableOpacity style={{flexDirection:'row',justifyContent: "space-between"}}  onPress={() => {
+                                            this.props.navigation.navigate('Space', {userId: item._user_id})
+                                        }}>
                                             <View style={{flexDirection:'column'}}>
                                                 <Text style={[globalStyles.fourText, {
                                                     fontWeight: "bold"
@@ -86,7 +88,7 @@ class Evaluation extends Component {
                                                 <Text style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
                                             </View>
 
-                                        </View>
+                                        </TouchableOpacity>
 
                                         <Text style={[globalStyles.smallText, {
                                             fontWeight: "bold", marginTop: 5

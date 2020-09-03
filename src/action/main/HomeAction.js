@@ -151,23 +151,36 @@ export const setPraise = (params) => async (dispatch, getState) => {
 }
 
 
-// //取消收藏
-// export const delCollection = (value) => async (dispatch, getState) => {
+
+//屏蔽
+export const shielding = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/blockUser/${item._user_id}/add`
+        const res = await HttpRequest.post(url)
+        if(res.success){
+            Toast.success('已屏蔽此用户消息')
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+// //取消屏蔽
+// export const cancelShielding = (params) => async (dispatch, getState) => {
 //     const {LoginReducer: {userId}} = getState()
-//     console.log(value)
-//
+//     const {item,tabIndex} =params
 //     try {
 //         // 基本检索URL
-//         let url = `${apiHost}/user/${userId}/userMsgColl?userMsgCollsId=/${value._id}`
-//         const res = await HttpRequest.get(url)
-//         console.log(res)
+//         let url = `${apiHost}/user/${userId}/blockUser/${item._user_id}/del`
+//         const res = await HttpRequest.del(url)
 //         if(res.success){
-//             let url = `${apiHost}/user/${userId}/userMsgColl/${res.result[0]._id}/del`
-//             const res01 = await HttpRequest.del(url)
-//             if (res01.success) {
-//
-//             }
-//
+//             dispatch(update(tabIndex))
 //         }else {
 //             Toast.fail(res.msg)
 //         }
@@ -176,6 +189,7 @@ export const setPraise = (params) => async (dispatch, getState) => {
 //     }
 //
 // }
+
 
 
 //取消关注

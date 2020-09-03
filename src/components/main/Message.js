@@ -76,7 +76,7 @@ const Message = props => {
                         <Text style={globalStyles.largeText}>系统消息</Text></Item>
                     <Item arrow="horizontal"
                           onPress={() => {
-                              navigation.navigate('SystemMsg')
+                              navigation.navigate('Shielding')
                           }}
                           thumb={
                               <View style={{flexDirection: "row", alignItems: "center"}}>
@@ -90,7 +90,7 @@ const Message = props => {
                                   <Image source={require('../../images/comments.png')}
                                          style={{width: 25, height: 25, marginRight: 10}}/>
                               </View>}>
-                        <Text style={globalStyles.largeText}>系统消息</Text></Item>
+                        <Text style={globalStyles.largeText}>屏蔽用户</Text></Item>
                 </List>
             </ScrollView>
         </View>

@@ -59,7 +59,7 @@ export const getComHelp = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},CommunityReducer:{comHelp}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=${comHelp.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/msg?type=2&status=1&start=${comHelp.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
@@ -112,7 +112,7 @@ export const update=(tabIndex)=>async (dispatch, getState)=>{
         }
 
     }else if(tabIndex==2){
-        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=0&size=${comHelp.length}`
+        let url = `${apiHost}/user/${userId}/msg?type=2&status=1&start=0&size=${comHelp.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.CommunityType.set_ComHelp_Praise, payload: {comHelp: res.result}})
@@ -188,3 +188,43 @@ export const comFollow = (params) => async (dispatch, getState) => {
     }
 
 }
+
+//屏蔽
+export const shielding = (params) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =params
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/blockUser/${item._user_id}/add`
+        const res = await HttpRequest.post(url)
+        if(res.success){
+            Toast.success('已屏蔽此用户消息')
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+// //取消屏蔽
+// export const cancelShielding = (params) => async (dispatch, getState) => {
+//     const {LoginReducer: {userId}} = getState()
+//     const {item,tabIndex} =params
+//     try {
+//         // 基本检索URL
+//         let url = `${apiHost}/user/${userId}/blockUser/${item._user_id}/del`
+//         const res = await HttpRequest.del(url)
+//         if(res.success){
+//             dispatch(update(tabIndex))
+//         }else {
+//             Toast.fail(res.msg)
+//         }
+//     } catch (err) {
+//         Toast.fail(err.message)
+//     }
+//
+// }
+
+

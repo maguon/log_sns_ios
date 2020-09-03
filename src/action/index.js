@@ -39,6 +39,7 @@ import * as ToVoteAction from './main/ToVoteAction'
 import * as CommentAction from './main/CommentAction'
 import * as CommentReplyAction from './main/CommentReplyAction'
 import * as CollectionDetailAction from './main/CollectionDetailAction'
+import * as ShieldingAction from './main/ShieldingAction'
 
 export {
     HomeAction,
@@ -80,6 +81,7 @@ export {
     ToVoteAction,
     CommentAction,
     CommentReplyAction,
-    CollectionDetailAction
+    CollectionDetailAction,
+    ShieldingAction
 
 }

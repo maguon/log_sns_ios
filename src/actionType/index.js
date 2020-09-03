@@ -43,7 +43,7 @@ import * as ToVoteType from './main/ToVoteType'
 import * as CommentType from './main/CommentType'
 import * as CommentReplyType from './main/CommentReplyType'
 import * as CollectionDetailType from './main/CollectionDetailType'
-
+import * as ShieldingActionType from './main/ShieldingActionType'
 export {
     HomeActionType,
     InitActionTyp,
@@ -84,5 +84,6 @@ export {
     SpaceType,
     ReportType,
     CommentReplyType,
-    CollectionDetailType
+    CollectionDetailType,
+    ShieldingActionType
 }

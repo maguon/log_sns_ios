@@ -46,8 +46,8 @@ class Home extends Component {
             visible: true,
             uri: "",
             moreVisible: false,
-            shareVisible:false,
-            follow:false
+            shareVisible: false,
+            follow: false,
         }
     }
 
@@ -113,8 +113,8 @@ class Home extends Component {
             shareVisible: false
         });
     }
-    onLoadStart = ()=>{
-        return(<View style={{flex: 1, justifyContent: "center", alignItems:"center"}}>
+    onLoadStart = () => {
+        return (<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
             <ActivityIndicator size="large" color="red"/>
         </View>)
     }
@@ -175,7 +175,7 @@ class Home extends Component {
                                                           this.setState({
                                                               moreVisible: true,
                                                               itemInfo: item,
-                                                              follow:item.user_relations == "" ?true:false
+                                                              follow: item.user_relations == "" ? true : false
                                                           })
                                                       }
                                                       }>
@@ -185,12 +185,12 @@ class Home extends Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                    this.props.navigation.navigate('Detail', {item: item, itemList: ""})
                                 }}>
-                                <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} >
-                                    {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
-                                    {item.info.length > 40 ? <Text style={globalStyles.previewText}>全文</Text> : ""}
-                                </Text>
+                                    <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]}>
+                                        {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
+                                        {item.info.length > 40 ? <Text style={globalStyles.previewText}>全文</Text> : ""}
+                                    </Text>
                                 </TouchableOpacity>
                                 {item.carrier == 2 && <FlatList
                                     data={media}
@@ -209,8 +209,12 @@ class Home extends Component {
                                                     <CachedImage source={{
                                                         uri: `${fileHost}/image/${item.url}`
                                                     }}
-                                                           onLoadStart={this.onLoadStart}
-                                                           style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
+                                                                 onLoadStart={this.onLoadStart}
+                                                                 style={{
+                                                                     width: cellWH,
+                                                                     height: cellWH,
+                                                                     borderRadius: 5
+                                                                 }}/>
                                                 </View>
                                             </TouchableOpacity>
                                         )
@@ -257,7 +261,7 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                                this.props.navigation.navigate('Detail', {item: item, itemList: ""})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -275,7 +279,8 @@ class Home extends Component {
                                             {item.user_praises == "" ?
                                                 <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
                                                 <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
-                                            <Text style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{item.agree_num ? item.agree_num : 0}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 }
@@ -290,10 +295,11 @@ class Home extends Component {
 
 
     render() {
-        const {navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
+        const {
+            navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus, waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection, update
+            }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding
         } = this.props
         const {tabIndex} = params
 
@@ -372,7 +378,7 @@ class Home extends Component {
                     <TouchableOpacity
                         style={{height: 80, justifyContent: "center", alignItems: "center", marginBottom: 5}}
                     >
-                        <AntDesign name="staro"size={50} color={'#ffa600'}/>
+                        <AntDesign name="staro" size={50} color={'#ffa600'}/>
                         <Text style={globalStyles.midText}>分享</Text>
                     </TouchableOpacity>
                     <Button onPress={this.shareClose}>取消</Button>
@@ -406,13 +412,13 @@ class Home extends Component {
                     style={{borderRadius: 10}}
                 >
                     <ScrollView style={{height: 160, paddingVertical: 5, paddingHorizontal: 50}}>
-                        {this.state.follow?
+                        {this.state.follow ?
                             <TouchableOpacity style={style.border} onPress={() => {
                                 this.setState({
-                                    follow:false
+                                    follow: false
                                 })
                                 const params = {
-                                    item: this.state.itemInfo, tabIndex:tabIndex
+                                    item: this.state.itemInfo, tabIndex: tabIndex
                                 }
                                 this.props.follow(params)
                             }}>
@@ -425,7 +431,7 @@ class Home extends Component {
                                 Alert.alert("", "确定要取消关注吗", [{text: "取消"}, {
                                     text: "确定", onPress: () => {
                                         this.setState({
-                                            follow:true
+                                            follow: true
                                         })
                                         const params = {
                                             item: this.state.itemInfo, tabIndex: tabIndex
@@ -438,30 +444,43 @@ class Home extends Component {
                                 <Text style={style.text}>已关注</Text>
                             </TouchableOpacity>}
 
-                        {this.state.visible? <TouchableOpacity
-                        style={style.border} onPress={()=>{
-                                this.setState({
-                                    visible:false
-                                })
-                                setCollection(this.state.itemInfo)
-                            }}>
-                        <AntDesign name="hearto" size={20} color={'#838485'}/>
-                        <Text style={style.text}>收藏</Text>
-                        </TouchableOpacity>: <TouchableOpacity
+                        {this.state.visible ? <TouchableOpacity
+                            style={style.border} onPress={() => {
+                            this.setState({
+                                visible: false
+                            })
+                            setCollection(this.state.itemInfo)
+                        }}>
+                            <AntDesign name="hearto" size={20} color={'#838485'}/>
+                            <Text style={style.text}>收藏</Text>
+                        </TouchableOpacity> : <TouchableOpacity
                             style={style.border}
                         >
                             <AntDesign name="heart" size={20} color={'#ffaf27'}/>
                             <Text style={style.text}>已收藏</Text>
                         </TouchableOpacity>}
 
-                        <TouchableOpacity style={style.border}>
+                        <TouchableOpacity style={style.border}
+                                          onPress={() => {
+                                              Alert.alert("", "确定要屏蔽此用户消息吗", [{text: "取消"}, {
+                                                  text: "确定", onPress: () => {
+                                                      const params = {
+                                                          item: this.state.itemInfo, tabIndex: tabIndex
+                                                      }
+                                                      shielding(params)
+                                                      this.moreClose()
+                                                  }
+                                              }])
+
+                                          }}>
                             <AntDesign name="deleteuser" size={20} color={'#838485'}/>
                             <Text style={style.text}>屏蔽</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{flexDirection: "row", alignItems: "center", justifyContent: "center", height: 40}}
-                            onPress={()=>{
+                        <TouchableOpacity
+                            style={{flexDirection: "row", alignItems: "center", justifyContent: "center", height: 40}}
+                            onPress={() => {
                                 this.moreClose()
-                                this.props.navigation.navigate('Report',{item: this.state.itemInfo})
+                                this.props.navigation.navigate('Report', {item: this.state.itemInfo})
                             }}>
                             <AntDesign name="warning" size={20} color={'#ff1a37'}/>
                             <Text style={style.text}>举报</Text>
@@ -553,7 +572,14 @@ const mapDispatchProps = (dispatch) => ({
     },
     update: (value) => {
         dispatch(action.HomeAction.update(value))
-    }
+    },
+    shielding: (value) => {
+        dispatch(action.HomeAction.shielding(value))
+    },
+    // cancelShielding: (value) => {
+    //     dispatch(action.HomeAction.cancelShielding(value))
+    // },
+
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(Home)

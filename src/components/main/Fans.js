@@ -71,7 +71,8 @@ class Fans extends React.Component {
         const loginItem = item.attention_user_login_info[0]
         return (
             <View style={{flex: 1}}>
-                <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space", {userId: item._user_id})}>
+                <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',}}>
+                    <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space", {userId: item._user_id})}>
                     {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={style.image}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
@@ -81,7 +82,7 @@ class Fans extends React.Component {
                         <Text
                             style={[globalStyles.smallText, {marginTop: 2}]}>{detailItem.intro ? `${detailItem.intro}` : "无签名"}</Text>
                     </View>
-
+                    </TouchableOpacity>
                     {item.fans_status == 1 ? <Text style={[style.focus, {backgroundColor: "#fff"}]}
                                                    onPress={() => {
                                                        this.removeFans({fansUserId: item._user_id, index: index})

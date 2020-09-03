@@ -80,7 +80,9 @@ class EvaluationMe extends Component {
                                         marginTop: 10,
                                         marginBottom:10
                                     }}>
-                                        <View style={{flexDirection:'row',justifyContent: "space-between"}}>
+                                        <TouchableOpacity style={{flexDirection:'row',justifyContent: "space-between"}} onPress={() => {
+                                            this.props.navigation.navigate('Space', {userId: item._user_id})
+                                        }} >
                                             <View style={{flexDirection:'column'}}>
                                         <Text style={[globalStyles.fourText, {
                                             fontWeight: "bold"
@@ -96,7 +98,7 @@ class EvaluationMe extends Component {
                                                 <Text style={{fontSize: 14, color:'#0595e5'}}>回复</Text>
                                             </TouchableOpacity>
 
-                                        </View>
+                                        </TouchableOpacity>
 
                                         <Text style={[globalStyles.smallText, {
                                             fontWeight: "bold", marginTop: 5

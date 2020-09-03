@@ -26,19 +26,26 @@ export default handleActions({
             ...state,
             spaceData: [...state.spaceData, ...spaceData],
             isComplete,
-            isResultStatus: 2,
+            isResultStatus: 1
         }
     },
-    [actionType.SpaceType.get_spaceData]: (state, action) => {
+    [actionType.SpaceType.get_spaceData_success]: (state, action) => {
         const {payload: {spaceData,isComplete}} = action
         return {
             ...state,
-            spaceData:spaceData,
-            isComplete:isComplete,
-            isResultStatus: 1,
-
+            spaceData:[...state.spaceData, ...spaceData],
+            isComplete,
+            isResultStatus: 2
         }
     },
+    [actionType.SpaceType.get_spaceData_Clean]: (state, action) => {
+        return {
+            ...state,
+            spaceData:"",
+            spaceUser:""
+        }
+    },
+
 
     [actionType.SpaceType.get_SpaceUser]: (state, action) => {
         const {payload:{spaceUser}}=action

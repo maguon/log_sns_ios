@@ -304,7 +304,7 @@ class Community extends React.Component {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
         const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
             comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus}, homeReducer: {waiting},
-            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update} = this.props
+            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update, shielding, cancelShielding} = this.props
 
         return (
             <Provider>
@@ -498,7 +498,19 @@ class Community extends React.Component {
                                 <Text style={style.text}>已收藏</Text>
                             </TouchableOpacity>}
 
-                        <TouchableOpacity style={style.border}>
+                        <TouchableOpacity style={style.border}
+                                          onPress={() => {
+                                              Alert.alert("", "确定要屏蔽此用户消息吗", [{text: "取消"}, {
+                                                  text: "确定", onPress: () => {
+                                                      const params = {
+                                                          item: this.state.itemInfo, tabIndex: this.state.tabIndex
+                                                      }
+                                                      shielding(params)
+                                                      this.moreClose()
+                                                  }
+                                              }])
+
+                                          }}>
                             <AntDesign name="deleteuser" size={20} color={'#838485'}/>
                             <Text style={style.text}>屏蔽</Text>
                         </TouchableOpacity>
@@ -558,6 +570,9 @@ const mapDispatchProps = (dispatch, props) => ({
     },
     update: (value) => {
         dispatch(action.CommunityAction.update(value))
+    },
+    shielding: (value) => {
+        dispatch(action.CommunityAction.shielding(value))
     },
 
 

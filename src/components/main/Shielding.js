@@ -19,7 +19,7 @@ import index from "../../reducer";
 
 const {width} = Dimensions.get('window')
 
-class Follow extends React.Component {
+class Shielding extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -28,9 +28,7 @@ class Follow extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getFollowList()
-        this.props.getTitle()
-
+        this.props.shieldList()
     }
 
 
@@ -57,44 +55,37 @@ class Follow extends React.Component {
             )
         }
     }
-    removeFollow = (param) => {
-        Alert.alert("", `确定要取消关注吗？`, [{text: "取消", onPress: () => console.log('Cancel Pressed')},{
+    removeShielding = (param) => {
+        Alert.alert("", `确定要取消屏蔽吗？`, [ {text: "取消"},{
             text: "确定", onPress: () => {
-                this.props.removeFollow(param)
+                this.props.removeShielding(param)
             }
         }])
 
     }
-    follow = (param) => {
-        this.props.follow(param)
+    Shielding = (param) => {
+        this.props.Shielding(param)
     }
     renderItem = (props) => {
         const {item, index} = props
-        const detailItem = item.follow_user_detail_info[0]
-        const loginItem = item.follow_user_login_info[0]
         return (
             <View style={{flex: 1}}>
-                <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',}}>
-                    <TouchableOpacity style={style.content} onPress={() => this.props.navigation.navigate("Space",{userId:item._user_by_id})}>
-                    {detailItem.avatar ? <Image source={{uri: detailItem.avatar}} style={style.image}/> :
+                <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',}} >
+                    <TouchableOpacity  style={style.content} onPress={() => this.props.navigation.navigate("Space", {userId: item._user_id})}>
+                    {item.avatar ? <Image source={{uri: item.avatar}} style={style.image}/> :
                         <Image source={require('../../images/head.png')}
                                style={style.image}/>}
                     <View>
                         <Text
-                            style={globalStyles.largeText}>{detailItem.nick_name ? `${detailItem.nick_name}` : `${loginItem.phone}`}</Text>
+                            style={globalStyles.largeText}>{item.nick_name ? item.nick_name :""}</Text>
                         <Text
-                            style={[globalStyles.smallText, {marginTop: 2}]}>{detailItem.intro ? `${detailItem.intro}` : "无签名"}</Text>
+                            style={[globalStyles.smallText, {marginTop: 2}]}>{item.real_name ? `${item.real_name}` : "无签名"}</Text>
                     </View>
                     </TouchableOpacity>
-                    {item.follow_status == 1 ? <Text style={[style.focus, {backgroundColor: "#fff", color: "#000"}]}
-                                                     onPress={() => {
-                                                         this.removeFollow({
-                                                             followUserId: item._user_by_id,
-                                                             index: index
-                                                         })
-                                                     }}>取消关注</Text> :
-                        <Text style={[style.focus, {backgroundColor: "#000", color: "#fff"}]}
-                              onPress={() => this.follow({followUserId: item._user_by_id, index: index})}>关注</Text>}
+                    <Text style={[style.focus, {backgroundColor: "#fff"}]}
+                                                   onPress={() => {
+                                                       this.removeShielding({ShieldingUserId: item._user_id, index: index})
+                                                   }}>取消屏蔽</Text>
 
                 </TouchableOpacity>
 
@@ -104,24 +95,23 @@ class Follow extends React.Component {
     };
 
     render() {
-        const {followReducer: {followList, isResultStatus,isComplete},getFollowList} = this.props
-        console.log(this.props)
-
+        const {ShieldingReducer: {shieldingList, isResultStatus,isComplete},shieldList} = this.props
+        console.log(shieldingList)
         return (
             <Provider>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
-                    keyExtractor={(item, index) => `${index}`}
-                    data={followList}
+                    data={shieldingList}
                     renderItem={this.renderItem}
+                    ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
                         if (!isComplete) {
-                            getFollowList()
+                            shieldList()
                         }
                     }}
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    ListEmptyComponent={this.renderEmpty}
+
                 />
             </Provider>
         )
@@ -131,27 +121,21 @@ class Follow extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        followReducer: state.FollowReducer
+        ShieldingReducer: state.ShieldingReducer
     }
 }
 
 const mapDispatchProps = (dispatch, ownProps) => ({
-    getTitle: () => {
-        dispatch(action.FollowAction.getTitle(ownProps))
-    },
-    getFollowList: () => {
-        dispatch(action.FollowAction.getFollowList())
+    shieldList: () => {
+        dispatch(action.ShieldingAction.shieldList())
     },
 
-    follow: (param) => {
-        dispatch(action.FollowAction.follow(param))
-    },
-    removeFollow: (param) => {
-        dispatch(action.FollowAction.removeFollow(param))
+    removeShielding: (param) => {
+        dispatch(action.ShieldingAction.removeShielding(param))
     }
 })
 
-export default connect(mapStateToProps, mapDispatchProps)(Follow)
+export default connect(mapStateToProps, mapDispatchProps)(Shielding)
 
 
 const style = StyleSheet.create({
@@ -166,7 +150,7 @@ const style = StyleSheet.create({
         height: 20,
         lineHeight: 20,
         textAlign: 'center',
-        // backgroundColor: '#ffd000',
+        backgroundColor: '#ffd000',
         borderWidth: 0.5,
         borderColor: '#000',
         color: '#000',
@@ -181,6 +165,9 @@ const style = StyleSheet.create({
         borderRadius: 30,
     },
 })
+
+
+
 
 
 

@@ -36,6 +36,7 @@ import Contact from './components/main/Contact'
 import VoteRemind from './components/main/VoteRemind'
 import SystemMsg from './components/main/SystemMsg'
 import CommentReply from './components/main/CommentReply'
+import Shielding from './components/main/Shielding'
 
 
 //个人
@@ -335,6 +336,13 @@ const Main = createStackNavigator({
         screen: SystemMsg,
         navigationOptions: ({navigation}) => ({
             title: '系统消息',
+            tabBarVisible: false
+        })
+    },
+    Shielding: {
+        screen: Shielding,
+        navigationOptions: ({navigation}) => ({
+            title: '屏蔽用户',
             tabBarVisible: false
         })
     },

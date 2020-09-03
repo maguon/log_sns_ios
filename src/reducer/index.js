@@ -41,6 +41,8 @@ import CommentReducer from './main/CommentReducer'
 import ReportReducer from './main/ReportReducer'
 import CommentReplyReducer from './main/CommentReplyReducer'
 import CollectionDetailReducer from './main/CollectionDetailReducer'
+import ShieldingReducer from './main/ShieldingReducer'
+
 
 
 export default combineReducers({
@@ -84,5 +86,6 @@ export default combineReducers({
     CommentReducer,
     ReportReducer,
     CommentReplyReducer,
-    CollectionDetailReducer
+    CollectionDetailReducer,
+    ShieldingReducer
 })

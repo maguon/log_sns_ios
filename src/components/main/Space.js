@@ -7,6 +7,7 @@ import {
     Dimensions,
     Image,
     FlatList,
+    ScrollView,
     ActivityIndicator,
     Alert,
     TouchableOpacity, ImageBackground
@@ -42,7 +43,10 @@ class Space extends Component {
         this.props.getSpaceUser(userId)
         this.props.followStatus(userId)
     }
+   componentWillUnmount(){
+       this.props.cleanSpaceData()
 
+     }
 
     renderEmpty = () => {
         return (
@@ -98,11 +102,11 @@ class Space extends Component {
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
-                                            <View style={{flexDirection: 'row'}}>
+                                            <View style={{flexDirection: 'row',width: width * 0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2,marginRight:15
+                                                    marginLeft: 2
                                                 }]}>{item.address_name ? item.address_name : ""}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -110,7 +114,7 @@ class Space extends Component {
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
+                                    <View style={{position: 'absolute', right: 0, marginTop: -20}}>
                                         <Text
                                             style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
                                     </View>
@@ -252,7 +256,7 @@ class Space extends Component {
 
 
     render() {
-        const {spaceReducer: {spaceData, spaceUser, spaceHidden,isComplete,spaceLoading, isResultStatus},getSpaceData, setCollection, follow, navigation: {state: {params: {userId}}}} = this.props
+        const {spaceReducer: {spaceData, spaceUser, spaceHidden,isComplete,spaceLoading, isResultStatus},getSpaceData, setCollection, navigation: {state: {params: {userId}}}} = this.props
 // console.log(spaceData)
         return (
             <Provider>
@@ -306,19 +310,22 @@ class Space extends Component {
                     </View>
                 </View>
 
-                {spaceLoading?<FlatList
-                    keyExtractor={(item, index) => `${index}`}
+                {spaceLoading?
+                    <FlatList
                     data={spaceData}
                     renderItem={this.renderItem}
-                    ListEmptyComponent={this.renderEmpty}
+
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
-                        // if (!isComplete) {
-                        //     getSpaceData()
-                        // }
+                        if (!isComplete) {
+                            getSpaceData(userId)
+                        }
                     }}
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                />:this.renderLoadingView()}
+                    ListEmptyComponent={this.renderEmpty}
+                />:this.renderLoadingView()
+
+                }
 
             </View>
 
@@ -355,6 +362,9 @@ const mapDispatchProps = (dispatch, props) => ({
     getSpaceLoad:()=>{
         dispatch({type: actionType.SpaceType.get_spaceData_Loading, payload: {spaceLoading: false}})
     },
+    cleanSpaceData:()=>{
+        dispatch({type: actionType.SpaceType.get_spaceData_Clean})
+        },
     getSpaceData: (value) => {
         dispatch(action.SpaceAction.getSpaceData(value))
     },
