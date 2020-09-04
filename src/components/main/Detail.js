@@ -14,7 +14,7 @@ import {
 import globalStyles from "../../utils/GlobalStyles";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import Video from "react-native-video";
-import {Card, Provider} from "@ant-design/react-native/lib/card";
+import { Provider} from "@ant-design/react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import moment from "moment";
 import * as action from "../../action";
@@ -34,6 +34,8 @@ class Detail extends Component {
     componentDidMount() {
         const {navigation: {state: {params: {item}}}} = this.props
         this.props.getCommentOne(item)
+
+
     }
 
     ListFooterComponent = (param) => {
@@ -61,8 +63,9 @@ class Detail extends Component {
     }
 
     render() {
-        const {navigation: {state: {params: {item}}}, DetailReducer: {commentMsg}, setPraise} = this.props
-          console.log(item)
+        const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg}, setPraise} = this.props
+        //   console.log(navigation)
+        // console.log(item)
         const media = item.media
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -73,7 +76,10 @@ class Detail extends Component {
                 cellWH = (width - 2 * 20 - 15) / 3.3
             }
         }
+
+
         return (
+            <Provider>
             <View style={{flex: 1}}>
                 <ScrollView>
                     <View>
@@ -290,12 +296,13 @@ class Detail extends Component {
                         <TouchableOpacity
                             style={[globalStyles.midText, styles.bottomBut]}
                             onPress={() => {
+
                                 const params = {
                                     item: item, tabIndex: 0
                                 }
                                 this.props.Praise(params)
                             }}>
-                            {item.user_praises == "" ?
+                            {item.user_praises=="" ?
                                 <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
                                 <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
                             <Text style={[globalStyles.midText, {marginLeft: 5}]}>赞</Text>
@@ -305,7 +312,7 @@ class Detail extends Component {
                 </View>
 
             </View>
-
+            </Provider>
         )
     }
 }
