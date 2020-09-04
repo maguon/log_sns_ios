@@ -43,11 +43,11 @@ class Home extends Component {
         super(props)
         this.state = {
             itemInfo: "",
-            visible: true,
             uri: "",
             moreVisible: false,
             shareVisible: false,
             follow: false,
+            colls:false
         }
     }
 
@@ -175,7 +175,8 @@ class Home extends Component {
                                                           this.setState({
                                                               moreVisible: true,
                                                               itemInfo: item,
-                                                              follow: item.user_relations == "" ? true : false
+                                                              follow: item.user_relations == "" ? true : false,
+                                                              colls:item.user_msg_colls == "" ? false:true ,
                                                           })
                                                       }
                                                       }>
@@ -299,7 +300,7 @@ class Home extends Component {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus, waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding
+            }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding,delCollection
         } = this.props
         const {tabIndex} = params
 
@@ -444,20 +445,32 @@ class Home extends Component {
                                 <Text style={style.text}>已关注</Text>
                             </TouchableOpacity>}
 
-                        {this.state.visible ? <TouchableOpacity
+                        {this.state.colls? <TouchableOpacity
+                            style={style.border} onPress={() => {
+                            Alert.alert("", "确定要取消关注吗", [{text: "取消"}, {
+                                text: "确定", onPress: () => {
+                                    this.setState({
+                                        colls: false
+                                    })
+                                    console.log(this.state.itemInfo)
+                                    delCollection(this.state.itemInfo)
+                                }
+                            }])
+
+                        }}
+                        >
+                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
+                            <Text style={style.text}>已收藏</Text>
+                        </TouchableOpacity>:<TouchableOpacity
                             style={style.border} onPress={() => {
                             this.setState({
-                                visible: false
+                                colls: true
                             })
+                            console.log(this.state.itemInfo)
                             setCollection(this.state.itemInfo)
                         }}>
                             <AntDesign name="hearto" size={20} color={'#838485'}/>
                             <Text style={style.text}>收藏</Text>
-                        </TouchableOpacity> : <TouchableOpacity
-                            style={style.border}
-                        >
-                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
-                            <Text style={style.text}>已收藏</Text>
                         </TouchableOpacity>}
 
                         <TouchableOpacity style={style.border}
@@ -557,9 +570,9 @@ const mapDispatchProps = (dispatch) => ({
     setCollection: (value) => {
         dispatch(action.HomeAction.setCollection(value))
     },
-    // delCollection: (value) => {
-    //     dispatch(action.HomeAction.delCollection(value))
-    // },
+    delCollection: (value) => {
+        dispatch(action.HomeAction.delCollection(value))
+    },
     setPraise: (value) => {
         dispatch(action.HomeAction.setPraise(value))
     },

@@ -16,6 +16,7 @@
     "@react-native-community/push-notification-ios": "1.4.0",
     "@react-native-community/slider": "^2.0.9",
     "moment": "^2.24.0",
+    "native-base": "^2.13.14",
     "react": "16.9.0",
     "react-native": "^0.61.5",
     "react-native-amap-geolocation": "^1.0.4",

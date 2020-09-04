@@ -98,6 +98,26 @@ export const setCollection = (value) => async (dispatch, getState) => {
         Toast.fail(err.message)
     }
 }
+//取消收藏
+export const delCollection = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    try {
+        console.log(value._id)
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userMsgColl/${value._id}/del`
+        const res = await HttpRequest.del(url)
+
+        console.log(res)
+        if(res.success){
+
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
 
 
 export const update=(tabIndex)=>async (dispatch, getState)=>{
