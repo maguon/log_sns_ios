@@ -40,6 +40,7 @@ export const getComVideo = () => async (dispatch, getState) => {
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComLoading, payload: {comLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.CommunityType.set_ComVideo, payload: {comVideo: res.result, vidComplete: true}})
             } else {
@@ -56,6 +57,7 @@ export const getComVideo = () => async (dispatch, getState) => {
 
 //求助
 export const getComHelp = () => async (dispatch, getState) => {
+
     const {LoginReducer: {userId},CommunityReducer:{comHelp}} = getState()
     try {
         // 基本检索URL
@@ -63,6 +65,7 @@ export const getComHelp = () => async (dispatch, getState) => {
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComLoading, payload: {comLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.CommunityType.set_ComHelp, payload: {comHelp: res.result, helpComplete: true}})
             } else {
@@ -84,6 +87,7 @@ export const getComVoteList = () => async (dispatch, getState) => {
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.CommunityType.set_ComLoading, payload: {comLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.CommunityType.set_ComVoteList, payload: {comVoteList: res.result, voteComplete: true}})
             } else {

@@ -165,24 +165,7 @@ class Community extends React.Component {
                                                       }>
                                         <AntDesign name="ellipsis1" size={30} style={{color: '#414445'}}/>
                                     </TouchableOpacity>
-                                    // <View style={{position: 'absolute', right: 0, top: -20,}}>
-                                    //     {item.user_relations == "" ?
-                                    //         <Text style={[globalStyles.focus, {backgroundColor: "#000", color: "#fff"}]}
-                                    //               onPress={() => {
-                                    //                   const params={
-                                    //                       item:item,tabIndex:this.state.tabIndex
-                                    //                   }
-                                    //                   this.props.comFollow(params)}}>关注</Text>:
-                                    //         <Text style={[globalStyles.focus, {backgroundColor: "#c1c1c1", color: "#000"}]}
-                                    //               onPress={() => {
-                                    //                   Alert.alert("", "确定要取消关注吗", [{text: "确定", onPress: () => {
-                                    //                           const params={
-                                    //                               item:item,tabIndex:this.state.tabIndex
-                                    //                           }
-                                    //                           this.props.comCancelFollow(params)
-                                    //                       }},{text: "取消"}])
-                                    //               }}>取消关注</Text>}
-                                    // </View>
+
                                 }
                             />
                             <Card.Body>
@@ -311,6 +294,7 @@ class Community extends React.Component {
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
+                          this.props.getComLoad()
                           if(index==0){
                               getComInfo()
                           }else if(index==1){
@@ -348,8 +332,8 @@ class Community extends React.Component {
                         {!comLoading && this.renderLoadingView()}
                         </View>
 
-                        <View>
-                            <FlatList
+                        <View style={{flex: 1}}>
+                            {comLoading&& <FlatList
                                 data={comVideo}
                                 renderItem={this.renderItem}
                                 refreshing = { false }
@@ -364,12 +348,13 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
-                            />
+                            />}
+                            {!comLoading && this.renderLoadingView()}
                         </View>
 
 
-                        <View>
-                            <FlatList
+                        <View style={{flex: 1}}>
+                            {comLoading&& <FlatList
                                 data={comHelp}
                                 renderItem={this.renderItem}
                                 refreshing = { false }
@@ -384,12 +369,13 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
-                            />
+                            />}
+                            {!comLoading && this.renderLoadingView()}
                         </View>
 
 
-                        <View style={style.content}>
-                            <FlatList
+                        <View style={{flex: 1}}>
+                            {comLoading&&<FlatList
                                 data={comVoteList}
                                 renderItem={this.renderItemTo}
                                 refreshing = { false }
@@ -404,9 +390,11 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(voteResultStatus)}
-                            />
+                            />}
+                            {!comLoading && this.renderLoadingView()}
                         </View>
                 </Tabs>
+
 
                 <Modal
                     popup
@@ -436,7 +424,7 @@ class Community extends React.Component {
                             style={style.modalActivityIndicator}
                             size="large"
                         />
-                        <Text style={style.modalText}>正在上传视频...</Text>
+                        <Text style={style.modalText}>正在加载...</Text>
                     </View>
 
                 </Modal>

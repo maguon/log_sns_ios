@@ -54,8 +54,8 @@ class Home extends Component {
     componentDidMount() {
         this.props.getHotLoad()
         this.props.getHotList()
-        this.props.getHomeFollow()
-        Geolocation.getCurrentPosition(info => this.props.getNearList(info))
+        // this.props.getHomeFollow()
+        // Geolocation.getCurrentPosition(info => this.props.getNearList(info))
     }
 
     renderEmpty = () => {
@@ -186,7 +186,7 @@ class Home extends Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail', {item: item, itemList: ""})
+                                    this.props.navigation.navigate('Detail', {item: item, itemList: "",})
                                 }}>
                                     <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]}>
                                         {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
@@ -303,8 +303,6 @@ class Home extends Component {
             }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding,delCollection
         } = this.props
         const {tabIndex} = params
-
-        console.log(nearList)
         return (
             <Provider>
                 <View style={{flex: 1}}>
@@ -327,15 +325,14 @@ class Home extends Component {
                         ListEmptyComponent={this.renderEmpty}
                     />
                     }
-                    {(tabIndex == 0 && !hotLoading) && this.renderLoadingView()}
 
-                    {tabIndex == 1 &&
+
+                    {(tabIndex == 1 && hotLoading) &&
                     <FlatList
                         data={homeFollow}
                         renderItem={this.renderItem}
                         refreshing={false}
                         onRefresh={() => {
-                            console.log("000")
                             update(1)
                         }}
                         onEndReachedThreshold={0.2}
@@ -349,7 +346,8 @@ class Home extends Component {
                     />
                     }
 
-                    {tabIndex == 2 &&
+
+                    {(tabIndex == 2 && hotLoading) &&
                     <FlatList
                         data={nearList}
                         renderItem={this.renderItem}
@@ -368,6 +366,7 @@ class Home extends Component {
                     />
 
                     }
+                    {!hotLoading && this.renderLoadingView()}
                 </View>
 
                 <Modal
@@ -399,7 +398,7 @@ class Home extends Component {
                             style={style.modalActivityIndicator}
                             size="large"
                         />
-                        <Text style={style.modalText}>正在上传视频...</Text>
+                        <Text style={style.modalText}>正在加载...</Text>
                     </View>
 
                 </Modal>
@@ -447,13 +446,13 @@ class Home extends Component {
 
                         {this.state.colls? <TouchableOpacity
                             style={style.border} onPress={() => {
-                            Alert.alert("", "确定要取消关注吗", [{text: "取消"}, {
+                            Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
                                 text: "确定", onPress: () => {
                                     this.setState({
                                         colls: false
                                     })
                                     console.log(this.state.itemInfo)
-                                    delCollection(this.state.itemInfo)
+                                    delCollection({item: this.state.itemInfo, tabIndex: tabIndex})
                                 }
                             }])
 
@@ -467,7 +466,7 @@ class Home extends Component {
                                 colls: true
                             })
                             console.log(this.state.itemInfo)
-                            setCollection(this.state.itemInfo)
+                            setCollection({item: this.state.itemInfo, tabIndex: tabIndex})
                         }}>
                             <AntDesign name="hearto" size={20} color={'#838485'}/>
                             <Text style={style.text}>收藏</Text>

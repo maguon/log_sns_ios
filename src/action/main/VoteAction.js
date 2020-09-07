@@ -2,7 +2,8 @@ import {apiHost} from '../../config/HostConfig'
 import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
-import * as actionType from '../../actionType/index'
+
+import * as action from '../../action/index'
 
 export const setSupport = (value ) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
@@ -15,10 +16,17 @@ export const setSupport = (value ) => async (dispatch, getState) => {
         }else {
              const url = `${apiHost}/user/${userId}/userVote`
              const res = await HttpRequest.post(url, param)
-            if(true){
+            console.log(param)
+            console.log(res)
+            if(res.success){
                 Toast.loading('Loading...', 0.5, () => {
-                    Alert.alert("", "投票成功确认返回", [{text: "确定", onPress: () =>navigation.goBack()}])
+                    Alert.alert("", "投票成功确认返回", [{text: "确定", onPress: () =>{
+                        dispatch(action.CommunityAction.update(3))
+                        navigation.goBack()}}])
                 })
+
+            }else {
+                Toast.fail(res.msg)
             }
          }
 

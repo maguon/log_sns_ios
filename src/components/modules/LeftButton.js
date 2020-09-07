@@ -7,6 +7,7 @@ const LeftButton = props => {
     const {style = styles.left} = props
     return (
         <TouchableOpacity style={style} onPress={() => {
+           console.log(props)
             props.navigation.pop()
         }}>
             <Icon name='left' color='#fff'/>

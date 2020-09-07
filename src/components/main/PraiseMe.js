@@ -56,7 +56,7 @@ class PraiseMe extends Component {
                         const userInfo = item.praise_user_detail_info[0]
                         const msgUserInfo = item.msg_user_detail_info[0]
                         const msgInfo=item.msg_info[0]
-                        console.log(item)
+
                         return (
                             <View style={{flex: 1}}>
                                 <View style={{flexDirection: "row",height:50,alignItems: "center"}}>
@@ -105,12 +105,12 @@ class PraiseMe extends Component {
                                         onPress={() => {
                                             this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item})
                                         }}>
-                                        {(msgInfo.carrier==1&&msgUserInfo.avatar)&&<Image source={{uri: msgUserInfo.avatar, cache: 'force-cache'}}
-                                                                                       style={{width: 50, height: 50}}/>}
-                                        {msgInfo.carrier==2&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].url}`, cache: 'force-cache'}}
-                                                                    style={{width: 50, height: 50}}/>}
-                                        {msgInfo.carrier==3&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].preview}`, cache: 'force-cache'}}
-                                                                    style={{width: 50, height: 50}}/>}
+                                        {/*{(msgInfo.carrier==1&&msgUserInfo.avatar)&&<Image source={{uri: msgUserInfo.avatar, cache: 'force-cache'}}*/}
+                                                                                       {/*style={{width: 50, height: 50}}/>}*/}
+                                        {/*{msgInfo.carrier==2&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].url}`, cache: 'force-cache'}}*/}
+                                                                    {/*style={{width: 50, height: 50}}/>}*/}
+                                        {/*{msgInfo.carrier==3&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].preview}`, cache: 'force-cache'}}*/}
+                                                                    {/*style={{width: 50, height: 50}}/>}*/}
                                         <View style={{flexDirection:'column',marginLeft:5}}>
                                             <Text style={[globalStyles.fourText, {
                                                 fontWeight: "bold"

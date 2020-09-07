@@ -97,7 +97,7 @@ export const setPraise = (params) => async (dispatch, getState) => {
             msgUserId: item._msg_user_id,
             msgComId: item._id,
             msgComUserId: item._user_id,
-            bePraisedUserId: userId
+            bePraisedUserId: item._user_id
         }
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url, params)

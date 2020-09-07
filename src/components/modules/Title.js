@@ -12,6 +12,8 @@ import {connect} from 'react-redux'
 import  ImagePicker from 'react-native-image-picker';
 import { LogLevel, RNFFmpeg } from 'react-native-ffmpeg'
 import* as RNFS from 'react-native-fs'
+import * as action from "../../action";
+import Geolocation from '@react-native-community/geolocation'
 
 let photoOptions = {
     //底部弹出框选项
@@ -60,12 +62,12 @@ class Title extends React.Component {
         this.props.setFile(param)
     }
     launchPhoto() {//打开照相机进行拍照
-
+        this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
         ImageCropPicker.openCamera({
             width: 300,
             height: 400,
         }).then(image => {
-            this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
+
             ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                 .then((resizedImageUri) => {
                     this.props.addFile([{
@@ -149,6 +151,7 @@ class Title extends React.Component {
         )
     }
     openPicker() {
+
         this._timer=setInterval(()=>{
             ImageCropPicker.openPicker({
                 multiple: true,
@@ -157,6 +160,7 @@ class Title extends React.Component {
                 mediaType:'photo',
             }).then(images => {
                 this.isPicker(images)
+                this.props.setWaiting(true)
 
             }).catch(e => console.log(e));
             this._timer&&clearInterval(this._timer);
@@ -172,6 +176,7 @@ class Title extends React.Component {
                 return this.createResizedImage(item)
             }))
             this.uploadImage(newImages)
+            this.props.setWaiting(false)
         }catch (err) {
             console.log('err', err)
         }
@@ -231,7 +236,7 @@ class Title extends React.Component {
 
 
     render() {
-        const {navigation: {state: {routeName}}} = this.props
+        const {navigation: {state: {routeName}},getHotList,getHomeFollow,getNearList} = this.props
         let overlay = [].map((i, index) => (
             <Item key={index} value={`${i}`}>
                 <Text>{i}</Text>
@@ -280,7 +285,16 @@ class Title extends React.Component {
                 <View style={{width: width * 0.6, height: 45.5, alignItems: 'center', backgroundColor: '#1598cc'}}>
                     <Tabs tabs={tabs}
                           onChange={(tab, index) => {
+                              console.log(tab)
                               this.props.navigation.setParams({tab: tab, tabIndex: index})
+                              this.props.getHotLoad()
+                              if(index==0){
+                                  getHotList()
+                              }else if(index==1){
+                                  getHomeFollow()
+                              }else if(index==2){
+                                  Geolocation.getCurrentPosition(info => getNearList(info))
+                              }
                           }}
                           tabBarBackgroundColor='#1598cc'
                           tabBarActiveTextColor='#fff'
@@ -315,7 +329,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch) => ({
-
+    getHotLoad: () => {
+        dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: false}})
+    },
     setFile:(param) => {
         dispatch({type: actionType.HomeActionType.set_File, payload: {setFile: param}})
     },
@@ -324,8 +340,16 @@ const mapDispatchProps = (dispatch) => ({
     },
     setWaiting:(value) => {
         dispatch({type: actionType.HomeActionType.set_Waiting, payload: {waiting: value}})
-    }
-
+    },
+    getHotList: () => {
+        dispatch(action.HomeAction.getHotList())
+    },
+    getHomeFollow: () => {
+        dispatch(action.HomeAction.getHomeFollow())
+    },
+    getNearList: (value) => {
+        dispatch(action.HomeAction.getNearList(value))
+    },
 
 })
 

@@ -156,6 +156,7 @@ class Vote extends React.Component {
 
     render() {
         const {navigation: {state: {params: {item}}}, setSupport} = this.props
+        console.log(item)
         return (
             <Provider>
                 <View style={{flex: 1}}>

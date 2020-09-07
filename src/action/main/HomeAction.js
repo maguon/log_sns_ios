@@ -34,7 +34,9 @@ export const getHomeFollow = () => async (dispatch, getState) => {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/followUserMsg?status=1&start=${homeFollow.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
+        console.log(res)
         if (res.success) {
+            dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.HomeActionType.get_HomeFollow, payload: {homeFollow: res.result, homeComplete: true}})
             } else {
@@ -49,15 +51,16 @@ export const getHomeFollow = () => async (dispatch, getState) => {
 export const getNearList = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},HomeReducer: {nearList}} = getState()
     const {coords:{longitude,latitude}}=value
-    console.log(value)
+    // console.log(value)
     try {
         dispatch({type: actionType.HomeActionType.get_address, payload: {longitude: longitude,latitude: latitude}})
 
         // 基本检索URL
         let url = apiHost+'/user/'+userId+'/nearbyMsg?address=['+longitude+','+latitude+']&radius='+1000+'&start='+nearList.length+'&size='+pageSize
         const res = await HttpRequest.get(url)
-        console.log(res)
+        // console.log(res)
         if (res.success) {
+            dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.HomeActionType.get_NearList, payload: {nearList: res.result,nearComplete: true}})
             } else {
@@ -70,54 +73,7 @@ export const getNearList = (value) => async (dispatch, getState) => {
     }
 }
 
-//收藏
-export const setCollection = (value) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
-    console.log(value)
-    try {
 
-            let params = {
-                msgId: `${value._id}`,
-                msgUserId: `${value._user_id}`,
-                remarks: "string"
-            }
-            console.log(params)
-            let url = `${apiHost}/user/${userId}/userMsgColl`
-            const res = await HttpRequest.post(url, params)
-            console.log(res)
-            if (res.success) {
-                Toast.success('收藏成功', 1, () => {
-                    // dispatch({type: actionType.ItemType.get_MsgId, payload: {msgId: res.id}})
-                    // dispatch({type: actionType.ItemType.get_Star, payload: {msgId: res.true}})
-                })
-            } else {
-                Toast.info(res.msg)
-            }
-
-    } catch (err) {
-        Toast.fail(err.message)
-    }
-}
-//取消收藏
-export const delCollection = (value) => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
-    try {
-        console.log(value._id)
-        // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userMsgColl/${value._id}/del`
-        const res = await HttpRequest.del(url)
-
-        console.log(res)
-        if(res.success){
-
-        }else {
-            Toast.fail(res.msg)
-        }
-    } catch (err) {
-        Toast.fail(err.message)
-    }
-
-}
 
 
 export const update=(tabIndex)=>async (dispatch, getState)=>{
@@ -148,15 +104,14 @@ export const update=(tabIndex)=>async (dispatch, getState)=>{
 //点赞
 export const setPraise = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    console.log(params)
     const {item,tabIndex} =params
 
     try {
         let params={type:1, msgId:`${item._id}`, msgUserId:`${item._user_id}`,bePraisedUserId:`${item._user_id}`}
-        console.log(params)
+        // console.log(params)
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url,params)
-        console.log(res)
+        // console.log(res)
         if(res.success){
             dispatch(update(tabIndex))
         }else {
@@ -251,3 +206,51 @@ export const follow = (params) => async (dispatch, getState) => {
 }
 
 
+//收藏
+export const setCollection = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    console.log(value)
+    const {item,tabIndex} =value
+    try {
+
+        let params = {
+            msgId: `${item._id}`,
+            msgUserId: `${item._user_id}`,
+            remarks: "string"
+        }
+        let url = `${apiHost}/user/${userId}/userMsgColl`
+        const res = await HttpRequest.post(url, params)
+        console.log(res)
+        if (res.success) {
+            Toast.success('收藏成功', 1, () => {
+                dispatch(update(tabIndex))
+            })
+        } else {
+            Toast.info(res.msg)
+        }
+
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+}
+//取消收藏
+export const delCollection = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {item,tabIndex} =value
+    console.log(value)
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userMsgColl/${item.user_msg_colls[0]._id}/del`
+        const res = await HttpRequest.del(url)
+
+        console.log(res)
+        if(res.success){
+            dispatch(update(tabIndex))
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}

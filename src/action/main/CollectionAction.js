@@ -67,10 +67,12 @@ export const setColPraise = (value) => async (dispatch, getState) => {
 //取消收藏
 export const delCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
+    console.log(value)
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userMsgColl/${value._id}/del`
         const res = await HttpRequest.del(url)
+
         if(res.success){
             let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
             const res = await HttpRequest.get(url)
