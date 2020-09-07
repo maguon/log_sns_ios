@@ -50,6 +50,7 @@ class Evaluation extends Component {
                     renderItem={(params) => {
                         const {item, index} = params
                         const userInfo = item.user_detail_info[0]
+                        const msgUserInfo = item.msg_user_detail_info[0]
                         const msgInfo=item.msg_info[0]
                         console.log(item)
                         return (
@@ -58,9 +59,10 @@ class Evaluation extends Component {
 
                                     <TouchableOpacity
                                         style={{marginLeft: width * 0.05, marginTop: width * 0.05}}
-                                        onPress={() => {
-                                            this.props.navigation.navigate('Space', {userId: item._user_id})
-                                        }}>
+                                        // onPress={() => {
+                                        //     this.props.navigation.navigate('Space', {userId: item._user_id})
+                                        // }}
+                                    >
                                         {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
                                                                   style={{
                                                                       width: 35,
@@ -114,7 +116,7 @@ class Evaluation extends Component {
                                         onPress={() => {
                                             this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item})
                                         }}>
-                                        {(msgInfo.carrier==1&&userInfo.avatar)&&<Image source={{uri: userInfo.avatar, cache: 'force-cache'}}
+                                        {msgInfo.carrier==1&&<Image source={{uri: msgUserInfo.avatar, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}
                                         {msgInfo.carrier==2&&<Image source={{uri: `${fileHost}/image/${msgInfo.media[0].url}`, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}
@@ -123,7 +125,7 @@ class Evaluation extends Component {
                                         <View style={{flexDirection:'column',marginLeft:5}}>
                                             <Text style={[globalStyles.fourText, {
                                                 fontWeight: "bold"
-                                            }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
+                                            }]}>{msgUserInfo.nick_name ? msgUserInfo.nick_name : '暂无昵称'}</Text>
                                             <Text style={[globalStyles.smallText,{marginTop:5, width:width*0.7}]}>{msgInfo.info ? (msgInfo.info.length > 80 ? msgInfo.info.substr(0, 80) + "..." : msgInfo.info) : ""}</Text>
                                         </View>
 
