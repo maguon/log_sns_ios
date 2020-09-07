@@ -16,6 +16,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import {CachedImage} from "react-native-img-cache"
+import * as actionType from "../../actionType";
 
 
 const {width} = Dimensions.get('window')
@@ -34,10 +35,7 @@ class Article extends React.Component {
 
     componentDidMount() {
         this.props.getArtInfo()
-        this.props.getArtArticle()
-        this.props.getArtImage()
-        this.props.getArtHelp()
-        this.props.getArtVideo()
+
 
     }
 
@@ -113,11 +111,11 @@ class Article extends React.Component {
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
-                                            <View style={{flexDirection: 'row'}}>
+                                            <View style={{flexDirection: 'row', width: width * 0.65}}>
                                                 {item.address_name!=""&&<AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>}
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
-                                                    marginLeft: 2, marginRight: 15
+                                                    marginLeft: 2
                                                 }]}>{item.address_name ? item.address_name : ''}</Text>
                                             </View>
                                         </View>
@@ -125,7 +123,7 @@ class Article extends React.Component {
                                 }
 
                                 extra={
-                                    <View style={{position: 'absolute', right: 0, marginTop: -15}}>
+                                    <View style={{position: 'absolute', right: 0, marginTop: -20}}>
                                         <Text
                                             style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD hh:mm')}` : ''}</Text>
                                         {/*<Text style={[globalStyles.smallText]}>阅读数:{item.read_num}</Text>*/}
@@ -233,13 +231,25 @@ class Article extends React.Component {
             articleReducer: {
                 artInfo, isComplete, isResultStatus, artLoading, artArticle, artComplete, artResultStatus,
                 artImage, imgComplete, imgResultStatus, artVideo, vidComplete, vidResultStatus, artHelp, helpComplete, helpResultStatus
-            }, getArtInfo, getArtArticle, getArtImage, getArtHelp, getArtVideo} = this.props
+            }, getArtInfo, getArtArticle, getArtImage, getArtHelp, getArtVideo,update} = this.props
 
         return (
             <Provider>
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
+                          this.props.artLoad()
+                          if(index==0){
+                              this.props.getArtInfo()
+                          }else if(index==1){
+                              this.props.getArtArticle()
+                          }else if(index==2){
+                              this.props.getArtImage()
+                          }else if(index==3){
+                              this.props.getArtVideo()
+                          }else if(index==4){
+                              this.props.getArtHelp()
+                          }
                       }}
                       tabBarBackgroundColor='#fff'
                       tabBarActiveTextColor='#1598cc'
@@ -253,6 +263,10 @@ class Article extends React.Component {
                             data={artInfo}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
+                            refreshing={false}
+                            onRefresh={() => {
+                                update(0)
+                            }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
                                 if (!isComplete) {
@@ -264,11 +278,15 @@ class Article extends React.Component {
                         {!artLoading && this.renderLoadingView()}
                     </View>
                     <View style={{flex: 1}}>
-                        <FlatList
+                        {artLoading &&<FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artArticle}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
+                            refreshing={false}
+                            onRefresh={() => {
+                                update(1)
+                            }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
                                 if (!artComplete) {
@@ -276,14 +294,20 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(artResultStatus)}
-                        />
+                        />}
+
+                        {!artLoading && this.renderLoadingView()}
                     </View>
                     <View style={{flex: 1}}>
-                        <FlatList
+                        {artLoading && <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artImage}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
+                            refreshing={false}
+                            onRefresh={() => {
+                                update(2)
+                            }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
                                 if (!imgComplete) {
@@ -291,14 +315,19 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(imgResultStatus)}
-                        />
+                        />}
+                        {!artLoading && this.renderLoadingView()}
                     </View>
                     <View style={{flex: 1}}>
-                        <FlatList
+                        {artLoading &&<FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artVideo}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
+                            refreshing={false}
+                            onRefresh={() => {
+                                update(3)
+                            }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
                                 if (!vidComplete) {
@@ -306,14 +335,19 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
-                        />
+                        />}
+                        {!artLoading && this.renderLoadingView()}
                     </View>
                     <View style={{flex: 1}}>
-                        <FlatList
+                        {artLoading &&<FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artHelp}
                             renderItem={this.renderItem}
                             ListEmptyComponent={this.renderEmpty}
+                            refreshing={false}
+                            onRefresh={() => {
+                                update(4)
+                            }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
                                 if (!helpComplete) {
@@ -321,7 +355,8 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
-                        />
+                        />}
+                        {!artLoading && this.renderLoadingView()}
                     </View>
                 </Tabs>
             </Provider>
@@ -338,6 +373,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    artLoad: () => {
+        dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: false}})
+    },
+    update: () => {
+        dispatch(action.ArticleAction.update())
+    },
     getArtInfo: () => {
         dispatch(action.ArticleAction.getArtInfo())
     },
@@ -354,7 +395,6 @@ const mapDispatchProps = (dispatch, props) => ({
         dispatch(action.ArticleAction.getArtVideo())
     },
     itemDelete: (value ) => {
-        console.log(value)
         dispatch(action.ArticleAction.itemDelete(value))
     },
     setArtPraise: (value ) => {

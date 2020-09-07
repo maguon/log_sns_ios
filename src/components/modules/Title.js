@@ -282,7 +282,7 @@ class Title extends React.Component {
                     />
                 </View>
                 {routeName == 'Home' &&
-                <View style={{width: width * 0.6, height: 45.5, alignItems: 'center', backgroundColor: '#1598cc'}}>
+                <View style={{width: width * 0.6, height: 46, alignItems: 'center',borderColor:"#fff", backgroundColor: '#1598cc'}}>
                     <Tabs tabs={tabs}
                           onChange={(tab, index) => {
                               console.log(tab)

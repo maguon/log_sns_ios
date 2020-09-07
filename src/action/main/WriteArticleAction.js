@@ -16,7 +16,7 @@ export const createArticle = (props) => async (dispatch, getState) => {
         const typeBool = setFile.filter((item) => {
             return item.preview != ""
         })
-        if (setFile) {
+        if (setFile!="") {
             if (typeBool.length == 0) {
                 carrierType = 2
                 const fileUrl = `${fileHost}/user/${userId}/image`
@@ -50,7 +50,7 @@ export const createArticle = (props) => async (dispatch, getState) => {
             carrierType = 1
         }
 
-
+        //
         // console.log('carrierType', carrierType)
         // console.log('setFile', setFile)
         if (props.navigation.state.params.title == "发布求助") {

@@ -12,7 +12,7 @@ export const getArtInfo = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ArticleReducer:{artInfo}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&status=1&start=${artInfo.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&status=1&start=${artInfo.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
@@ -35,10 +35,11 @@ export const getArtArticle = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ArticleReducer:{artArticle}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=1&status=1&start=${artArticle.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=1&status=1&start=${artArticle.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtArticle, payload: {artArticle: res.result, isComplete: true}})
             } else {
@@ -56,10 +57,11 @@ export const getArtImage = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ArticleReducer:{artImage}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=2&status=1&start=${artImage.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=2&status=1&start=${artImage.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtImage, payload: {artImage: res.result, isComplete: true}})
             } else {
@@ -76,10 +78,11 @@ export const getArtVideo = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ArticleReducer:{artVideo}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=3&status=1&start=${artVideo.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=3&status=1&start=${artVideo.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtVideo, payload: {artVideo: res.result, isComplete: true}})
             } else {
@@ -97,10 +100,11 @@ export const getArtHelp = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},ArticleReducer:{artHelp}} = getState()
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=${artHelp.length}&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=2&status=1&start=${artHelp.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtHelp, payload: {artHelp: res.result, isComplete: true}})
             } else {
@@ -117,32 +121,32 @@ export const getArtHelp = () => async (dispatch, getState) => {
 export const update=(tabIndex)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},ArticleReducer:{artInfo,artArticle,artImage,artVideo,artHelp}} = getState()
     if(tabIndex==0){
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&status=1&start=0&size=${artInfo.length}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&status=1&start=0&size=${artInfo.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.ArticleType.set_ArtInfo_Praise, payload: {artInfo: res.result}})
         }
     }else if(tabIndex==1){
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=1&status=1&start=0&size=${artArticle.length}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=1&status=1&start=0&size=${artArticle.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.ArticleType.set_ArtArticle_Praise, payload: {artArticle: res.result}})
         }
 
     }else if(tabIndex==2){
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=2&status=1&start=0&size=${artImage.length}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=2&status=1&start=0&size=${artImage.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.ArticleType.set_ArtImage_Praise, payload: {artImage: res.result}})
         }
     }else if(tabIndex==3){
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${userId}&carrier=3&status=1&start=0&size=${artVideo.length}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=3&status=1&start=0&size=${artVideo.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.ArticleType.set_ArtVideo_Praise, payload: {artVideo: res.result}})
         }
     }else if(tabIndex==4){
-        let url = `${apiHost}/user/${userId}/msg?type=2&carrier=1&status=1&start=0&size=${artHelp.length}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=2&status=1&start=0&size=${artHelp.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.ArticleType.set_ArtHelp_Praise, payload: {artHelp: res.result}})
