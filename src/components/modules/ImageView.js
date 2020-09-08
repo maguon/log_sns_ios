@@ -35,6 +35,7 @@ class ImageView extends Component {
                     loop={false}
                     loadMinimal={true}
                     loadMinimalSize={1}
+                    loadMinimalLoader={<ActivityIndicator />}
                     dot={
                         <View
                             style={{
@@ -52,7 +53,7 @@ class ImageView extends Component {
 
                 >
                     {media.map((item, i) => {
-                        return <View key={i} style={styles.wrapper}>
+                        return <TouchableOpacity activeOpacity={1} key={i} style={styles.wrapper} onPress={()=>navigation.pop()}>
                             <CachedImage
                                 source={{ uri: `${fileHost}/image/${item.url}` }}
                                 resizeMode='contain'
@@ -64,26 +65,27 @@ class ImageView extends Component {
                                 //     </View>
                                 // }
                                 style={{width: width, height: height}}
+
                             />
 
-                        </View>
+                        </TouchableOpacity>
                     })}
                 </Swiper>
 
-                <View style={{
-                    height: 70,
-                    width: width,
-                    position: 'absolute',
-                    top: 0,
-                    flexDirection: "row",
-                    justifyContent: 'space-around',
-                    alignItems: 'center'
-                }}>
-                    <TouchableOpacity style={{position: 'absolute', left: 0,}}
-                                      onPress={()=>navigation.pop()}>
-                        <Icon name='left' style={{color: "white", marginLeft: 15}}/>
-                    </TouchableOpacity>
-                </View>
+                {/*<View style={{*/}
+                    {/*height: 70,*/}
+                    {/*width: width,*/}
+                    {/*position: 'absolute',*/}
+                    {/*top: 0,*/}
+                    {/*flexDirection: "row",*/}
+                    {/*justifyContent: 'space-around',*/}
+                    {/*alignItems: 'center'*/}
+                {/*}}>*/}
+                    {/*<TouchableOpacity style={{position: 'absolute', left: 0,}}*/}
+                                      {/*onPress={()=>navigation.pop()}>*/}
+                        {/*<Icon name='left' style={{color: "white", marginLeft: 15}}/>*/}
+                    {/*</TouchableOpacity>*/}
+                {/*</View>*/}
 
 
             </Provider>
