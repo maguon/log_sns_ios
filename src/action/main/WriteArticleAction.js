@@ -42,7 +42,7 @@ export const createArticle = (props) => async (dispatch, getState) => {
                 console.log('fileRes', fileRes)
                 setFile.map((item, index) => {
                     item.url = fileRes[index].result.url
-                    // item.preview=fileRes[index].result.preview
+                    item.preview=fileRes[index].result.preview
                 })
                 console.log('setFile', setFile)
             }
@@ -50,7 +50,6 @@ export const createArticle = (props) => async (dispatch, getState) => {
             carrierType = 1
         }
 
-        //
         // console.log('carrierType', carrierType)
         // console.log('setFile', setFile)
         if (props.navigation.state.params.title == "发布求助") {

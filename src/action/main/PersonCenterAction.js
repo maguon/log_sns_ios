@@ -3,6 +3,8 @@ import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import * as action from "../index";
+import CacheHelper from "react-native-rn-cacheimage/CacheHelper";
 
 export const getUserInfo = (props) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
@@ -21,4 +23,13 @@ export const getUserInfo = (props) => async (dispatch, getState) => {
         Toast.fail(err.message)
     }
 
+}
+
+export const getSize = async () => {
+    dispatch(action.PersonCenterAction.getUserInfo(props))
+    try {
+        size = await CacheHelper.getCacheSizeFormat();
+    } catch (error) {
+        // Error retrieving data
+    }
 }

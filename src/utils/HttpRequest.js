@@ -88,8 +88,10 @@ function postFile(url, params) {
 
 function postVideo(url, params) {
     let formData = new FormData()
-    let file = { uri:params.video,preview: params.preview, type: 'multipart/form-data', name: 'video.mp4' }
-    formData.append(params.key, file)
+    let file = { uri:params.video, type: 'multipart/form-data', name: 'video.mp4' }
+    let preFile = { uri:params.preview, type: 'multipart/form-data', name: 'image.png' }
+    formData.append('video', file)
+    formData.append('preview', preFile)
     console.log("formData", formData)
     return fetch(url, {
         method: 'POST',

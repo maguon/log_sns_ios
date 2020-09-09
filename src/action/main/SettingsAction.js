@@ -1,19 +1,13 @@
-import {apiHost} from '../../config/HostConfig'
-import HttpRequest from '../../utils/HttpRequest'
-import {Alert} from 'react-native'
-import {Toast} from '@ant-design/react-native'
-import * as actionType from '../../actionType/index'
 
-export const toLogin = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+import {CacheHelper} from 'react-native-rn-cacheimage';
+import * as actionType from "../../actionType/index";
+
+export const getSize =()=> async (dispatch, getState) => {
     try {
-        // 基本检索URL
-        let url = `${apiHost}/userLogin`
-        const res = await HttpRequest.get(url)
+       const size = await CacheHelper.getCacheSizeFormat();
+        dispatch({ type: actionType.SettingsType.get_size_success, payload: { size: size} })
 
-
-    } catch (err) {
-        Toast.fail(err.message)
+    } catch (error) {
+        // Error retrieving data
     }
-
-}
+};

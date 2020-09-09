@@ -22,7 +22,7 @@ import * as actionType from "../../actionType";
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import Entypo from "react-native-vector-icons/Entypo";
-import {CachedImage} from "react-native-img-cache"
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 
 
 
@@ -191,7 +191,7 @@ class Community extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <CachedImage source={{
+                                                    <AnimatedCacheImage source={{
                                                         uri: `${fileHost}/image/${item.url}`
                                                     }}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>

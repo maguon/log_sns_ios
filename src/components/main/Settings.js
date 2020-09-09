@@ -1,49 +1,37 @@
 import React from 'react'
 import {View, Text, ScrollView, StyleSheet,Alert} from 'react-native'
 import globalStyles from "../../utils/GlobalStyles"
-import {List, WhiteSpace} from "@ant-design/react-native"
+import {List, WhiteSpace, Provider, Modal, ActivityIndicator} from "@ant-design/react-native"
 import Icon from "react-native-vector-icons/MaterialCommunityIcons"
-import  clear from 'react-native-clear-app-cache'
-
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+// import ImageCropPicker from "react-native-image-crop-picker";
+// import * as actionType from "../../actionType/index";
+import * as action from "../../action/index";
+import {connect} from 'react-redux'
 const Item = List.Item
 
 class Setting extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            cacheSize:"",
-            unit:"",
-        };
-        // clear.getAppCacheSize((value,unit)=>{
-        //     this.setState({
-        //         cacheSize:value, //缓存大小
-        //         unit:unit  //缓存单位
-        //     })
-        // });
+        this.state={
+            size:"0kb",
+            waiting:false
+        }
     }
 
-    componentWillMount() {
-        console.log(clear)
+    componentDidMount() {
+        this.props.getSize()
+        // const {navigation: {state: {params: {size}}},} = this.props
+        // this.setState({
+        //     size: size
+        // })
     }
-    //  清除缓存
-    clearCache(){
-        clear.clearAppCache(() => {
-            console.log("清除成功");
-            clear.getAppCacheSize((value, unit) => {
-                this.setState({
-                    cacheSize: value,
-                    unit: unit
-                })
-            });
-        });
-    }
-
 
 
     render() {
-        const {navigation} = this.props
+        const {navigation,SettingsReducer:{size},getSize} = this.props
         return (
-            <View style={{flex: 1}}>
+            <Provider style={{flex: 1}}>
                 <ScrollView style={globalStyles.container}>
                     <List>
                         <Item arrow="horizontal"
@@ -84,15 +72,47 @@ class Setting extends React.Component {
                               thumb={<Icon name="account-group-outline" size={25} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>关于我们</Text></Item>
                         <Item
-                            extra={<Text style={globalStyles.midText}>{this.state.cacheSize}{this.state.unit}</Text>}
+                            extra={<Text style={globalStyles.midText}>{size}</Text>}
                             onPress={() => {
-                                this.clearCache()
+
+                                Alert.alert("", "确定要清理缓存吗", [{text: "取消"}, {
+                                    text: "确定", onPress: () => {
+                                        this.setState({
+                                            waiting:true
+                                        })
+                                        CacheHelper.clearCache().then((err)=>{
+                                            getSize()
+                                            this._timer=setInterval(()=>{
+                                                this.setState({
+                                                    waiting:false
+                                                })
+                                                this._timer&&clearInterval(this._timer);
+
+                                            },1000);
+                                        })
+                                    }
+                                }])
                             }}
                             thumb={<Icon name="cached" size={25} style={style.icon}/>}>
                             <Text style={globalStyles.largeText}>清理缓存</Text></Item>
                     </List>
                 </ScrollView>
-            </View>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.waiting}
+                    style={style.modalContainer}>
+                    <View style={style.modalItem}>
+                        <ActivityIndicator
+                            animating={true}
+                            style={style.modalActivityIndicator}
+                            size="large"
+                        />
+                        <Text style={style.modalText}>正在清除缓存...</Text>
+                    </View>
+
+                </Modal>
+            </Provider>
         )
     }
 
@@ -102,8 +122,43 @@ const style = StyleSheet.create({
     icon: {
         marginRight: 15,
         color: '#838485',
+    },
+    modalContainer: {
+        height: 80,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    modalItem: {
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalActivityIndicator: {
+        height: 40
+    },
+    modalText: {
+        color: '#fff',
+        paddingLeft: 10
     }
 })
+const mapStateToProps = (state) => {
+    return {
+        SettingsReducer: state.SettingsReducer
+    }
+}
+
+const mapDispatchProps = (dispatch) => ({
+    getSize: () => {
+        dispatch(action.SettingsAction.getSize())
+    },
 
 
-export default Setting
+})
+
+export default connect(mapStateToProps, mapDispatchProps)(Setting)
+
+

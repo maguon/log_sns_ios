@@ -10,7 +10,8 @@ import {Icon, Provider} from "@ant-design/react-native"
 import Swiper from 'react-native-swiper'
 import {connect} from 'react-redux'
 import {fileHost} from "../../config/HostConfig"
-import {CachedImage} from "react-native-img-cache"
+
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 
 const {width, height} = Dimensions.get('window')
 
@@ -54,7 +55,7 @@ class ImageView extends Component {
                 >
                     {media.map((item, i) => {
                         return <TouchableOpacity activeOpacity={1} key={i} style={styles.wrapper} onPress={()=>navigation.pop()}>
-                            <CachedImage
+                            <AnimatedCacheImage
                                 source={{ uri: `${fileHost}/image/${item.url}` }}
                                 resizeMode='contain'
                                 // minimumZoomScale={1}

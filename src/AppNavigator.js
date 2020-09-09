@@ -67,6 +67,7 @@ import ImageView from './components/modules/ImageView'
 import DetailTitle from './components/modules/DetailTitle'
 import DetailRig from './components/modules/DetailRig'
 import ComRightButton from "./components/modules/ComRightButton"
+import LocRightButton from "./components/modules/LocRightButton"
 import Agreement from "./components/modules/Agreement"
 
 //登录页面
@@ -226,7 +227,8 @@ const Main = createStackNavigator({
     screen: ImageView,
         navigationOptions: ({navigation}) => ({
         tabBarVisible: true,
-            header: null
+            header: null,
+            headerLeft: <LeftButton navigation={navigation}/>
     })
 },
 
@@ -260,7 +262,8 @@ const Main = createStackNavigator({
         screen: Location,
         navigationOptions: ({navigation}) => ({
             title: '定位',
-            tabBarVisible: false
+            tabBarVisible: false,
+            headerRight:  <LocRightButton navigation={navigation}/>,
         })
     },
     Report: {

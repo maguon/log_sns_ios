@@ -19,7 +19,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import moment from "moment";
 import * as action from "../../action";
 import {ActivityIndicator} from "@ant-design/react-native";
-import {CachedImage} from "react-native-img-cache"
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 
 
 const {width, height} = Dimensions.get('window')
@@ -115,7 +115,7 @@ class Detail extends Component {
                                     }}>
 
                                         <View style={globalStyles.item}>
-                                            <CachedImage source={{
+                                            <AnimatedCacheImage source={{
                                                 uri: `${fileHost}/image/${item.url}`
                                             }}
                                                    style={{width: cellWH, height: cellWH, borderRadius: 5}}/>

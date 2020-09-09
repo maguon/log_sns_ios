@@ -15,7 +15,7 @@ import * as action from "../../action/index"
 import globalStyles from "../../utils/GlobalStyles"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
-import {CachedImage} from "react-native-img-cache"
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 import * as actionType from "../../actionType";
 
 
@@ -148,7 +148,7 @@ class Article extends React.Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <CachedImage source={{uri: `${fileHost}/image/${item.url}`}}
+                                                    <AnimatedCacheImage source={{uri: `${fileHost}/image/${item.url}`}}
                                                            style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                                 </View>
                                             </TouchableOpacity>

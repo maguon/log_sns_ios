@@ -31,8 +31,7 @@ import * as actionType from "../../actionType/index";
 import Video from "react-native-video";
 import {fileHost, videoHost} from '../../config/HostConfig'
 import Entypo from "react-native-vector-icons/Entypo";
-import {CachedImage} from "react-native-img-cache"
-
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 
 const {width, height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -114,7 +113,8 @@ class Home extends Component {
         });
     }
     onLoadStart = () => {
-        return (<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
             <ActivityIndicator size="large" color="red"/>
         </View>)
     }
@@ -207,10 +207,10 @@ class Home extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <CachedImage source={{
+                                                    <AnimatedCacheImage source={{
                                                         uri: `${fileHost}/image/${item.url}`
                                                     }}
-                                                                 onLoadStart={this.onLoadStart}
+                                                                        onLoadStart={this.onLoadStart}
                                                                  style={{
                                                                      width: cellWH,
                                                                      height: cellWH,
@@ -232,7 +232,19 @@ class Home extends Component {
                                        controls={true}
                                        resizeMode="cover"
                                        style={globalStyles.image}/>
-                                }
+                                    //
+                                    // <ImageBackground source={{uri: 'http://media.myxxjs.com/group1/M00/00/01/Ch4sOV9YH8CADDYtAAEZs2X_3f4797.png'}}
+                                    //              style={globalStyles.image}>
+                                    //     <TouchableOpacity  onPress={() => {
+                                    //         this.props.navigation.navigate('Detail', {item: item, itemList: ""})
+                                    //     }}>
+                                    //     <AntDesign name="play" size={60} color='#323334'/>
+                                    //     </TouchableOpacity>
+                                    // </ImageBackground>
+
+                               }
+
+
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
                                                                        style={globalStyles.image}></ImageBackground>}
                             </Card.Body>

@@ -196,7 +196,7 @@ class WriteArticle extends Component {
                 mediaType:'photo',
             }).then(images => {
                 this.isPicker(images)
-
+                this.setState({waiting: true});
             }).catch(e => console.log(e));
             this._timer&&clearInterval(this._timer);
 
@@ -210,6 +210,7 @@ class WriteArticle extends Component {
                 return this.createResizedImage(item)
             }))
             this.props.addFile(newImages)
+            this.setState({waiting: false});
         }catch (err) {
             console.log('err', err)
         }
@@ -341,16 +342,16 @@ class WriteArticle extends Component {
                 <Modal
                     animationType={"fade"}
                     transparent={true}
-                    visible={isResultStatus==1}
+                    visible={this.state.waiting}
                     onRequestClose={() => { }}>
                     <View style={style.modalContainer} >
                         <View style={style.modalItem}>
                             <ActivityIndicator
-                                animating={isResultStatus==1}
+                                animating={true}
                                 style={style.modalActivityIndicator}
                                 size="large"
                             />
-                            <Text style={style.modalText}>正在发布请稍等...</Text>
+                            <Text style={style.modalText}>正在加载...</Text>
                         </View>
                     </View>
                 </Modal>
@@ -394,6 +395,7 @@ const mapDispatchToProps = (dispatch) => ({
     onChange:(value)=>{
         dispatch(actionType.WriteArticleType.on_Switch_Change (value) )
     },
+
    setContent:(value)=>{
     dispatch(actionType.WriteArticleType.create_content (value) )
    },
