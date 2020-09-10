@@ -108,7 +108,8 @@ const globalStyles = StyleSheet.create({
         marginTop: 5,
         marginLeft: 5,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor:'#aaa'
     },
     image: {
         flex: 1,

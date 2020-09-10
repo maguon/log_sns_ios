@@ -48,6 +48,7 @@ import Collection from './components/main/Collection'
 import Evaluation from './components/main/Evaluation'
 import Vote from './components/main/Vote'
 import LocationCollection from './components/main/LocationCollection'
+import LocationMap from './components/main/LocationMap'
 import Settings from './components/main/Settings'
 import ChangePassWord from './components/main/ChangePassWord'
 import ChangePhone from './components/main/ChangePhone'
@@ -67,7 +68,6 @@ import ImageView from './components/modules/ImageView'
 import DetailTitle from './components/modules/DetailTitle'
 import DetailRig from './components/modules/DetailRig'
 import ComRightButton from "./components/modules/ComRightButton"
-import LocRightButton from "./components/modules/LocRightButton"
 import Agreement from "./components/modules/Agreement"
 
 //登录页面
@@ -228,7 +228,6 @@ const Main = createStackNavigator({
         navigationOptions: ({navigation}) => ({
         tabBarVisible: true,
             header: null,
-            headerLeft: <LeftButton navigation={navigation}/>
     })
 },
 
@@ -263,7 +262,6 @@ const Main = createStackNavigator({
         navigationOptions: ({navigation}) => ({
             title: '定位',
             tabBarVisible: false,
-            headerRight:  <LocRightButton navigation={navigation}/>,
         })
     },
     Report: {
@@ -415,6 +413,13 @@ const Main = createStackNavigator({
         screen: LocationCollection,
         navigationOptions: ({navigation}) => ({
             title: '我收藏的位置',
+            tabBarVisible: false
+        })
+    },
+    LocationMap: {
+        screen: LocationMap,
+        navigationOptions: ({navigation}) => ({
+            title: '收藏位置',
             tabBarVisible: false
         })
     },

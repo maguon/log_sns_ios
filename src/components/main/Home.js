@@ -114,9 +114,8 @@ class Home extends Component {
     }
     onLoadStart = () => {
         return (
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
             <ActivityIndicator size="large" color="red"/>
-        </View>)
+        )
     }
 
     renderItem = (props) => {
@@ -207,9 +206,7 @@ class Home extends Component {
                                             }}>
 
                                                 <View style={globalStyles.item}>
-                                                    <AnimatedCacheImage source={{
-                                                        uri: `${fileHost}/image/${item.url}`
-                                                    }}
+                                                    <AnimatedCacheImage source={{uri: `${fileHost}/image/${item.url}`}}
                                                                         onLoadStart={this.onLoadStart}
                                                                  style={{
                                                                      width: cellWH,

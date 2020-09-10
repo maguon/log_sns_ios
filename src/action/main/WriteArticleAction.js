@@ -3,8 +3,10 @@ import * as actionType from '../../actionType/index'
 import httpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
+import* as RNFS from 'react-native-fs'
 
 const iosMapKey = '22d16ea40b6fdb3ebc3daa1b48db3287'
+const DocumentDirectoryPath = RNFS.DocumentDirectoryPath
 let carrierType = ""
 export const createArticle = (props) => async (dispatch, getState) => {
     console.log(props)
@@ -40,11 +42,17 @@ export const createArticle = (props) => async (dispatch, getState) => {
                     preview: item.preview,
                 })))
                 console.log('fileRes', fileRes)
-                setFile.map((item, index) => {
-                    item.url = fileRes[index].result.url
-                    item.preview=fileRes[index].result.preview
-                })
-                console.log('setFile', setFile)
+
+                    setFile.map((item, index) => {
+                        item.url = fileRes[index].result.url
+                        item.preview=fileRes[index].result.preview
+
+                    })
+                RNFS.unlink(`${DocumentDirectoryPath}/images`)
+                    .then(()=>console.log("成功删除"))
+                    console.log('setFile', setFile)
+
+
             }
         } else {
             carrierType = 1

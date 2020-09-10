@@ -6,6 +6,7 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import {connect} from "react-redux"
 import * as action from "../../action/index"
 import * as ios_app from '../../../app.json'
+import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 
 const Item = List.Item
 
@@ -17,6 +18,8 @@ class PersonCenter extends React.Component {
     componentDidMount() {
         this.props.getUserInfo();
     }
+
+
 
     render() {
         const {navigation, personCenterReducer: {userInfo: {nick_name, intro, avatar}}} = this.props
@@ -93,15 +96,15 @@ class PersonCenter extends React.Component {
                             <Text style={globalStyles.largeText}>我参与的投票</Text></Item>
                     </List>
                     <WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>
-                    {/*<List>*/}
-                        {/*<Item arrow="horizontal"*/}
-                              {/*onPress={() => {*/}
-                                  {/*navigation.navigate('LocationCollection')*/}
-                              {/*}}*/}
-                              {/*thumb={<AntDesign name="enviromento" size={20} style={style.icon}/>}>*/}
-                            {/*<Text style={globalStyles.largeText}>我收藏的位置</Text></Item>*/}
-                    {/*</List>*/}
-                    {/*<WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>*/}
+                    <List>
+                        <Item arrow="horizontal"
+                              onPress={() => {
+                                  navigation.navigate('LocationCollection')
+                              }}
+                              thumb={<AntDesign name="enviromento" size={20} style={style.icon}/>}>
+                            <Text style={globalStyles.largeText}>我收藏的位置</Text></Item>
+                    </List>
+                    <WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>
                     <List>
                         <Item arrow="horizontal"
                               onPress={() => {

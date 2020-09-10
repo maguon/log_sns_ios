@@ -42,6 +42,7 @@ let photoOptions = {
 const Item = Popover.Item
 const {width} = Dimensions.get('window')
 const tabs = [{title: '热门'}, {title: '关注'}, {title: '附近'},]
+const DocumentDirectoryPath = RNFS.DocumentDirectoryPath
 
 class Title extends React.Component {
     constructor(props) {
@@ -86,6 +87,14 @@ class Title extends React.Component {
                 })
         })
     }
+
+    //生成唯一标识符 名称
+    guid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        })
+    }
     launchCamera() {
 
         ImagePicker.launchCamera(photoOptions, (response) => {
@@ -97,9 +106,12 @@ class Title extends React.Component {
             }
             else {
 
+
                 this.props.setWaiting(true)
                 const path=response.uri.replace("MOV","mp4")
-                const newpath=`${RNFS.CachesDirectoryPath}/preview.jpg`;
+                const newpath=`${RNFS.DocumentDirectoryPath}/images/${this.guid()}.jpg`;
+                console.log(path)
+                console.log(newpath)
                 RNFFmpeg.execute(` -i ${response.uri} -ss 00:00:01  -frames:v 1  -f image2 -y ${newpath}`).then(result => console.log("result",result.rc));
 
                 RNFFmpeg.executeWithArguments(["-i", response.uri,"-b:v","2M","-vf","scale=-2:1080", path]).then(result =>{

@@ -123,6 +123,13 @@ class WriteArticle extends Component {
 
         })
     }
+
+    guid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        })
+    }
     launchCamera() {
 
         ImagePicker.launchCamera(photoOptions, (response) => {
@@ -135,7 +142,7 @@ class WriteArticle extends Component {
             else {
                 this.setState({waiting: true});
                 const path=response.uri.replace("MOV","mp4")
-                const newpath=`${RNFS.CachesDirectoryPath}/preview.jpg`;
+                const newpath=`${RNFS.DocumentDirectoryPath}/images/${this.guid()}.jpg`;
                 RNFFmpeg.execute(` -i ${response.uri} -ss 00:00:01  -frames:v 1  -f image2 -y ${newpath}`).then(result => console.log("result",result.rc));
                 RNFFmpeg.executeWithArguments(["-i", response.uri,"-b:v","2M","-vf","scale=-2:1080", path]).then(result =>{
                     //压缩成功
