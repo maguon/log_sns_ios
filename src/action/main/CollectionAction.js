@@ -7,13 +7,12 @@ import * as actionType from '../../actionType/index'
 
 const pageSize = 5
 export const getCollection = () => async (dispatch, getState) => {
-    const {LoginReducer: {userId}} = getState()
+    const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
     try {
-        // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${pageSize}`
+        let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
         const res = await HttpRequest.get(url)
-        if(res.success){
-                dispatch({type: actionType.CollectionType.set_Collection, payload: {collectionList: res.result}})
+        if (res.success) {
+            dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: res.result } })
         }
     } catch (err) {
         Toast.fail(err.message)
@@ -74,12 +73,7 @@ export const delCollection = (value) => async (dispatch, getState) => {
         const res = await HttpRequest.del(url)
 
         if(res.success){
-            let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
-            const res = await HttpRequest.get(url)
-            if (res.success) {
-                dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: res.result } })
-            }
-
+                dispatch(getCollection())
         }else {
             Toast.fail(res.msg)
         }

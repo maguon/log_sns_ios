@@ -9,12 +9,11 @@ const initialState={
 
 export  default  handleActions({
 
-    [actionType.CollectionType.set_Collection]: (state, action) => {
-        const {payload:{collectionList}}=action
+    [actionType.CollectionType.clear_CollectionList]: (state, action) => {
         return {
             ...state,
-            collectionList:collectionList,
-            colResultStatus: 1,
+            collectionList:"",
+            colResultStatus:0,
         }
     },
 

@@ -454,18 +454,29 @@ class Home extends Component {
                             </TouchableOpacity>}
 
                         {this.state.colls? <TouchableOpacity
-                            style={style.border} onPress={() => {
-                            Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
-                                text: "确定", onPress: () => {
-                                    this.setState({
-                                        colls: false
-                                    })
-                                    console.log(this.state.itemInfo)
-                                    delCollection({item: this.state.itemInfo, tabIndex: tabIndex})
-                                }
-                            }])
+                            style={style.border}
 
-                        }}
+                            onPress={() => {
+                                    Alert.alert("", "您已收藏", [ {
+                                        text: "确定", onPress: () => {
+                                            this.moreClose()
+                                        }
+                                    }])
+
+                                }}
+
+                        //     onPress={() => {
+                        //     Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
+                        //         text: "确定", onPress: () => {
+                        //             this.setState({
+                        //                 colls: false
+                        //             })
+                        //             console.log(this.state.itemInfo)
+                        //             delCollection({item: this.state.itemInfo, tabIndex: tabIndex})
+                        //         }
+                        //     }])
+                        //
+                        // }}
                         >
                             <AntDesign name="heart" size={20} color={'#ffaf27'}/>
                             <Text style={style.text}>已收藏</Text>
@@ -476,6 +487,7 @@ class Home extends Component {
                             })
                             console.log(this.state.itemInfo)
                             setCollection({item: this.state.itemInfo, tabIndex: tabIndex})
+                            this.moreClose()
                         }}>
                             <AntDesign name="hearto" size={20} color={'#838485'}/>
                             <Text style={style.text}>收藏</Text>

@@ -38,7 +38,8 @@ class Community extends React.Component {
             uri: "",
             moreVisible: false,
             shareVisible:false,
-            follow:false
+            follow:false,
+            colls:false
         }
     }
 
@@ -159,7 +160,8 @@ class Community extends React.Component {
                                                           this.setState({
                                                               moreVisible: true,
                                                               itemInfo: item,
-                                                              follow:item.user_relations == "" ?true:false
+                                                              follow:item.user_relations == "" ?true:false,
+                                                              colls:item.user_msg_colls == "" ? false:true ,
                                                           })
                                                       }
                                                       }>
@@ -468,23 +470,45 @@ class Community extends React.Component {
                                 <Text style={style.text}>已关注</Text>
                             </TouchableOpacity>}
 
-                        {this.state.visible? <TouchableOpacity
-                                style={style.border} onPress={()=>{
-                                this.setState({
-                                    visible:false
-                                })
-                                setCollection(this.state.itemInfo)
-                            }}>
-                                <AntDesign name="hearto" size={20} color={'#838485'}/>
-                                <Text style={style.text}>收藏</Text>
-                            </TouchableOpacity>:
+                        {this.state.colls? <TouchableOpacity
+                            style={style.border}
 
-                            <TouchableOpacity
-                                style={style.border}
-                            >
-                                <AntDesign name="heart" size={20} color={'#ffaf27'}/>
-                                <Text style={style.text}>已收藏</Text>
-                            </TouchableOpacity>}
+                            onPress={() => {
+                                Alert.alert("", "您已收藏", [ {
+                                    text: "确定", onPress: () => {
+                                        this.moreClose()
+                                    }
+                                }])
+
+                            }}
+
+                            //     onPress={() => {
+                            //     Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
+                            //         text: "确定", onPress: () => {
+                            //             this.setState({
+                            //                 colls: false
+                            //             })
+                            //             console.log(this.state.itemInfo)
+                            //             delCollection({item: this.state.itemInfo, tabIndex: tabIndex})
+                            //         }
+                            //     }])
+                            //
+                            // }}
+                        >
+                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
+                            <Text style={style.text}>已收藏</Text>
+                        </TouchableOpacity>:<TouchableOpacity
+                            style={style.border} onPress={() => {
+                            this.setState({
+                                colls: true
+                            })
+                            console.log(this.state.itemInfo)
+                            setCollection({item: this.state.itemInfo, tabIndex: this.state.tabIndex})
+                            this.moreClose()
+                        }}>
+                            <AntDesign name="hearto" size={20} color={'#838485'}/>
+                            <Text style={style.text}>收藏</Text>
+                        </TouchableOpacity>}
 
                         <TouchableOpacity style={style.border}
                                           onPress={() => {

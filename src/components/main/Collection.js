@@ -11,7 +11,7 @@ import {
     ImageBackground, Alert
 } from 'react-native'
 import {connect} from "react-redux"
-import {Provider, WhiteSpace, WingBlank,Card} from "@ant-design/react-native"
+import {Provider, WhiteSpace, WingBlank, Card} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import moment from "moment"
 import globalStyles from "../../utils/GlobalStyles"
@@ -19,10 +19,12 @@ import * as action from "../../action/index"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import * as actionType from "../../actionType";
 
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
+
 class Collection extends React.Component {
     constructor(props) {
         super(props)
@@ -33,7 +35,11 @@ class Collection extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCollection()
+        this.props.getCollectionList()
+    }
+
+    componentWillUnmount() {
+        this.props.clearCollectionList()
     }
 
     renderEmpty = () => {
@@ -46,11 +52,24 @@ class Collection extends React.Component {
 
 
     ListFooterComponent = (param) => {
-        if(param==1) {
-            return(
-                <View style={{height: 10}}/>
+        if(param==0){
+                return (
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <ActivityIndicator/>
+                    </View>
+                )
+        }else if (param == 1) {
+            return (
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据</Text>
+                </View>
             )
-        }else if(param==2) {
+        } else if (param == 2) {
             return (
                 <View style={globalStyles.footerContainer}>
                     <ActivityIndicator/>
@@ -61,10 +80,10 @@ class Collection extends React.Component {
     }
 
     renderItem = (props) => {
-        const {item,index} = props
-        const {delCollection,setColPraise}=this.props
+        const {item, index} = props
+        const {delCollection, setColPraise} = this.props
         const userInfo = item.msg_user_detail_info[0]
-        const msgInfo=item.msg_info[0]
+        const msgInfo = item.msg_info[0]
 
         if (msgInfo.carrier == 2) {
             if (msgInfo.media.length < 2) {
@@ -94,7 +113,7 @@ class Collection extends React.Component {
                                             <Text
                                                 style={globalStyles.largeText}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
 
-                                            <View style={{flexDirection: 'row',width: width * 0.65}}>
+                                            <View style={{flexDirection: 'row', width: width * 0.65}}>
                                                 <AntDesign name="enviroment" size={12} style={{color: '#ff9803'}}/>
                                                 <Text style={[globalStyles.smallText, {
                                                     marginTop: 2,
@@ -114,26 +133,33 @@ class Collection extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('CollectionDetail',{item:item,itemList:item})
+                                    this.props.navigation.navigate('CollectionDetail', {item: item, itemList: item})
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
-                                    {msgInfo.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
+                                    {msgInfo.info.length > 40 ? <Text style={globalStyles.previewText}>全文</Text> : ""}
                                 </Text>
                                 {msgInfo.carrier == 2 && <FlatList
                                     data={msgInfo.media}
                                     numColumns={3}
                                     keyExtractor={(item, index) => `${index}`}
                                     renderItem={(params) => {
-                                        const {item,index} = params
+                                        const {item, index} = params
                                         return (
-                                            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                                                this.props.navigation.navigate("ImageView",{media:msgInfo.media,index:index})
+                                            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                                                this.props.navigation.navigate("ImageView", {
+                                                    media: msgInfo.media,
+                                                    index: index
+                                                })
                                             }}>
 
                                                 <View style={globalStyles.item}>
                                                     <AnimatedCacheImage source={{uri: `${fileHost}/image/${item.url}`}}
 
-                                                           style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
+                                                                        style={{
+                                                                            width: cellWH,
+                                                                            height: cellWH,
+                                                                            borderRadius: 5
+                                                                        }}/>
                                                 </View>
                                             </TouchableOpacity>
                                         )
@@ -144,7 +170,7 @@ class Collection extends React.Component {
 
                                 {msgInfo.carrier == 3 &&
 
-                                <Video source={{uri:`${videoHost}${msgInfo.media[0].url}`}}
+                                <Video source={{uri: `${videoHost}${msgInfo.media[0].url}`}}
                                        paused={true}
                                        repeat={true}
                                        controls={true}
@@ -152,7 +178,7 @@ class Collection extends React.Component {
                                        style={globalStyles.image}/>
                                 }
                                 {msgInfo.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
-                                                                       style={globalStyles.image}></ImageBackground>}
+                                                                          style={globalStyles.image}></ImageBackground>}
                             </Card.Body>
 
                             <Card.Footer
@@ -165,21 +191,26 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                Alert.alert("", "确定要取消收藏", [{text: "取消"},{text: "确定", onPress: () => {delCollection(item)}}])
+                                                Alert.alert("", "确定要取消收藏", [{text: "取消"}, {
+                                                    text: "确定", onPress: () => {
+                                                        delCollection(item)
+                                                    }
+                                                }])
                                             }}>
                                             <AntDesign name="star" size={18}
-                                                       style={{color:'#ffa600'}}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>取消收藏</Text>
+                                                       style={{color: '#ffa600'}}/>
+                                            <Text style={[globalStyles.midText, {marginLeft: 5}]}>取消收藏</Text>
                                         </TouchableOpacity>
 
 
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                                this.props.navigation.navigate('Detail', {item: item, itemList: ""})
                                             }}>
-                                            <AntDesign name="message1" style={{color:'#838485'}} size={18}/>
-                                            <Text style={[globalStyles.midText,{marginLeft:5}]}>{msgInfo.comment_num ? msgInfo.comment_num : 0}</Text>
+                                            <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
+                                            <Text
+                                                style={[globalStyles.midText, {marginLeft: 5}]}>{msgInfo.comment_num ? msgInfo.comment_num : 0}</Text>
                                         </TouchableOpacity>
 
                                         <TouchableOpacity
@@ -187,8 +218,9 @@ class Collection extends React.Component {
                                             onPress={() => {
                                                 setColPraise(item)
                                             }}>
-                                            {msgInfo.user_praises==""?<AntDesign name="like2" size={18} style={{color: '#838485'}}/>:
-                                                <AntDesign name="like1" size={18} style={{color:'#ffa600'}}/>}
+                                            {msgInfo.user_praises == "" ?
+                                                <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
+                                                <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
                                             <Text
                                                 style={[globalStyles.midText, {marginLeft: 5}]}>{msgInfo.agree_num ? msgInfo.agree_num : 0}</Text>
                                         </TouchableOpacity>
@@ -205,28 +237,33 @@ class Collection extends React.Component {
 
 
     render() {
-        const {collectionReducer:{collectionList,colResultStatus,colComplete},getCollectionList}=this.props
+        const {collectionReducer: {collectionList, colResultStatus, colComplete}, getCollectionList, getCollection} = this.props
         return (
             <Provider>
-                <ScrollView>
-                    <FlatList
-                        keyExtractor={(item, index) => `${index}`}
-                        data={collectionList}
-                        renderItem={this.renderItem}
-                        ListEmptyComponent={this.renderEmpty}
-                        onEndReachedThreshold={0.2}
-                        onEndReached={() => {
-                            if (!colComplete) {
-                                getCollectionList()
-                            }
-                        }}
-                        ListFooterComponent={this.ListFooterComponent(colResultStatus)}
-                    />
-                </ScrollView>
+
+                <FlatList
+                    keyExtractor={(item, index) => `${index}`}
+                    data={collectionList}
+                    renderItem={this.renderItem}
+                    refreshing={false}
+                    onRefresh={() => {
+                        getCollection()
+                    }}
+                    // ListEmptyComponent={this.renderEmpty}
+                    onEndReachedThreshold={0.2}
+                    onEndReached={() => {
+                        if (!colComplete) {
+                            getCollectionList()
+                        }
+                    }}
+                    ListFooterComponent={this.ListFooterComponent(colResultStatus)}
+                />
+
             </Provider>
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         collectionReducer: state.CollectionReducer
@@ -234,6 +271,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    clearCollectionList: () => {
+        dispatch({type: actionType.CollectionType.clear_CollectionList})
+    },
     getCollection: () => {
         dispatch(action.CollectionAction.getCollection())
     },
