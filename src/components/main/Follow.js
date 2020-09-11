@@ -15,6 +15,7 @@ import {Button, WingBlank, WhiteSpace, List, ListView, Provider} from '@ant-desi
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import index from "../../reducer";
+import * as actionType from "../../actionType";
 
 
 const {width} = Dimensions.get('window')
@@ -32,7 +33,9 @@ class Follow extends React.Component {
         this.props.getTitle()
 
     }
-
+    componentWillUnmount() {
+        this.props.loading()
+    }
 
     renderEmpty = () => {
         return (
@@ -43,9 +46,22 @@ class Follow extends React.Component {
     }
 
     ListFooterComponent = (param) => {
-        if (param == 1) {
+        if(param==0){
+            return (
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }else if (param == 1) {
             return(
-                <View style={{height: 10}}/>
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -121,7 +137,6 @@ class Follow extends React.Component {
                         }
                     }}
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    ListEmptyComponent={this.renderEmpty}
                 />
             </Provider>
         )
@@ -136,6 +151,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, ownProps) => ({
+    loading: () => {
+        dispatch({type: actionType.FollowType.loading_followList})
+    },
     getTitle: () => {
         dispatch(action.FollowAction.getTitle(ownProps))
     },

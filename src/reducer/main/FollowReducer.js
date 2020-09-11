@@ -8,6 +8,13 @@ const initialState = {
 }
 
 export default handleActions({
+    [actionType.FollowType.loading_followList]: (state, action) => {
+        return {
+            ...state,
+            followList:"",
+            isResultStatus:0,
+        }
+    },
 
     [actionType.FollowType.get_followList]: (state, action) => {
         const {payload: {followList,isComplete}} = action

@@ -10,7 +10,6 @@ export const getEvaluationMe = () => async (dispatch,getState) => {
         let url = `${apiHost}/user/${userId}/userBeMsgComment?level=1&start=${evaluationMe.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         if (res.success) {
-            dispatch({type: actionType.EvaluationMeType.set_evaLoading, payload: {evaMeLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.EvaluationMeType.get_evaluationMe_end, payload: {evaluationMe: res.result, isComplete: true}})
             } else {

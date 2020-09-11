@@ -27,7 +27,6 @@ import * as SettingsAction from './main/SettingsAction'
 import * as SystemMsgAction from './main/SystemMsgAction'
 import * as UserDataAction from './main/UserDataAction'
 import * as VoteAction from './main/VoteAction'
-import * as VoteRemindAction from './main/VoteRemindAction'
 import * as ReportAction from './main/ReportAction'
 
 import * as WriteArticleAction from './main/WriteArticleAction'
@@ -71,7 +70,6 @@ export {
     SystemMsgAction,
     UserDataAction,
     VoteAction,
-    VoteRemindAction,
     ReportAction,
     WriteArticleAction,
     ScanAction,

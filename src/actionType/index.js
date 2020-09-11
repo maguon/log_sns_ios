@@ -30,7 +30,6 @@ import * as SettingsType from './main/SettingsType'
 import * as SystemMsgType from './main/SystemMsgType'
 import * as UserDataType from './main/UserDataType'
 import * as VoteType from './main/VoteType'
-import * as VoteRemindType from './main/VoteRemindType'
 import * as ReportType from './main/ReportType'
 
 
@@ -74,7 +73,6 @@ export {
     SystemMsgType,
     UserDataType,
     VoteType,
-    VoteRemindType,
     WriteArticleType,
     ScanType,
     LocationType,

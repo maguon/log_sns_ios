@@ -66,7 +66,7 @@ class Collection extends React.Component {
         }else if (param == 1) {
             return (
                 <View style={globalStyles.footerContainer}>
-                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据</Text>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
                 </View>
             )
         } else if (param == 2) {

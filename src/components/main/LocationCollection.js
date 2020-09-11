@@ -17,6 +17,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index";
 import {MapView} from "react-native-amap3d"
+import * as actionType from "../../actionType";
 
 const {width, height} = Dimensions.get('window')
 
@@ -36,6 +37,9 @@ class LocationCollection extends Component {
     componentDidMount() {
         this.props.getLocationList()
     }
+    componentWillUnmount() {
+        this.props.loading()
+    }
 
     renderEmpty = () => {
         return (
@@ -46,9 +50,22 @@ class LocationCollection extends Component {
     }
 
     ListFooterComponent = (param) => {
-        if (param == 1) {
+        if(param==0){
             return (
-                <View style={{height: 10}}/>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }else if (param == 1) {
+            return(
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -128,7 +145,7 @@ class LocationCollection extends Component {
                         }
                     }}
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    ListEmptyComponent={this.renderEmpty}
+                    // ListEmptyComponent={this.renderEmpty}
                 />
             </Provider>
 
@@ -143,6 +160,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    loading: () => {
+        dispatch({type: actionType.LocationCollectionType.loading_LocationList})
+    },
     getLocationList: () => {
         dispatch(action.LocationCollectionAction.getLocationList())
     },

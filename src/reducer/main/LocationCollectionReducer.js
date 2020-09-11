@@ -8,6 +8,13 @@ const initialState = {
 }
 
 export default handleActions({
+    [actionType.LocationCollectionType.loading_LocationList]: (state, action) => {
+        return {
+            ...state,
+            LocationList:"",
+            isResultStatus:0,
+        }
+    },
 
     [actionType.LocationCollectionType.get_locationList]: (state, action) => {
         const {payload: {LocationList,isComplete}} = action

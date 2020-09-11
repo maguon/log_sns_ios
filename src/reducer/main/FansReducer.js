@@ -8,6 +8,13 @@ const initialState = {
 }
 
 export default handleActions({
+    [actionType.FansType.loading_fansList]: (state, action) => {
+        return {
+            ...state,
+            fansList:"",
+            fansResultStatus:0,
+        }
+    },
     [actionType.FansType.get_fansList_end]: (state, action) => {
         const {payload: {fansList,isComplete}} = action
         return {

@@ -6,6 +6,7 @@ import moment from "moment";
 import * as action from "../../action";
 import {fileHost} from "../../config/HostConfig";
 import {ActivityIndicator} from "@ant-design/react-native";
+import * as actionType from "../../actionType";
 
 const {width, height} = Dimensions.get('window')
 class PraiseMe extends Component {
@@ -17,11 +18,27 @@ class PraiseMe extends Component {
         this.props.getLikeMeList()
     }
 
+    componentWillUnmount() {
+        this.props.loading()
+    }
 
     ListFooterComponent = (param) => {
-        if (param == 1) {
+        if(param==0){
             return (
-                <View style={{height: 10}}/>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }else if (param == 1) {
+            return(
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -136,7 +153,7 @@ class PraiseMe extends Component {
                     }
                     }
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    ListEmptyComponent={this.renderEmpty}
+                    // ListEmptyComponent={this.renderEmpty}
                 />
 
             </View>
@@ -151,6 +168,9 @@ class PraiseMe extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+    loading: () => {
+        dispatch({type: actionType.PraiseMeType.set_likeMeLoading})
+    },
     getLikeMeList: () => {
         dispatch(action.PraiseMeAction.getLikeMeList())
     },

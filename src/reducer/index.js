@@ -30,7 +30,6 @@ import SettingsReducer from './main/SettingsReducer'
 import SystemMsgReducer from './main/SystemMsgReducer'
 import UserDataReducer from './main/UserDataReducer'
 import VoteReducer from './main/VoteReducer'
-import VoteRemindReducer from './main/VoteRemindReducer'
 import WriteArticleReducer from './main/WriteArticleReducer'
 import ScanReducer from './main/ScanReducer'
 import SpaceReducer from './main/SpaceReducer'
@@ -76,7 +75,6 @@ export default combineReducers({
     SystemMsgReducer,
     UserDataReducer,
     VoteReducer,
-    VoteRemindReducer,
     WriteArticleReducer,
     ScanReducer,
     SpaceReducer,

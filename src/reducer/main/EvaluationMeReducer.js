@@ -5,16 +5,15 @@ const initialState = {
     evaluationMe:[],
     isComplete: false,
     isResultStatus: 0,// 控制foot， 0：隐藏footer  1：已加载完成,没有更多数据   2 ：显示加载中
-    evaMeLoading:false,
 }
 
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(失败)]
 export default handleActions({
     [actionType.EvaluationMeType.set_evaLoading]: (state, action) => {
-        const { payload: { evaMeLoading } } = action
         return {
             ...state,
-            evaMeLoading
+            evaluationMe:"",
+            isResultStatus:0
         }
     },
 

@@ -11,7 +11,6 @@ export const getEvaluation = () => async (dispatch,getState) => {
         let url = `${apiHost}/user/${userId}/userMsgComment?start=${evaluation.length}&size=${pageSize}`
         const res = await HttpRequest.get(url)
         if (res.success) {
-            dispatch({type: actionType.EvaluationType.evaLoading, payload: {evaLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.EvaluationType.get_evaluation_end, payload: {evaluation: res.result, isComplete: true}})
             } else {

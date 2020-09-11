@@ -11,10 +11,11 @@ const initialState = {
 //isResultStatus(执行结果状态):[0(未执行),1(等待)，2(成功)，3(失败)]
 export default handleActions({
     [actionType.PraiseMeType.set_likeMeLoading]: (state, action) => {
-        const { payload: { likeMeLoading } } = action
+
         return {
             ...state,
-            likeMeLoading
+            likeMe:"",
+            isResultStatus:0
         }
     },
 

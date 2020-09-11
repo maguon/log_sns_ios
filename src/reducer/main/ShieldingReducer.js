@@ -8,6 +8,13 @@ const initialState = {
 }
 
 export default handleActions({
+    [actionType.ShieldingActionType.loading_shieldingList]: (state, action) => {
+        return {
+            ...state,
+            shieldingList:"",
+            isResultStatus:0,
+        }
+    },
     [actionType.ShieldingActionType.get_shieldingList_end]: (state, action) => {
         const {payload: {shieldingList,isComplete}} = action
         return {

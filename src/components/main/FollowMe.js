@@ -15,6 +15,7 @@ import {Button, WingBlank, WhiteSpace, List, ListView, Provider} from '@ant-desi
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import index from "../../reducer";
+import * as actionType from "../../actionType";
 
 
 const {width} = Dimensions.get('window')
@@ -30,7 +31,9 @@ class FollowMe extends React.Component {
     componentDidMount() {
         this.props.getFansList()
     }
-
+    componentWillUnmount() {
+        this.props.loading()
+    }
 
     renderEmpty = () => {
         return (
@@ -41,9 +44,22 @@ class FollowMe extends React.Component {
     }
 
     ListFooterComponent = (param) => {
-        if (param == 1) {
+        if(param==0){
+            return (
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }else if (param == 1) {
             return(
-                <View style={{height: 10}}/>
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -108,7 +124,7 @@ class FollowMe extends React.Component {
                     keyExtractor={(item, index) => `${index}`}
                     data={fansList}
                     renderItem={this.renderItem}
-                    ListEmptyComponent={this.renderEmpty}
+                    // ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
                         if (!isComplete) {
@@ -131,6 +147,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, ownProps) => ({
+    loading: () => {
+        dispatch({type: actionType.FansType.loading_fansList})
+    },
     getFansList: () => {
         dispatch(action.FansAction.getFansList())
     },

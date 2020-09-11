@@ -33,7 +33,6 @@ import FollowMe from './components/main/FollowMe'
 import EvaluationMe from './components/main/EvaluationMe'
 import PraiseMe from './components/main/PraiseMe'
 import Contact from './components/main/Contact'
-import VoteRemind from './components/main/VoteRemind'
 import SystemMsg from './components/main/SystemMsg'
 import CommentReply from './components/main/CommentReply'
 import Shielding from './components/main/Shielding'
@@ -326,13 +325,7 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
-    VoteRemind: {
-        screen: VoteRemind,
-        navigationOptions: ({navigation}) => ({
-            title: '投票提醒',
-            tabBarVisible: false
-        })
-    },
+
     SystemMsg: {
         screen: SystemMsg,
         navigationOptions: ({navigation}) => ({

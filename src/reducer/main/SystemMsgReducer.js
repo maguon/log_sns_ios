@@ -8,6 +8,13 @@ const initialState = {
 }
 
 export default handleActions({
+    [actionType.SystemMsgType.loading_systemMsg]: (state, action) => {
+        return {
+            ...state,
+            systemMsg:"",
+            fansResultStatus:0,
+        }
+    },
     [actionType.SystemMsgType.get_systemMsg_end]: (state, action) => {
         const {payload: {systemMsg,isComplete}} = action
         return {

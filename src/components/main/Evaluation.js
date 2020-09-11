@@ -7,6 +7,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import * as action from "../../action";
 import {fileHost} from "../../config/HostConfig";
 import {ActivityIndicator} from "@ant-design/react-native";
+import * as actionType from "../../actionType";
 
 const {width, height} = Dimensions.get('window')
 class Evaluation extends Component {
@@ -17,10 +18,27 @@ class Evaluation extends Component {
     componentDidMount(){
         this.props.getEvaluation()
     }
+    componentWillUnmount() {
+        this.props.loading()
+    }
+
     ListFooterComponent = (param) => {
-        if (param == 1) {
+        if(param==0){
             return (
-                <View style={{height: 10}}/>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }else if (param == 1) {
+            return(
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -147,7 +165,7 @@ class Evaluation extends Component {
                     }
                     }
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                    ListEmptyComponent={this.renderEmpty}
+                    // ListEmptyComponent={this.renderEmpty}
                 />
 
             </View>
@@ -162,7 +180,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
-
+    loading: () => {
+        dispatch({type: actionType.EvaluationType.evaLoading})
+    },
     getEvaluation: (value) => {
         dispatch(action.EvaluationAction.getEvaluation(value))
     },
