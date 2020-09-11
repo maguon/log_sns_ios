@@ -83,7 +83,9 @@ class Community extends React.Component {
     ListFooterComponent = (param) => {
         if(param==1) {
             return(
-                <View style={{height: 10}}/>
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
         }else if(param==2) {
             return (
@@ -322,7 +324,7 @@ class Community extends React.Component {
                                 onRefresh = {()=>{
                                     update(0)
                                 }}
-                                ListEmptyComponent={this.renderEmpty}
+                                // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
                                     if (!isComplete) {
@@ -342,7 +344,7 @@ class Community extends React.Component {
                                 onRefresh = {()=>{
                                     update(1)
                                 }}
-                                ListEmptyComponent={this.renderEmpty}
+                                // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
                                     if (!vidComplete) {
@@ -363,7 +365,7 @@ class Community extends React.Component {
                                 onRefresh = {()=>{
                                     update(2)
                                 }}
-                                ListEmptyComponent={this.renderEmpty}
+                                // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
                                     if (!helpComplete) {
@@ -384,7 +386,7 @@ class Community extends React.Component {
                                 onRefresh = {()=>{
                                     update(3)
                                 }}
-                                ListEmptyComponent={this.renderEmpty}
+                                // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
                                 onEndReached={() => {
                                     if (!voteComplete) {

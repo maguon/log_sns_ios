@@ -19,6 +19,7 @@ import Location from './components/main/Location'
 import Detail from './components/main/Detail'
 import CollectionDetail from './components/main/CollectionDetail'
 import ToVote from './components/main/ToVote'
+import ToVoteItem from './components/main/ToVoteItem'
 import ScannerResult from './components/main/ScannerResult'
 import Comment from './components/main/Comment'
 import Report from './components/main/Report'
@@ -395,6 +396,14 @@ const Main = createStackNavigator({
             tabBarVisible: false
         })
     },
+    ToVoteItem: {
+        screen: ToVoteItem,
+        navigationOptions: ({navigation}) => ({
+            title: '投票',
+            tabBarVisible: false
+        })
+    },
+
     ToVote: {
         screen: ToVote,
         navigationOptions: ({navigation}) => ({

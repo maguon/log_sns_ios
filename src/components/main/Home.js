@@ -69,7 +69,9 @@ class Home extends Component {
     ListFooterComponent = (param) => {
         if (param == 1) {
             return (
-                <View style={{height: 10}}/>
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
 
         } else if (param == 2) {
@@ -331,7 +333,7 @@ class Home extends Component {
                         }
                         }
                         ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                        ListEmptyComponent={this.renderEmpty}
+                        // ListEmptyComponent={this.renderEmpty}
                     />
                     }
 
@@ -351,7 +353,7 @@ class Home extends Component {
                             }
                         }}
                         ListFooterComponent={this.ListFooterComponent(homeResultStatus)}
-                        ListEmptyComponent={this.renderEmpty}
+                        // ListEmptyComponent={this.renderEmpty}
                     />
                     }
 
@@ -371,7 +373,7 @@ class Home extends Component {
                             }
                         }}
                         ListFooterComponent={this.ListFooterComponent(nearResultStatus)}
-                        ListEmptyComponent={this.renderEmpty}
+                        // ListEmptyComponent={this.renderEmpty}
                     />
 
                     }

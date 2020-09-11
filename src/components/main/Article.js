@@ -50,7 +50,9 @@ class Article extends React.Component {
     ListFooterComponent = (param) => {
         if (param == 1) {
             return(
-                <View style={{height: 10}}/>
+                <View style={globalStyles.footerContainer}>
+                    <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
+                </View>
             )
         } else if (param == 2) {
             return (
@@ -262,7 +264,7 @@ class Article extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             data={artInfo}
                             renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
+                            // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
                                 update(0)
@@ -282,7 +284,7 @@ class Article extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             data={artArticle}
                             renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
+                            // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
                                 update(1)
@@ -303,7 +305,7 @@ class Article extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             data={artImage}
                             renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
+                            // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
                                 update(2)
@@ -323,7 +325,7 @@ class Article extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             data={artVideo}
                             renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
+                            // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
                                 update(3)
@@ -343,7 +345,7 @@ class Article extends React.Component {
                             keyExtractor={(item, index) => `${index}`}
                             data={artHelp}
                             renderItem={this.renderItem}
-                            ListEmptyComponent={this.renderEmpty}
+                            // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
                                 update(4)
