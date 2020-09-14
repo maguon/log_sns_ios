@@ -29,6 +29,39 @@ export const getUserData = (props) => async (dispatch, getState) => {
 }
 
 
+export const submit = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {id,sex,nickName,cityName,intro,navigation}=value
+    console.log(value)
+    try {
+        const param={
+            sex:sex,
+            nickName: nickName,
+            cityName: cityName,
+            intro: intro,
+        }
+        console.log(param)
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userDetail/${id}`
+        const res = await HttpRequest.put(url,param)
+        console.log(res)
+        if(res.success){
+            Alert.alert("", "提交成功，确认返回", [ {
+                text: "确定", onPress: () => {
+                    navigation.pop()
+                    dispatch(action.PersonCenterAction.getUserInfo())
+                }
+            }])
+        }else {
+            Toast.info(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+
+
 export const setHead = (value) => async (dispatch, getState) => {
 
     try {

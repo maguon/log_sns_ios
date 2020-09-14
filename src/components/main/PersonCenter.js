@@ -22,7 +22,8 @@ class PersonCenter extends React.Component {
 
 
     render() {
-        const {navigation, personCenterReducer: {userInfo: {nick_name, intro, avatar}}} = this.props
+        const {navigation, personCenterReducer: {userInfo: { avatar,nick_name, intro}}} = this.props
+        console.log(this.props)
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={globalStyles.container}>

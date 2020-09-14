@@ -8,7 +8,7 @@ import {
     WhiteSpace,
     WingBlank,
     Provider,
-    ActivityIndicator
+    Picker
 } from "@ant-design/react-native"
 import {connect} from "react-redux"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
@@ -37,6 +37,17 @@ let photoOptions = {
     },
 
 }
+const data=[
+    {
+        value:0,
+        label:"女"
+    },
+    {
+        value:1,
+        label:"男",
+    }
+
+]
 
 
 const Item = List.Item
@@ -45,7 +56,11 @@ class UserData extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: ""
+            nickValue:"",
+            introValue:"",
+            sexValue: "",
+            cityValue:"",
+            placeholder:"请选择"
         }
     }
 
@@ -53,32 +68,19 @@ class UserData extends React.Component {
         this.props.getUserData()
     }
 
-    // onClose = () => {
-    //     this.setState({
-    //         visible: false,
-    //     });
-    // };
+    sexOnChange = value => {
+        this.setState({ sexValue:value })
+    }
 
-    // uploadImage(uri){
-    //     let formData=new FormData()
-    //     let file={uri:uri,type:'multipart/from-data',name:'image.png'}
-    //     formData.append('file',file)
-    //     console.log(formData)
-    //     fetch ('url',{
-    //         method:'POST',
-    //         headers:{
-    //             'Content-Type':'multipart/from-data'
-    //         },
-    //         body:formData,
-    //     }).then((response)=>response.text()).then((responseData)=>{
-    //         console.log('responseData',responseData)
-    //         alert('上传成功')
-    //     }).catch((error)=>{
-    //         console.log('error',error)
-    //         alert('上传失败')
-    //     })
-    // }
-
+    cityOnChange = value => {
+        this.setState({ cityValue:value })
+    }
+    introOnChange= value => {
+        this.setState({ introValue:value })
+    }
+    nickOnChange= value => {
+        this.setState({ nickValue:value })
+    }
     launchPhoto() {//打开照相机进行拍照
 
         ImageCropPicker.openCamera({
@@ -177,28 +179,10 @@ class UserData extends React.Component {
         });
     }
 
-    //加载等待页
-    renderLoadingView() {
-        return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#F5FCFF',
-            }}>
-                <ActivityIndicator
-                    animating={true}
-                    color='red'
-                    size="large"
-                />
-            </View>
-        );
-    }
 
     render() {
-        const {navigation, userDataReducer: {userData: {phone}, userDetailInfo: {nick_name, sex, avatar, intro, city_name}}} = this.props
-
+        const {navigation, userDataReducer: {userData: {phone}, userDetailInfo: {_id,nick_name, sex, avatar, intro, city_name}},submit} = this.props
+console.log(this.props)
         return (
             <Provider>
                 <View style={{flex: 1}}>
@@ -217,7 +201,7 @@ class UserData extends React.Component {
                                 <View style={{flex: 1, justifyContent: 'center', marginRight: 16}}>
                                     <View style={{flexDirection: 'row'}}>
                                         <Text style={{fontSize: 14}}>昵称：{nick_name ? nick_name : "暂无昵称"}</Text>
-                                        <FontAwesome name={sex ? "mars" : "venus"} size={12}
+                                        <FontAwesome name={sex ? "mars":"venus"} size={12}
                                                      style={{marginLeft: 10}}></FontAwesome>
                                     </View>
                                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -236,45 +220,78 @@ class UserData extends React.Component {
 
                             <InputItem
                                 clear
-                                // extra={}
-                                // onChange={}
+                                onChange={this.nickOnChange}
                                 placeholder={nick_name ? nick_name : "昵称"}
-                                style={{}}
+
                             >
                                 <Text style={globalStyles.largeText}>昵称</Text>
                             </InputItem>
 
                             <InputItem
                                 clear
-                                // extra={}
-                                // onChange={}
-                                placeholder={intro ? intro : "签名"}
-                                style={{}}
+                                onChange={this.introOnChange}
+                                placeholder={intro ? intro : "暂无签名"}
                             >
                                 <Text style={globalStyles.largeText}>签名</Text>
                             </InputItem>
+                            <InputItem
+                                clear
+                                onChange={this.cityOnChange}
+                                placeholder={city_name?city_name:"请输入"}
+                            >
+                                <Text style={globalStyles.largeText}>城市</Text>
+                            </InputItem>
+
+                            <Picker
+                                data={data}
+                                cols={1}
+                                value={this.state.sexValue}
+                                onChange={this.sexOnChange}
+                                extra={
+                                    <View>
+                                   <View>
+                                        {sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
+                                            <Text style={{  fontSize: 16, color: '#c2c3c4'}}>男</Text>}
+                                    </View>
+
+                                    </View>
+                                }
+                            >
+                                <Item arrow="horizontal"   >
+                                    <Text style={globalStyles.largeText}>性别</Text>
+                                </Item>
+                            </Picker>
+                            {/*<Picker*/}
+                                {/*data={data}*/}
+                                {/*cols={1}*/}
+                                {/*value={this.state.cityValue}*/}
+                                {/*onChange={this.cityOnChange}*/}
+                                {/*extra={*/}
+                                    {/*<Text style={{  fontSize: 16, color: '#c2c3c4'}}>{this.state.placeholder}</Text>*/}
+                                {/*}*/}
+                            {/*>*/}
+                                {/*<Item arrow="horizontal" onPress={this.onPress}>*/}
+                                    {/*<Text style={globalStyles.largeText}>城市</Text>*/}
+                                {/*</Item>*/}
+                            {/*</Picker>*/}
 
 
-                            <Item arrow="horizontal"
-                                  extra={<Text>{city_name ? city_name : "选择城市"}</Text>}>
-                                <Text style={globalStyles.largeText}>城市</Text></Item>
 
-                            <Item arrow="horizontal"
-                                  extra={<Text>C1</Text>}>
-                                <Text style={globalStyles.largeText}>驾照类型</Text></Item>
-                            <Item arrow="horizontal"
-                                  extra={<Text>2006.12.05</Text>}>
-                                <Text style={globalStyles.largeText}>发证日期</Text></Item>
                         </List>
 
-                        <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
+
                         <WingBlank size="lg">
-                            <Button type="primary" onPress={() => {
+                            <Button type="primary" style={{marginTop:50}} onPress={()=>{
+                                submit({
+                                    id:_id,
+                                    sex: this.state.sexValue[0],
+                                    nickName: this.state.nickValue,
+                                    cityName: this.state.cityValue,
+                                    intro: this.state.introValue,
+                                    navigation:navigation
+                                })
                             }}>提交修改</Button>
                         </WingBlank>
-                        <WhiteSpace size='xl' style={globalStyles.containerBackgroundColor}/>
-
-
                     </ScrollView>
                 </View>
             </Provider>
@@ -290,6 +307,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+
+    submit: (value) => {
+        dispatch(action.UserDataAction.submit(value))
+    },
     getUserData: () => {
         dispatch(action.UserDataAction.getUserData(props))
     },

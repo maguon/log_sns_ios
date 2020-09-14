@@ -8,9 +8,10 @@ const initialState = {
 export default handleActions({
 
     [actionType.PersonCenterType.get_UserInfo]: (state, action) => {
+        const {payload: {userInfo}} = action
         return {
             ...state,
-            userInfo: action.payload.userInfo
+            userInfo
         }
     }
 
