@@ -20,6 +20,7 @@ import moment from "moment";
 import * as action from "../../action";
 import {ActivityIndicator} from "@ant-design/react-native";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width, height} = Dimensions.get('window')
@@ -80,7 +81,7 @@ class Detail extends Component {
 
         return (
             <Provider>
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <ScrollView>
                     <View>
                         <View style={{
@@ -311,7 +312,7 @@ class Detail extends Component {
 
                 </View>
 
-            </View>
+            </SafeAreaView>
             </Provider>
         )
     }
