@@ -50,6 +50,7 @@ export const createComment = reqParam => async (dispatch, getState) => {
                 text: "确定", onPress: () => {
 
                     dispatch(action.DetailAction.getCommentOne(value))
+                    navigation.state.params.callBack()
                     navigation.pop()
                 }
             }])

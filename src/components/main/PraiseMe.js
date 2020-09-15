@@ -107,7 +107,7 @@ class PraiseMe extends Component {
                                         <TouchableOpacity
                                             style={{position: 'absolute',right:10,width:50,height:20,borderWidth:0.5,borderColor:'#0595e5',alignItems:"center",justifyContent:"center"}}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Comment', {item: item,level:2})
+                                                this.props.navigation.navigate('Comment', {item: item,level:2,callBack:()=>{console.log("level2")}})
                                             }}>
                                             <Text style={{fontSize: 14, color:'#0595e5'}}>回复</Text>
                                         </TouchableOpacity>

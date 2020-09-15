@@ -113,7 +113,7 @@ const globalStyles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        height: 150,
+        height: 200,
         marginTop: 10,
         marginLeft: 15,
         marginRight: 15,

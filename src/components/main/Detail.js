@@ -35,8 +35,7 @@ class Detail extends Component {
     componentDidMount() {
         const {navigation: {state: {params: {item}}}} = this.props
         this.props.getCommentOne(item)
-
-
+        this.props.getCommentUser(item)
     }
 
     ListFooterComponent = (param) => {
@@ -64,9 +63,10 @@ class Detail extends Component {
     }
 
     render() {
-        const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg}, setPraise} = this.props
+        const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentUser}, setPraise} = this.props
           console.log(navigation)
         console.log(item)
+        console.log("commentUser",commentUser)
         const media = item.media
         if (item.carrier == 2) {
             if (item.media.length < 2) {
@@ -94,7 +94,7 @@ class Detail extends Component {
                         }}>
                             <Text
                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
-                            <Text style={[globalStyles.smallText]}>{item.read_num} 人阅读</Text>
+                            <Text style={[globalStyles.smallText]}>{commentUser.read_num} 人阅读</Text>
                         </View>
                         <Text style={[globalStyles.midText, {
                             marginLeft: width * 0.05,
@@ -145,9 +145,9 @@ class Detail extends Component {
                             flexDirection: "row", alignItems: "center", marginTop: 20
                         }}>
                             <Text
-                                style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{item.comment_num}）</Text>
-                            <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {item.collect_num}</Text>
-                            <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {item.agree_num}</Text>
+                                style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{commentUser.comment_num}）</Text>
+                            <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {commentUser.collect_num}</Text>
+                            <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {commentUser.agree_num}</Text>
                         </View>
 
                         <View style={{width: width, marginBottom: 40}}>
@@ -230,7 +230,7 @@ class Detail extends Component {
                                                                 onPress={() => {
                                                                     this.props.navigation.navigate('Comment', {
                                                                         item: item,
-                                                                        level: 2
+                                                                        level: 2,callBack:()=>{console.log("level2")}
                                                                     })
                                                                 }}>
                                                                 <AntDesign name="message1" style={{color: '#838485'}}
@@ -288,7 +288,7 @@ class Detail extends Component {
                         <TouchableOpacity
                             style={[globalStyles.midText, styles.bottomBut]}
                             onPress={() => {
-                                this.props.navigation.navigate('Comment', {item: item, level: 1})
+                                this.props.navigation.navigate('Comment', {item: item, level: 1,callBack:()=>{this.props.getCommentUser(item)}})
                             }}>
                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                             <Text style={[globalStyles.midText, {marginLeft: 5}]}>评论</Text>
@@ -299,11 +299,11 @@ class Detail extends Component {
                             onPress={() => {
 
                                 const params = {
-                                    item: item, tabIndex: 0
+                                    item: item
                                 }
-                                this.props.Praise(params)
+                                this.props.setPraiseOne(params)
                             }}>
-                            {item.user_praises=="" ?
+                            {commentUser.user_praises=="" ?
                                 <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
                                 <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}
                             <Text style={[globalStyles.midText, {marginLeft: 5}]}>赞</Text>
@@ -325,17 +325,19 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
+    getCommentUser: (value) => {
+        dispatch(action.DetailAction.getCommentUser(value))
+    },
+
     getCommentOne: (value) => {
         dispatch(action.DetailAction.getCommentOne(value))
     },
-    getCommentTwo: (value) => {
-        dispatch(action.DetailAction.getCommentTwo(value))
-    },
+
     setPraise: (value) => {
         dispatch(action.DetailAction.setPraise(value))
     },
-    Praise: (value) => {
-        dispatch(action.HomeAction.setPraise(value))
+    setPraiseOne: (value) => {
+        dispatch(action.DetailAction.setPraiseOne(value))
     },
     // update: (value) => {
     //     dispatch(action.DetailAction.update(value))

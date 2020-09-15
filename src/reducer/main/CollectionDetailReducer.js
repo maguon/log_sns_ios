@@ -3,24 +3,25 @@ import * as actionType from '../../actionType/index'
 
 const initialState={
     Coll_comment:[],
-    Coll_commentTwo:[]
+    collUser:""
 }
 
 export  default  handleActions({
 
-    [actionType.DetailType.get_Comment_success]: (state, action) => {
+    [actionType.CollectionDetailType.Coll_Comment_success]: (state, action) => {
         const {payload: {Coll_comment}} = action
         return {
             ...state,
             Coll_comment
         }
     },
-    [actionType.DetailType.get_commentTwo]: (state, action) => {
-        const {payload: {Coll_commentTwo}} = action
+    [actionType.CollectionDetailType.Coll_commentUser]: (state, action) => {
+        const {payload: {collUser}} = action
         return {
             ...state,
-            Coll_commentTwo
+            collUser
         }
     },
+
 
 },initialState)

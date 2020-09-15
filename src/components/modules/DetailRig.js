@@ -6,49 +6,40 @@ import * as action from "../../action/index";
 class DetailRig extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            hidden: false
-        }
+
     }
 
     componentDidMount() {
         const {navigation: {state: {params: {item}}}} = this.props
-        if (item.user_relations == "") {
-            this.setState({hidden: false})
-        } else {
-            this.setState({hidden:true })
-        }
+        this.props.followStatus(item._user_id)
     }
 
     render() {
-        const {navigation: {state: {params: {item,itemList}}}, cancelFollow, follow} = this.props
+        const {navigation: {state: {params: {item,itemList}}}, cancelFollow, follow,spaceReducer: { spaceHidden},} = this.props
         return (
             <View>
             {itemList?<View></View>:<View>
-                {this.state.hidden ? <TouchableOpacity style={{
+                {spaceHidden.length==0 ? <TouchableOpacity style={{
                     width: 50, height: 25, marginRight: 15, borderRadius: 5,
                     justifyContent: 'center', alignItems: 'center', backgroundColor: "#ff9803"
                 }} onPress={() => {
-                    this.setState({hidden: false})
-                    const params = {item: item}
-                    follow(params)
+                    follow(item._user_id)
                 }
                 }>
                     <Text style={{color: '#fff', fontSize: 14}}>关注</Text>
-                </TouchableOpacity> : <TouchableOpacity style={{
+                </TouchableOpacity>:<TouchableOpacity style={{
                     width: 65, height: 25, marginRight: 15, borderWidth: 1, borderColor: '#c1c1c1', borderRadius: 5,
                     justifyContent: 'center', alignItems: 'center'
                 }} onPress={() => {
                     Alert.alert("", "确定要取消关注吗", [{text: "取消"}, {
                         text: "确定", onPress: () => {
-                            this.setState({hidden: true})
-                            const params = {item: item}
-                            cancelFollow(params)
+
+                            cancelFollow(item._user_id)
                         }
                     }])
                 }}>
                     <Text style={{color: '#c1c1c1', fontSize: 14}}>取消关注</Text>
-                </TouchableOpacity>}
+                </TouchableOpacity> }
 
             </View>}
             </View>
@@ -57,15 +48,21 @@ class DetailRig extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        spaceReducer:state.SpaceReducer
+    }
 }
 const mapDispatchToProps = (dispatch, props) => ({
+    followStatus: (value) => {
+        dispatch(action.SpaceAction.followStatus(value))
+    },
     cancelFollow: (value) => {
-        dispatch(action.DetailAction.cancelFollow(value))
+        dispatch(action.SpaceAction.cancelFollow(value))
     },
     follow: (value) => {
-        dispatch(action.DetailAction.follow(value))
+        dispatch(action.SpaceAction.follow(value))
     },
+
 })
 
 

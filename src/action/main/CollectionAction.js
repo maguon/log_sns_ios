@@ -21,7 +21,7 @@ export const getCollection = () => async (dispatch, getState) => {
 
 export const getCollectionList = () => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
-    console.log(collectionList)
+    // console.log(collectionList)
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/userMsgColl?start=${collectionList.length}&size=${pageSize}`

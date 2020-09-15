@@ -96,8 +96,7 @@ class Collection extends React.Component {
         }
 
         return (
-            <Provider>
-            <SafeAreaView style={{flex: 1}}>
+
                 <View style={{paddingTop: 30}}>
                     <WingBlank size="lg">
                         <Card>
@@ -207,7 +206,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('CollectionDetail', {item: item, itemList: item,callBack:()=>{this.props.getCollection()}})
+                                                this.props.navigation.navigate('CollectionDetail', {item: item, itemList:item,callBack:()=>{this.props.getCollection()}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -232,8 +231,7 @@ class Collection extends React.Component {
                     </WingBlank>
                     <WhiteSpace size="lg"/>
                 </View>
-            </SafeAreaView>
-            </Provider>
+
         )
     }
 
@@ -242,7 +240,8 @@ class Collection extends React.Component {
         const {collectionReducer: {collectionList, colResultStatus, colComplete}, getCollectionList, getCollection} = this.props
         return (
             <Provider>
-
+                <Provider>
+                    <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     keyExtractor={(item, index) => `${index}`}
                     data={collectionList}
@@ -260,7 +259,8 @@ class Collection extends React.Component {
                     }}
                     ListFooterComponent={this.ListFooterComponent(colResultStatus)}
                 />
-
+                    </SafeAreaView>
+                </Provider>
             </Provider>
         )
     }

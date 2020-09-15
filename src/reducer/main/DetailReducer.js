@@ -3,7 +3,7 @@ import * as actionType from '../../actionType/index'
 
 const initialState={
     commentMsg:[],
-    commentTwo:[]
+    commentUser:""
 }
 
 export  default  handleActions({
@@ -15,12 +15,13 @@ export  default  handleActions({
             commentMsg
         }
     },
-    [actionType.DetailType.get_commentTwo]: (state, action) => {
-        const {payload: {commentTwo}} = action
+    [actionType.DetailType.get_commentUser]: (state, action) => {
+        const {payload: {commentUser}} = action
         return {
             ...state,
-            commentTwo
+            commentUser
         }
     },
+
 
 },initialState)
