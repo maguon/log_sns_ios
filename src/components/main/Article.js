@@ -134,7 +134,7 @@ class Article extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                    this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
                                 }}>
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
                                     {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
@@ -183,7 +183,7 @@ class Article extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item:item,itemList:""})
+                                                this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text

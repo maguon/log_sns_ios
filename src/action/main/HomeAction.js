@@ -79,7 +79,7 @@ export const getNearList = (value) => async (dispatch, getState) => {
 export const update=(tabIndex)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},HomeReducer: {hotList,homeFollow,nearList,longitude,latitude}} = getState()
     if(tabIndex==0){
-        let url = `${apiHost}/user/${userId}/msg?status=1&start=0&size=${hotList.length}`
+        let url = `${apiHost}/user/${userId}/popularMsg?status=1&start=0&size=${hotList.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.HomeActionType.set_HotList_Praise, payload: {hotList: res.result}})

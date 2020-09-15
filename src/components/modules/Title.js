@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Dimensions, TouchableOpacity} from 'react-native'
+import {Text, View, Dimensions, TouchableOpacity,InteractionManager} from 'react-native'
 import {Popover, Tabs} from '@ant-design/react-native'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -248,7 +248,7 @@ class Title extends React.Component {
 
 
     render() {
-        const {navigation: {state: {routeName}},getHotList,getHomeFollow,getNearList} = this.props
+        const {navigation: {state: {routeName}},getHotList,getHomeFollow,getNearList,update} = this.props
         let overlay = [].map((i, index) => (
             <Item key={index} value={`${i}`}>
                 <Text>{i}</Text>
@@ -302,10 +302,19 @@ class Title extends React.Component {
                               this.props.getHotLoad()
                               if(index==0){
                                   getHotList()
+                                  InteractionManager.runAfterInteractions(() => {
+                                      update(0)
+                                  });
                               }else if(index==1){
                                   getHomeFollow()
+                                  InteractionManager.runAfterInteractions(() => {
+                                      update(1)
+                                  });
                               }else if(index==2){
                                   Geolocation.getCurrentPosition(info => getNearList(info))
+                                  InteractionManager.runAfterInteractions(() => {
+                                      update(2)
+                                  });
                               }
                           }}
                           tabBarBackgroundColor='#1598cc'
@@ -361,6 +370,9 @@ const mapDispatchProps = (dispatch) => ({
     },
     getNearList: (value) => {
         dispatch(action.HomeAction.getNearList(value))
+    },
+    update: (value) => {
+        dispatch(action.HomeAction.update(value))
     },
 
 })

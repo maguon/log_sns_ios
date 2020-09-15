@@ -132,7 +132,7 @@ class Evaluation extends Component {
                                     <TouchableOpacity
                                         style={{marginLeft:  width * 0.05,flexDirection: "row",}}
                                         onPress={() => {
-                                            this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item})
+                                            this.props.navigation.navigate('Detail',{item: msgInfo,itemList:item,callBack:()=>{this.props.update()}})
                                         }}>
                                         {msgInfo.carrier==1&&<Image source={{uri: msgUserInfo.avatar, cache: 'force-cache'}}
                                                                     style={{width: 50, height: 50}}/>}
@@ -186,8 +186,8 @@ const mapDispatchProps = (dispatch, props) => ({
     getEvaluation: (value) => {
         dispatch(action.EvaluationAction.getEvaluation(value))
     },
-    update: (value) => {
-        dispatch(action.EvaluationMeAction.update(value))
+    update: () => {
+        dispatch(action.EvaluationMeAction.update())
     }
 })
 

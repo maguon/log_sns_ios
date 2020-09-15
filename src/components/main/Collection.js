@@ -19,8 +19,8 @@ import * as action from "../../action/index"
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
-import * as actionType from "../../actionType";
-
+import * as actionType from "../../actionType/index";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -96,7 +96,7 @@ class Collection extends React.Component {
         }
 
         return (
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <View style={{paddingTop: 30}}>
                     <WingBlank size="lg">
                         <Card>
@@ -133,7 +133,7 @@ class Collection extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('CollectionDetail', {item: item, itemList: item})
+                                    this.props.navigation.navigate('CollectionDetail', {item: item, itemList: item,callBack:()=>{this.props.getCollection()}})
                                 }}>
                                     {msgInfo.info ? (msgInfo.info.length > 40 ? msgInfo.info.substr(0, 40) + "..." : msgInfo.info) : ""}
                                     {msgInfo.info.length > 40 ? <Text style={globalStyles.previewText}>全文</Text> : ""}
@@ -206,7 +206,7 @@ class Collection extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail', {item: item, itemList: ""})
+                                                this.props.navigation.navigate('CollectionDetail', {item: item, itemList: item,callBack:()=>{this.props.getCollection()}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -231,7 +231,7 @@ class Collection extends React.Component {
                     </WingBlank>
                     <WhiteSpace size="lg"/>
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 

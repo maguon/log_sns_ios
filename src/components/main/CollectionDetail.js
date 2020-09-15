@@ -20,6 +20,7 @@ import moment from "moment";
 import * as action from "../../action";
 import {ActivityIndicator} from "@ant-design/react-native";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -62,9 +63,10 @@ class CollectionDetail extends Component {
     render() {
         const {navigation: {state: {params: {item}}}, CollectionDetailReducer: {Coll_comment}, setPraise} = this.props
         console.log(item)
-        const detailInfo = item.msg_user_detail_info[0]
+        // const detailInfo = item.msg_user_detail_info[0]
         const media = item.msg_info[0].media
         const msgInfo = item.msg_info[0]
+
         if (msgInfo.carrier == 2) {
             if (msgInfo.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -74,8 +76,10 @@ class CollectionDetail extends Component {
                 cellWH = (width - 2 * 20 - 15) / 3.3
             }
         }
+
         return (
-            <View style={{flex: 1}}>
+
+            <SafeAreaView style={{flex: 1}}>
                 <ScrollView>
                     <View>
                         <View style={{
@@ -99,7 +103,8 @@ class CollectionDetail extends Component {
                             data={media}
                             numColumns={3}
                             renderItem={(params) => {
-                                const {items, index} = params
+                                const {item, index} = params
+                                console.log(params)
                                 return (
                                     <TouchableOpacity activeOpacity={0.5} onPress={() => {
                                         this.props.navigation.navigate("ImageView", {
@@ -110,7 +115,7 @@ class CollectionDetail extends Component {
 
                                         <View style={globalStyles.item}>
                                             <AnimatedCacheImage source={{
-                                                uri: `${fileHost}/image/${items.url}`,
+                                                uri: `${fileHost}/image/${item.url}`,
                                             }}
                                                    style={{width: cellWH, height: cellWH, borderRadius: 5}}/>
                                         </View>
@@ -294,7 +299,7 @@ class CollectionDetail extends Component {
 
                 </View>
 
-            </View>
+            </SafeAreaView>
 
         )
     }

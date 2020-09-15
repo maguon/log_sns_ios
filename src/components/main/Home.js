@@ -187,7 +187,7 @@ class Home extends Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail', {item: item, itemList: "",})
+                                    this.props.navigation.navigate('Detail', {item: item, itemList: "",callBack:()=>{this.props.update(tabIndex)}})
                                 }}>
                                     <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]}>
                                         {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
@@ -235,7 +235,7 @@ class Home extends Component {
                                     // <ImageBackground source={{uri: 'http://media.myxxjs.com/group1/M00/00/01/Ch4sOV9YH8CADDYtAAEZs2X_3f4797.png'}}
                                     //              style={globalStyles.image}>
                                     //     <TouchableOpacity  onPress={() => {
-                                    //         this.props.navigation.navigate('Detail', {item: item, itemList: ""})
+                                    //         this.props.navigation.navigate('Detail', {item: item, itemList: "",callBack:()=>{this.props.update(tabIndex)}})
                                     //     }}>
                                     //     <AntDesign name="play" size={60} color='#323334'/>
                                     //     </TouchableOpacity>
@@ -273,7 +273,7 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail', {item: item, itemList: ""})
+                                                this.props.navigation.navigate('Detail', {item: item, itemList: "",callBack:()=>{this.props.update(tabIndex)}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text

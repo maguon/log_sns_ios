@@ -4,10 +4,8 @@ import {Icon} from '@ant-design/react-native'
 
 
 const LeftButton = props => {
-    const {style = styles.left} = props
     return (
-        <TouchableOpacity style={style} onPress={() => {
-           console.log(props)
+        <TouchableOpacity style={{flex: 1, marginLeft: 15}} onPress={() => {
             props.navigation.pop()
         }}>
             <Icon name='left' color='#fff'/>
@@ -17,9 +15,4 @@ const LeftButton = props => {
 
 export default LeftButton
 
-const styles = StyleSheet.create({
-    left: {
-        flex: 1,
-        marginLeft: 15
-    }
-})
+
