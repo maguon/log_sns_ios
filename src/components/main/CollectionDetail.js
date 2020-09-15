@@ -56,13 +56,21 @@ class CollectionDetail extends Component {
     renderEmpty = () => {
         return (
             <View style={globalStyles.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无评论</Text>
             </View>
         )
     }
 
+    //加载等待页
+    renderLoadingView() {
+        return (
+            <View style={{marginTop:30}}>
+                <ActivityIndicator animating={true} />
+            </View>)
+    }
+
     render() {
-        const {CollectionDetailReducer: {Coll_comment,collUser}, setPraise} = this.props
+        const {CollectionDetailReducer: {Coll_comment,collUser,Loading}, setPraise} = this.props
         console.log(collUser)
         console.log(Coll_comment)
          const media = collUser.media
@@ -149,14 +157,13 @@ class CollectionDetail extends Component {
                         </View>
 
                         <View style={{width: width, marginBottom: 40}}>
-                            {Coll_comment == "" ?
-                                <View style={{justifyContent: "center", alignItems: "center", marginTop: 20}}><Text
-                                    style={{fontSize: 18, color: "#838485"}}>暂无评论</Text></View> :
-                                < FlatList
+
+                            {Loading ?this.renderLoadingView():< FlatList
                                     data={Coll_comment}
                                     renderItem={(params) => {
                                         const {item, index} = params
                                         const userInfo = item.user_detail_info[0]
+                                        const msgInfo = item.msg_info[0]
                                         // console.log(item)
                                         return (
                                             <View style={{width: width}}>
@@ -219,20 +226,23 @@ class CollectionDetail extends Component {
                                                         }}>
                                                             <Text
                                                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+
+                                                            <View style={{position:'absolute',right:10,flexDirection: "row", alignItems: "center"}}>
                                                             <TouchableOpacity
-                                                                style={{marginLeft: width * 0.28}}
                                                                 onPress={() => {
+
                                                                     this.props.navigation.navigate('Comment', {
                                                                         item: item,
-                                                                        level: 2,callBack:()=>{console.log("level2")}
+                                                                        level: 2,callBack:()=>{this.props.CollCommentOne(item)}
                                                                     })
                                                                 }}>
                                                                 <AntDesign name="message1" style={{color: '#838485'}}
                                                                            size={18}/>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
-                                                                style={{marginLeft: width * 0.05, flexDirection: "row"}}
+                                                                style={{marginLeft: 10, flexDirection: "row"}}
                                                                 onPress={() => {
+                                                                    console.log("item",item)
                                                                     setPraise({item: item})
                                                                 }}>
                                                                 {item.user_praises == "" ?
@@ -243,7 +253,7 @@ class CollectionDetail extends Component {
                                                                 <Text
                                                                     style={[globalStyles.midText, {marginLeft: 2}]}>{item.agree_num}</Text>
                                                             </TouchableOpacity>
-
+                                                            </View>
                                                         </View>
                                                     </View>
 
@@ -251,8 +261,9 @@ class CollectionDetail extends Component {
                                             </View>
                                         )
                                     }}
-                                />
-                            }
+                                    ListEmptyComponent={this.renderEmpty}
+                                />}
+
                         </View>
                 </ScrollView>
                 <View style={{

@@ -7,15 +7,18 @@ import * as actionType from '../../actionType/index'
 export const CollCommentOne = (params) => async (dispatch, getState) => {
     const {_msg_id,  _msg_user_id} = params
     console.log(params)
+
+    dispatch({type: actionType.CollectionDetailType.Coll_Loading_success, payload: {Loading: true}})
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${_msg_user_id}/userBeMsgComment?msgId=${_msg_id}&level=1`
         const res = await HttpRequest.get(url)
         console.log(res)
         if (res.success) {
+            dispatch({type: actionType.CollectionDetailType.Coll_Loading_success, payload: {Loading: false}})
             dispatch({
                 type: actionType.CollectionDetailType.Coll_Comment_success,
-                payload: {Coll_comment: res.result, isComplete: false}
+                payload: {Coll_comment: res.result}
             })
         } else {
             Toast.fail(res.msg)
@@ -78,17 +81,17 @@ export const setPraise = (params) => async (dispatch, getState) => {
     try {
         let params = {
             type: 2,
-            msgId: item._msg_id,
+            msgId:item._msg_id,
             msgUserId: item._msg_user_id,
-            msgComId: item._msg_com_id,
-            msgComUserId: item.__msg_com_user_id,
-            bePraisedUserId: `${item._user_id}`
+            msgComId: item._id,
+            msgComUserId: item._user_id,
+            bePraisedUserId: item._user_id
         }
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url, params)
         console.log(params)
         if (res.success) {
-            dispatch(CollCommentOne())
+            dispatch(CollCommentOne(item))
         } else {
             Toast.info(res.msg)
         }

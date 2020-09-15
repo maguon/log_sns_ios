@@ -215,9 +215,10 @@ class Collection extends React.Component {
 
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
-                                            onPress={() => {
-                                                setColPraise(item)
-                                            }}>
+                                            onPress={()=>{
+                                                setColPraise({item:msgInfo})
+                                            }}
+                                         >
                                             {msgInfo.user_praises == "" ?
                                                 <AntDesign name="like2" size={18} style={{color: '#838485'}}/> :
                                                 <AntDesign name="like1" size={18} style={{color: '#ffa600'}}/>}

@@ -38,6 +38,7 @@ class Detail extends Component {
         this.props.getCommentUser(item)
     }
 
+
     ListFooterComponent = (param) => {
         if (param == 1) {
             return (
@@ -57,13 +58,21 @@ class Detail extends Component {
     renderEmpty = () => {
         return (
             <View style={globalStyles.listEmptyContainer}>
-                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无内容</Text>
+                <Text style={[globalStyles.largeText, globalStyles.listEmptyText]}>暂无评论</Text>
             </View>
         )
     }
 
+    //加载等待页
+    renderLoadingView() {
+        return (
+            <View style={{marginTop:30}}>
+                <ActivityIndicator animating={true} />
+            </View>
+        );
+    }
     render() {
-        const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentUser}, setPraise} = this.props
+        const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentUser,Loading}, setPraise} = this.props
           console.log(navigation)
         console.log(item)
         console.log("commentUser",commentUser)
@@ -151,10 +160,8 @@ class Detail extends Component {
                         </View>
 
                         <View style={{width: width, marginBottom: 40}}>
-                            {commentMsg == "" ?
-                                <View style={{justifyContent: "center", alignItems: "center", marginTop: 20}}><Text
-                                    style={{fontSize: 18, color: "#838485"}}>暂无评论</Text></View> :
-                                < FlatList
+
+                            {Loading ?this.renderLoadingView():< FlatList
                                     data={commentMsg}
                                     renderItem={(params) => {
                                         const {item, index} = params
@@ -225,19 +232,20 @@ class Detail extends Component {
                                                         }}>
                                                             <Text
                                                                 style={[globalStyles.smallText]}>{item.created_at ? `${moment(item.created_at).format('YYYY-MM-DD')}` : ''}</Text>
+                                                           <View style={{position:'absolute',right:10,flexDirection: "row", alignItems: "center"}}>
                                                             <TouchableOpacity
-                                                                style={{marginLeft: width * 0.28}}
+
                                                                 onPress={() => {
                                                                     this.props.navigation.navigate('Comment', {
                                                                         item: item,
-                                                                        level: 2,callBack:()=>{console.log("level2")}
+                                                                        level: 2,callBack:()=>{this.props.getCommentOne(item)}
                                                                     })
                                                                 }}>
                                                                 <AntDesign name="message1" style={{color: '#838485'}}
                                                                            size={18}/>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
-                                                                style={{marginLeft: width * 0.05, flexDirection: "row"}}
+                                                                style={{marginLeft: 10,flexDirection: "row"}}
                                                                 onPress={() => {
                                                                     setPraise({item: item})
                                                                 }}>
@@ -249,7 +257,7 @@ class Detail extends Component {
                                                                 <Text
                                                                     style={[globalStyles.midText, {marginLeft: 2}]}>{item.agree_num}</Text>
                                                             </TouchableOpacity>
-
+                                                           </View>
                                                         </View>
                                                     </View>
 
@@ -257,18 +265,11 @@ class Detail extends Component {
                                             </View>
                                         )
                                     }}
-                                    // refreshing={false}
-                                    // onEndReachedThreshold={0.2}
-                                    // onEndReached={() => {
-                                    //     if (!isComplete) {
-                                    //         getCommentOne(item)
-                                    //     }
-                                    // }
-                                    // }
-                                    // ListFooterComponent={this.ListFooterComponent(isResultStatus)}
-                                    // ListEmptyComponent={this.renderEmpty}
-                                />
-                            }
+                                    ListEmptyComponent={this.renderEmpty}
+
+
+                                />}
+
                         </View>
                     </View>
                 </ScrollView>
