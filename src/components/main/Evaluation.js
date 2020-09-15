@@ -6,8 +6,10 @@ import moment from "moment";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as action from "../../action";
 import {fileHost} from "../../config/HostConfig";
-import {ActivityIndicator} from "@ant-design/react-native";
+import {ActivityIndicator, Provider} from "@ant-design/react-native";
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 
 const {width, height} = Dimensions.get('window')
 class Evaluation extends Component {
@@ -62,7 +64,8 @@ class Evaluation extends Component {
         const {EvaluationReducer:{evaluation,isComplete,isResultStatus},getEvaluation,update} = this.props
 
         return (
-            <View style={{flex: 1}}>
+            <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={evaluation}
                     renderItem={(params) => {
@@ -167,8 +170,8 @@ class Evaluation extends Component {
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                     // ListEmptyComponent={this.renderEmpty}
                 />
-
-            </View>
+                </SafeAreaView>
+            </Provider>
         )
     }
 }

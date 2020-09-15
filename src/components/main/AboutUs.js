@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, StyleSheet} from 'react-native'
 import * as action from "../../action/index"
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {Provider} from "@ant-design/react-native";
 
 class AboutUs extends Component {
     constructor(props) {
@@ -18,13 +19,15 @@ class AboutUs extends Component {
         const {aboutUsReducer: {aboutUsList}} = this.props
         console.log(aboutUsList)
         return (
-            <View>
+            <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <Text>{aboutUsList.corporate_name}</Text>
                 <Text>{aboutUsList.info}</Text>
                 <Text>{aboutUsList.phone}</Text>
                 <Text>{aboutUsList.remarks}</Text>
                 <Text>{aboutUsList._id}</Text>
-            </View>
+            </SafeAreaView>
+            </Provider>
         )
     }
 }

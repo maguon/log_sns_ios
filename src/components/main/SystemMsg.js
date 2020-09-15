@@ -16,7 +16,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import moment from "moment";
 import * as actionType from "../../actionType";
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width} = Dimensions.get('window')
@@ -100,6 +100,7 @@ class SystemMsg extends React.Component {
         console.log(systemMsg)
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     data={systemMsg}
@@ -114,6 +115,7 @@ class SystemMsg extends React.Component {
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
 
                 />
+                </SafeAreaView>
             </Provider>
         )
     }

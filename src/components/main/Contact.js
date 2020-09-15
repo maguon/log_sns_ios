@@ -14,6 +14,7 @@ import {connect} from "react-redux"
 import {Button, Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width} = Dimensions.get('window')
@@ -98,6 +99,7 @@ class Contact extends React.Component {
 
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     keyExtractor={(item, index) => `${index}`}
@@ -113,6 +115,7 @@ class Contact extends React.Component {
                     ListFooterComponent={isResultStatus == 0 ? this.ListFooterComponent : <View style={{height: 10}}/>}
 
                 />
+                </SafeAreaView>
             </Provider>
         )
     }

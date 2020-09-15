@@ -12,8 +12,9 @@ import {connect} from "react-redux"
 import globalStyles from '../../utils/GlobalStyles'
 import VoteItem from '../modules/VoteItem'
 import * as action from "../../action/index"
-import {Card, WhiteSpace, WingBlank} from "@ant-design/react-native";
+import {Card, Provider, WhiteSpace, WingBlank} from "@ant-design/react-native";
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width} = Dimensions.get('window')
@@ -140,7 +141,8 @@ class ToVote extends React.Component {
     render() {
         const {ToVoteReducer: {ToVoteList, isComplete, isResultStatus}, getToVoteList} = this.props
         return (
-                <View style={style.content}>
+            <Provider>
+                <SafeAreaView style={style.content}>
                         <FlatList
                             data={ToVoteList}
                             renderItem={this.renderItemTo}
@@ -153,7 +155,8 @@ class ToVote extends React.Component {
                             }}
                             ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                         />
-                    </View>
+                </SafeAreaView>
+            </Provider>
         )
     }
 }

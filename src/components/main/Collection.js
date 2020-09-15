@@ -96,6 +96,7 @@ class Collection extends React.Component {
         }
 
         return (
+            <Provider>
             <SafeAreaView style={{flex: 1}}>
                 <View style={{paddingTop: 30}}>
                     <WingBlank size="lg">
@@ -232,6 +233,7 @@ class Collection extends React.Component {
                     <WhiteSpace size="lg"/>
                 </View>
             </SafeAreaView>
+            </Provider>
         )
     }
 

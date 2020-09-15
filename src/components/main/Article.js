@@ -17,6 +17,7 @@ import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width} = Dimensions.get('window')
@@ -237,6 +238,7 @@ class Article extends React.Component {
 
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
@@ -361,6 +363,7 @@ class Article extends React.Component {
                         {!artLoading && this.renderLoadingView()}
                     </View>
                 </Tabs>
+                </SafeAreaView>
             </Provider>
 
         )

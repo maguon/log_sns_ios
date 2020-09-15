@@ -21,6 +21,7 @@ import * as actionType from "../../actionType";
 import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
@@ -262,10 +263,10 @@ class Space extends Component {
 // console.log(spaceData)
         return (
             <Provider>
-            <View style={{flex: 1}}>
-                <View style={{width: width, backgroundColor: styleColor}}>
-                    <View style={{height: 50, flexDirection: "row", alignItems: "flex-end", marginLeft: 10}}>
-                        <AntDesign name="left" size={20} style={{color: '#fff'}}
+            <SafeAreaView style={{flex: 1}}>
+                <View style={{width: width, backgroundColor: styleColor,}}>
+                    <View style={{height:55, flexDirection: "row", alignItems: "flex-end", marginLeft: 15}}>
+                        <AntDesign name="left" size={22} style={{color: '#fff'}}
                                    onPress={() => this.props.navigation.goBack()}/>
                     </View>
 
@@ -329,7 +330,7 @@ class Space extends Component {
 
                 }
 
-            </View>
+            </SafeAreaView>
 
                 <Modal
                     popup

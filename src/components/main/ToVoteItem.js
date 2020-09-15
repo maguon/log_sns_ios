@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Text, View, Dimensions,ScrollView} from 'react-native'
 import {List, Provider,} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const Item = List.Item;
@@ -69,7 +69,7 @@ class ToVoteItem extends React.Component {
         const voteInfo=item.vote_info[0]
         return (
             <Provider>
-                <View style={{flex: 1}}>
+                <SafeAreaView style={{flex: 1}}>
                     <View style={{
                         flexDirection: 'row',
                         height: 40,
@@ -120,7 +120,7 @@ class ToVoteItem extends React.Component {
                     <ScrollView>
                         {item.status == 3 ?this.renderEnd(voteInfo):this.renderItem(item)}
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             </Provider>
         )
     }

@@ -5,8 +5,9 @@ import globalStyles from "../../utils/GlobalStyles";
 import moment from "moment";
 import * as action from "../../action";
 import {fileHost} from "../../config/HostConfig";
-import {ActivityIndicator} from "@ant-design/react-native";
+import {ActivityIndicator,Provider} from "@ant-design/react-native";
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window')
 class PraiseMe extends Component {
@@ -65,7 +66,8 @@ class PraiseMe extends Component {
         console.log(likeMe)
 
         return (
-            <View style={{flex: 1}}>
+            <Provider>
+            <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     data={likeMe}
                     renderItem={(params) => {
@@ -156,7 +158,8 @@ class PraiseMe extends Component {
                     // ListEmptyComponent={this.renderEmpty}
                 />
 
-            </View>
+            </SafeAreaView>
+            </Provider>
         )
     }
 }

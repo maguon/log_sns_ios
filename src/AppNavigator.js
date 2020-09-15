@@ -70,6 +70,7 @@ import DetailRig from './components/modules/DetailRig'
 import ComRightButton from "./components/modules/ComRightButton"
 import Agreement from "./components/modules/Agreement"
 import DetailLeftButton from "./components/modules/DetailLeftButton"
+import SpaceHeader from "./components/modules/SpaceHeader";
 
 //登录页面
 const LoginPage = createStackNavigator({
@@ -480,7 +481,7 @@ const Main = createStackNavigator({
     Space: {
         screen: Space,
         navigationOptions: ({navigation}) => ({
-            header: null,
+             header: null,
             tabBarVisible: false
         })
     },

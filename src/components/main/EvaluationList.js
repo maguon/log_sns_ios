@@ -2,11 +2,12 @@
 import React, { Component } from 'react'
 import { View, Text, InteractionManager, FlatList, RefreshControl, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import {WhiteSpace, WingBlank } from '@ant-design/react-native'
+import {Provider, WhiteSpace, WingBlank} from '@ant-design/react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import moment from 'moment'
 import * as action from '../../action/index'
 import globalStyles from "../../utils/GlobalStyles"
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 //二级评论
 class EvaluationList extends Component {
@@ -40,6 +41,8 @@ class EvaluationList extends Component {
         const { evaluationMeReducer, navigation } = this.props
         console.log('evaluationMeReducer', evaluationMeReducer)
         return (
+            <Provider>
+                <SafeAreaView style={{flex: 1}}>
             <FlatList
                 keyExtractor={(item, index) => `${index}`}
                 data={evaluationMeReducer.data.commentList}
@@ -100,6 +103,8 @@ class EvaluationList extends Component {
                 ListEmptyComponent={evaluationMeReducer.getCommentList.isResultStatus != 1 && this.renderEmpty}
                 ListFooterComponent={evaluationMeReducer.getCommentListMore.isResultStatus == 1 ? this.ListFooterComponent: <View />}
             />
+                </SafeAreaView>
+            </Provider>
         )
     }
 }

@@ -7,6 +7,7 @@ import globalStyles from "../../utils/GlobalStyles"
 import { Button,InputItem,Provider} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window')
 class Location extends Component {
@@ -27,7 +28,7 @@ class Location extends Component {
         const {navigation,getAddress, LocationPost,LocationReducer: {data: {addressInfo}}} = this.props
         return (
             <Provider>
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <MapView
                     locationEnabled
                     locationInterval={10000}
@@ -107,7 +108,7 @@ class Location extends Component {
                         </Button>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
             </Provider>
         )
 

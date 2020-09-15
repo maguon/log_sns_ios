@@ -4,6 +4,7 @@ import {View, Text, StyleSheet} from 'react-native'
 import {MapView} from "react-native-amap3d"
 import globalStyles from "../../utils/GlobalStyles";
 import {Button, Provider} from "@ant-design/react-native";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 class LocationMap extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class LocationMap extends Component {
         console.log(item)
         return (
 
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
 
                 <MapView
                     locationEnabled
@@ -39,7 +40,7 @@ class LocationMap extends Component {
                     </View>
 
                 </View>
-            </View>
+            </SafeAreaView>
 
         )
     }

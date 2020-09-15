@@ -16,6 +16,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import index from "../../reducer";
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 const {width} = Dimensions.get('window')
@@ -125,6 +126,7 @@ class Follow extends React.Component {
 
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     keyExtractor={(item, index) => `${index}`}
@@ -138,6 +140,7 @@ class Follow extends React.Component {
                     }}
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                 />
+                </SafeAreaView>
             </Provider>
         )
     }

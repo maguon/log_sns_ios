@@ -451,7 +451,7 @@ class Community extends React.Component {
                     onClose={this.moreClose}
                     style={{borderRadius: 10}}
                 >
-                    <ScrollView style={{height: height * 0.3, paddingVertical: 5, paddingHorizontal: 50}}>
+                    <ScrollView style={{height: 160, paddingVertical: 5, paddingHorizontal: 50}}>
                         {this.state.follow?
                             <TouchableOpacity style={style.border} onPress={() => {
                                 this.setState({

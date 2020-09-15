@@ -4,7 +4,7 @@ import {Text, View, TouchableOpacity, Dimensions,ScrollView} from 'react-native'
 import {Button, List, Provider, Radio, Checkbox} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action";
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -159,7 +159,7 @@ class Vote extends React.Component {
         console.log(item)
         return (
             <Provider>
-                <View style={{flex: 1}}>
+                <SafeAreaView style={{flex: 1}}>
                     <View style={{
                         flexDirection: 'row',
                         height: 40,
@@ -219,7 +219,7 @@ class Vote extends React.Component {
                     </View>
                 </View>:this.renderItem(item))}
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             </Provider>
         )
     }

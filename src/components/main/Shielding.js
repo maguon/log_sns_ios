@@ -16,7 +16,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import index from "../../reducer";
 import * as actionType from "../../actionType";
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window')
 
@@ -116,6 +116,7 @@ class Shielding extends React.Component {
         console.log(shieldingList)
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     data={shieldingList}
@@ -130,6 +131,7 @@ class Shielding extends React.Component {
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
 
                 />
+                </SafeAreaView>
             </Provider>
         )
     }

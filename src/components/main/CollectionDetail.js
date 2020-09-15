@@ -14,7 +14,7 @@ import {
 import globalStyles from "../../utils/GlobalStyles";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import Video from "react-native-video";
-import {Card, Provider} from "@ant-design/react-native/lib/card";
+import {Card, Provider} from "@ant-design/react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import moment from "moment";
 import * as action from "../../action";
@@ -78,7 +78,7 @@ class CollectionDetail extends Component {
         }
 
         return (
-
+            <Provider>
             <SafeAreaView style={{flex: 1}}>
                 <ScrollView>
                     <View>
@@ -300,6 +300,7 @@ class CollectionDetail extends Component {
                 </View>
 
             </SafeAreaView>
+            </Provider>
 
         )
     }

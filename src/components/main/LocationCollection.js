@@ -18,6 +18,7 @@ import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index";
 import {MapView} from "react-native-amap3d"
 import * as actionType from "../../actionType";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window')
 
@@ -134,6 +135,7 @@ class LocationCollection extends Component {
 
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     data={LocationList}
@@ -147,6 +149,7 @@ class LocationCollection extends Component {
                     ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                     // ListEmptyComponent={this.renderEmpty}
                 />
+                </SafeAreaView>
             </Provider>
 
         )

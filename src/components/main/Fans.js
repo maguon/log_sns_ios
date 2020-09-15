@@ -15,7 +15,7 @@ import { Provider} from '@ant-design/react-native'
 import globalStyles from '../../utils/GlobalStyles'
 import * as action from "../../action/index"
 import * as actionType from "../../actionType";
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window')
 
@@ -119,6 +119,7 @@ class Fans extends React.Component {
 
         return (
             <Provider>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList
                     contentContainerStyle={{padding: 7.5}}
                     keyExtractor={(item, index) => `${index}`}
@@ -132,6 +133,7 @@ class Fans extends React.Component {
                     }}
                     ListFooterComponent={this.ListFooterComponent(fansResultStatus)}
                 />
+                </SafeAreaView>
             </Provider>
         )
     }

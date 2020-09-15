@@ -5,7 +5,8 @@ import * as action from "../../action";
 import globalStyles from "../../utils/GlobalStyles";
 import moment from "moment";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import {ActivityIndicator} from "@ant-design/react-native";
+import {ActivityIndicator, Provider} from "@ant-design/react-native";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window')
 class CommentReply extends Component {
@@ -47,6 +48,8 @@ class CommentReply extends Component {
         const {navigation: {state: {params: {commentId,userId}}},CommentReplyReducer:{commentReply}} = this.props
         console.log(this.props)
         return (
+            <Provider>
+                <SafeAreaView style={{flex: 1}}>
             <ScrollView >
                 <FlatList
                     data={commentReply}
@@ -107,6 +110,8 @@ class CommentReply extends Component {
                     ListEmptyComponent={this.renderEmpty}
                 />
             </ScrollView>
+                </SafeAreaView>
+            </Provider>
         )
     }
 }
