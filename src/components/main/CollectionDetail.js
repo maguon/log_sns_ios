@@ -71,8 +71,8 @@ class CollectionDetail extends Component {
 
     render() {
         const {CollectionDetailReducer: {Coll_comment,collUser,Loading}, setPraise} = this.props
-        console.log(collUser)
-        console.log(Coll_comment)
+        // console.log(collUser)
+        // console.log(Coll_comment)
          const media = collUser.media
         const item = collUser
 
@@ -112,7 +112,6 @@ class CollectionDetail extends Component {
                             numColumns={3}
                             renderItem={(params) => {
                                 const {item, index} = params
-                                console.log(params)
                                 return (
                                     <TouchableOpacity activeOpacity={0.5} onPress={() => {
                                         this.props.navigation.navigate("ImageView", {
@@ -242,7 +241,6 @@ class CollectionDetail extends Component {
                                                             <TouchableOpacity
                                                                 style={{marginLeft: 10, flexDirection: "row"}}
                                                                 onPress={() => {
-                                                                    console.log("item",item)
                                                                     setPraise({item: item})
                                                                 }}>
                                                                 {item.user_praises == "" ?

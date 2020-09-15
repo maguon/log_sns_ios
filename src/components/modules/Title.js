@@ -302,19 +302,19 @@ class Title extends React.Component {
                               this.props.getHotLoad()
                               if(index==0){
                                   getHotList()
-                                  InteractionManager.runAfterInteractions(() => {
-                                      update(0)
-                                  });
+                                  // InteractionManager.runAfterInteractions(() => {
+                                  //     update(0)
+                                  // });
                               }else if(index==1){
                                   getHomeFollow()
-                                  InteractionManager.runAfterInteractions(() => {
-                                      update(1)
-                                  });
+                                  // InteractionManager.runAfterInteractions(() => {
+                                  //     update(1)
+                                  // });
                               }else if(index==2){
                                   Geolocation.getCurrentPosition(info => getNearList(info))
-                                  InteractionManager.runAfterInteractions(() => {
-                                      update(2)
-                                  });
+                                  // InteractionManager.runAfterInteractions(() => {
+                                  //     update(2)
+                                  // });
                               }
                           }}
                           tabBarBackgroundColor='#1598cc'

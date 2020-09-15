@@ -120,6 +120,7 @@ const globalStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'#aaa'
     },
     focus: {
         overflow: 'hidden',

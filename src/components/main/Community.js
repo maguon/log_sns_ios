@@ -301,24 +301,24 @@ class Community extends React.Component {
                           this.props.getComLoad()
                           if(index==0){
                               getComInfo()
-                              InteractionManager.runAfterInteractions(() => {
-                                  update(0)
-                              });
+                              // InteractionManager.runAfterInteractions(() => {
+                              //     update(0)
+                              // });
                           }else if(index==1){
                               getComVideo()
-                              InteractionManager.runAfterInteractions(() => {
-                                  update(1)
-                              });
+                              // InteractionManager.runAfterInteractions(() => {
+                              //     update(1)
+                              // });
                           }else if(index==2){
                              getComHelp()
-                              InteractionManager.runAfterInteractions(() => {
-                                  update(2)
-                              });
+                              // InteractionManager.runAfterInteractions(() => {
+                              //     update(2)
+                              // });
                           }else if(index==3){
                               getComVoteList()
-                              InteractionManager.runAfterInteractions(() => {
-                                  update(3)
-                              });
+                              // InteractionManager.runAfterInteractions(() => {
+                              //     update(3)
+                              // });
                           }
                       }}
                       tabBarBackgroundColor='#fff'

@@ -6,14 +6,14 @@ import * as actionType from '../../actionType/index'
 
 export const CollCommentOne = (params) => async (dispatch, getState) => {
     const {_msg_id,  _msg_user_id} = params
-    console.log(params)
+    // console.log(params)
 
     dispatch({type: actionType.CollectionDetailType.Coll_Loading_success, payload: {Loading: true}})
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${_msg_user_id}/userBeMsgComment?msgId=${_msg_id}&level=1`
         const res = await HttpRequest.get(url)
-        console.log(res)
+        // console.log(res)
         if (res.success) {
             dispatch({type: actionType.CollectionDetailType.Coll_Loading_success, payload: {Loading: false}})
             dispatch({
@@ -32,12 +32,12 @@ export const CollCommentOne = (params) => async (dispatch, getState) => {
 export const getCommentUser = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     const {_msg_id, _msg_user_id} = params
-    console.log(params)
+    // console.log(params)
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${_msg_user_id}&msgId=${_msg_id}`
         const res = await HttpRequest.get(url)
-        console.log(res)
+        // console.log(res)
         if (res.success) {
             dispatch({
                 type: actionType.CollectionDetailType.Coll_commentUser,
@@ -77,7 +77,7 @@ export const setPraiseOne = (params) => async (dispatch, getState) => {
 export const setPraise = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     const {item} = params
-    console.log(item)
+    // console.log(item)
     try {
         let params = {
             type: 2,
@@ -89,7 +89,7 @@ export const setPraise = (params) => async (dispatch, getState) => {
         }
         let url = `${apiHost}/user/${userId}/userPraise`
         const res = await HttpRequest.post(url, params)
-        console.log(params)
+        // console.log(params)
         if (res.success) {
             dispatch(CollCommentOne(item))
         } else {

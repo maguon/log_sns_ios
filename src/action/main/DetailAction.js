@@ -7,13 +7,13 @@ import {update} from "./HomeAction";
 
 export const getCommentOne = (params) => async (dispatch, getState) => {
     const {_id, _user_id} = params
-    console.log(params)
+    // console.log(params)
     dispatch({type: actionType.DetailType.get_Loading_success, payload: {Loading:true}})
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${_user_id}/userBeMsgComment?msgId=${_id}&level=1`
         const res = await HttpRequest.get(url)
-        console.log(res)
+        // console.log(res)
         if (res.success) {
             dispatch({type: actionType.DetailType.get_Loading_success, payload: {Loading:false}})
             dispatch({
@@ -32,12 +32,12 @@ export const getCommentOne = (params) => async (dispatch, getState) => {
 export const getCommentUser = (params) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
     const {_id, _user_id} = params
-    console.log(params)
+    // console.log(params)
     try {
         // 基本检索URL
         let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${ _user_id}&msgId=${_id}`
         const res = await HttpRequest.get(url)
-        console.log(res)
+        // console.log(res)
         if (res.success) {
             dispatch({
                 type: actionType.DetailType.get_commentUser,

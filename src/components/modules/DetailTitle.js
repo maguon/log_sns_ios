@@ -16,17 +16,21 @@ class DetailTitle extends React.Component {
     }
 
     render() {
-        const {navigation: {state: {params: {item, itemList}}}} = this.props
+        const {navigation,navigation: {state: {params: {item, itemList}}}} = this.props
         let userInfo = ""
+        let userId = ""
         if (itemList != "") {
             userInfo = itemList.msg_user_detail_info[0]
+            userId= item._msg_user_id
         } else {
             userInfo = item.user_detail_info[0]
+            userId= item._user_id
         }
 
 
         return (
-            <View style={{flex: 1, width:width,flexDirection: 'row', alignItems: 'center',justifyContent:"center"}}>
+            <TouchableOpacity style={{flex: 1, width:width,flexDirection: 'row', alignItems: 'center',justifyContent:"center"}}
+                              onPress={()=>{ navigation.navigate('Space', {userId: userId})}}>
                 {userInfo.avatar ? <Image source={{uri: userInfo.avatar}}
                                           style={{width: 35, height: 35, borderRadius: 30}}/> :
                     <Image source={require('../../images/head.png')}
@@ -38,7 +42,7 @@ class DetailTitle extends React.Component {
                     }]}>{userInfo.nick_name ? userInfo.nick_name : '暂无昵称'}</Text>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         )
     }
 }

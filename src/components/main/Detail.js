@@ -73,9 +73,6 @@ class Detail extends Component {
     }
     render() {
         const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentUser,Loading}, setPraise} = this.props
-          console.log(navigation)
-        console.log(item)
-        console.log("commentUser",commentUser)
         const media = item.media
         if (item.carrier == 2) {
             if (item.media.length < 2) {
