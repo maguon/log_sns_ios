@@ -37,7 +37,7 @@ export default handleActions({
             ...state,
             hotList: [...state.hotList, ...hotList],
             isComplete,
-            isResultStatus: 2,
+            isResultStatus: 1,
         }
     },
     [actionType.HomeActionType.get_HotList_end]: (state, action) => {
@@ -46,7 +46,7 @@ export default handleActions({
             ...state,
             hotList: [...state.hotList, ...hotList],
             isComplete,
-            isResultStatus: 1,
+            isResultStatus: 2,
 
         }
     },

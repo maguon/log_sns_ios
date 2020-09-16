@@ -15,9 +15,10 @@ export const getHotList = () => async (dispatch, getState) => {
         if (res.success) {
             dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
-                dispatch({type: actionType.HomeActionType.get_HotList_end, payload: {hotList: res.result, isComplete: true}})
+                dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList: res.result, isComplete: true } })
             } else {
-                dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList: res.result, isComplete: false } })
+                dispatch({type: actionType.HomeActionType.get_HotList_end, payload: {hotList: res.result, isComplete: false}})
+
             }
         }
     } catch (err) {

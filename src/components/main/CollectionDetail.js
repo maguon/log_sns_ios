@@ -150,9 +150,11 @@ class CollectionDetail extends Component {
                             flexDirection: "row", alignItems: "center", marginTop: 20
                         }}>
                             <Text
-                                style={[globalStyles.largeText, {marginLeft: width * 0.05}]}>评论（{item.comment_num}）</Text>
-                            <Text style={[globalStyles.midText, {marginLeft: width * 0.3}]}>收藏 {item.collect_num}</Text>
-                            <Text style={[globalStyles.midText, {marginLeft: width * 0.1}]}>赞 {item.agree_num}</Text>
+                                style={[globalStyles.largeText, {marginLeft: 20}]}>评论（{item.comment_num}）</Text>
+                            <View style={{position:'absolute',right:10,flexDirection: "row", alignItems: "center"}}>
+                            <Text style={[globalStyles.midText, {marginRight: 20}]}>收藏 {item.collect_num}</Text>
+                            <Text style={[globalStyles.midText, {marginRight: 20}]}>赞 {item.agree_num}</Text>
+                            </View>
                         </View>
 
                         <View style={{width: width, marginBottom: 40}}>
@@ -169,7 +171,7 @@ class CollectionDetail extends Component {
                                                 <View style={{flexDirection: "row"}}>
 
                                                     <TouchableOpacity
-                                                        style={{marginLeft: width * 0.05, marginTop: width * 0.05}}
+                                                        style={{marginLeft:20, marginTop:15}}
                                                         onPress={() => {
                                                             this.props.navigation.navigate('Space', {userId: item._user_id})
                                                         }}>
@@ -187,7 +189,7 @@ class CollectionDetail extends Component {
                                                         width: width * 0.8,
                                                         flexDirection: "column",
                                                         marginLeft: 10,
-                                                        marginTop: width * 0.05,
+                                                        marginTop: 15,
                                                         borderBottomWidth: 0.5,
                                                         borderBottomColor: "#bcbdbe"
                                                     }}>
@@ -239,7 +241,7 @@ class CollectionDetail extends Component {
                                                                            size={18}/>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity
-                                                                style={{marginLeft: 10, flexDirection: "row"}}
+                                                                style={{marginLeft: 20, flexDirection: "row"}}
                                                                 onPress={() => {
                                                                     setPraise({item: item})
                                                                 }}>
