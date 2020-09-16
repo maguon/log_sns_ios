@@ -251,7 +251,7 @@ console.log(this.props)
                                 extra={
                                     <View>
                                    <View>
-                                        {Sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
+                                        {sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
                                             <Text style={{  fontSize: 16, color: '#c2c3c4'}}>男</Text>}
                                     </View>
 
