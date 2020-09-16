@@ -18,6 +18,7 @@ import  ImagePicker from 'react-native-image-picker';
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import ImageCropPicker from "react-native-image-crop-picker";
 import ImageResizer from "react-native-image-resizer";
+import * as actionType from "../../actionType";
 let photoOptions = {
     //底部弹出框选项
     title:'',
@@ -181,7 +182,7 @@ class UserData extends React.Component {
 
 
     render() {
-        const {navigation, userDataReducer: {userData: {phone}, userDetailInfo: {_id,nick_name, sex, avatar, intro, city_name}},submit} = this.props
+        const {navigation, userDataReducer: {userData: {phone}, userDetailInfo: {_id,nick_name, sex, avatar, intro, city_name},Sex,nickName,cityName,Intro}, submit} = this.props
 console.log(this.props)
         return (
             <Provider>
@@ -220,7 +221,7 @@ console.log(this.props)
 
                             <InputItem
                                 clear
-                                onChange={this.nickOnChange}
+                                onChange={this.props.setNickName}
                                 placeholder={nick_name ? nick_name : "昵称"}
 
                             >
@@ -229,14 +230,14 @@ console.log(this.props)
 
                             <InputItem
                                 clear
-                                onChange={this.introOnChange}
+                                onChange={this.props.setIntro}
                                 placeholder={intro ? intro : "暂无签名"}
                             >
                                 <Text style={globalStyles.largeText}>签名</Text>
                             </InputItem>
                             <InputItem
                                 clear
-                                onChange={this.cityOnChange}
+                                onChange={this.props.setCityName}
                                 placeholder={city_name?city_name:"请输入"}
                             >
                                 <Text style={globalStyles.largeText}>城市</Text>
@@ -246,11 +247,11 @@ console.log(this.props)
                                 data={data}
                                 cols={1}
                                 value={this.state.sexValue}
-                                onChange={this.sexOnChange}
+                                onChange={this.props.setSex}
                                 extra={
                                     <View>
                                    <View>
-                                        {sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
+                                        {Sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
                                             <Text style={{  fontSize: 16, color: '#c2c3c4'}}>男</Text>}
                                     </View>
 
@@ -284,10 +285,10 @@ console.log(this.props)
                             <Button type="primary" style={{marginTop:50}} onPress={()=>{
                                 submit({
                                     id:_id,
-                                    sex: this.state.sexValue[0],
-                                    nickName: this.state.nickValue,
-                                    cityName: this.state.cityValue,
-                                    intro: this.state.introValue,
+                                    sex: Sex,
+                                    nickName: nickName,
+                                    cityName: cityName,
+                                    intro: Intro,
                                     navigation:navigation
                                 })
                             }}>提交修改</Button>
@@ -307,7 +308,22 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchProps = (dispatch, props) => ({
-
+    setSex:(value)=>{
+        console.log(value)
+        dispatch({type:actionType.UserDataType.set_Sex,payload: {Sex:value[0] }})
+    },
+    setNickName: (value) => {
+      console.log(value)
+        dispatch({type:actionType.UserDataType.set_NickName,payload: {nickName:value }})
+    },
+    setCityName: (value) => {
+        console.log(value)
+        dispatch({type:actionType.UserDataType.set_CityName,payload: {cityName:value }})
+    },
+    setIntro: (value) => {
+        console.log(value)
+        dispatch({type:actionType.UserDataType.set_Intro,payload: {Intro:value }})
+    },
     submit: (value) => {
         dispatch(action.UserDataAction.submit(value))
     },

@@ -60,7 +60,7 @@ class Space extends Component {
     ListFooterComponent = (param) => {
         if (param == 1) {
             return(
-                <View style={globalStyles.footerContainer}>
+                <View style={[globalStyles.footerContainer,{marginBottom:20}]}>
                     <Text style={[globalStyles.smallText, globalStyles.footerText]}>没有更多数据了</Text>
                 </View>
             )
@@ -263,9 +263,9 @@ class Space extends Component {
 // console.log(spaceData)
         return (
             <Provider>
-            <SafeAreaView style={{flex: 1}}>
+            <View style={{flex: 1}}>
                 <View style={{width: width, backgroundColor: styleColor,}}>
-                    <View style={{height:55, flexDirection: "row", alignItems: "flex-end", marginLeft: 15}}>
+                    <View style={{height:60, flexDirection: "row", alignItems: "flex-end", marginLeft: 15}}>
                         <AntDesign name="left" size={22} style={{color: '#fff'}}
                                    onPress={() => this.props.navigation.goBack()}/>
                     </View>
@@ -330,7 +330,7 @@ class Space extends Component {
 
                 }
 
-            </SafeAreaView>
+            </View>
 
                 <Modal
                     popup

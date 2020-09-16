@@ -74,6 +74,7 @@ class Detail extends Component {
     render() {
         const {navigation,navigation: {state: {params: {item}}}, DetailReducer: {commentMsg,commentUser,Loading}, setPraise} = this.props
         const media = item.media
+        console.log(item)
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1

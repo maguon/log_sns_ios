@@ -222,9 +222,8 @@ export const setCollection = (value) => async (dispatch, getState) => {
         const res = await HttpRequest.post(url, params)
         console.log(res)
         if (res.success) {
-            Toast.success('收藏成功', 1, () => {
-                dispatch(update(tabIndex))
-            })
+            dispatch(update(tabIndex))
+            Toast.success('收藏成功', 1)
         } else {
             Toast.info(res.msg)
         }
@@ -236,16 +235,17 @@ export const setCollection = (value) => async (dispatch, getState) => {
 //取消收藏
 export const delCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId}} = getState()
-    const {item,tabIndex} =value
+    const {id,tabIndex} =value
     console.log(value)
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/userMsgColl/${item.user_msg_colls[0]._id}/del`
+        let url = `${apiHost}/user/${userId}/userMsgColl/${id}/del`
         const res = await HttpRequest.del(url)
 
         console.log(res)
         if(res.success){
             dispatch(update(tabIndex))
+            Toast.success('取消收藏', 1)
         }else {
             Toast.fail(res.msg)
         }

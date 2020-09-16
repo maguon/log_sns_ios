@@ -163,7 +163,7 @@ class Community extends React.Component {
                                                               moreVisible: true,
                                                               itemInfo: item,
                                                               follow:item.user_relations == "" ?true:false,
-                                                              colls:item.user_msg_colls == "" ? false:true ,
+                                                              colls:item.user_msg_colls == "" ? true:false ,
                                                           })
                                                       }
                                                       }>
@@ -291,7 +291,7 @@ class Community extends React.Component {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
         const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
             comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus}, homeReducer: {waiting},
-            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update, shielding, cancelShielding} = this.props
+            getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update, shielding, delCollection} = this.props
 
         return (
             <Provider>
@@ -485,43 +485,33 @@ class Community extends React.Component {
                             </TouchableOpacity>}
 
                         {this.state.colls? <TouchableOpacity
-                            style={style.border}
-
-                            onPress={() => {
-                                Alert.alert("", "您已收藏", [ {
-                                    text: "确定", onPress: () => {
-                                        this.moreClose()
-                                    }
-                                }])
-
-                            }}
-
-                            //     onPress={() => {
-                            //     Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
-                            //         text: "确定", onPress: () => {
-                            //             this.setState({
-                            //                 colls: false
-                            //             })
-                            //             console.log(this.state.itemInfo)
-                            //             delCollection({item: this.state.itemInfo, tabIndex: tabIndex})
-                            //         }
-                            //     }])
-                            //
-                            // }}
-                        >
-                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
-                            <Text style={style.text}>已收藏</Text>
-                        </TouchableOpacity>:<TouchableOpacity
                             style={style.border} onPress={() => {
                             this.setState({
-                                colls: true
+                                colls: false
                             })
-                            console.log(this.state.itemInfo)
                             setCollection({item: this.state.itemInfo, tabIndex: this.state.tabIndex})
                             this.moreClose()
                         }}>
                             <AntDesign name="hearto" size={20} color={'#838485'}/>
                             <Text style={style.text}>收藏</Text>
+                        </TouchableOpacity>:<TouchableOpacity
+                            style={style.border}
+                            onPress={() => {
+                                Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
+                                    text: "确定", onPress: () => {
+                                        this.setState({
+                                            colls: true
+                                        })
+                                        console.log(this.state.itemInfo)
+                                        delCollection({id: this.state.itemInfo.user_msg_colls[0]._id, tabIndex: this.state.tabIndex})
+                                        this.moreClose()
+                                    }
+                                }])
+
+                            }}
+                        >
+                            <AntDesign name="heart" size={20} color={'#ffaf27'}/>
+                            <Text style={style.text}>已收藏</Text>
                         </TouchableOpacity>}
 
                         <TouchableOpacity style={style.border}
@@ -583,7 +573,10 @@ const mapDispatchProps = (dispatch, props) => ({
         dispatch(action.CommunityAction.getComVoteList())
     },
     setCollection: (value) => {
-        dispatch(action.HomeAction.setCollection(value))
+        dispatch(action.CommunityAction.setCollection(value))
+    },
+    delCollection: (value) => {
+        dispatch(action.CommunityAction.delCollection(value))
     },
     setComPraise: (value) => {
         dispatch(action.CommunityAction.setComPraise(value))

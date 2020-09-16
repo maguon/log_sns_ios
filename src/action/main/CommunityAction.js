@@ -129,6 +129,55 @@ export const update=(tabIndex)=>async (dispatch, getState)=>{
         }
     }
 }
+//收藏
+export const setCollection = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    console.log(value)
+    const {item,tabIndex} =value
+    try {
+
+        let params = {
+            msgId: `${item._id}`,
+            msgUserId: `${item._user_id}`,
+            remarks: "string"
+        }
+        let url = `${apiHost}/user/${userId}/userMsgColl`
+        const res = await HttpRequest.post(url, params)
+        console.log(res)
+        if (res.success) {
+            dispatch(update(tabIndex))
+            Toast.success('收藏成功', 1)
+        } else {
+            Toast.info(res.msg)
+        }
+
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+}
+//取消收藏
+export const delCollection = (value) => async (dispatch, getState) => {
+    const {LoginReducer: {userId}} = getState()
+    const {id,tabIndex} =value
+    console.log(value)
+    try {
+        // 基本检索URL
+        let url = `${apiHost}/user/${userId}/userMsgColl/${id}/del`
+        const res = await HttpRequest.del(url)
+
+        console.log(res)
+        if(res.success){
+            dispatch(update(tabIndex))
+            Toast.success('取消收藏', 1)
+        }else {
+            Toast.fail(res.msg)
+        }
+    } catch (err) {
+        Toast.fail(err.message)
+    }
+
+}
+
 
 //点赞
 export const setComPraise = (params) => async (dispatch, getState) => {
