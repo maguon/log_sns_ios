@@ -63,14 +63,15 @@ class Title extends React.Component {
         this.props.setFile(param)
     }
     launchPhoto() {//打开照相机进行拍照
-        this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
+
         ImageCropPicker.openCamera({
             width: 300,
             height: 400,
         }).then(image => {
-
+            this.props.navigation.navigate("WriteArticle",{title:"发布文章"})
             ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                 .then((resizedImageUri) => {
+
                     this.props.addFile([{
                         url: resizedImageUri.uri,
                         preview:"",

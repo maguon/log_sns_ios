@@ -8,6 +8,7 @@ import { Button,InputItem,Provider} from "@ant-design/react-native"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import * as actionType from "../../actionType";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Geolocation from "@react-native-community/geolocation";
 
 const {width} = Dimensions.get('window')
 class Location extends Component {
@@ -21,7 +22,9 @@ class Location extends Component {
             active: false
         }
     }
-
+componentDidMount(){
+    Geolocation.getCurrentPosition(info => console.log(info))
+}
 
 
     render() {

@@ -2,8 +2,6 @@ PODS:
   - AMap3DMap (7.2.0):
     - AMapFoundation (~> 1.5)
   - AMapFoundation (1.6.3)
-  - AMapLocation (2.6.5):
-    - AMapFoundation (~> 1.6.3)
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.61.5)
@@ -188,9 +186,6 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-amap-geolocation (1.0.4):
-    - AMapLocation (~> 2.6.0)
-    - React
   - react-native-amap3d (2.0.1):
     - AMap3DMap (~> 7.2.0)
     - React
@@ -307,7 +302,6 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
-  - react-native-amap-geolocation (from `../node_modules/react-native-amap-geolocation/lib/ios`)
   - react-native-amap3d (from `../node_modules/react-native-amap3d/lib/ios`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-ffmpeg (from `../node_modules/react-native-ffmpeg`)
@@ -347,7 +341,6 @@ SPEC REPOS:
     - mobile-ffmpeg-https
   trunk:
     - AMapFoundation
-    - AMapLocation
     - boost-for-react-native
     - RSKImageCropper
 
@@ -380,8 +373,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
-  react-native-amap-geolocation:
-    :path: "../node_modules/react-native-amap-geolocation/lib/ios"
   react-native-amap3d:
     :path: "../node_modules/react-native-amap3d/lib/ios"
   react-native-camera:
@@ -448,7 +439,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AMap3DMap: be13191194c9aeb29a67d9d3e9a797588fb329aa
   AMapFoundation: 9ed923193b357ebb30a073e9fe255d3c24054d5a
-  AMapLocation: c566d448285cd502c1e313063d9e2460bd4d7100
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
@@ -465,7 +455,6 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-amap-geolocation: c210391e3042ffcb21482745d3d2d52d7b60a91f
   react-native-amap3d: 59fb8bb3aba6514b40bc573ec14525eb17d5ceb6
   react-native-camera: fcfb64dea064dfa8c2ce2b5a11390c8dd8354731
   react-native-ffmpeg: f9a60452aaa5d478aac205b248224994f3bde416
