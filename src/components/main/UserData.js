@@ -56,37 +56,19 @@ const Item = List.Item
 class UserData extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            nickValue:"",
-            introValue:"",
-            sexValue: "",
-            cityValue:"",
-            placeholder:"请选择"
-        }
     }
 
     componentDidMount() {
         this.props.getUserData()
     }
 
-    sexOnChange = value => {
-        this.setState({ sexValue:value })
-    }
-
-    cityOnChange = value => {
-        this.setState({ cityValue:value })
-    }
-    introOnChange= value => {
-        this.setState({ introValue:value })
-    }
-    nickOnChange= value => {
-        this.setState({ nickValue:value })
-    }
-    launchPhoto() {//打开照相机进行拍照
+   //打开照相机进行拍照
+    launchPhoto() {
 
         ImageCropPicker.openCamera({
             width: 300,
             height: 400,
+            cropping:true
         }).then(image => {
             ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                 .then((resizedImageUri) => {
@@ -107,13 +89,21 @@ class UserData extends React.Component {
     openPicker() {
         this._timer=setInterval(()=>{
             ImageCropPicker.openPicker({
-                multiple: true,
-                maxFiles:1,
-                smartAlbums:['UserLibrary' ],
-                mediaType:'photo',
-            }).then(images => {
-                this.isPicker(images)
-
+                width: 300,
+                height: 400,
+                cropping:true
+            }).then(image => {
+                ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
+                    .then((resizedImageUri) => {
+                        this.props.setHead({url:resizedImageUri.uri})
+                    })
+                    .catch((err) => {
+                        console.log('err', err)
+                        reject({
+                            success: false,
+                            errMsg: err
+                        })
+                    })
             }).catch(e => console.log(e));
             this._timer&&clearInterval(this._timer);
 
@@ -121,42 +111,8 @@ class UserData extends React.Component {
 
 
     }
-    async isPicker(param){
-        try{
-            const newImages =await Promise.all(param.map(item => {
-                return this.createResizedImage(item)
-            }))
-            this.props.setHead({url:newImages[0].url})
-        }catch (err) {
-            console.log('err', err)
-        }
 
-    }
 
-    createResizedImage(param) {//图片压缩
-        if (param.height <= 960 && param.width <= 960) {
-            const pos = param.path.lastIndexOf('/')
-            return Promise.resolve({
-                url: param.path
-            })
-        }
-        return new Promise((resolve, reject) =>
-            ImageResizer.createResizedImage(param.path, 960, 960, 'JPEG', 100)
-                .then((resizedImageUri) => {
-                    const pos = param.path.lastIndexOf('/')
-                    resolve({
-                        url: resizedImageUri.uri,
-                    })
-                })
-                .catch((err) => {
-                    console.log('err', err)
-                    reject({
-                        success: false,
-                        errMsg: err
-                    })
-                })
-        )
-    }
     cameraAction = () =>{
 
         ImagePicker.showImagePicker(photoOptions, (response) => {
@@ -246,12 +202,12 @@ console.log(this.props)
                             <Picker
                                 data={data}
                                 cols={1}
-                                value={this.state.sexValue}
+                                value={Sex}
                                 onChange={this.props.setSex}
                                 extra={
                                     <View>
                                    <View>
-                                        {sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
+                                        {Sex==0?<Text style={{  fontSize: 16, color: '#c2c3c4'}}>女</Text>:
                                             <Text style={{  fontSize: 16, color: '#c2c3c4'}}>男</Text>}
                                     </View>
 
