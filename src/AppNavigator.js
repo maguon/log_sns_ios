@@ -71,6 +71,7 @@ import ComRightButton from "./components/modules/ComRightButton"
 import Agreement from "./components/modules/Agreement"
 import DetailLeftButton from "./components/modules/DetailLeftButton"
 import SpaceHeader from "./components/modules/SpaceHeader";
+import HeadImage from "./components/modules/HeadImage"
 
 //登录页面
 const LoginPage = createStackNavigator({
@@ -231,8 +232,15 @@ const Main = createStackNavigator({
         tabBarVisible: true,
             header: null,
     })
-},
+    },
 
+    HeadImage: {
+    screen: HeadImage,
+        navigationOptions: ({navigation}) => ({
+        tabBarVisible: true,
+        header: null,
+    })
+    },
 
     WriteArticle: {
         screen: WriteArticle,
