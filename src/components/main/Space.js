@@ -301,9 +301,12 @@ class Space extends Component {
                                         })}}>
                                         <Image source={{uri: spaceUser.avatar}}
                                               style={{width: 60, height: 60, borderRadius: 30}}
-                                    /></TouchableOpacity> :
+                                    /></TouchableOpacity> :<TouchableOpacity onPress={() => {
+                                    Alert.alert("", "暂无头像", [ {text: "确定"}])
+                                    }}>
                                     <Image source={require('../../images/head.png')}
-                                           style={{width: 60, height: 60, borderRadius: 30}}/>}
+                                           style={{width: 60, height: 60, borderRadius: 30}}/>
+                                </TouchableOpacity> }
                             </View>
 
 
