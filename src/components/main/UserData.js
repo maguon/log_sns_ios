@@ -68,7 +68,9 @@ class UserData extends React.Component {
         ImageCropPicker.openCamera({
             width: 300,
             height: 400,
-            cropping:true
+            cropping:true,
+            cropperChooseText:"确定",
+            cropperCancelText:"取消",
         }).then(image => {
             ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                 .then((resizedImageUri) => {
@@ -91,7 +93,11 @@ class UserData extends React.Component {
             ImageCropPicker.openPicker({
                 width: 300,
                 height: 400,
-                cropping:true
+                cropping:true,
+                cropperChooseText:"确定",
+                cropperCancelText:"取消",
+                mediaType:'photo',
+
             }).then(image => {
                 ImageResizer.createResizedImage( image.path, 960, 960, 'JPEG', 100)
                     .then((resizedImageUri) => {
