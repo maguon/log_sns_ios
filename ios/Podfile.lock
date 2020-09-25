@@ -339,10 +339,10 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AMap3DMap
     - mobile-ffmpeg-https
+    - RSKImageCropper
   trunk:
     - AMapFoundation
     - boost-for-react-native
-    - RSKImageCropper
 
 EXTERNAL SOURCES:
   DoubleConversion:
