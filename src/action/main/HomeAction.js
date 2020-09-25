@@ -16,6 +16,7 @@ export const getHotList = () => async (dispatch, getState) => {
             dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({ type: actionType.HomeActionType.get_HotList_success, payload: { hotList: res.result, isComplete: true } })
+
             } else {
                 dispatch({type: actionType.HomeActionType.get_HotList_end, payload: {hotList: res.result, isComplete: false}})
 
@@ -40,6 +41,7 @@ export const getHomeFollow = () => async (dispatch, getState) => {
             dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.HomeActionType.get_HomeFollow, payload: {homeFollow: res.result, homeComplete: true}})
+
             } else {
                 dispatch({ type: actionType.HomeActionType.get_HomeFollow_end, payload: { homeFollow: res.result, homeComplete: false } })
             }
@@ -64,6 +66,7 @@ export const getNearList = (value) => async (dispatch, getState) => {
             dispatch({type: actionType.HomeActionType.set_HotLoading, payload: {hotLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.HomeActionType.get_NearList, payload: {nearList: res.result,nearComplete: true}})
+
             } else {
                 dispatch({ type: actionType.HomeActionType.get_NearList_end, payload: { nearList: res.result, nearComplete: false } })
             }

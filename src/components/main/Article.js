@@ -89,6 +89,7 @@ class Article extends React.Component {
         const {setArtPraise} = this.props
         const  media= item.media
         const userInfo = item.user_detail_info[0]
+
         if (item.carrier == 2) {
             if (item.media.length < 2) {
                 cellWH = (width - 2 * 20 - 15) / 1.1
@@ -245,6 +246,7 @@ class Article extends React.Component {
                           this.props.artLoad()
                           if(index==0){
                               this.props.getArtInfo()
+                              console.log(artInfo)
                           }else if(index==1){
                               this.props.getArtArticle()
                           }else if(index==2){
@@ -381,8 +383,8 @@ const mapDispatchProps = (dispatch, props) => ({
     artLoad: () => {
         dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: false}})
     },
-    update: () => {
-        dispatch(action.ArticleAction.update())
+    update: (value ) => {
+        dispatch(action.ArticleAction.update(value))
     },
     getArtInfo: () => {
         dispatch(action.ArticleAction.getArtInfo())

@@ -19,6 +19,7 @@ export const getArtInfo = () => async (dispatch, getState) => {
             dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtInfo, payload: {artInfo: res.result, isComplete: true}})
+                dispatch(update(0))
             } else {
                 dispatch({ type: actionType.ArticleType.get_ArtInfo, payload: { artInfo: res.result, isComplete: false } })
             }
@@ -42,6 +43,7 @@ export const getArtArticle = () => async (dispatch, getState) => {
             dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtArticle, payload: {artArticle: res.result, isComplete: true}})
+                dispatch(update(1))
             } else {
                 dispatch({ type: actionType.ArticleType.get_ArtArticle, payload: { artArticle: res.result, isComplete: false } })
             }
@@ -64,6 +66,7 @@ export const getArtImage = () => async (dispatch, getState) => {
             dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtImage, payload: {artImage: res.result, isComplete: true}})
+                dispatch(update(2))
             } else {
                 dispatch({ type: actionType.ArticleType.get_ArtImage, payload: { artImage: res.result, isComplete: false } })
             }
@@ -85,6 +88,7 @@ export const getArtVideo = () => async (dispatch, getState) => {
             dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtVideo, payload: {artVideo: res.result, isComplete: true}})
+                dispatch(update(3))
             } else {
                 dispatch({ type: actionType.ArticleType.get_ArtVideo, payload: { artVideo: res.result, isComplete: false } })
             }
@@ -107,6 +111,7 @@ export const getArtHelp = () => async (dispatch, getState) => {
             dispatch({type: actionType.ArticleType.set_ArtLoading, payload: {artLoading: true}})
             if (res.result.length % pageSize != 0 || res.result.length == 0) {
                 dispatch({type: actionType.ArticleType.set_ArtHelp, payload: {artHelp: res.result, isComplete: true}})
+                dispatch(update(4))
             } else {
                 dispatch({ type: actionType.ArticleType.get_ArtHelp, payload: { artHelp: res.result, isComplete: false } })
             }
@@ -120,38 +125,40 @@ export const getArtHelp = () => async (dispatch, getState) => {
 
 export const update=(tabIndex)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},ArticleReducer:{artInfo,artArticle,artImage,artVideo,artHelp}} = getState()
-    if(tabIndex==0){
-        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&status=1&start=0&size=${artInfo.length}`
-        const res = await HttpRequest.get(url)
-        if (res.success) {
-            dispatch({type: actionType.ArticleType.set_ArtInfo_Praise, payload: {artInfo: res.result}})
-        }
-    }else if(tabIndex==1){
-        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=1&status=1&start=0&size=${artArticle.length}`
-        const res = await HttpRequest.get(url)
-        if (res.success) {
-            dispatch({type: actionType.ArticleType.set_ArtArticle_Praise, payload: {artArticle: res.result}})
+
+        if (tabIndex == 0) {
+            let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&status=1&start=0&size=${artInfo.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({type: actionType.ArticleType.set_ArtInfo_Praise, payload: {artInfo: res.result}})
+            }
+        } else if (tabIndex == 1) {
+            let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=1&status=1&start=0&size=${artArticle.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({type: actionType.ArticleType.set_ArtArticle_Praise, payload: {artArticle: res.result}})
+            }
+
+        } else if (tabIndex == 2) {
+            let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=2&status=1&start=0&size=${artImage.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({type: actionType.ArticleType.set_ArtImage_Praise, payload: {artImage: res.result}})
+            }
+        } else if (tabIndex == 3) {
+            let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=3&status=1&start=0&size=${artVideo.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({type: actionType.ArticleType.set_ArtVideo_Praise, payload: {artVideo: res.result}})
+            }
+        } else if (tabIndex == 4) {
+            let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=2&status=1&start=0&size=${artHelp.length}`
+            const res = await HttpRequest.get(url)
+            if (res.success) {
+                dispatch({type: actionType.ArticleType.set_ArtHelp_Praise, payload: {artHelp: res.result}})
+            }
         }
 
-    }else if(tabIndex==2){
-        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=2&status=1&start=0&size=${artImage.length}`
-        const res = await HttpRequest.get(url)
-        if (res.success) {
-            dispatch({type: actionType.ArticleType.set_ArtImage_Praise, payload: {artImage: res.result}})
-        }
-    }else if(tabIndex==3){
-        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&carrier=3&status=1&start=0&size=${artVideo.length}`
-        const res = await HttpRequest.get(url)
-        if (res.success) {
-            dispatch({type: actionType.ArticleType.set_ArtVideo_Praise, payload: {artVideo: res.result}})
-        }
-    }else if(tabIndex==4){
-        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${userId}&type=2&status=1&start=0&size=${artHelp.length}`
-        const res = await HttpRequest.get(url)
-        if (res.success) {
-            dispatch({type: actionType.ArticleType.set_ArtHelp_Praise, payload: {artHelp: res.result}})
-        }
-    }
 }
 
 

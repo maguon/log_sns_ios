@@ -150,17 +150,19 @@ console.log(this.props)
             <Provider>
                 <View style={{flex: 1}}>
                     <ScrollView style={globalStyles.container}>
-                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}
-                                          onPress={()=>this.cameraAction()}>
+                        <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff'}}>
                             <View style={{flexDirection: 'row', flex: 3, alignItems: 'center'}}>
-                                <View style={{margin: 16}}>
+                                <TouchableOpacity style={{margin: 16}} onPress={() => {
+                                    navigation.navigate("HeadImage", {
+                                        uri: avatar
+                                    })}}>
 
                                     {avatar ? <Image source={{uri: avatar}}
                                                      style={{width: 60, height: 60, borderRadius: 30}}/> :
                                         <Image source={require('../../images/head.png')}
                                                style={{width: 60, height: 60, borderRadius: 30}}/>}
 
-                                </View>
+                                </TouchableOpacity>
                                 <View style={{flex: 1, justifyContent: 'center', marginRight: 16}}>
                                     <View style={{flexDirection: 'row'}}>
                                         <Text style={{fontSize: 14}}>昵称：{nick_name ? nick_name : "暂无昵称"}</Text>
@@ -173,11 +175,13 @@ console.log(this.props)
                                             fontSize: 14,
                                             marginTop: 5
                                         }}>手机：{phone ? phone : "未绑定手机"}</Text>
+                                        <TouchableOpacity onPress={()=>this.cameraAction()}>
                                         <Text style={{fontSize: 14, color: "#1598cc"}}>设置头像</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
-                        </TouchableOpacity>
+                        </View>
                         <WhiteSpace size='md' style={globalStyles.containerBackgroundColor}/>
                         <List>
 
