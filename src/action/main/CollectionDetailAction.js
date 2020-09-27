@@ -35,7 +35,7 @@ export const getCommentUser = (params) => async (dispatch, getState) => {
     // console.log(params)
     try {
         // 基本检索URL
-        let url = `${apiHost}/user/${userId}/msg?sendMsgUserId=${_msg_user_id}&msgId=${_msg_id}`
+        let url = `${apiHost}/user/${userId}/userMsg?sendMsgUserId=${_msg_user_id}&msgId=${_msg_id}`
         const res = await HttpRequest.get(url)
         // console.log(res)
         if (res.success) {

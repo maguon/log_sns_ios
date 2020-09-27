@@ -3,16 +3,25 @@ import HttpRequest from '../../utils/HttpRequest'
 import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
+import Sound from 'react-native-sound'
 
+
+let musciPath = require('../../../src/sound/update.mp3');
+const music = new Sound(musciPath,(error)=>{console.log(error)});
 
 const pageSize = 5
-export const getCollection = () => async (dispatch, getState) => {
+export const getCollection = (value) => async (dispatch, getState) => {
     const {LoginReducer: {userId},CollectionReducer:{collectionList}} = getState()
+    const {results}= value
     try {
         let url = `${apiHost}/user/${userId}/userMsgColl?start=0&size=${collectionList.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({ type: actionType.CollectionType.del_CollectionList, payload: { collectionList: res.result } })
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
     } catch (err) {
         Toast.fail(err.message)

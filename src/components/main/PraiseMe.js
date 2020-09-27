@@ -145,7 +145,7 @@ class PraiseMe extends Component {
                     }}
                     refreshing={false}
                     onRefresh={() => {
-                        update()
+                        update({results:'success'})
                     }}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
@@ -177,8 +177,8 @@ const mapDispatchToProps = (dispatch) => ({
     getLikeMeList: () => {
         dispatch(action.PraiseMeAction.getLikeMeList())
     },
-    update: () => {
-        dispatch(action.PraiseMeAction.update())
+    update: (value ) => {
+        dispatch(action.PraiseMeAction.update(value))
     }
 
 })

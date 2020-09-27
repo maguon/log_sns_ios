@@ -174,7 +174,7 @@ class Community extends React.Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
+                                    this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update({tabIndex:this.state.tabIndex})}})
                                 }}>
                                     <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} >
                                         {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
@@ -248,7 +248,7 @@ class Community extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
+                                                this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update({tabIndex:this.state.tabIndex})}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -301,24 +301,12 @@ class Community extends React.Component {
                           this.props.getComLoad()
                           if(index==0){
                               getComInfo()
-                              // InteractionManager.runAfterInteractions(() => {
-                              //     update(0)
-                              // });
                           }else if(index==1){
                               getComVideo()
-                              // InteractionManager.runAfterInteractions(() => {
-                              //     update(1)
-                              // });
                           }else if(index==2){
                              getComHelp()
-                              // InteractionManager.runAfterInteractions(() => {
-                              //     update(2)
-                              // });
                           }else if(index==3){
                               getComVoteList()
-                              // InteractionManager.runAfterInteractions(() => {
-                              //     update(3)
-                              // });
                           }
                       }}
                       tabBarBackgroundColor='#fff'
@@ -334,7 +322,7 @@ class Community extends React.Component {
                                 renderItem={this.renderItem}
                                 refreshing = { false }
                                 onRefresh = {()=>{
-                                    update(0)
+                                    update({tabIndex:0,results:'success'})
                                 }}
                                 // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
@@ -354,7 +342,7 @@ class Community extends React.Component {
                                 renderItem={this.renderItem}
                                 refreshing = { false }
                                 onRefresh = {()=>{
-                                    update(1)
+                                    update({tabIndex:1,results:'success'})
                                 }}
                                 // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
@@ -375,7 +363,7 @@ class Community extends React.Component {
                                 renderItem={this.renderItem}
                                 refreshing = { false }
                                 onRefresh = {()=>{
-                                    update(2)
+                                    update({tabIndex:2,results:'success'})
                                 }}
                                 // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}
@@ -396,7 +384,7 @@ class Community extends React.Component {
                                 renderItem={this.renderItemTo}
                                 refreshing = { false }
                                 onRefresh = {()=>{
-                                    update(3)
+                                    update({tabIndex:3,results:'success'})
                                 }}
                                 // ListEmptyComponent={this.renderEmpty}
                                 onEndReachedThreshold={0.2}

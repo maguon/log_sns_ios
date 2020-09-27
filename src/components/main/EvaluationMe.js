@@ -164,7 +164,7 @@ class EvaluationMe extends Component {
                     }}
                     refreshing={false}
                     onRefresh={() => {
-                        update()
+                        update({results:'success'})
                     }}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {

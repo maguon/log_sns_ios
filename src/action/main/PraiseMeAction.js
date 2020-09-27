@@ -2,6 +2,12 @@ import * as actionType from '../../actionType/index'
 import httpRequest from '../../utils/HttpRequest'
 import {apiHost} from "../../config/HostConfig";
 import {Toast} from "@ant-design/react-native";
+import Sound from 'react-native-sound'
+
+
+let musciPath = require('../../../src/sound/update.mp3');
+const music = new Sound(musciPath,(error)=>{console.log(error)});
+
 const pageSize = 10
 export const getLikeMeList = () => async (dispatch,getState) => {
     const {LoginReducer: {userId},PraiseMeReducer:{likeMe}} = getState()
@@ -22,13 +28,17 @@ export const getLikeMeList = () => async (dispatch,getState) => {
 }
 
 
-export const update=()=>async (dispatch, getState)=>{
+export const update=(value)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},PraiseMeReducer:{likeMe}} = getState()
-
+    const {results}= value
         let url = `${apiHost}/user/${userId}/getUserBePraise?start=0&size=${likeMe.length}`
         const res = await httpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.PraiseMeType.set_likeMe_Praise, payload: {likeMe: res.result}})
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
 
 }

@@ -23,6 +23,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 const {width} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
 
+
+
 class Article extends React.Component {
     constructor(props) {
         super(props)
@@ -136,7 +138,7 @@ class Article extends React.Component {
                             />
                             <Card.Body>
                                 <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]} onPress={() => {
-                                    this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
+                                    this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update({tabIndex:this.state.tabIndex})}})
                                 }}>
                                     {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
                                     {item.info.length > 40 ?<Text style={globalStyles.previewText}>全文</Text>:""}
@@ -185,7 +187,7 @@ class Article extends React.Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update(this.state.tabIndex)}})
+                                                this.props.navigation.navigate('Detail',{item:item,itemList:"",callBack:()=>{this.props.update({tabIndex:this.state.tabIndex})}})
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -271,7 +273,7 @@ class Article extends React.Component {
                             // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
-                                update(0)
+                                update({tabIndex:0,results:'success'})
                             }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
@@ -291,7 +293,7 @@ class Article extends React.Component {
                             // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
-                                update(1)
+                                update({tabIndex:1,results:'success'})
                             }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
@@ -312,7 +314,7 @@ class Article extends React.Component {
                             // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
-                                update(2)
+                                update({tabIndex:2,results:'success'})
                             }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
@@ -332,7 +334,7 @@ class Article extends React.Component {
                             // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
-                                update(3)
+                                update({tabIndex:3,results:'success'})
                             }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {
@@ -352,7 +354,7 @@ class Article extends React.Component {
                             // ListEmptyComponent={this.renderEmpty}
                             refreshing={false}
                             onRefresh={() => {
-                                update(4)
+                                update({tabIndex:4,results:'success'})
                             }}
                             onEndReachedThreshold={0.2}
                             onEndReached={() => {

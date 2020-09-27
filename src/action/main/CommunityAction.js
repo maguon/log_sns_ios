@@ -4,7 +4,11 @@ import {Alert} from 'react-native'
 import {Toast} from '@ant-design/react-native'
 import * as actionType from '../../actionType/index'
 import {getHomeFollow, getNearList} from "./HomeAction";
+import Sound from 'react-native-sound'
 
+
+let musciPath = require('../../../src/sound/update.mp3');
+const music = new Sound(musciPath,(error)=>{console.log(error)})
 
 
 const pageSize = 5
@@ -100,19 +104,28 @@ export const getComVoteList = () => async (dispatch, getState) => {
     }
 }
 
-export const update=(tabIndex)=>async (dispatch, getState)=>{
+export const update=(value)=>async (dispatch, getState)=>{
     const {LoginReducer: {userId},CommunityReducer:{comInfo,comVideo,comHelp,comVoteList}} = getState()
+    const {tabIndex,results}= value
     if(tabIndex==0){
         let url = `${apiHost}/user/${userId}/msg?status=1&start=0&size=${comInfo.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.CommunityType.set_ComInfo_Praise, payload: {comInfo: res.result}})
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
     }else if(tabIndex==1){
         let url = `${apiHost}/user/${userId}/msg?carrier=3&status=1&start=0&size=${comVideo.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.CommunityType.set_ComVideo_Praise, payload: {comVideo: res.result}})
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
 
     }else if(tabIndex==2){
@@ -120,12 +133,20 @@ export const update=(tabIndex)=>async (dispatch, getState)=>{
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.CommunityType.set_ComHelp_Praise, payload: {comHelp: res.result}})
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
     }else if(tabIndex==3){
         let url = `${apiHost}/user/${userId}/vote?start=0&size=${comVoteList.length}`
         const res = await HttpRequest.get(url)
         if (res.success) {
             dispatch({type: actionType.CommunityType.set_ComVoteList_Praise, payload: {comVoteList: res.result}})
+            if(results=="success"){
+                Toast.success('更新成功')
+                music.play()
+            }
         }
     }
 }

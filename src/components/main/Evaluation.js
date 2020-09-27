@@ -158,7 +158,7 @@ class Evaluation extends Component {
                     }}
                     refreshing={false}
                     onRefresh={() => {
-                        update()
+                        update({results:'success'})
                     }}
                     onEndReachedThreshold={0.2}
                     onEndReached={() => {
@@ -189,8 +189,8 @@ const mapDispatchProps = (dispatch, props) => ({
     getEvaluation: (value) => {
         dispatch(action.EvaluationAction.getEvaluation(value))
     },
-    update: () => {
-        dispatch(action.EvaluationMeAction.update())
+    update: (value) => {
+        dispatch(action.EvaluationAction.update(value))
     }
 })
 

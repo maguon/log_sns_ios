@@ -249,7 +249,7 @@ class Collection extends React.Component {
                     renderItem={this.renderItem}
                     refreshing={false}
                     onRefresh={() => {
-                        getCollection()
+                        getCollection({results:'success'})
                     }}
                     // ListEmptyComponent={this.renderEmpty}
                     onEndReachedThreshold={0.2}
@@ -277,8 +277,8 @@ const mapDispatchProps = (dispatch, props) => ({
     clearCollectionList: () => {
         dispatch({type: actionType.CollectionType.clear_CollectionList})
     },
-    getCollection: () => {
-        dispatch(action.CollectionAction.getCollection())
+    getCollection: (value) => {
+        dispatch(action.CollectionAction.getCollection(value))
     },
 
     getCollectionList: () => {
