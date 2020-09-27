@@ -179,16 +179,12 @@ const TabBar = createBottomTabNavigator({
         screen: messageList,
         navigationOptions: {
             title: '消息',
-            headerTitle: '消息',
-            headerTitleStyle: {color: '#fff'},
         }
     },
     personCenter: {
         screen: personCenter,
         navigationOptions: {
             title: '个人',
-            headerTitle: '个人',
-            headerTitleStyle: {color: '#fff'},
         }
     },
 }, {

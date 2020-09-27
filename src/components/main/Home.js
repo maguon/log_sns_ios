@@ -32,10 +32,12 @@ import Video from "react-native-video";
 import {fileHost, videoHost} from '../../config/HostConfig'
 import Entypo from "react-native-vector-icons/Entypo";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import ActionButton from 'react-native-action-button'
 
 const {width, height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
 const Item = Popover.Item
+let flat = ''
 
 class Home extends Component {
     constructor(props) {
@@ -46,7 +48,7 @@ class Home extends Component {
             moreVisible: false,
             shareVisible: false,
             follow: false,
-            colls:false
+            colls: false
         }
     }
 
@@ -177,7 +179,7 @@ class Home extends Component {
                                                               moreVisible: true,
                                                               itemInfo: item,
                                                               follow: item.user_relations == "" ? true : false,
-                                                              colls:item.user_msg_colls == "" ? true:false ,
+                                                              colls: item.user_msg_colls == "" ? true : false,
                                                           })
                                                       }
                                                       }>
@@ -187,7 +189,13 @@ class Home extends Component {
                             />
                             <Card.Body>
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate('Detail', {item: item, itemList: "",callBack:()=>{this.props.update({tabIndex:tabIndex})}})
+                                    this.props.navigation.navigate('Detail', {
+                                        item: item,
+                                        itemList: "",
+                                        callBack: () => {
+                                            this.props.update({tabIndex: tabIndex})
+                                        }
+                                    })
                                 }}>
                                     <Text style={[globalStyles.midText, {marginLeft: 15, marginRight: 15}]}>
                                         {item.info ? (item.info.length > 40 ? item.info.substr(0, 40) + "..." : item.info) : ""}
@@ -210,11 +218,11 @@ class Home extends Component {
                                                 <View style={globalStyles.item}>
                                                     <AnimatedCacheImage source={{uri: `${fileHost}/image/${item.url}`}}
                                                                         onLoadStart={this.onLoadStart}
-                                                                 style={{
-                                                                     width: cellWH,
-                                                                     height: cellWH,
-                                                                     borderRadius: 5
-                                                                 }}/>
+                                                                        style={{
+                                                                            width: cellWH,
+                                                                            height: cellWH,
+                                                                            borderRadius: 5
+                                                                        }}/>
                                                 </View>
                                             </TouchableOpacity>
                                         )
@@ -241,7 +249,7 @@ class Home extends Component {
                                     //     </TouchableOpacity>
                                     // </ImageBackground>
 
-                               }
+                                }
 
 
                                 {item.carrier == 4 && <ImageBackground source={require('../../images/u422.png')}
@@ -273,7 +281,13 @@ class Home extends Component {
                                         <TouchableOpacity
                                             style={[globalStyles.midText, {flexDirection: 'row', alignItems: 'center'}]}
                                             onPress={() => {
-                                                this.props.navigation.navigate('Detail', {item: item, itemList: "",callBack:()=>{this.props.update({tabIndex:tabIndex})}})
+                                                this.props.navigation.navigate('Detail', {
+                                                    item: item,
+                                                    itemList: "",
+                                                    callBack: () => {
+                                                        this.props.update({tabIndex: tabIndex})
+                                                    }
+                                                })
                                             }}>
                                             <AntDesign name="message1" style={{color: '#838485'}} size={18}/>
                                             <Text
@@ -305,25 +319,28 @@ class Home extends Component {
         )
     }
 
-
     render() {
         const {
             navigation: {state: {params = {tabIndex: 0}}}, homeReducer: {
                 hotList, hotLoading, isComplete, isResultStatus,
                 homeFollow, homeComplete, homeResultStatus, nearList, nearComplete, nearResultStatus, waiting
-            }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding,delCollection
+            }, getHotList, getHomeFollow, getNearList, setCollection, update, shielding, delCollection
         } = this.props
         const {tabIndex} = params
         return (
+
             <Provider>
                 <View style={{flex: 1}}>
                     {(tabIndex == 0 && hotLoading) &&
                     <FlatList
+                        ref={(flatList) => {
+                            flat = flatList
+                        }}
                         data={hotList}
                         renderItem={this.renderItem}
                         refreshing={false}
                         onRefresh={() => {
-                            update({tabIndex:0,results:'success'})
+                            update({tabIndex: 0, results: 'success'})
                         }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
@@ -335,16 +352,20 @@ class Home extends Component {
                         ListFooterComponent={this.ListFooterComponent(isResultStatus)}
                         // ListEmptyComponent={this.renderEmpty}
                     />
+
                     }
 
 
                     {(tabIndex == 1 && hotLoading) &&
                     <FlatList
+                        ref={(flatList) => {
+                            flat = flatList
+                        }}
                         data={homeFollow}
                         renderItem={this.renderItem}
                         refreshing={false}
                         onRefresh={() => {
-                            update({tabIndex:1,results:'success'})
+                            update({tabIndex: 1, results: 'success'})
                         }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
@@ -360,11 +381,14 @@ class Home extends Component {
 
                     {(tabIndex == 2 && hotLoading) &&
                     <FlatList
+                        ref={(flatList) => {
+                            flat = flatList
+                        }}
                         data={nearList}
                         renderItem={this.renderItem}
                         refreshing={false}
                         onRefresh={() => {
-                            update({tabIndex:2,results:'success'})
+                            update({tabIndex: 2, results: 'success'})
                         }}
                         onEndReachedThreshold={0.2}
                         onEndReached={() => {
@@ -378,6 +402,15 @@ class Home extends Component {
 
                     }
                     {!hotLoading && this.renderLoadingView()}
+                    <ActionButton size={40} buttonColor="rgba(0,0,0,0)"
+                                  active={false}
+                                  offsetX={10}
+                                  degrees={0}
+                                  onPress={() => {
+                                      flat.scrollToOffset({offset: 0})
+                                  }}
+                                  renderIcon={() => (<AntDesign name="upcircle" size={40}
+                                                                color={"rgba(231,76,60,0.5)"}/>)}>置顶</ActionButton>
                 </View>
 
                 <Modal
@@ -455,7 +488,7 @@ class Home extends Component {
                                 <Text style={style.text}>已关注</Text>
                             </TouchableOpacity>}
 
-                        {this.state.colls? <TouchableOpacity
+                        {this.state.colls ? <TouchableOpacity
                             style={style.border} onPress={() => {
                             this.setState({
                                 colls: false
@@ -465,7 +498,7 @@ class Home extends Component {
                         }}>
                             <AntDesign name="hearto" size={20} color={'#838485'}/>
                             <Text style={style.text}>收藏</Text>
-                        </TouchableOpacity>:<TouchableOpacity
+                        </TouchableOpacity> : <TouchableOpacity
                             style={style.border}
                             onPress={() => {
                                 Alert.alert("", "确定要取消收藏吗", [{text: "取消"}, {
@@ -474,7 +507,10 @@ class Home extends Component {
                                             colls: true
                                         })
                                         console.log(this.state.itemInfo)
-                                        delCollection({id: this.state.itemInfo.user_msg_colls[0]._id, tabIndex: tabIndex})
+                                        delCollection({
+                                            id: this.state.itemInfo.user_msg_colls[0]._id,
+                                            tabIndex: tabIndex
+                                        })
                                         this.moreClose()
                                     }
                                 }])

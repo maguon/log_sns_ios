@@ -291,9 +291,6 @@ class Title extends React.Component {
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{width: width * 0.2, alignItems: 'center'}}>
                     <EvilIcons name='camera' size={35} style={{color: '#fff'}}
-
-                               // onPress={() => {this.props.navigation.navigate("Camera")}}
-                               // onPress={this.props.setVisible}
                                onPress={()=>this.cameraAction()}
                     />
                 </View>
@@ -301,9 +298,8 @@ class Title extends React.Component {
                 <View style={{width: width * 0.6, height: 45, alignItems: 'center', backgroundColor: '#1598cc'}}>
                     <Tabs tabs={tabs}
                           onChange={(tab, index) => {
-                              console.log(tab)
                               this.props.navigation.setParams({tab: tab, tabIndex: index})
-                              this.props.getHotLoad()
+                              // this.props.getHotLoad()
                               if(index==0){
                                   getHotList()
                                   // InteractionManager.runAfterInteractions(() => {

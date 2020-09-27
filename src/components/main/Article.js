@@ -245,10 +245,9 @@ class Article extends React.Component {
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
-                          this.props.artLoad()
+                          // this.props.artLoad()
                           if(index==0){
                               this.props.getArtInfo()
-                              console.log(artInfo)
                           }else if(index==1){
                               this.props.getArtArticle()
                           }else if(index==2){

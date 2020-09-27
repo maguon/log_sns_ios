@@ -298,7 +298,7 @@ class Community extends React.Component {
                 <Tabs tabs={tabs}
                       onChange={(tab, index) => {
                           this.setState({tabIndex: index})
-                          this.props.getComLoad()
+                          // this.props.getComLoad()
                           if(index==0){
                               getComInfo()
                           }else if(index==1){
