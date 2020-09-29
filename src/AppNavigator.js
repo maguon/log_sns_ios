@@ -212,10 +212,7 @@ const TabBar = createBottomTabNavigator({
             if(routeName === 'home'){
                 renderFlat()
             } else if(routeName === 'community'){
-                InteractionManager.runAfterInteractions(()=>{
                     renderComFlat()
-                })
-
             }
 
 

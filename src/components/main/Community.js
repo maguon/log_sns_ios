@@ -9,7 +9,7 @@ import {
     Image,
     TouchableOpacity,
     ImageBackground,
-    Dimensions, Alert, InteractionManager
+    Dimensions, Alert,
 } from 'react-native'
 import {Provider, Tabs, WhiteSpace, WingBlank, Card, Modal, Button} from '@ant-design/react-native'
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -23,7 +23,6 @@ import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import Entypo from "react-native-vector-icons/Entypo";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
-import ActionButton from 'react-native-action-button'
 
 
 
