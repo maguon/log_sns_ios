@@ -32,12 +32,16 @@ import Video from "react-native-video";
 import {fileHost, videoHost} from '../../config/HostConfig'
 import Entypo from "react-native-vector-icons/Entypo";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
-import ActionButton from 'react-native-action-button'
 
 const {width, height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
 const Item = Popover.Item
 let flat = ''
+
+export const renderFlat =()=> {
+    flat.scrollToOffset({offset: 0})
+
+}
 
 class Home extends Component {
     constructor(props) {
@@ -58,6 +62,7 @@ class Home extends Component {
         // this.props.getHomeFollow()
         // Geolocation.getCurrentPosition(info => this.props.getNearList(info))
     }
+
 
     renderEmpty = () => {
         return (
@@ -95,7 +100,7 @@ class Home extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#F5FCFF',
+
             }}>
                 <ActivityIndicator
                     animating={true}
@@ -331,6 +336,7 @@ class Home extends Component {
 
             <Provider>
                 <View style={{flex: 1}}>
+
                     {(tabIndex == 0 && hotLoading) &&
                     <FlatList
                         ref={(flatList) => {
@@ -402,15 +408,6 @@ class Home extends Component {
 
                     }
                     {!hotLoading && this.renderLoadingView()}
-                    <ActionButton size={40} buttonColor="rgba(0,0,0,0)"
-                                  active={false}
-                                  offsetX={10}
-                                  degrees={0}
-                                  onPress={() => {
-                                      flat.scrollToOffset({offset: 0})
-                                  }}
-                                  renderIcon={() => (<AntDesign name="upcircle" size={40}
-                                                                color={"rgba(231,76,60,0.5)"}/>)}>置顶</ActionButton>
                 </View>
 
                 <Modal

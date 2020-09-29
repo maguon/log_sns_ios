@@ -75,7 +75,7 @@ class Article extends React.Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#F5FCFF',
+
             }}>
                 <ActivityIndicator
                     animating={true}
@@ -285,7 +285,7 @@ class Article extends React.Component {
                         {!artLoading && this.renderLoadingView()}
                     </View>
                     <View style={{flex: 1}}>
-                        {artLoading &&<FlatList
+                       <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artArticle}
                             renderItem={this.renderItem}
@@ -301,12 +301,12 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(artResultStatus)}
-                        />}
+                        />
 
-                        {!artLoading && this.renderLoadingView()}
+
                     </View>
                     <View style={{flex: 1}}>
-                        {artLoading && <FlatList
+                       <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artImage}
                             renderItem={this.renderItem}
@@ -322,11 +322,11 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(imgResultStatus)}
-                        />}
-                        {!artLoading && this.renderLoadingView()}
+                        />
+
                     </View>
                     <View style={{flex: 1}}>
-                        {artLoading &&<FlatList
+                       <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artVideo}
                             renderItem={this.renderItem}
@@ -342,11 +342,11 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
-                        />}
-                        {!artLoading && this.renderLoadingView()}
+                        />
+
                     </View>
                     <View style={{flex: 1}}>
-                        {artLoading &&<FlatList
+                       <FlatList
                             keyExtractor={(item, index) => `${index}`}
                             data={artHelp}
                             renderItem={this.renderItem}
@@ -362,8 +362,8 @@ class Article extends React.Component {
                                 }
                             }}
                             ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
-                        />}
-                        {!artLoading && this.renderLoadingView()}
+                        />
+
                     </View>
                 </Tabs>
                 </SafeAreaView>

@@ -12,7 +12,7 @@ import Login from './components/main/Login'
 import Registered from './components/main/Registered'
 import ForgotPassWord from './components/main/ForgotPassWord'
 //home
-import Home from './components/main/Home'
+import Home ,{renderFlat}from './components/main/Home'
 import WriteArticle from './components/main/WriteArticle'
 import Scan from './components/main/Scan'
 import Location from './components/main/Location'
@@ -27,7 +27,7 @@ import Report from './components/main/Report'
 
 
 //社区
-import Community from './components/main/Community'
+import Community ,{renderComFlat}from './components/main/Community'
 //消息
 import Message from './components/main/Message'
 import FollowMe from './components/main/FollowMe'
@@ -167,6 +167,7 @@ const TabBar = createBottomTabNavigator({
         screen: home,
         navigationOptions: ({navigation}) => ({
             title: '推荐',
+
         })
     },
     community: {
@@ -204,6 +205,21 @@ const TabBar = createBottomTabNavigator({
             }
 
             return <Icon name={iconName} size={25} color={tintColor}/>;
+        },
+        tabBarOnPress:({navigation, defaultHandler})=>{
+            const {routeName} = navigation.state;
+
+            if(routeName === 'home'){
+                renderFlat()
+            } else if(routeName === 'community'){
+                InteractionManager.runAfterInteractions(()=>{
+                    renderComFlat()
+                })
+
+            }
+
+
+            defaultHandler();
         },
     }),
     tabBarOptions: {

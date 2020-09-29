@@ -269,7 +269,7 @@ class Space extends Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#F5FCFF',
+
             }}>
                 <ActivityIndicator
                     animating={true}

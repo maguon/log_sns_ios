@@ -23,11 +23,34 @@ import Video from "react-native-video";
 import {fileHost, videoHost} from "../../config/HostConfig";
 import Entypo from "react-native-vector-icons/Entypo";
 import {CacheHelper, AnimatedCacheImage} from 'react-native-rn-cacheimage';
+import ActionButton from 'react-native-action-button'
 
 
 
 const {width,height} = Dimensions.get('window')
 let cellWH = (width - 2 * 20 - 15) / 3.3
+let flatIndex=""
+let infoFlat=""
+let videoFlat=""
+let helpFlat=""
+let voteFlat = ""
+
+
+export const renderComFlat =()=> {
+    if(infoFlat==""){
+        console.log("00000")
+        return
+    }else if(flatIndex==0){
+        infoFlat.scrollToOffset({offset: 0})
+    }else if(flatIndex==1){
+        videoFlat.scrollToOffset({offset: 0})
+    }else if(flatIndex==2){
+        helpFlat.scrollToOffset({offset: 0})
+    }else if(flatIndex==3){
+        voteFlat.scrollToOffset({offset: 0})
+    }
+ }
+
 class Community extends React.Component {
     constructor(props) {
         super(props)
@@ -68,7 +91,6 @@ class Community extends React.Component {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#F5FCFF',
             }}>
                 <ActivityIndicator
                     animating={true}
@@ -289,7 +311,7 @@ class Community extends React.Component {
 
     render() {
         const tabs = [{title: '最近发布'}, {title: '视频'}, {title: '求助'}, {title: '投票'}]
-        const {communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
+        const {navigation,communityReducer: {comInfo,isComplete,isResultStatus, comLoading, comVideo, vidComplete, vidResultStatus,
             comHelp, helpComplete, helpResultStatus, comVoteList, voteComplete, voteResultStatus}, homeReducer: {waiting},
             getComInfo,getComVideo,getComHelp,getComVoteList,setCollection,update, shielding, delCollection} = this.props
 
@@ -308,6 +330,7 @@ class Community extends React.Component {
                           }else if(index==3){
                               getComVoteList()
                           }
+                          flatIndex=index
                       }}
                       tabBarBackgroundColor='#fff'
                       tabBarActiveTextColor='#1598cc'
@@ -318,6 +341,9 @@ class Community extends React.Component {
                     <View style={{flex: 1}}>
                         {comLoading&&
                             <FlatList
+                                ref={(flatList) => {
+                                    infoFlat = flatList
+                                }}
                                 data={comInfo}
                                 renderItem={this.renderItem}
                                 refreshing = { false }
@@ -337,7 +363,10 @@ class Community extends React.Component {
                         </View>
 
                         <View style={{flex: 1}}>
-                            {comLoading&& <FlatList
+                             <FlatList
+                                ref={(flatList) => {
+                                    videoFlat = flatList
+                                }}
                                 data={comVideo}
                                 renderItem={this.renderItem}
                                 refreshing = { false }
@@ -352,13 +381,15 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(vidResultStatus)}
-                            />}
-                            {!comLoading && this.renderLoadingView()}
+                            />
                         </View>
 
 
                         <View style={{flex: 1}}>
-                            {comLoading&& <FlatList
+                            <FlatList
+                                ref={(flatList) => {
+                                    helpFlat = flatList
+                                }}
                                 data={comHelp}
                                 renderItem={this.renderItem}
                                 refreshing = { false }
@@ -373,13 +404,16 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(helpResultStatus)}
-                            />}
-                            {!comLoading && this.renderLoadingView()}
+                            />
+
                         </View>
 
 
                         <View style={{flex: 1}}>
-                            {comLoading&&<FlatList
+                           <FlatList
+                                ref={(flatList) => {
+                                    voteFlat = flatList
+                                }}
                                 data={comVoteList}
                                 renderItem={this.renderItemTo}
                                 refreshing = { false }
@@ -394,9 +428,10 @@ class Community extends React.Component {
                                     }
                                 }}
                                 ListFooterComponent={this.ListFooterComponent(voteResultStatus)}
-                            />}
-                            {!comLoading && this.renderLoadingView()}
+                            />
+
                         </View>
+
                 </Tabs>
 
 
@@ -536,6 +571,8 @@ class Community extends React.Component {
         )
     }
 }
+
+
 
 const mapStateToProps = (state) => {
     return {
