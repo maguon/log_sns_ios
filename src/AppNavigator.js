@@ -73,6 +73,7 @@ import DetailLeftButton from "./components/modules/DetailLeftButton"
 import SpaceHeader from "./components/modules/SpaceHeader";
 import HeadImage from "./components/modules/HeadImage"
 
+let lastclick=""
 //登录页面
 const LoginPage = createStackNavigator({
         Login: {
@@ -208,12 +209,23 @@ const TabBar = createBottomTabNavigator({
         },
         tabBarOnPress:({navigation, defaultHandler})=>{
             const {routeName} = navigation.state;
+            let clickTime = new Date().getTime();
+            let timer=""
 
-            if(routeName === 'home'){
-                renderFlat()
-            } else if(routeName === 'community'){
+            if(clickTime-lastclick<300){
+                clearTimeout(timer)
+                if(routeName === 'home'){
+                    renderFlat()
+                } else if(routeName === 'community'){
                     renderComFlat()
+                }
+
+            }else {
+                timer=setTimeout(()=>{
+                    console.log("click")
+                },300)
             }
+            lastclick=clickTime
 
 
             defaultHandler();

@@ -37,7 +37,6 @@ let voteFlat = ""
 
 export const renderComFlat =()=> {
     if(infoFlat==""){
-        console.log("00000")
         return
     }else if(flatIndex==0){
         infoFlat.scrollToOffset({offset: 0})
@@ -72,6 +71,7 @@ class Community extends React.Component {
 
 
     }
+
 
     renderEmpty = () => {
         return (
